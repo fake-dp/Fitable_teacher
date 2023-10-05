@@ -1,21 +1,11 @@
-import { View,Text } from 'react-native';
+import { RecoilRoot } from 'recoil';
+import AppInner from './AppInner';
 
 function App(props) {
   return (
-    <View>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-      <Text>ddd</Text>
-    </View>
+    <RecoilRoot>
+    <AppInner />
+  </RecoilRoot>
   );
 }
 
