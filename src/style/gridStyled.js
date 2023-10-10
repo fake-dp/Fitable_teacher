@@ -14,3 +14,11 @@ export const MainContainer = styled.View`
     padding: 0 20px;
     background-color: ${COLORS.white};
 `
+
+export const ErrorText = styled.Text`
+    color: #E11616;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.80px;
+    padding-left: 12px;
+`;

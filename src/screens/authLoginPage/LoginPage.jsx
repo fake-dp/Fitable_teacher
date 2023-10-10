@@ -7,7 +7,9 @@ import { useState } from 'react';
 import {loginApi} from '../../api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '../../store/atom';
+import { Alert } from 'react-native';
 // ST_A_1000
 function LoginPage(props) {
 
@@ -15,7 +17,7 @@ function LoginPage(props) {
 
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
-
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoginState);
     
 
     // const tokenBtn = async () => {
@@ -52,17 +54,17 @@ function LoginPage(props) {
                 // setMyPhone(phone);
                 setPhone('');
                 setPassword('');
-                // setIsLoggedIn(true);
+                setIsLoggedIn(true);
                 // return Alert.alert('로그인 성공하였습니다.', '', [{ text: '확인', onPress: () => setIsLoggedIn(true) }]);
             } 
         } catch (error) {
             console.log('Error during login@@:', error.code);
-        //     if(error.code === 10202){
-        //       Alert.alert('로그인 실패하였습니다.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
-        //     }
-        // else if(error.code === 10200){
-        //   Alert.alert('로그인 실패하였습니다.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
-        // }
+            if(error.code === 10202){
+              Alert.alert('로그인 정보를 다시 확인해주세요', '', [{ text: '확인', onPress: () => console.log('실패') }]);
+            }
+        else if(error.code === 10200){
+          Alert.alert('로그인 정보를 다시 확인해주세요', '', [{ text: '확인', onPress: () => console.log('실패') }]);
+        }
       }
     };
 
