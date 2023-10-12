@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {MainContainer} from '../../style/gridStyled'
 import { COLORS } from '../../constants/color';
 import GobackGrid from '../../components/grid/GobackGrid';
@@ -11,11 +11,14 @@ import {updateMyInfo} from '../../api/mypageApi'
 import { validatePassword } from '../../utils/CustomUtils';
 import { Alert } from 'react-native';
 import { ErrorText } from '../../style/gridStyled';
+import { useRecoilState } from 'recoil';
+import { myinfoState } from '../../store/atom';
 
 function AccountScreen(props) {
 
     const navigation = useNavigation();
 
+    const [myInfo, setMyInfo] = useRecoilState(myinfoState);
 
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -44,6 +47,26 @@ function AccountScreen(props) {
     setPasswordError(isValid && password.length > 1 ? '' : '영어 소문자, 숫자, 특수문자 포함 8자리~16자리로 설정해주세요');
   };
 
+
+  // 비밀번호 변경
+
+  const infoChangeBtn = async (name, password) => {
+    console.log('이름, 비밀번호 변경',name, password)
+    try{
+        const response = await updateMyInfo({name, password});
+        console.log('응답확인',response)
+        if(response){
+            setMyInfo({...myInfo, name: name});
+            Alert.alert('변경 완료', '변경되었습니다', [{text: '확인', onPress: () => navigation.goBack()}]);
+        }
+    }
+    catch(error){
+        if(error.code === 10106){
+            console.error('이error:', error.code === 10106,error);
+            Alert.alert('오류', '오류발생ㅎㅎ', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
+        }
+    }
+}
 
 
     const goBack = () => {
@@ -100,7 +123,10 @@ function AccountScreen(props) {
                 <EditNumberBtnText>휴대폰번호 변경</EditNumberBtnText>
             </EditNumberBtn>
 
-            <CertifiactionBtn>확인</CertifiactionBtn>
+            <CertifiactionBtn 
+            onPress={()=>infoChangeBtn(name, password)}
+            isActive={name.length > 0 && password.length > 7 && passwordCheck.length > 7 && isSamePassword}
+            >확인</CertifiactionBtn>
         </MainContainer>
     );
 }

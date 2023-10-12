@@ -123,6 +123,7 @@ function ChangePhoneNumberScreen(props) {
                 placeholder="변경할 휴대폰번호 11자리를 - 없이 입력해주세요"
                 placeholderTextColor={COLORS.gray_300}
                 onChangeText={phoneTextChange}
+                maxLength={11}
                 />
         </PasswordIputBox>
 
@@ -138,6 +139,7 @@ function ChangePhoneNumberScreen(props) {
             placeholder="인증번호 6자리를 입력해주세요"
             placeholderTextColor={COLORS.gray_300}
             onChangeText={certificationTextChange}
+            maxLength={6}
             // secureTextEntry={true}
             />
              <CertificationTimer>

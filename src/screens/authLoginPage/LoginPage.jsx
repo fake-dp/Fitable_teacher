@@ -44,12 +44,13 @@ function LoginPage(props) {
             const isValidInput = phone.length > 5 && password.length > 1;
     
             if (response && isValidInput) {
-                console.log('response@', response)
+                // console.log('response@', response)
                 const { accessToken, refreshToken } = response;
-                await AsyncStorage.setItem("accessToken", accessToken);
-                await AsyncStorage.setItem("refreshToken", refreshToken);
-                console.log('로그인 성공')
-                // 스토리지 값 확인
+                 await AsyncStorage.setItem("accessToken", accessToken);
+                 await AsyncStorage.setItem("refreshToken", refreshToken);
+                      const test = await AsyncStorage.getItem('accessToken');
+        const test1 = await AsyncStorage.getItem('refreshToken');
+    console.log('토큰', test,'@@@@@',test1);
                
                 // setMyPhone(phone);
                 setPhone('');

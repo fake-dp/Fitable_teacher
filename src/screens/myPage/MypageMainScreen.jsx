@@ -30,7 +30,7 @@ function MypageMainScreen(props) {
     const {name, phone, isOnPushAlarm} = myInfo
     // console.log('호출', name, phone, isOnPushAlarm)
 
-
+    console.log('마이페이지 메인1',myInfo)
     const goMyAccountScreen = () => {
         navigation.navigate('Account');
     }

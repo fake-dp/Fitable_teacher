@@ -29,17 +29,17 @@ customAxios.interceptors.request.use(async (config) => {
         console.error("Refresh token is not available.");
         return Promise.reject(error);
       }
-
+      console.log('refreshToken', refreshToken)
       try {
         const response = await axios.post(`${Config.API_URL}/api/trainers/v1/token`, { refreshToken });
-        const { accessToken, newRefreshToken } = response.data;
+        const { accessToken, refreshToken } = response.data;
         
         await AsyncStorage.setItem("accessToken", accessToken);
-        if (newRefreshToken) {
-            await AsyncStorage.setItem("refreshToken", newRefreshToken);
+        if (refreshToken) {
+            await AsyncStorage.setItem("refreshToken", refreshToken);
         }
 
-        originalRequest.headers.Authorization = `${accessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return customAxios(originalRequest);
       } catch (refreshError) {
         console.error('Token refresh failed:', refreshError.response.data);
