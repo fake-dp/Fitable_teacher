@@ -22,3 +22,11 @@ export const ErrorText = styled.Text`
     line-height: 16.80px;
     padding-left: 12px;
 `;
+
+export const GridLine = styled.View`
+     width: 100%;
+    height: 1px;
+    background-color: ${COLORS.gray_200};
+    margin-bottom: 18px;
+    margin-top: 15px;
+`

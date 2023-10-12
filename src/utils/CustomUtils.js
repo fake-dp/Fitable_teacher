@@ -7,6 +7,11 @@ export function validatePassword(password) {
 
 // 핸드폰 번호 하이폰 정규식
 export function formatPhoneNumber(phone){
+
+    if (!phone) {
+        return '';
+    }
+
     if (phone.length === 10) {
         return `${phone.substring(0, 3)}-${phone.substring(3, 6)}-${phone.substring(6)}`;
     } else if (phone.length === 11) {
@@ -42,4 +47,10 @@ export function formatReplaceString(dateString) {
     }
     
     return dateString.replace(/-/g, '.');
+  }
+
+// 휴대폰 번호 정규식
+export function validatePhone(phone) {
+  const pattern = /^010\d{8}$/;
+    return pattern.test(phone);
   }

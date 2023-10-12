@@ -10,3 +10,10 @@ export const myPhoneState = atom({
     key: 'myPhoneState',
     default: '',
 });
+
+
+// mypage info
+export const myinfoState = atom({
+    key: 'myinfoState',
+    default: '',
+  });

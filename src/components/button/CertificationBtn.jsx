@@ -3,8 +3,14 @@ import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
 
 function CertifiactionBtn({children, onPress, isActive}) {
+    const handlePress = () => {
+        if(isActive){
+            onPress();
+        }
+    }
+
     return (
-        <GetCertificationNextBtn onPress={onPress} isActive={isActive}>
+        <GetCertificationNextBtn onPress={handlePress} isActive={isActive}>
             <GetCertificationNextText isActive={isActive}>{children}</GetCertificationNextText>
         </GetCertificationNextBtn>
     );
