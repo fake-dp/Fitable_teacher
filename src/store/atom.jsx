@@ -17,3 +17,9 @@ export const myinfoState = atom({
     key: 'myinfoState',
     default: '',
   });
+
+// centerId
+export const centerIdState = atom({
+    key: 'centerIdState',
+    default: '',
+  });

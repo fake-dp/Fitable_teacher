@@ -30,3 +30,11 @@ export const GridLine = styled.View`
     margin-bottom: 18px;
     margin-top: 15px;
 `
+
+export const GridLineOne = styled.View`
+     width: 100%;
+    height: 1px;
+    background-color: ${COLORS.gray_100};
+    margin-bottom: 18px;
+    margin-top: 15px;
+`

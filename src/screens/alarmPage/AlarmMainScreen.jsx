@@ -1,28 +1,39 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import {COLORS} from '../../constants/color'
 import {MainContainer} from '../../style/gridStyled'
-function AlarmMainScreen(props) {
-    return (
-        <MainContainer>
-        <Testtext>알람페이지</Testtext>
-      
-        <Testtext>알람페이지</Testtext>
+import CenterListHeaderGrid from '../../components/grid/CenterListHeaderGrid';
+import AlarmTwoBtnGrid from '../../components/grid/AlarmTwoBtnGrid';
+import { useEffect, useState } from 'react';
+import { getCenterList } from '../../api/trainersApi';
+import { useRecoilState } from 'recoil';
+import {centerIdState} from '../../store/atom';
 
-        <Testtext>알람페이지</Testtext>
-        <Testtext>알람페이지</Testtext>
-        <Testtext>알람페이지</Testtext>
-        <Testtext>알람페이지</Testtext>
-        <Testtext>알람페이지</Testtext>
+function AlarmMainScreen(props) {
+
+    const [centerList, setCenterList] = useState([]);
+    const [shouldFetch, setShouldFetch] = useState(true);
+    const [centerId, setCenterId] = useRecoilState(centerIdState);
+
+    const getCenterListData = async () => {
+        if (shouldFetch) {
+            const response = await getCenterList();
+            setCenterList(response);
+            setCenterId(response[0].id);
+            setShouldFetch(false);
+        }
+    }
+
+    useEffect(() => {
+        getCenterListData();
+    },[centerList])
+
+    // console.log('centerIdcenterIdcenterId',centerId)
+
+    return (
+    <MainContainer>
+        <CenterListHeaderGrid centerList={centerList}/>
+        <AlarmTwoBtnGrid />
     </MainContainer>
     );
 }
 
 export default AlarmMainScreen;
 
-const Container = styled.View``
-    
-
-const Testtext = styled.Text`
-    color: ${COLORS.sub};
-`

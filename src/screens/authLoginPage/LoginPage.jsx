@@ -66,8 +66,8 @@ function LoginPage(props) {
         else if(error.code === 10200){
           Alert.alert('로그인 정보를 다시 확인해주세요', '', [{ text: '확인', onPress: () => console.log('실패') }]);
         }
-      }
-    };
+    }
+};
 
 
     const isInputValid = phone.length > 5  && password.length > 1;

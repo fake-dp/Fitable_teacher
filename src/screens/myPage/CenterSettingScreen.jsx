@@ -1,8 +1,5 @@
-import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
-import {MainContainer, GridLine} from '../../style/gridStyled'
-import { Text } from 'react-native';
+import {MainContainer} from '../../style/gridStyled'
 import GobackGrid from '../../components/grid/GobackGrid';
 function CenterSettingScreen(props) {
     const navigation = useNavigation();
