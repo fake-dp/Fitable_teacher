@@ -10,7 +10,11 @@ function AlarmDetailConsultGrid({ consultDetail }) {
         <Container>
             <ContentsContainer>
                 <TitleText>상담 신청</TitleText>
-                <ContentText>{consultDetail.caution}</ContentText>
+                {
+                    consultDetail.trainerName === null ? 
+                    (<ContentText>트레이너 상담</ContentText>) :
+                    (<ContentText>{consultDetail.trainerName}</ContentText>)
+                }
             </ContentsContainer>
 
             <GridLineOne />
@@ -36,11 +40,21 @@ function AlarmDetailConsultGrid({ consultDetail }) {
 
             <GridLineOne />
 
+            <ContentsContainer>
+                <TitleText>질병 및 유의사항</TitleText>
+                <ContentText>{consultDetail.caution}</ContentText>
+            </ContentsContainer>
+
+            <GridLineOne />
+
                     <TitleText>회원정보</TitleText>
             <BtnContainer>
 
                 <BtnGridBox>
-                    <TitleText>{consultDetail.trainerName}</TitleText>
+                    {
+                        consultDetail.memberInfo.name === null ?
+                        (<TitleText>회원정보 없음</TitleText>) : (<TitleText>{consultDetail.memberInfo.name}</TitleText>)
+                    }
                     <ContentText>{consultDetail.memberInfo.phone} • {consultDetail.memberInfo.generation}대</ContentText>
                 </BtnGridBox>
                 <BtnNextIcon source={nextIcon} />

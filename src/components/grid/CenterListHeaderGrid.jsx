@@ -1,17 +1,19 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
-import {getCenterList} from '../../api/trainersApi';    
-import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { centerListState } from '../../store/atom';
+import UseGetCenterListHook from '../../hooks/UseGetCenterListHook';
+function CenterListHeaderGrid() {
 
-function CenterListHeaderGrid({centerList}) {
-
+    UseGetCenterListHook();
+    const [centerList, setCenterList] = useRecoilState(centerListState);
     const rightIcon = require('../../assets/caretdown.png');
 
     return (
         <>
         {
-            centerList?.length === 0 ? (
+           centerList && centerList?.length === 0 ? (
             <CenterListHeaderContainer>
                 <CenterListText>연동된 센터가 없습니다</CenterListText>
             </CenterListHeaderContainer>

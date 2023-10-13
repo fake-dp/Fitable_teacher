@@ -29,11 +29,11 @@ customAxios.interceptors.request.use(async (config) => {
         console.error("Refresh token is not available.");
         return Promise.reject(error);
       }
-      console.log("Sending refreshToken:", refreshToken);
+      // console.log("Sending refreshToken:", refreshToken);
 
       try {
         const response = await axios.post(`${Config.API_URL}/api/trainers/v1/token`, { refreshToken });
-        console.log("Refresh token response:", response.data);
+        // console.log("Refresh token response:", response.data);
         const { accessToken, refreshToken: newRefreshToken } = response.data;
         
         await AsyncStorage.setItem("accessToken", accessToken);

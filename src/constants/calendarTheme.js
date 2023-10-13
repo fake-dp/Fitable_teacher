@@ -1,0 +1,27 @@
+import { COLORS } from "./color";
+
+export const themeStyled = {
+        calendarBackground: COLORS.white,
+        textSectionTitleColor: COLORS.gray_300,
+        selectedDayBackgroundColor: COLORS.sub,
+        selectedDayTextColor: COLORS.main,
+        todayTextColor: COLORS.gray_300,
+        dayTextColor: COLORS.gray_400,
+        textDisabledColor: 'transparent',
+        dotColor: '#FF7A00',
+        selectedDotColor: '#FF7A00',
+      //   arrowColor: COLORS.white,
+      //   disabledArrowColor: COLORS.sub,
+        monthTextColor: COLORS.sub,
+        indicatorColor: COLORS.sub,
+
+        textDayFontFamily: 'NotoSansKR-Regular',
+        textMonthFontFamily: 'NotoSansKR-Regular',
+        textDayHeaderFontFamily: 'NotoSansKR-Regular',
+        textDayFontWeight: '500',
+        textMonthFontWeight: '500',
+        textDayHeaderFontWeight: '500',
+        textDayFontSize: 16,
+        textMonthFontSize: 16,
+        textDayHeaderFontSize: 14
+  };

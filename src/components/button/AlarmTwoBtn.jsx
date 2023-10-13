@@ -4,12 +4,12 @@ import { COLORS } from '../../constants/color';
 import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {getAlarmList} from '../../api/alarmApi';
-import AlarmLessonListGrid from './AlarmLessonListGrid';
-import AlarmConsultingListGrid from './AlarmConsultingListGrid';
+import AlarmLessonListGrid from '../grid/AlarmLessonListGrid';
+import AlarmConsultingListGrid from '../grid/AlarmConsultingListGrid';
 import { useRecoilState } from 'recoil';
 import { centerIdState } from '../../store/atom';
 
-function AlarmTwoBtnGrid() {
+function AlarmTwoBtn() {
     const [centerId, setCenterId] = useRecoilState(centerIdState || 'default_value'); 
 
     
@@ -23,7 +23,7 @@ function AlarmTwoBtnGrid() {
         setSelectedTab(tab);
       };
 
-    
+    console.log('centerId',centerId)
     const getAlarmDataList = async (id, type) => {
         console.log('id',id)
         try{
@@ -69,7 +69,7 @@ useEffect(() => {
     );
 }
 
-export default AlarmTwoBtnGrid;
+export default AlarmTwoBtn;
 
 
 const BtnListContainer = styled.View`

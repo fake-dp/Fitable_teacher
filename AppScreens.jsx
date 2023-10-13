@@ -8,6 +8,7 @@ import CenterSettingScreen from './src/screens/myPage/CenterSettingScreen';
 import ChangePhoneNumberScreen from './src/screens/myPage/ChangePhoneNumberScreen';
 import AlarmLessonDetailScreen from './src/screens/alarmPage/AlarmLessonDetailScreen';
 import AlarmConsultDetailScreen from './src/screens/alarmPage/AlarmConsultDetailScreen';
+import CreateClassScreen from './src/screens/schedulePage/CreateClassScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +19,7 @@ function AppScreens(props) {
             
           headerTintColor: 'white',
             headerStyle: {
-                // backgroundColor: COLORS.sub,
+                backgroundColor: COLORS.sub,
                 borderBottomWidth: 0,
                 shadowColor: 'transparent',
                 shadowOpacity: 0,
@@ -30,7 +31,20 @@ function AppScreens(props) {
           }}>
         <Stack.Screen name="MainTab" component={MainTabScreen} options={{ headerShown: false }} />
        
-          
+        {/* 일정 스크린 설정 */}
+        <Stack.Group
+          screenOptions={{
+            title: '',
+            headerBackVisible: false,
+            headerStyle: {
+              backgroundColor: COLORS.white,
+            },
+            headerBackTitleVisible: false,
+        }}>
+
+          <Stack.Screen name="CreateClass" component={CreateClassScreen} />          
+        </Stack.Group>
+
         {/* 알림 스크린 설정 */}
         <Stack.Group
           screenOptions={{

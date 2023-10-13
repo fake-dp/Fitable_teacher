@@ -11,7 +11,7 @@ function AlarmConsultingListGrid({consultingList}) {
     const consultIcon = require('../../assets/consult.png');
 
     const detailConsultScreen = async(id) => {
-        console.log('상세 id확인',id)
+        console.log('상세 id확인 path',id)
         try{
             const response = await getConsultDetail(id);
             if(response){

@@ -6,8 +6,9 @@ import ScheduleMainScreen from './src/screens/schedulePage/ScheduleMainScreen';
 import MemberMainScreen from './src/screens/memberPage/MemberMainScreen';
 import MypageMainScreen from './src/screens/myPage/MypageMainScreen';
 import AlarmMainScreen from './src/screens/alarmPage/AlarmMainScreen';
-
-
+import { useRecoilValue } from 'recoil';
+import {floatingState} from './src/store/atom'
+import { BottomTabBar } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -85,6 +86,10 @@ function ScheduleScreens({ navigation }) {
   }
 
 function MainTabScreen(props) {
+
+  const openFloatingModal = useRecoilValue(floatingState);
+//   const tabBarBackgroundColor = openFloatingModal ? 'rgba(0, 0, 0, 0.75)' : COLORS.white;
+// console.log('openFloatingModal',openFloatingModal)
     return (
         <Tab.Navigator
         screenOptions={{
@@ -99,9 +104,11 @@ function MainTabScreen(props) {
           tabBarActiveTintColor: COLORS.sub,
           headerStyle: {
             backgroundColor: COLORS.white,
+          
           },
           headerShown: false,
         }}
+        tabBar={(props) => (openFloatingModal ? null : <BottomTabBar {...props} />)}
       >
         <Tab.Screen name="Schedule" component={ScheduleScreens} 
           options={{
