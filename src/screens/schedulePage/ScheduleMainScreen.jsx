@@ -10,6 +10,8 @@ import FloatingModal from '../../components/modal/FloatingModal';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
 import { floatingState } from '../../store/atom';
+import {getLessonCalendar} from '../../api/lessonApi';
+import LessonListGrid from '../../components/grid/LessonListGrid';
 function ScheduleMainScreen(props) {
 
     const navigation = useNavigation();
@@ -44,10 +46,10 @@ function ScheduleMainScreen(props) {
             <HeaderContainer>
                 <CenterListHeaderGrid />
             </HeaderContainer>
-                <CustomCalendar />
-            <HeaderContainer>
-                <GridLine/>
-            </HeaderContainer>
+                <CustomCalendar/>
+            
+            {/* lessonList */}
+          {/* <LessonListGrid lessonList={lessonList}/> */}
     </Container>
         <FloatingBtn onPress={toggleFloatingModal} isOpen={openFloatingModal}/>
              {openFloatingModal && 

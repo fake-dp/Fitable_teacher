@@ -9,13 +9,11 @@ function MemberInfoListCard({ userList }) {
             <ScrollView
             showsVerticalScrollIndicator={false}
             overScrollMode="never"
-            bounces={false}
-            
-            >
-            {userList.map(user => (
+            bounces={false}>
+                {userList.map(user => (
                 <MemberInfoCard key={user.id} userInfo={user} />
                 ))}
-                </ScrollView>
+            </ScrollView>
         </ListContainer>
     );
 }

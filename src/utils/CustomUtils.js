@@ -31,7 +31,9 @@ export const formatTime = (seconds) => {
 
 // 날짜 포맷
 export function formatDate(dateString) {
+  if(dateString){
     return dateString.split('T')[0];
+  }
 }
 
 // 숫자 콤마
@@ -54,3 +56,16 @@ export function validatePhone(phone) {
   const pattern = /^010\d{8}$/;
     return pattern.test(phone);
   }
+
+// 날짜 데이터 형식 변환
+export function getFormattedDate(dateString) {
+  const date = new Date(dateString);
+  const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const month = months[date.getMonth()];
+  const day = String(date.getDate()).padStart(2, '0'); 
+  const dayOfWeek = days[date.getDay()];
+
+  return `${month}.${day} ${dayOfWeek}요일`;
+}

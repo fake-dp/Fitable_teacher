@@ -24,7 +24,7 @@ function FloatingModal() {
             <FloatingBtnBox>
                 <FloatingContentsContainer>
                 <FloatingBtnText>1:1 수업</FloatingBtnText>
-                <FloatingButtonTouchable onPress={()=>goClassScreen('personal')}>
+                <FloatingButtonTouchable onPress={()=>goClassScreen('PERSONAL')}>
                     <Image source={personal} />
                 </FloatingButtonTouchable>
                 </FloatingContentsContainer>
@@ -33,7 +33,7 @@ function FloatingModal() {
             <FloatingBtnBox>
             <FloatingContentsContainer>
                 <FloatingBtnText>그룹 수업</FloatingBtnText>
-                <FloatingButtonTouchable onPress={()=>goClassScreen('group')}>
+                <FloatingButtonTouchable onPress={()=>goClassScreen('GROUP')}>
                     <Image source={group} />
                 </FloatingButtonTouchable>
             </FloatingContentsContainer>
@@ -74,7 +74,7 @@ const FloatingButtonTouchable = styled.TouchableOpacity`
   width: 60px;
   height: 60px;
   border-radius: 30px;
-  background-color: ${COLORS.white};
+  background-color: ${COLORS.gray_100};
   display: flex;
   justify-content: center;
   align-items: center;

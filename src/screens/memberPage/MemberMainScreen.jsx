@@ -7,6 +7,7 @@ import MemberBtnContents from '../../components/button/MemberBtnContents';
 import MemberSearch from '../../components/input/MemberSearch';
 import NoListCard from '../../components/card/NoListCard';
 import MemberInfoListCard from '../../components/grid/MemberInfoListCard';
+
 function MemberMainScreen(props) {
 
     const detailSearchIcon = require('../../assets/detailsearch.png')
@@ -70,9 +71,6 @@ function MemberMainScreen(props) {
                 <NoListCard>회원이 없습니다</NoListCard>
                 )
             }
-
- 
-
     </MainContainer>
     );
 }
