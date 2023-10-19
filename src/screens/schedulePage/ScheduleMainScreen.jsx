@@ -9,19 +9,33 @@ import { useState, useEffect } from 'react';
 import FloatingModal from '../../components/modal/FloatingModal';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
-import { floatingState } from '../../store/atom';
-import {getLessonCalendar} from '../../api/lessonApi';
+import { floatingState,centerIdState } from '../../store/atom';
+import {getLessonAvailable} from '../../api/lessonApi';
 import LessonListGrid from '../../components/grid/LessonListGrid';
 function ScheduleMainScreen(props) {
 
     const navigation = useNavigation();
 
     const [openFloatingModal, setOpenFloatingModal] = useRecoilState(floatingState);
-
+    const [centerId, setCenterId] = useRecoilState(centerIdState);
+    const [isAvailable, setIsAvailable] = useState(false);
     const toggleFloatingModal = () =>{
         setOpenFloatingModal(!openFloatingModal);
         console.log('openFloatingModalopenFloatingModal',openFloatingModal)
     }
+
+
+    const getLessonAvailableData = async () => {
+        const response = await getLessonAvailable(centerId);
+        setIsAvailable(response);
+    }
+
+
+    useEffect(() => {
+        if(centerId){
+        getLessonAvailableData()
+        }
+    },[centerId])
 
     useEffect(() => {
         if (openFloatingModal) {
@@ -40,6 +54,8 @@ function ScheduleMainScreen(props) {
       }, [openFloatingModal]);
       
 
+      console.log('centerId',centerId)
+
     return (
     <>
         <Container>
@@ -51,10 +67,12 @@ function ScheduleMainScreen(props) {
             {/* lessonList */}
           {/* <LessonListGrid lessonList={lessonList}/> */}
     </Container>
-        <FloatingBtn onPress={toggleFloatingModal} isOpen={openFloatingModal}/>
-             {openFloatingModal && 
-        <FloatingModal/>
+    {
+        isAvailable && isAvailable && (
+            <FloatingBtn onPress={toggleFloatingModal} isOpen={openFloatingModal}/>
+        )
     }
+    {openFloatingModal && <FloatingModal/>}
     </>
     );
 }

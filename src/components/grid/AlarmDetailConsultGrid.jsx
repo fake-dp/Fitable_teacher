@@ -4,7 +4,7 @@ import { GridLineOne } from '../../style/gridStyled';
 function AlarmDetailConsultGrid({ consultDetail }) {
     console.log('consultDetail:', consultDetail);
 
-    const nextIcon = require('../../assets/rightIcon.png');
+    const nextIcon = require('../../assets/g4rightIcon.png');
 
     return (
         <Container>
@@ -99,7 +99,4 @@ margin-top: 16px;
     padding: 16px;
     `
 const BtnGridBox = styled.View``
-const BtnNextIcon = styled.Image`
-    width: 20px;
-    height: 20px;
-`;
+const BtnNextIcon = styled.Image``;

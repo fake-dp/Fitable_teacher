@@ -7,8 +7,6 @@ function AlarmLessonListGrid({lessonList}) {
 
     const navigation = useNavigation();
 
-    const personal = require('../../assets/oneperson.png');
-    const group = require('../../assets/otherperson.png');
     const detailLessonScreen = async(id) => {
         // console.log('상세 id확인',id)
         try{
@@ -21,6 +19,9 @@ function AlarmLessonListGrid({lessonList}) {
             console.log('error 뜸 ㅠㅠ', error)
         }
     }
+
+    const personal = require('../../assets/oneperson.png');
+    const group = require('../../assets/otherperson.png');
 
     return (
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">

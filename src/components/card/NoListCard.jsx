@@ -24,3 +24,4 @@ color: ${COLORS.gray_400};
 font-weight: 500;
 line-height: 22.40px;
 `;
+

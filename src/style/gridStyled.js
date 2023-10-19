@@ -15,6 +15,12 @@ export const MainContainer = styled.View`
     background-color: ${COLORS.white};
 `
 
+export const SelectContainer = styled.View`
+    flex:1;
+    padding: 0 20px;
+    background-color: ${COLORS.gray_100};
+`;
+
 export const ErrorText = styled.Text`
     color: #E11616;
     font-size: 12px;

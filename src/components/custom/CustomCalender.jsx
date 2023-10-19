@@ -10,6 +10,7 @@ import {centerIdState} from '../../store/atom';
 import LessonListGrid from '../grid/LessonListGrid';
 import { GridLine } from '../../style/gridStyled';
 import {getFormattedDate} from '../../utils/CustomUtils';
+import NoListCard from '../card/NoListCard';
 LocaleConfig.locales['ko'] = {
   monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
   monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -143,16 +144,23 @@ useEffect(() => {
     // renderDay={({date, state, marking}) => renderDay({date, state, marking})} // 커스텀 날짜 적용
     // dayComponent={({date, state, marking}) => renderDay({date, state, marking})} // 커스텀 날짜 적용
     />
+  
+
     <GridWrapper>
     <GridLine/>
-    <DateTitleContainer>
-    <DateTitleText>{getFormattedDate(selected)}</DateTitleText>
-    {
-        selected === todayString ? <TodayText>오늘</TodayText> : null
-    }
-    </DateTitleContainer>
+        {
+            lessonList.length === 0 ? null: (
+                <DateTitleContainer>
+                <DateTitleText>{getFormattedDate(selected)}</DateTitleText>
+                {
+                    selected === todayString ? <TodayText>오늘</TodayText> : null
+                }
+                </DateTitleContainer>
+            )
+        }
     </GridWrapper>
     <LessonListGrid lessonList={lessonList}/>
+   
     </>
   );
 }

@@ -9,6 +9,9 @@ import ChangePhoneNumberScreen from './src/screens/myPage/ChangePhoneNumberScree
 import AlarmLessonDetailScreen from './src/screens/alarmPage/AlarmLessonDetailScreen';
 import AlarmConsultDetailScreen from './src/screens/alarmPage/AlarmConsultDetailScreen';
 import CreateClassScreen from './src/screens/schedulePage/CreateClassScreen';
+import MemberSelectScreen from './src/screens/schedulePage/MemberSelectScreen';
+import ClassMemberDetailScreen from './src/screens/schedulePage/ClassMemberDetailScreen';
+import MemberDetailScreen from './src/screens/schedulePage/MemberDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +45,10 @@ function AppScreens(props) {
             headerBackTitleVisible: false,
         }}>
 
-          <Stack.Screen name="CreateClass" component={CreateClassScreen} />          
+          <Stack.Screen name="CreateClass" component={CreateClassScreen} />
+          <Stack.Screen name="MemberSelect" component={MemberSelectScreen} options={{headerStyle: {backgroundColor: COLORS.gray_100}}}/>
+          <Stack.Screen name="ClassMemberDetail" component={ClassMemberDetailScreen} />
+          <Stack.Screen name="MemberDetail" component={MemberDetailScreen} />
         </Stack.Group>
 
         {/* 알림 스크린 설정 */}
