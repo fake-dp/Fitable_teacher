@@ -72,3 +72,24 @@ export const postLessonReservation = async ({lessonId, memberTicketId}) => {
         throw error.response.data;
     }
 }
+
+// 수업 예약 취소
+export const cancelLessonReservation = async (id) => {
+    try {
+        const response = await customAxios.post(`/api/trainers/v1/lessons/cancel`, {id});
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+}
+
+
+// 수업 출석 처리
+export const postLessonAttendance = async (id) => {
+    try {
+        const response = await customAxios.post(`/api/trainers/v1/lessons/attendance`, {id});
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+}

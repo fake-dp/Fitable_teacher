@@ -113,6 +113,7 @@ function MainTabScreen(props) {
         <Tab.Screen name="Schedule" component={ScheduleScreens} 
           options={{
             title: '내 일정',
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
               <Image
                 source={require('./src/assets/bottomTab/bottom_sc.png')}

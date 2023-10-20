@@ -36,11 +36,19 @@ function MemberSelectScreen(props) {
                       );
                 }
             }catch(error){
-                console.log(error.code)
+                console.log(error)
                 if(error.code === 20907){
                     Alert.alert(
                         "정원 초과",
                         "정원이 초과되었습니다.",
+                        [
+                          { text: "확인", onPress: () => navigation.goBack()}
+                        ]
+                      );
+                }else if(error.code === 20608){
+                    Alert.alert(
+                        "몰라 20608",
+                        "USE_USING_SOON_TICKET_FAILED.",
                         [
                           { text: "확인", onPress: () => navigation.goBack()}
                         ]

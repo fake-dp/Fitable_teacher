@@ -1,5 +1,4 @@
 // UI-MainBtn
-import { View,Text, Pressable } from "react-native";
 import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
 

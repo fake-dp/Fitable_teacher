@@ -12,6 +12,7 @@ import CreateClassScreen from './src/screens/schedulePage/CreateClassScreen';
 import MemberSelectScreen from './src/screens/schedulePage/MemberSelectScreen';
 import ClassMemberDetailScreen from './src/screens/schedulePage/ClassMemberDetailScreen';
 import MemberDetailScreen from './src/screens/schedulePage/MemberDetailScreen';
+import SearchCenterScreen from './src/screens/myPage/SearchCenterScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +48,7 @@ function AppScreens(props) {
 
           <Stack.Screen name="CreateClass" component={CreateClassScreen} />
           <Stack.Screen name="MemberSelect" component={MemberSelectScreen} options={{headerStyle: {backgroundColor: COLORS.gray_100}}}/>
-          <Stack.Screen name="ClassMemberDetail" component={ClassMemberDetailScreen} />
+          <Stack.Screen name="ClassMemberDetail" component={ClassMemberDetailScreen} options={{headerStyle: {backgroundColor: COLORS.sub}}}/>
           <Stack.Screen name="MemberDetail" component={MemberDetailScreen} />
         </Stack.Group>
 
@@ -81,8 +82,10 @@ function AppScreens(props) {
             <Stack.Screen name="Account" component={AcountScreen} />
             <Stack.Screen name="ChangePhoneNumber" component={ChangePhoneNumberScreen} />
 
-
             <Stack.Screen name="CenterSetting" component={CenterSettingScreen}/>
+            <Stack.Screen name="MyCenterSearch" component={SearchCenterScreen}/>
+
+
             <Stack.Screen name="MyProfile" component={EditProfileScreen} />
             <Stack.Screen name="Terms" component={TermsScreen} />
         </Stack.Group>

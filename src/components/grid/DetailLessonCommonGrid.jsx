@@ -29,8 +29,11 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
         console.log('id',id)
         try{
             const response = await getLessonMemberDetail(id);
-            console.log('회원 상세 응답',response)
-
+            console.log('회원 상세 응답@@',response)
+            navigation.navigate('ClassMemberDetail',{
+                detailData: response,
+                screenType: 'class',
+            })
         }catch(error){
             console.log('error 뜸 ㅠㅠ', error)
         }
