@@ -9,11 +9,11 @@ function CenterListHeaderGrid() {
     UseGetCenterListHook();
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const rightIcon = require('../../assets/caretdown.png');
-    // console.log('centerList',centerList)
+    console.log('centerList',centerList)
     return (
         <>
         {
-           centerList && centerList?.length === 0 ? (
+           !centerList || centerList?.length === 0 ? (
             <CenterListHeaderContainer>
                 <CenterListText>연동된 센터가 없습니다</CenterListText>
             </CenterListHeaderContainer>

@@ -12,19 +12,23 @@ function UseGetCenterListHook(props) {
 
     useEffect(() => {
         getCenterListData();
-    },[centerList])
+    },[shouldFetch])
 
     const getCenterListData = async () => {
         if (shouldFetch) {
-            const response = await getCenterList();
-            setCenterList(response);
-            setCenterId(response[0].id);
+            try{
+                const response = await getCenterList();
+                console.log('응답데이터확인헤더',response)
+                if(response&&response){
+                    setCenterList(response);
+                    setCenterId(response[0].id);
+                }
+            }catch(error){
+                console.log('@@@@',error)
+            }
             setShouldFetch(false);
-        }else{
-            return;
-        }
     }
-
+   }
 }
 
 export default UseGetCenterListHook;

@@ -27,7 +27,7 @@ export const centerIdState = atom({
 // CenterList
 export const centerListState = atom({
     key: 'centerListState',
-    default: '',
+    default: [],
   });
 
 // floating state
