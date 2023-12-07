@@ -35,3 +35,16 @@ export const floatingState = atom({
     key: 'floatingState',
     default: false,
 });
+
+
+// 프로필 상태 관리
+export const profileState = atom({
+    key: 'profileState',
+    default: {
+        images: [],
+        description: '',
+        career: '',
+        qualifications: '',
+        centerProfiles: [],
+    },
+});

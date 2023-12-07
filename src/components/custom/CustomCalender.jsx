@@ -35,6 +35,11 @@ function CustomCalendar() {
 
   const handleDayPress = useCallback(day => {
     // 사용자가 선택한 날짜가 오늘 날짜이면 selected를 false로 설정하고, 그렇지 않으면 해당 날짜를 selected로 설정합니다.
+    if (!availableDates[day.dateString]) {
+      console.log('This date is not available for selection.');
+      return;
+  }
+   
     if (day.dateString === todayString) {
       setSelected(todayString);
     } else {
@@ -47,7 +52,7 @@ function CustomCalendar() {
     .catch(error => {
         console.error("Error fetching lesson list:", error);
     });
-  }, [todayString, centerId]);
+  }, [todayString, centerId,availableDates]);
 
 
 

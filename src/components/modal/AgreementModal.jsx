@@ -12,7 +12,10 @@ function AgreementModal({modalVisible, closeModal}) {
       >
         <ModalContainer>
           <ModalContent>
-           <ScrollView>
+           <ScrollView
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+           >
           <ModalCloseButton onPress={closeModal}>
             <ModalCloseBox source={require('../../assets/close.png')} />
            </ModalCloseButton>

@@ -1,32 +1,73 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
+import { useState ,useRef} from 'react';
+import RNPickerSelect from 'react-native-picker-select';
+import { startTime, endTime } from '../../data/selectDate';
+function TimeSelectCard({children, imgIcon, state ,onPress, text}) {
 
-function TimeSelectCard({children, imgIcon, state ,onPress}) {
-
-    const {startTime,endTime}=state
-    console.log('state',state)
+    // const {startTime,endTime}=state
+    // console.log('state',state)
     const rightIcon = require('../../assets/colsdowngray.png');
+ 
+    const [selectedStartValue, setSelectedStartValue] = useState('');
+    const [selectedEndValue, setSelectedEndValue] = useState('');
+    
+    const startPickerRef = useRef();
+    const endPickerRef = useRef();
 
+    const openStartPicker = () => {
+        startPickerRef.current?.togglePicker(true);
+    };
+
+    const openEndPicker = () => {
+        endPickerRef.current?.togglePicker(true);
+    };
+  
+      
     return (
         <Container>
-        <LabelText>{children}</LabelText>
+            {
+                text ==='profile' ? null : <LabelText>{children}</LabelText>
+            }
         <SelectBoxGrid>
-        <SelectBox>
+        <SelectBox onPress={openStartPicker}>
             <SelectInnerBox>
                 {
                     imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
                 }
-            <SelectBoxText>{startTime}</SelectBoxText>
+                {
+                    text ==='profile' ?
+                    (
+                    <RNPickerSelect
+                      ref={startPickerRef}
+                      InputAccessoryView={() => null}
+                      onValueChange={(value) => setSelectedStartValue(value)}
+                      items={startTime}
+                      placeholder={{}}
+                      style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>) : null
+                }
+            {/* <SelectBoxText>11:00</SelectBoxText> */}
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>
                 <DividerText>~</DividerText>
-         <SelectBox>
+         <SelectBox onPress={openEndPicker}>
             <SelectInnerBox>
                 {
                     imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
                 }
-            <SelectBoxText>{endTime}</SelectBoxText>
+                {
+                    text ==='profile' ?
+                    (
+                    <RNPickerSelect
+                    ref={endPickerRef}
+                    InputAccessoryView={() => null}
+                      onValueChange={(value) => setSelectedEndValue(value)}
+                      items={endTime}
+                      placeholder={{}}
+                      style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>) : null
+                }
+            {/* <SelectBoxText>13:00</SelectBoxText> */}
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>
