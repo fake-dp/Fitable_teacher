@@ -41,7 +41,6 @@ export const floatingState = atom({
 export const profileState = atom({
     key: 'profileState',
     default: {
-        images: [],
         description: '',
         career: '',
         qualifications: '',

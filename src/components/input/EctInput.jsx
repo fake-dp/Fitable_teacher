@@ -3,16 +3,21 @@ import { COLORS } from "../../constants/color";
 import { styled } from "styled-components/native";
 import { TextInput,Platform } from "react-native";
 
-function EctInput({placeholder, text,onChangeText,value,onBlur, isSignUp,hasError}) {
+function EctInput({placeholder, text,onChangeText,value,onBlur, isSignUp,hasError,maxLength,onSubmitEditing,secureTextEntry}) {
     return (
         <AuthTextInputContainer hasError={hasError}>
             <AuthText>{text}</AuthText>
             <AuthTextInput 
             placeholder={placeholder}
-            secureTextEntry={isSignUp}
+            secureTextEntry={secureTextEntry}
             onChangeText={onChangeText}
             value={value}
             onBlur={onBlur}
+
+            maxLength={text==='연락처'? maxLength: text ==="인증번호" ? 6:null}
+            keyboardType={text==='연락처'? 'numeric':'default'}
+            returnKeyType={text==='연락처'? 'done':'next'}
+            onSubmitEditing={onSubmitEditing}
             />
         </AuthTextInputContainer>
     );

@@ -1,20 +1,61 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import {formatDate} from '../../utils/CustomUtils'
-function CreateClassSelectCard({children, imgIcon, state ,onPress}) {
+import RNPickerSelect from 'react-native-picker-select';
+import { useState ,useRef, useEffect} from 'react';
+import DatePicker from 'react-native-date-picker'
+function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateClassData,maindata}) {
     // const {startDate=""}=state ||{};
+    console.log('Render CreateClassSelectCard:', type, maindata);
     const rightIcon = require('../../assets/colsdowngray.png');
+    console.log('state@',type,maindata)
+
+    const transformedState = (state || []).map(item => ({
+        label: item.name,
+        value: item.id,
+    }));
+
+
+    const pickerRef = useRef();
+
+    const openStartPicker = () => {
+        pickerRef.current?.togglePicker(true);
+    };
+
+    
 
     return (
         <Container>
             <LabelText>{children}</LabelText>
-            <SelectBox>
+            <SelectBox onPress={openStartPicker}>
                 <SelectInnerBox>
                     {
                         imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
                     }
-                    {
-                        children === '날짜' ? (<SelectBoxText>{formatDate(state)}</SelectBoxText>) : (<SelectBoxText>{state}</SelectBoxText>)
+                    {(
+                         <RNPickerSelect
+                         ref={pickerRef}
+                         InputAccessoryView={() => null}
+                         onValueChange={(value) => {
+                            const selectedLabel = transformedState.find(item => item.value === value)?.label;
+                            if(type === 'item'){
+                                setState(value);
+                                updateClassData();
+                                return;
+                            }else{
+                                setState(selectedLabel);
+                                updateClassData();
+                            }
+                          }}
+                         items={transformedState}
+            
+                         placeholder={{
+                                label: type ==='name' ? '수업명을 선택해주세요' :
+                                       type ==='item' ? '수업 종목을 선택해주세요' :
+                                       type ==='location' ? '수업장소를 선택해주세요' :'',
+                                value: null,
+                         }}
+                         style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>)
                     }
                 </SelectInnerBox>
                 <RigthIcon source={rightIcon}/>
@@ -63,5 +104,5 @@ margin-bottom: 12px;
 const RigthIcon = styled.Image``
 
 const LeftIcon = styled.Image`
-margin-right:11px
+margin-right:11px;
 `

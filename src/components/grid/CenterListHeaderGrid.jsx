@@ -9,7 +9,7 @@ function CenterListHeaderGrid() {
     UseGetCenterListHook();
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const rightIcon = require('../../assets/caretdown.png');
-    console.log('centerList',centerList)
+    // console.log('centerList',centerList)
     return (
         <>
         {

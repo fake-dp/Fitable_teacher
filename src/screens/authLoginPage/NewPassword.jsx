@@ -12,7 +12,7 @@ import { validatePassword } from '../../utils/CustomUtils';
 import { changePassword } from '../../api/certificationApi';
 import { useRecoilState } from 'recoil';
 import { myPhoneState, isLoginState } from '../../store/atom';
-import { Alert } from 'react-native';
+import {Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function NewPassword(props) {
@@ -67,7 +67,7 @@ function NewPassword(props) {
                 setIsLoggedIn(true);
           } 
      } catch (error) {
-          console.log('Error during changePassword@@:', error.response.data);
+          console.log('Error during changePassword@@:', error.response);
           if(error.response){
             Alert.alert('비밀번호 변경 실패하였습니다.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
           }
@@ -79,6 +79,7 @@ function NewPassword(props) {
    const isSamePassword = password === passwordCheck;
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <MainContainer>
              <GobackGrid 
                 onPress={goBack}
@@ -95,6 +96,7 @@ function NewPassword(props) {
             value={password}
             onChangeText={handlePassword}
             onBlur={validatePasswordInput}
+            secureTextEntry={true}
             hasError={!!passwordError} 
             />
              {
@@ -109,7 +111,9 @@ function NewPassword(props) {
              text='비밀번호 확인'
              placeholder="다시 입력해주세요"
              value={passwordCheck}
+             secureTextEntry={true}
             onChangeText={handlePasswordCheck}
+            onSubmitEditing={()=>changePasswordBtn(myPhone, password)}
             hasError={!isSamePassword && passwordCheck.length > 7} 
             />
             {
@@ -123,6 +127,7 @@ function NewPassword(props) {
                 onPress={()=>changePasswordBtn(myPhone, password)}
                 isActive={password.length > 7 && isSamePassword}>다음</CertifiactionBtn>
         </MainContainer>
+        </TouchableWithoutFeedback>
     );
 }
 

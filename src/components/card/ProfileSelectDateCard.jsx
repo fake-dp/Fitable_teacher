@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { useState ,useRef} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
-function ProfileSelectDateCard({children, state ,onPress,showDateModal, setShowDateModal}) {
+function ProfileSelectDateCard({timeSettings}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/colsdowngray.png');
   
@@ -18,6 +18,8 @@ function ProfileSelectDateCard({children, state ,onPress,showDateModal, setShowD
         label: '주말',
         value: '주말',
       }];
+
+      console.log('timess',timeSettings)
 
     return (
         <>

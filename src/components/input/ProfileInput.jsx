@@ -2,7 +2,7 @@ import { COLORS } from "../../constants/color";
 import { TextInput } from "react-native";
 import styled from 'styled-components/native';
 import { useState } from "react";
-function ProfileInput({value, onChangeText, placeholder,title}) {
+function ProfileInput({value, onChangeText, placeholder,title,maxLength}) {
 
     const [inputHeight, setInputHeight] = useState(60); // 기본 높이 설정
 
@@ -25,6 +25,7 @@ function ProfileInput({value, onChangeText, placeholder,title}) {
                 onContentSizeChange={handleContentSizeChange}
                 // onSelectionChange={handleSelectionChange}
                 scrollEnabled={false}
+                maxLength={maxLength}
                 style={{ height: Math.max(60, inputHeight) }}
                   />
         </InfoTextInputContainer>

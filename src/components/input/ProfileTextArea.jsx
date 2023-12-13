@@ -2,7 +2,7 @@ import { COLORS } from "../../constants/color";
 import { TextInput } from "react-native";
 import styled from 'styled-components/native';
 
-function ProfileTextArea(props) {
+function ProfileTextArea({maxLength,value,onChangeText}) {
     return (
         <TextInputWrapper>
         <TextAreaInput
@@ -10,8 +10,9 @@ function ProfileTextArea(props) {
             multiline={true}
             // numberOfLines={15}
             placeholderTextColor={COLORS.gray_300}
-            // onChangeText={inquiryTextChange}
-            // value={inquiryText}
+            maxLength={maxLength}
+            value={value}
+            onChangeText={onChangeText}
             // 리턴
             // returnKeyType="done"
         />

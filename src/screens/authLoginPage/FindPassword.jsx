@@ -8,10 +8,10 @@ import EctInput from '../../components/input/EctInput';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
 import { useState } from 'react';
 import { formatTime } from '../../utils/CustomUtils';
-import {Alert} from 'react-native';
 import { getCertificationNumber,checkCertificationNumberTrainer } from '../../api/certificationApi';
 import { myPhoneState } from '../../store/atom';
 import { useSetRecoilState } from 'recoil';
+import {Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 function FindPassword(props) {
 
@@ -116,6 +116,7 @@ function FindPassword(props) {
     const isCertiActive = name.length > 1  && phone.length === 11;
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <MainContainer>
             <GobackGrid onPress={goBack}/>
             <TextContainer>
@@ -129,7 +130,8 @@ function FindPassword(props) {
             onChangeText={handleNameTextChange}
             />
             <EctInput 
-             text='휴대폰번호'
+             text='연락처'
+             maxLength={11}
              placeholder="-없이 번호를 입력해주세요"
              onChangeText={handlePhoneTextChange}
             />
@@ -143,6 +145,7 @@ function FindPassword(props) {
                            text='인증번호'
                            placeholder="6자리를 입력해주세요"
                            onChangeText={handleCertiNumberTextChange}
+                           maxLength={6}
                            />
                             <CertificationTimer>0{formatTime(secondsLeft)}</CertificationTimer>
                         </CertificationIputBox>
@@ -168,6 +171,7 @@ function FindPassword(props) {
                 )
             }
         </MainContainer>
+        </TouchableWithoutFeedback>
     );
 }
 

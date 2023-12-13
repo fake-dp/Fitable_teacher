@@ -1,31 +1,88 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
+import { useState ,useRef, useEffect} from 'react';
 import {formatDate} from '../../utils/CustomUtils'
+import DatePicker from 'react-native-date-picker'
+import { startTime, endTime } from '../../data/selectDate';
 function DateSelectCard({children, imgIcon, state ,onPress}) {
 
-    const {startDate="",endDate=""}=state ||{};
+    const [date, setDate] = useState(new Date());
+    const [showStartModal, setShowStartModal] = useState(false);
+    const [showEndModal, setShowEndModal] = useState(false);
+  
+    const openStartPicker = () => {
+      setShowStartModal(true);
+    };
+  
+    const openEndPicker = () => {
+      setShowEndModal(true);
+    };
+
+    const selectDate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
+
     const rightIcon = require('../../assets/colsdowngray.png');
 
     return (
         <Container>
         <LabelText>{children}</LabelText>
         <SelectBoxGrid>
-        <SelectBox>
+        <SelectBox onPress={openStartPicker}>
             <SelectInnerBox>
                 {
                     imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
                 }
-            <SelectBoxText>{formatDate(startDate)}</SelectBoxText>
+                 {
+                      selectDate.length ==! 10 ?  <SelectBoxText>수업 날짜를 선택해주세요</SelectBoxText> :
+                                                  <SelectBoxDateText>{selectDate}</SelectBoxDateText>
+                    }
+            {/* <SelectBoxText>{formatDate(startDate)}</SelectBoxText> */}
+            <DatePicker
+                        modal
+                        locale="ko-KR"
+                        open={showStartModal}
+                        date={date}
+                        mode="date"
+                        title={null}
+                        confirmText="확인"
+                        cancelText="취소"
+                        onConfirm={(date) => {
+                            setShowStartModal(false)
+                            // setDate(date)
+                        }}
+                        onCancel={() => {
+                            setShowStartModal(false)
+                        }}
+                      />
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>
             
-         <SelectBox>
+         <SelectBox onPress={openEndPicker}>
             <SelectInnerBox>
                 {
                     imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
                 }
-            <SelectBoxText>{formatDate(endDate)}</SelectBoxText>
+            {
+                      selectDate.length ==! 10 ?  <SelectBoxText>수업 날짜를 선택해주세요</SelectBoxText> :
+                                                  <SelectBoxDateText>{selectDate}</SelectBoxDateText>
+                    }
+            <DatePicker
+                        modal
+                        locale="ko-KR"
+                        open={showEndModal}
+                        date={date}
+                        mode="date"
+                        title={null}
+                        confirmText="확인"
+                        cancelText="취소"
+                        onConfirm={(date) => {
+                            setShowEndModal(false)
+                            // setDate(date)
+                        }}
+                        onCancel={() => {
+                            setShowEndModal(false)
+                        }}
+                      />
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>
@@ -35,10 +92,6 @@ function DateSelectCard({children, imgIcon, state ,onPress}) {
 }
 
 export default DateSelectCard;
-
-
-
-         
 
 
 const Container = styled.View`
@@ -72,6 +125,13 @@ align-items: center;
 const SelectBoxText = styled.Text`
 font-size: 14px;
 color: ${COLORS.gray_300};
+font-weight: 400;
+line-height: 22.40px;
+`
+
+const SelectBoxDateText = styled.Text`
+font-size: 14px;
+color: ${COLORS.sub};
 font-weight: 400;
 line-height: 22.40px;
 `

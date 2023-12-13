@@ -3,21 +3,35 @@ import CheckRadioBtn from '../button/CheckRadioBtn';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 
-function CheckBtnGrid({selectedCheckBox, setSelectedCheckBox}) {
+function CheckBtnGrid({selectedCheckBox, setSelectedCheckBox,resetClassData}) {
 
-    console.log('체크박스 선택',selectedCheckBox)
+    // console.log('체크박스 선택',selectedCheckBox)
+
+    const handleSingle = () => {
+        setSelectedCheckBox('SINGLE');
+        // setClassDate 초기화
+        // resetClassData();
+    }
+
+    const handleMultiple = () => {
+        setSelectedCheckBox('MULTIPLE');
+        // setClassDate 초기화
+        // resetClassData();
+    }
+    
+
     return (
     <CheckRadiobtnWrapper>
         <CheckRadioBtnContainer>
            <CheckRadioBtn 
                isChecked={selectedCheckBox === 'SINGLE'} 
-               setIsChecked={() => setSelectedCheckBox('SINGLE')}
+               setIsChecked={handleSingle}
                >일회성</CheckRadioBtn>
          </CheckRadioBtnContainer>
 
            <CheckRadioBtn 
                isChecked={selectedCheckBox === 'MULTIPLE'} 
-               setIsChecked={() => setSelectedCheckBox('MULTIPLE')}
+               setIsChecked={handleMultiple}
            >반복</CheckRadioBtn>
     </CheckRadiobtnWrapper>
     );

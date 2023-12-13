@@ -31,9 +31,13 @@ export const formatTime = (seconds) => {
 
 // 날짜 포맷
 export function formatDate(dateString) {
-  if(dateString){
-    return dateString.split('T')[0];
+  if (!dateString) {
+      // 또는 다른 처리를 수행할 수 있습니다.
+      console.error('Invalid date string');
+      return '';  // 빈 문자열 반환
   }
+
+  return dateString.split('T')[0];
 }
 
 // 숫자 콤마

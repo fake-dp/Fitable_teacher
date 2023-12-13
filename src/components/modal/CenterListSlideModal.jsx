@@ -4,7 +4,7 @@ import { Modal, ScrollView,} from 'react-native';
 
 function CenterListSlideModal({modalVisible, closeModal,centerList ,text, onPress}) {
 
-    console.log('centerList',centerList)
+    // console.log('centerList',centerList)
 
     return (
         <Modal

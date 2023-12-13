@@ -9,12 +9,12 @@ import {getTrainersProfileInfo} from '../../api/mypageApi';
 import TrainerInfoListGrid from '../../components/grid/TrainerInfoListGrid';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
+import TrainerInfoGetListGrid from '../../components/grid/TrainerInfoGetListGrid';
 
 function EditProfileScreen(props) {
     const [selectedImages, setSelectedImages] = useState([]); 
     const navigation = useNavigation();
     const [profileInfo, setProfileInfo] = useState([]);
-    console.log('ImagePicker',ImagePicker)
 
     const getProfileInfo = async () => {
         try{
@@ -45,7 +45,7 @@ function EditProfileScreen(props) {
     // "lessonItems": null, 
     // "qualifications": null
     // }
-
+    console.log('profileInfo',profileInfo)
 
     const goBack = () => {
         navigation.goBack();
@@ -62,9 +62,11 @@ function EditProfileScreen(props) {
             </EditContainerBtn>
             }
             </HeaderGrid>
-            <TrainerInfoListGrid 
-            profileInfo={profileInfo} 
-            />
+            {
+                profileInfo.isExistProfile ?
+                <TrainerInfoGetListGrid profileInfo={profileInfo}/> :
+                <TrainerInfoListGrid profileInfo={profileInfo} /> 
+            }
         </MainContainer>
     );
 }
