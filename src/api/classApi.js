@@ -33,7 +33,7 @@ export const getClassPlaces = async (id) => {
 // 수업 등록
 export const registerClass = async (data) => {
     try {
-        const response = await customAxios.post("/api/trainers/v1/lessons", {data});
+        const response = await customAxios.post("/api/trainers/v1/lessons", data);
         return response.data;
     } catch (error) {
         throw error.response.data;

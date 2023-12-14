@@ -33,9 +33,12 @@ function CreateClassScreen(props) {
     const [item, setItem] = useState([]);
     const [location, setLocation] = useState([]);
 
-
+console.log('typ',type)
     // 상태관리 값 
 const [classData, setClassData] = useState({
+    centerId: centerId,
+    type: type,
+    isLesson: true,
     name: "",
     item: "",
     location: "",
@@ -144,12 +147,12 @@ const [endTime, setEndTime] = useState("");
 
     // 개인 수업 등록SINGLE
     const singleRegisterBtn = () => {
-        console.log('Class data in test:', classData);
+        console.log('Class data in test11111:', classData);
     }
 
 
     // 그룹 수업 등록
-    const groupRegisterBtn = () => {
+    const groupRegisterBtn = async() => {
         updateClassData();
         console.log('Class data in test:', classData);
         if (className === undefined || className === "") {
@@ -168,7 +171,35 @@ const [endTime, setEndTime] = useState("");
             Alert.alert('수업 종료 시간을 입력해주세요');
             return;
         }
-        setRegisteredModal(true);
+
+    //     name: "",
+    // item: "",
+    // location: "",
+    // schedulerType: "",
+    // startDate: "",
+    // schedules: [
+    //   {
+    //     dayOfWeek: "",
+    //     startTime: "",
+    //     endTime: "",
+    //   },
+    // ],
+
+        const postData = {
+            
+        }
+
+        try{
+            const response = await registerClass(classData);
+            console.log('classDataclassDataclassData',classData)
+            if(response){
+                console.log('response@#!@#!@#!@#!@#!@#!@#!@',response.data)
+                setRegisteredModal(true);
+            }
+        }catch(error){
+            console.log('err',error.response)
+        }
+
     };
     
     const isActiveFn = () => {
@@ -261,7 +292,7 @@ const [endTime, setEndTime] = useState("");
         <CreateBtnContainer />
         <BasicMainBtn 
         isActive={isActive}
-        onPress={groupRegisterBtn}>등록하기</BasicMainBtn>
+        onPress={type === 'GROUP' ? groupRegisterBtn : singleRegisterBtn}>등록하기</BasicMainBtn>
         </MainContainer>
         {
            registeredModal && <RegisteredModal 
