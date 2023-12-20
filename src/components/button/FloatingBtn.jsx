@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 
 function FloatingBtn({ onPress, isOpen }) {
-  const floatingIcon = require('../../assets/floating_plus.png');
+  const floatingIcon = require('../../assets/img/floating_plus.png');
   const rotateValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {

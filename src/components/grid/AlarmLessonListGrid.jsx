@@ -20,8 +20,8 @@ function AlarmLessonListGrid({lessonList}) {
         }
     }
 
-    const personal = require('../../assets/oneperson.png');
-    const group = require('../../assets/otherperson.png');
+    const personal = require('../../assets/img/oneperson.png');
+    const group = require('../../assets/img/otherperson.png');
 
     return (
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">

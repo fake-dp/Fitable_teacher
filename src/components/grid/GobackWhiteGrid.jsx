@@ -4,7 +4,7 @@ import {Image } from 'react-native';
 
 function GobackWhiteGrid({children, onPress}) {
     
-const whiteArrow = require('../../assets/back_white.png');
+const whiteArrow = require('../../assets/img/back_white.png');
     return (
         <GobackTouchable onPress={onPress}>
             <Image source={whiteArrow}/>

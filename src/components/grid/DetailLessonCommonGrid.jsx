@@ -40,9 +40,9 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
 
     }
 
-    const personal = require('../../assets/activeperson.png');
-    const group = require('../../assets/activegroup.png');
-    const addbtn = require('../../assets/pluscircle.png');
+    const personal = require('../../assets/img/activeperson.png');
+    const group = require('../../assets/img/activegroup.png');
+    const addbtn = require('../../assets/img/pluscircle.png');
 
     return (
         <InfoGroup>

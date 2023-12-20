@@ -75,7 +75,7 @@ function LoginPage(props) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <LoginContainer>
-            <TitleLogo source={require('../../assets/t_logo.png')}/>
+            <TitleLogo source={require('../../assets/img/t_logo.png')}/>
             <AuthInput
              value={phone}
              onChangeText={setPhone}

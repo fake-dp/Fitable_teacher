@@ -229,7 +229,7 @@ function TrainerInfoListGrid({profileInfo}) {
     //     }, [])
     // );
       
-    const clockIcon = require('../../assets/clockIcon.png');
+    const clockIcon = require('../../assets/img/clockIcon.png');
   
     return (
         <>
@@ -247,7 +247,7 @@ function TrainerInfoListGrid({profileInfo}) {
                     {
                         selectedImages.length === 10 ? null:
                         <ProfileAddBtn onPress={openImagePicker}>
-                        <ProfileAddImg source={require('../../assets/plus_l.png')} />
+                        <ProfileAddImg source={require('../../assets/img/plus_l.png')} />
                         </ProfileAddBtn>
                     }
                       {
@@ -257,7 +257,7 @@ function TrainerInfoListGrid({profileInfo}) {
                     selectedImages.map((image, index) => (
                         <SelectImgContainer key={index}>
                         <DeleteBtn key={index} onPress={() => deleteImage(index)}>
-                            <DeleteImg source={require('../../assets/delete.png')} />
+                            <DeleteImg source={require('../../assets/img/delete.png')} />
                         </DeleteBtn>
                             <SelectedImage source={{ uri: image }} />
                         </SelectImgContainer>

@@ -124,7 +124,7 @@ useEffect(() => {
 
     
   const renderCustomHeader = () => {
-    const rigthIcon = require('../../assets/rightIcon.png');
+    const rigthIcon = require('../../assets/img/rightIcon.png');
     return (
       <Container>
         <MonthContainer>

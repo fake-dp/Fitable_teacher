@@ -16,7 +16,7 @@ function CenterListSlideModal({modalVisible, closeModal,centerList ,text, onPres
         <ModalContainer>
           <ModalContent>
           <ModalCloseButton onPress={closeModal}>
-            <ModalCloseBox source={require('../../assets/close.png')} />
+            <ModalCloseBox source={require('../../assets/img/close.png')} />
            </ModalCloseButton>
            <ModalTitle>{text}</ModalTitle>
            <ScrollView

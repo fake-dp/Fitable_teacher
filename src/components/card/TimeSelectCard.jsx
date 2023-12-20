@@ -7,7 +7,7 @@ function TimeSelectCard({children, imgIcon, text,timeSettings,setSelectedCenter,
     console.log('index',index)
     // const {startTime,endTime}=state
     // console.log('state',state)
-    const rightIcon = require('../../assets/colsdowngray.png');
+    const rightIcon = require('../../assets/img/colsdowngray.png');
  
     const [selectedStartValue, setSelectedStartValue] = useState(timeSettings.startTime);
     const [selectedEndValue, setSelectedEndValue] = useState(timeSettings.endTime);

@@ -10,7 +10,7 @@ import MemberInfoListCard from '../../components/grid/MemberInfoListCard';
 
 function MemberMainScreen(props) {
 
-    const detailSearchIcon = require('../../assets/detailsearch.png')
+    const detailSearchIcon = require('../../assets/img/detailsearch.png')
 
 
     const userList = [{

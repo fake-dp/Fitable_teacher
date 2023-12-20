@@ -4,7 +4,7 @@ import { COLORS } from '../../constants/color';
 
 function SelectProfileItemBtn({children, onPress}) {
 
-    const addbtn = require('../../assets/plus_s.png');
+    const addbtn = require('../../assets/img/plus_s.png');
 
     return (
     <>

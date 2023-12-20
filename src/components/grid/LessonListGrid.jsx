@@ -24,9 +24,9 @@ function LessonListGrid({lessonList}) {
         }
     }
 
-    const nextIcon = require('../../assets/rightIcon.png');
-    const personal = require('../../assets/personal_s.png');
-    const group = require('../../assets/group_s.png');
+    const nextIcon = require('../../assets/img/rightIcon.png');
+    const personal = require('../../assets/img/personal_s.png');
+    const group = require('../../assets/img/group_s.png');
     return (
       <>
             {

@@ -22,7 +22,7 @@ function AuthInput({value, onChangeText, placeholder,maxLength,onSubmitEditing})
            
            {value.length > 0 && (
             <TogglePasswordVisibility onPress={handlePasswordVisibilityChange}>
-              <Image source={showPassword ? require('../../assets/t_eye_open.png') : require('../../assets/t_eye_closed.png')} />
+              <Image source={showPassword ? require('../../assets/img/t_eye_open.png') : require('../../assets/img/t_eye_closed.png')} />
             </TogglePasswordVisibility>
           )}
                 <AuthTextInput

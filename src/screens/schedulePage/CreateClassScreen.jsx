@@ -20,6 +20,7 @@ import {getClassNames, getClassItem, getClassPlaces ,registerClass} from '../../
 import ClassTimeSelectCard from '../../components/card/ClassTimeSelectCard';
 import RegisteredModal from '../../components/modal/RegisteredModal';
 import {formatDate} from '../../utils/CustomUtils';
+import ClassDateCheckBtn from '../../components/button/ClassDateCheckBtn';
 function CreateClassScreen(props) {
 
     const route = useRoute();
@@ -32,8 +33,8 @@ function CreateClassScreen(props) {
     const [name, setName] = useState([]);
     const [item, setItem] = useState([]);
     const [location, setLocation] = useState([]);
+    console.log('typetypetype',type)
 
-console.log('typ',type)
     // 상태관리 값 
 const [classData, setClassData] = useState({
     centerId: centerId,
@@ -58,13 +59,27 @@ const [classData, setClassData] = useState({
 const [className, setClassName] = useState("");
 const [classItem, setClassItem] = useState("");
 const [classLocation, setClassLocation] = useState("");
+//start
 const [date, setDate] = useState(new Date())
+const [edate, setEdate] = useState(new Date())
+
 const [schedulerType, setSchedulerType] = useState(selectedCheckBox);
 const [startDate, setStartDate] = useState("");
 const [endDate, setEndDate] = useState("");
 const [dayOfWeek, setDayOfWeek] = useState("");
 const [startTime, setStartTime] = useState("");
 const [endTime, setEndTime] = useState("");
+const [isLesson, setIsLesson] = useState(false);
+
+// schedules
+const [schedules, setSchedules] = useState([
+    {
+        dayOfWeek: "",
+        startTime: "",
+        endTime: "",
+    },
+]);
+
     //api
     // console.log('centerId',centerId)
 
@@ -141,18 +156,116 @@ const [endTime, setEndTime] = useState("");
             ],
         }));
     };
-        // console.log('classDataclassData',classData)
 
+
+        const postPersonalSingleData = {
+            centerId: centerId,
+            type: type,
+            isLesson: isLesson,
+            name: className,
+            item: classItem,
+            location: classLocation,
+            schedulerType: selectedCheckBox,
+            startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
+            schedules: [
+                {
+                    startTime: startTime,
+                    endTime: endTime,
+                },
+            ],
+        }
+
+        const postPersonalMultipleData = {
+            centerId: centerId,
+            type: type,
+            isLesson: true,
+            name: className,
+            item: classItem,
+            location: classLocation,
+            schedulerType: selectedCheckBox,
+            startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
+            endDate: `${edate.getFullYear()}-${(edate.getMonth() + 1).toString().padStart(2, '0')}-${edate.getDate().toString().padStart(2, '0')}`,
+            schedules: [
+                {
+                    dayOfWeek: dayOfWeek,
+                    startTime: startTime,
+                    endTime: endTime,
+                },
+            ],
+        }
+
+
+        // console.log('classDataclassData',classData)
+        const postGroupSingleData = {
+            centerId: centerId,
+            type: type,
+            isLesson: true,
+            name: className,
+            item: classItem,
+            location: classLocation,
+            schedulerType: selectedCheckBox,
+            startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
+            schedules: [
+                {
+                    startTime: startTime,
+                    endTime: endTime,
+                },
+            ],
+        }
+     
+        const postGroupMultipleData = {
+            centerId: centerId,
+            type: type,
+            isLesson: true,
+            name: className,
+            item: classItem,
+            location: classLocation,
+            schedulerType: selectedCheckBox,
+            startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
+            endDate: `${edate.getFullYear()}-${(edate.getMonth() + 1).toString().padStart(2, '0')}-${edate.getDate().toString().padStart(2, '0')}`,
+            schedules: [
+                {
+                    dayOfWeek: dayOfWeek,
+                    startTime: startTime,
+                    endTime: endTime,
+                },
+            ],
+        }
+
+        const personalData = selectedCheckBox === 'SINGLE' ? postPersonalSingleData : postPersonalMultipleData;
+        const postData = selectedCheckBox === 'SINGLE' ? postGroupSingleData : postGroupMultipleData;
+        
+
+        console.log('postData@#!@#!@#!@#!@#@!#!@#!@#!@#!@#!@#!@#!@#@!',postData)
     const selectDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
     // 개인 수업 등록SINGLE
-    const singleRegisterBtn = () => {
-        console.log('Class data in test11111:', classData);
+    const singleRegisterBtn = async(postPersonalSingleData, selectedCheckBox) => {
+        // console.log('Class data in test11111:', postPersonalSingleData);
+        if(selectedCheckBox === 'SINGLE'){
+            console.log('tl싱글 개인이요',postPersonalSingleData)
+            try {
+                const response = await registerClass(postPersonalSingleData);
+                if (response) {
+                    console.log('response@#!@#!@#!@#!@#!@#!@#!@', response.data);
+                    console.log('응답성공해서',postPersonalSingleData)
+                    setRegisteredModal(true);
+                }
+            } catch (error) {
+                console.log('err', error.response);
+            }
+
+        }else if(selectedCheckBox === 'MULTIPLE'){
+            console.log('tl멀티 개인이요',postPersonalSingleData)
+        }
     }
 
 
+
+
     // 그룹 수업 등록
-    const groupRegisterBtn = async() => {
+    const groupRegisterBtn = async(postData,selectedCheckBox) => {
+        console.log('postData@#!@#!@#!@#!@#@!#!@#!@#!@#!@#!@#!@#!@#@!',postData)
         updateClassData();
         console.log('Class data in test:', classData);
         if (className === undefined || className === "") {
@@ -171,36 +284,35 @@ const [endTime, setEndTime] = useState("");
             Alert.alert('수업 종료 시간을 입력해주세요');
             return;
         }
+        console.log('성공전전에 classData0', classData);
 
-    //     name: "",
-    // item: "",
-    // location: "",
-    // schedulerType: "",
-    // startDate: "",
-    // schedules: [
-    //   {
-    //     dayOfWeek: "",
-    //     startTime: "",
-    //     endTime: "",
-    //   },
-    // ],
+        if(selectedCheckBox === 'SINGLE'){
 
-        const postData = {
-            
-        }
-
-        try{
-            const response = await registerClass(classData);
-            console.log('classDataclassDataclassData',classData)
-            if(response){
-                console.log('response@#!@#!@#!@#!@#!@#!@#!@',response.data)
+        try {
+            const response = await registerClass(postData);
+            if (response) {
+                console.log('response@#!@#!@#!@#!@#!@#!@#!@', response.data);
+                console.log('응답성공해서',postData)
                 setRegisteredModal(true);
             }
-        }catch(error){
-            console.log('err',error.response)
+        } catch (error) {
+            console.log('err', error.response);
         }
+    }else if(selectedCheckBox === 'MULTIPLE'){
+    try {
+        console.log('aajfxlajf멀티쪽임')
+        // const response = await registerClass(postData);
+        // if (response) {
+            // console.log('response@#!@#!@#!@#!@#!@#!@#!@', response.data);
+            // console.log('응답성공해서',postData)
+            setRegisteredModal(true);
+        // }
+    } catch (error) {
+        console.log('err', error.response);
+    }
+    }
+}
 
-    };
     
     const isActiveFn = () => {
         if (
@@ -222,19 +334,22 @@ const [endTime, setEndTime] = useState("");
     useEffect(() => {
         // console.log('Class data updated:', classData);
         setIsActive(isActiveFn());
-        console.log(12212,classData)
+        // console.log(12212,classData)
     }, [className, classItem, classLocation, startDate, startTime, endTime, classData]);
         // console.log('dfasdf',className,classItem,classLocation,location)
-        // console.log('classDatac변화후',classData)
+        console.log('classDatac변화후1',classData.schedules[0].endTime ,endTime)
+        console.log('classDatac변화후2',classData.name ,className)
+        console.log('classDatac변화후3',classData.item ,classItem)
+        console.log('classDatac변화후4',classData.location,classLocation)
     const goBack = () => {
         navigation.goBack();
     }
 
-    const calendarIcon = require('../../assets/calendarIcon.png');
-    const classIcon = require('../../assets/classIcon.png');
-    const clockIcon = require('../../assets/clockIcon.png');
-    const itemIcon = require('../../assets/itemIcon.png');
-    const locationIcon = require('../../assets/locationIcon.png');
+    const calendarIcon = require('../../assets/img/calendarIcon.png');
+    const classIcon = require('../../assets/img/classIcon.png');
+    const clockIcon = require('../../assets/img/clockIcon.png');
+    const itemIcon = require('../../assets/img/itemIcon.png');
+    const locationIcon = require('../../assets/img/locationIcon.png');
 
     return (
         <>
@@ -249,13 +364,22 @@ const [endTime, setEndTime] = useState("");
                                 )
                     }
                     <MainLongTextGrid>만들어주세요</MainLongTextGrid>
-
                     {/* 컨텐츠 바디 */}
                     <CheckBtnGrid 
                     selectedCheckBox={selectedCheckBox} 
                     resetClassData={resetClassData}
                     setSelectedCheckBox={setSelectedCheckBox}/>
-                {
+                    {
+                    selectedCheckBox==='SINGLE' &&  type !== 'GROUP' && (
+                            <ClassDateCheckBtn 
+                            classDate={classData}
+                            isLesson={isLesson}
+                            setIsLesson={setIsLesson}
+                            />
+                        )
+                    }
+                    {
+                        
                 type === 'GROUP' ? (
                     <>
                     <CreateClassSelectCard state={name} imgIcon={classIcon} type="name" setState={setClassName} maindata={className} updateClassData={updateClassData} >수업명</CreateClassSelectCard>
@@ -263,26 +387,57 @@ const [endTime, setEndTime] = useState("");
                     {
                         selectedCheckBox === 'SINGLE' ? 
                         (<SelectClassDateCard state={name}imgIcon={calendarIcon} type="date"date={date} setDate={setDate}>날짜</SelectClassDateCard>)
-                        :( <DateSelectCard imgIcon={calendarIcon} state={classData}>날짜</DateSelectCard>)
+                        :( <DateSelectCard 
+                            date={date} setDate={setDate}
+                            edate={edate} setEdate={setEdate}
+                            imgIcon={calendarIcon} state={classData}>날짜</DateSelectCard>)
                     }
-
-                    <CreateClassSelectCard state={location} imgIcon={locationIcon}type="location" setState={setClassLocation} updateClassData={updateClassData} maindata={classLocation}>장소(선택)</CreateClassSelectCard>
-                   
-                   <ClassTimeSelectCard setStartTime={setStartTime} setEndTime={setEndTime} setEndTimeimgIcon={clockIcon}>시간</ClassTimeSelectCard>
+                        <CreateClassSelectCard state={location} imgIcon={locationIcon}type="location" setState={setClassLocation} updateClassData={updateClassData} maindata={classLocation}>장소(선택)</CreateClassSelectCard>
                     {
-                        selectedCheckBox === 'MULTIPLE' && (<DaySelectBtnGrid/>)
+                        selectedCheckBox === 'SINGLE' && <ClassTimeSelectCard setStartTime={setStartTime} setEndTime={setEndTime} setEndTimeimgIcon={clockIcon}>시간</ClassTimeSelectCard>
+                    }
+                   
+                    {
+                        selectedCheckBox === 'MULTIPLE' && (<DaySelectBtnGrid
+                        title="시간"
+                        schedules={schedules}
+                        setSchedules={setSchedules}
+                        />)
                     }
                     </>):(
                     // 1:1 수업
                     <>
-                    <CreateClassSelectCard state={name} imgIcon={classIcon} type="name" setState={setClassName} updateClassData={updateClassData}>수업명1</CreateClassSelectCard>
-                    <CreateClassSelectCard state={location} imgIcon={locationIcon} type="location" setState={setClassLocation} updateClassData={updateClassData}>장소1</CreateClassSelectCard>
+                    <CreateClassSelectCard state={name} imgIcon={classIcon} type="name" setState={setClassName} updateClassData={updateClassData}>수업명11</CreateClassSelectCard>
+                    {/* <CreateClassSelectCard state={location} imgIcon={locationIcon} type="location" setState={setClassLocation} updateClassData={updateClassData}>장소1</CreateClassSelectCard> */}
+                    
                     {
-                        selectedCheckBox === 'SINGLE' ? (<SelectClassDateCard state={name}imgIcon={calendarIcon} type="date" date={date} setDate={setDate}>날짜</SelectClassDateCard>)
-                        :( <DateSelectCard imgIcon={calendarIcon} state={classData}>날짜22</DateSelectCard>)
+                        selectedCheckBox === 'SINGLE' ? (
+                            <>
+                        <SelectClassDateCard state={name}imgIcon={calendarIcon} type="date" date={date} setDate={setDate}>날짜</SelectClassDateCard>
+                        {/* <ClassTimeSelectCard  setStartTime={setStartTime} setEndTime={setEndTime} imgIcon={clockIcon}>시간</ClassTimeSelectCard> */}
+
+                        </>
+                        ):( <DateSelectCard 
+                            date={date} setDate={setDate}
+                            edate={edate} setEdate={setEdate}
+                            imgIcon={calendarIcon} state={classData}
+                            >날짜22</DateSelectCard>)
                     }
-                    <ClassTimeSelectCard  setStartTime={setStartTime} setEndTime={setEndTime} imgIcon={clockIcon}>시간</ClassTimeSelectCard>
+
+                    <CreateClassSelectCard state={location} imgIcon={locationIcon} type="location" setState={setClassLocation} updateClassData={updateClassData}>장소(선택)11</CreateClassSelectCard>
+                    {
+                        selectedCheckBox === 'SINGLE' &&  <ClassTimeSelectCard  setStartTime={setStartTime} setEndTime={setEndTime} imgIcon={clockIcon}>시간</ClassTimeSelectCard>
+                    }
+                    {
+                    type==="PERSONAL" && selectedCheckBox === 'MULTIPLE' && (<DaySelectBtnGrid
+                        title="시간"
+                        schedules={schedules}
+                        setSchedules={setSchedules}
+                        />)
+                    }
+                    
                     </>
+                    
                     )
             }
 
@@ -292,7 +447,7 @@ const [endTime, setEndTime] = useState("");
         <CreateBtnContainer />
         <BasicMainBtn 
         isActive={isActive}
-        onPress={type === 'GROUP' ? groupRegisterBtn : singleRegisterBtn}>등록하기</BasicMainBtn>
+        onPress={type === 'GROUP' ? ()=>groupRegisterBtn(postData, selectedCheckBox) : ()=>singleRegisterBtn(personalData, selectedCheckBox)}>등록하기</BasicMainBtn>
         </MainContainer>
         {
            registeredModal && <RegisteredModal 

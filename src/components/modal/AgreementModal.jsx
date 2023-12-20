@@ -17,7 +17,7 @@ function AgreementModal({modalVisible, closeModal}) {
             bounces={false}
            >
           <ModalCloseButton onPress={closeModal}>
-            <ModalCloseBox source={require('../../assets/close.png')} />
+            <ModalCloseBox source={require('../../assets/img/close.png')} />
            </ModalCloseButton>
             <ModalTitle>이용약관 동의 내용</ModalTitle>
             <ModalSubTitle>제1장 총직</ModalSubTitle>

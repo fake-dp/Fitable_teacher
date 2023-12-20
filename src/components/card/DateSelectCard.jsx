@@ -4,9 +4,9 @@ import { useState ,useRef, useEffect} from 'react';
 import {formatDate} from '../../utils/CustomUtils'
 import DatePicker from 'react-native-date-picker'
 import { startTime, endTime } from '../../data/selectDate';
-function DateSelectCard({children, imgIcon, state ,onPress}) {
+function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
 
-    const [date, setDate] = useState(new Date());
+    
     const [showStartModal, setShowStartModal] = useState(false);
     const [showEndModal, setShowEndModal] = useState(false);
   
@@ -19,8 +19,8 @@ function DateSelectCard({children, imgIcon, state ,onPress}) {
     };
 
     const selectDate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
-
-    const rightIcon = require('../../assets/colsdowngray.png');
+    const selectEdate = `${edate.getFullYear()}.${(edate.getMonth() + 1).toString().padStart(2, '0')}.${edate.getDate().toString().padStart(2, '0')}`;
+    const rightIcon = require('../../assets/img/colsdowngray.png');
 
     return (
         <Container>
@@ -47,7 +47,7 @@ function DateSelectCard({children, imgIcon, state ,onPress}) {
                         cancelText="취소"
                         onConfirm={(date) => {
                             setShowStartModal(false)
-                            // setDate(date)
+                            setDate(date)
                         }}
                         onCancel={() => {
                             setShowStartModal(false)
@@ -63,21 +63,21 @@ function DateSelectCard({children, imgIcon, state ,onPress}) {
                     imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
                 }
             {
-                      selectDate.length ==! 10 ?  <SelectBoxText>수업 날짜를 선택해주세요</SelectBoxText> :
-                                                  <SelectBoxDateText>{selectDate}</SelectBoxDateText>
+                      selectEdate.length ==! 10 ?  <SelectBoxText>수업 날짜를 선택해주세요</SelectBoxText> :
+                                                  <SelectBoxDateText>{selectEdate}</SelectBoxDateText>
                     }
             <DatePicker
                         modal
                         locale="ko-KR"
                         open={showEndModal}
-                        date={date}
+                        date={edate}
                         mode="date"
                         title={null}
                         confirmText="확인"
                         cancelText="취소"
                         onConfirm={(date) => {
                             setShowEndModal(false)
-                            // setDate(date)
+                            setEdate(date)
                         }}
                         onCancel={() => {
                             setShowEndModal(false)

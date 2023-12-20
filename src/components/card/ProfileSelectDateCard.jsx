@@ -4,7 +4,7 @@ import { useState ,useRef} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 function ProfileSelectDateCard({timeSettings}) {
     // const {startDate=""}=state ||{};
-    const rightIcon = require('../../assets/colsdowngray.png');
+    const rightIcon = require('../../assets/img/colsdowngray.png');
   
     const [selectedValue, setSelectedValue] = useState('');
     const pickerRef = useRef();

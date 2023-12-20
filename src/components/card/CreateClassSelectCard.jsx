@@ -7,8 +7,8 @@ import DatePicker from 'react-native-date-picker'
 function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateClassData,maindata}) {
     // const {startDate=""}=state ||{};
     console.log('Render CreateClassSelectCard:', type, maindata);
-    const rightIcon = require('../../assets/colsdowngray.png');
-    console.log('state@',type,maindata)
+    const rightIcon = require('../../assets/img/colsdowngray.png');
+    // console.log('state@',type,maindata)
 
     const transformedState = (state || []).map(item => ({
         label: item.name,

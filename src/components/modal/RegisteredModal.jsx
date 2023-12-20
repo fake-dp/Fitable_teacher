@@ -1,12 +1,18 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { Modal} from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 
 function RegisteredModal({setRegisteredModal , onPress}) {
 
+    const navigation = useNavigation();
+
     const closeModal = () => {
         setRegisteredModal(false);
+    }
+
+    const goScheduleScreen = () => {
+        navigation.navigate('Schedule');
     }
 
     return (
@@ -21,11 +27,11 @@ function RegisteredModal({setRegisteredModal , onPress}) {
                 <ModalTitle>수업 등록</ModalTitle>
                 <ModalSubTitle>일정이 등록되었습니다</ModalSubTitle>
                 <ButtonContainer>
-            <BtnSubBoxContainer onPress={onPress}>
+            <BtnSubBoxContainer onPress={closeModal}>
                     <BtnText>계속 등록하기</BtnText>
             </BtnSubBoxContainer>
 
-            <BtnSubBoxContainer onPress={closeModal} isMain={true}>
+            <BtnSubBoxContainer onPress={goScheduleScreen} isMain={true}>
                     <BtnText isMain={true}>내 일정으로 이동</BtnText>
             </BtnSubBoxContainer>
         </ButtonContainer>

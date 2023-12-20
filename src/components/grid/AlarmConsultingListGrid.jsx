@@ -8,7 +8,7 @@ function AlarmConsultingListGrid({consultingList}) {
 
     const navigation = useNavigation();
 
-    const consultIcon = require('../../assets/consult.png');
+    const consultIcon = require('../../assets/img/consult.png');
 
     const detailConsultScreen = async(id) => {
         console.log('상세 id확인 path',id)

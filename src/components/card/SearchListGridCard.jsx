@@ -6,8 +6,8 @@ function SearchListGridCard({searchListData,onPress}) {
     console.log('searchListData',searchListData)
     const {id, name, address, programs, mainImage} = searchListData;
 
-    const mapIcon = require('../../assets/map.png');
-    const noSearchimg = require('../../assets/noImg.png');
+    const mapIcon = require('../../assets/img/map.png');
+    const noSearchimg = require('../../assets/img/noImg.png');
     return (
         <TouchableOpacity   
         onPress={() => onPress(id)}>

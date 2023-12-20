@@ -4,7 +4,7 @@ import { GridLineOne } from '../../style/gridStyled';
 function AlarmDetailConsultGrid({ consultDetail }) {
     console.log('consultDetail:', consultDetail);
 
-    const nextIcon = require('../../assets/g4rightIcon.png');
+    const nextIcon = require('../../assets/img/g4rightIcon.png');
 
     return (
         <Container>

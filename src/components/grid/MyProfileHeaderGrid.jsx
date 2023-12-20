@@ -3,7 +3,7 @@ import { COLORS } from '../../constants/color';
 import { formatPhoneNumber } from '../../utils/CustomUtils';
 function MyProfileHeaderGrid({name, phone, onPress}) {
 
- const rightIcon = require('../../assets/rightIcon.png')
+ const rightIcon = require('../../assets/img/rightIcon.png')
 
     return (
         <>

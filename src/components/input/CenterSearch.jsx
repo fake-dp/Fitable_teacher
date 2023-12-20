@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function CenterSearch({onFocus, onBlur, onChangeText, onSubmitEditing}) {
 
-    const search = require('../../assets/searchicon.png');
+    const search = require('../../assets/img/searchicon.png');
 
     return (
         <SearchContainer>

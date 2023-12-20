@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import {COLORS} from '../../constants/color';
 import ToggleBtn from '../toggle/ToggleBtn';
 function MySettingListBtnGrid({children, text, onPress,isOnPushAlarm}) {
-    const rightIcon = require('../../assets/rightIcon.png')
+    const rightIcon = require('../../assets/img/rightIcon.png')
     return (
         <>
         {

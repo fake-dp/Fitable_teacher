@@ -3,7 +3,7 @@ import { COLORS } from '../../constants/color';
 import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
-function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
+function DateTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
     // const {startTime,endTime}=state
     // console.log('state',state)
     const rightIcon = require('../../assets/img/colsdowngray.png');
@@ -44,7 +44,7 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>
-                <DividerText>~</DividerText>
+                <DividerText> ~ </DividerText>
          <SelectBox onPress={openEndPicker}>
             <SelectInnerBox>
                 {
@@ -69,7 +69,7 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
     );
 }
 
-export default ClassTimeSelectCard;
+export default DateTimeSelectCard;
 
 
 
@@ -77,8 +77,9 @@ export default ClassTimeSelectCard;
 
 
 const Container = styled.View`
-margin-top: 10px;
-margin-bottom: 20px;
+/* margin-top: 10px; */
+/* margin-bottom: 20px; */
+/* background-color: ${COLORS.main}; */
 `
 
 const SelectBoxGrid = styled.View`
@@ -86,7 +87,7 @@ display: flex;
 flex-direction: row;
 align-items: center; 
 justify-content: space-between;
-width: 100%;
+width: 74%;
 `
 
 const SelectBox = styled.TouchableOpacity`
@@ -96,7 +97,7 @@ const SelectBox = styled.TouchableOpacity`
     border: 1px solid ${COLORS.gray_200};
     border-radius: 13px;
     padding: 15px 16px;
-    width: 45%;
+    width: 56%;
 `
 const DividerText = styled.Text`
 font-size: 20px;
@@ -113,12 +114,6 @@ flex-direction: row;
 align-items: center;
 `
 
-const SelectBoxText = styled.Text`
-font-size: 14px;
-color: ${COLORS.gray_300};
-font-weight: 400;
-line-height: 22.40px;
-`
 
 const LabelText = styled.Text`
 font-size: 14px;

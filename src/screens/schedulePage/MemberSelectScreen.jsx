@@ -58,7 +58,7 @@ function MemberSelectScreen(props) {
         }
     }
 
-    const nextIcon = require('../../assets/g4rightIcon.png');
+    const nextIcon = require('../../assets/img/g4rightIcon.png');
 
     return (
         <SelectContainer>

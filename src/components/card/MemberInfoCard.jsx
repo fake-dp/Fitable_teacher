@@ -4,7 +4,7 @@ import { COLORS } from '../../constants/color';
 import { GridLineOne } from '../../style/gridStyled';
 function MemberInfoCard({ userInfo }) {
 
-    const nextIcon = require('../../assets/rightIcon.png');
+    const nextIcon = require('../../assets/img/rightIcon.png');
 
     return (
         <>

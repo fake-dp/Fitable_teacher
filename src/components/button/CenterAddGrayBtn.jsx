@@ -4,7 +4,7 @@ import { COLORS } from '../../constants/color';
 
 function CenterAddGrayBtn({children, onPress}) {
 
-    const addbtn = require('../../assets/addbtngray.png');
+    const addbtn = require('../../assets/img/addbtngray.png');
 
     return (
         <AddBtnContainer onPress={onPress}>

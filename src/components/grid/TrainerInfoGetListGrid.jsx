@@ -6,7 +6,7 @@ function TrainerInfoGetListGrid({profileInfo}) {
     console.log('1',profileInfo.centerProfiles)
     console.log('12',profileInfo.centerProfiles.details)
 
-    const clockIcon = require('../../assets/clockIcon.png');
+    const clockIcon = require('../../assets/img/clockIcon.png');
 
     return (
         <ScrollView

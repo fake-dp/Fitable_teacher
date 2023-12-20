@@ -5,7 +5,7 @@ import { useState ,useRef, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker'
 function SelectClassDateCard({children, imgIcon, date, setDate}) {
     // const {startDate=""}=state ||{};
-    const rightIcon = require('../../assets/colsdowngray.png');
+    const rightIcon = require('../../assets/img/colsdowngray.png');
     const [showModal ,setShowModal] = useState(false);
 
 

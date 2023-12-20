@@ -7,8 +7,8 @@ function FloatingModal() {
 
     const navigation = useNavigation();
 
-    const personal = require('../../assets/oneperson.png');
-    const group = require('../../assets/otherperson.png');
+    const personal = require('../../assets/img/oneperson.png');
+    const group = require('../../assets/img/otherperson.png');
 
     const goClassScreen = (type) =>{
         console.log('111',type)

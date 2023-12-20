@@ -13,8 +13,8 @@ function MemberDetailHeader({detailData}) {
         navigation.goBack();
     }
 
-    const sendMsg = require('../../assets/emailIcon.png');
-    const call = require('../../assets/phoneIcon.png');
+    const sendMsg = require('../../assets/img/emailIcon.png');
+    const call = require('../../assets/img/phoneIcon.png');
 
     return (
         <HeaderContainer>
