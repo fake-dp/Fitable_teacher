@@ -36,6 +36,16 @@ export const registerClass = async (data) => {
         const response = await customAxios.post("/api/trainers/v1/lessons", data);
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error.response;
+    }
+}
+
+// 회원 배정 가능한 회원 조회
+export const getAssignableMembers = async ({id, date, startTime, endTime}) => {
+    try {
+        const response = await customAxios.get(`/api/trainers/v1/lessons/members/assignment/valid/center/${id}/date/${date}/startTime/${startTime}/endTime/${endTime}`);
+        return response.data;
+    } catch (error) {
+        throw error;
     }
 }

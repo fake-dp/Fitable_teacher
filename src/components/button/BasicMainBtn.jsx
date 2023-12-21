@@ -4,9 +4,9 @@ import { COLORS } from "../../constants/color";
 
 function BasicMainBtn({children, onPress, isActive}) {
     const handlePress = () => {
-        // if(isActive){
+        if(isActive){
             onPress();
-        // }
+        }
     }
 
     return (

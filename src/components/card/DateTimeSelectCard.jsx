@@ -3,7 +3,7 @@ import { COLORS } from '../../constants/color';
 import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
-function DateTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
+function DateTimeSelectCard({children,setStartTime,setEndTime}) {
     // const {startTime,endTime}=state
     // console.log('state',state)
     const rightIcon = require('../../assets/img/colsdowngray.png');
@@ -27,9 +27,6 @@ function DateTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
         <SelectBoxGrid>
         <SelectBox onPress={openStartPicker}>
             <SelectInnerBox>
-                {
-                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
-                }
                 <RNPickerSelect
                       ref={startPickerRef}
                       InputAccessoryView={() => null}
@@ -47,9 +44,6 @@ function DateTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
                 <DividerText> ~ </DividerText>
          <SelectBox onPress={openEndPicker}>
             <SelectInnerBox>
-                {
-                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
-                }
                         <RNPickerSelect
                       ref={endPickerRef}
                       InputAccessoryView={() => null}
@@ -70,10 +64,6 @@ function DateTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
 }
 
 export default DateTimeSelectCard;
-
-
-
-         
 
 
 const Container = styled.View`

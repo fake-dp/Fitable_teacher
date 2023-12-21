@@ -14,9 +14,9 @@ import TimeSelectCard from '../../components/card/TimeSelectCard';
 import DateSelectCard from '../../components/card/DateSelectCard';
 import DaySelectBtnGrid from '../../components/grid/DaySelectBtnGrid';
 import SelectClassDateCard from '../../components/card/SelectClassDateCard';
-import {centerIdState} from '../../store/atom';
+import {centerIdState,floatingState} from '../../store/atom';
 import { useRecoilState } from 'recoil';
-import {getClassNames, getClassItem, getClassPlaces ,registerClass} from '../../api/classApi';
+import {getClassNames, getClassItem, getClassPlaces ,registerClass, getAssignableMembers} from '../../api/classApi';
 import ClassTimeSelectCard from '../../components/card/ClassTimeSelectCard';
 import RegisteredModal from '../../components/modal/RegisteredModal';
 import {formatDate} from '../../utils/CustomUtils';
@@ -25,6 +25,9 @@ function CreateClassScreen(props) {
 
     const route = useRoute();
     const { type } = route.params;
+    const {selectedMember} = route.params;
+    const [member, setMember] = useState(selectedMember);
+    console.log('selectedMember',selectedMember,member?.memberTicketId)
     const navigation = useNavigation();
 
     const [centerId, setCenterId] = useRecoilState(centerIdState);
@@ -34,7 +37,7 @@ function CreateClassScreen(props) {
     const [item, setItem] = useState([]);
     const [location, setLocation] = useState([]);
     console.log('typetypetype',type)
-
+  
     // 상태관리 값 
 const [classData, setClassData] = useState({
     centerId: centerId,
@@ -81,7 +84,7 @@ const [schedules, setSchedules] = useState([
 ]);
 
     //api
-    // console.log('centerId',centerId)
+    console.log('schedulesschedulesschedules',schedules)
 
     const getClassNamesApi = async (centerId) => {
         try{
@@ -157,13 +160,12 @@ const [schedules, setSchedules] = useState([
         }));
     };
 
-
+        // 1:1 수업 일정 일회성 데이터
         const postPersonalSingleData = {
             centerId: centerId,
             type: type,
             isLesson: isLesson,
             name: className,
-            item: classItem,
             location: classLocation,
             schedulerType: selectedCheckBox,
             startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
@@ -173,29 +175,24 @@ const [schedules, setSchedules] = useState([
                     endTime: endTime,
                 },
             ],
+            assignedMemberTicketId: member?.memberTicketId,
         }
 
+        // 1:1수업 반복 데이터
         const postPersonalMultipleData = {
             centerId: centerId,
             type: type,
             isLesson: true,
             name: className,
-            item: classItem,
             location: classLocation,
             schedulerType: selectedCheckBox,
             startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
             endDate: `${edate.getFullYear()}-${(edate.getMonth() + 1).toString().padStart(2, '0')}-${edate.getDate().toString().padStart(2, '0')}`,
-            schedules: [
-                {
-                    dayOfWeek: dayOfWeek,
-                    startTime: startTime,
-                    endTime: endTime,
-                },
-            ],
+            schedules: schedules
         }
 
 
-        // console.log('classDataclassData',classData)
+        // 그룹 수업 일회성 데이터
         const postGroupSingleData = {
             centerId: centerId,
             type: type,
@@ -213,6 +210,7 @@ const [schedules, setSchedules] = useState([
             ],
         }
      
+        // 그룹수업 반복 데이터
         const postGroupMultipleData = {
             centerId: centerId,
             type: type,
@@ -223,40 +221,44 @@ const [schedules, setSchedules] = useState([
             schedulerType: selectedCheckBox,
             startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
             endDate: `${edate.getFullYear()}-${(edate.getMonth() + 1).toString().padStart(2, '0')}-${edate.getDate().toString().padStart(2, '0')}`,
-            schedules: [
-                {
-                    dayOfWeek: dayOfWeek,
-                    startTime: startTime,
-                    endTime: endTime,
-                },
-            ],
+            schedules: schedules
         }
 
         const personalData = selectedCheckBox === 'SINGLE' ? postPersonalSingleData : postPersonalMultipleData;
         const postData = selectedCheckBox === 'SINGLE' ? postGroupSingleData : postGroupMultipleData;
         
 
-        console.log('postData@#!@#!@#!@#!@#@!#!@#!@#!@#!@#!@#!@#!@#@!',postData)
+        console.log('postData@#!@#!@#!@#!@#@!#!@#!@#!@#!@#!@#!@#!@#@!',postData,personalData)
     const selectDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
     // 개인 수업 등록SINGLE
-    const singleRegisterBtn = async(postPersonalSingleData, selectedCheckBox) => {
+    const singleRegisterBtn = async(personalData, selectedCheckBox) => {
         // console.log('Class data in test11111:', postPersonalSingleData);
         if(selectedCheckBox === 'SINGLE'){
-            console.log('tl싱글 개인이요',postPersonalSingleData)
+            console.log('tl싱글 개인이요',personalData)
             try {
-                const response = await registerClass(postPersonalSingleData);
+                const response = await registerClass(personalData);
                 if (response) {
                     console.log('response@#!@#!@#!@#!@#!@#!@#!@', response.data);
-                    console.log('응답성공해서',postPersonalSingleData)
+                    console.log('응답성공해서',personalData)
                     setRegisteredModal(true);
                 }
             } catch (error) {
-                console.log('err', error.response);
+                console.log('err', error);
             }
 
         }else if(selectedCheckBox === 'MULTIPLE'){
-            console.log('tl멀티 개인이요',postPersonalSingleData)
+            console.log('tl멀티 개인이요',personalData)
+            try {
+                const response = await registerClass(personalData);
+                if (response) {
+                    console.log('멀티 개인이', response.data);
+                    console.log('멀티 개인이@~@~@~@~@~',personalData)
+                    setRegisteredModal(true);
+                }
+            } catch (error) {
+                console.log('err', error);
+            }
         }
     }
 
@@ -277,13 +279,14 @@ const [schedules, setSchedules] = useState([
         } else if (selectDate === undefined || selectDate === "") {
             Alert.alert('수업 날짜를 입력해주세요');
             return;
-        } else if (startTime === undefined || startTime === "" || startTime === "null") {
-            Alert.alert('수업 시작 시간을 입력해주세요');
-            return;
-        } else if (endTime === undefined || endTime === ""|| endTime === "null") {
-            Alert.alert('수업 종료 시간을 입력해주세요');
-            return;
-        }
+        } 
+        // else if (startTime === undefined || startTime === "" || startTime === "null") {
+        //     Alert.alert('수업 시작 시간을 입력해주세요');
+        //     return;
+        // } else if (endTime === undefined || endTime === ""|| endTime === "null") {
+        //     Alert.alert('수업 종료 시간을 입력해주세요');
+        //     return;
+        // }
         console.log('성공전전에 classData0', classData);
 
         if(selectedCheckBox === 'SINGLE'){
@@ -296,25 +299,25 @@ const [schedules, setSchedules] = useState([
                 setRegisteredModal(true);
             }
         } catch (error) {
-            console.log('err', error.response);
+            console.log('err', error);
         }
     }else if(selectedCheckBox === 'MULTIPLE'){
     try {
         console.log('aajfxlajf멀티쪽임')
-        // const response = await registerClass(postData);
-        // if (response) {
-            // console.log('response@#!@#!@#!@#!@#!@#!@#!@', response.data);
-            // console.log('응답성공해서',postData)
+        const response = await registerClass(postData);
+        if (response) {
+            console.log('response@#!@#!@#!@#!@#!@#!@#!@', response.data);
+            console.log('응답성공해서',postData)
             setRegisteredModal(true);
-        // }
+        }
     } catch (error) {
         console.log('err', error.response);
     }
     }
 }
 
-    
-    const isActiveFn = () => {
+    // 그룹 1회성
+   const isActiveFn = () => {
         if (
             (className === undefined || className === "") ||
             (classItem === undefined || classItem === "" || classItem === null || classItem === "null" || classItem === "") ||
@@ -327,13 +330,97 @@ const [schedules, setSchedules] = useState([
     
         return true;
     };
+
+    const isActiveMultipleFn = () => {
+        if (
+            (className === undefined || className === "") || 
+            (classItem === undefined || classItem === "" || classItem === null || classItem === "null" || classItem === "") ||
+            (selectDate === undefined || selectDate === "") ||
+            (edate === undefined || edate === "" || edate === "null") ||
+            (schedules.dayOfWeek !== 0)
+        ) {
+            return false;
+        }
+
+        return true;
+    }
     
+    // const [schedules, setSchedules] = useState([
+    //     {
+    //         dayOfWeek: "",
+    //         startTime: "",
+    //         endTime: "",
+    //     },
+
+    const isPersonalActiveFn = () => {
+       if(
+        (postPersonalSingleData.name === "" || postPersonalSingleData.name === undefined) || 
+        (startTime === undefined || startTime === "" || startTime === "null") ||
+        (endTime === undefined || endTime === "" || endTime === "null")
+       ){
+              return false;
+       }
+         return true;
+    }
+
+
+
+    // const postPersonalSingleData = {
+    //     centerId: centerId,
+    //     type: type,
+    //     isLesson: isLesson,
+    //     name: className,
+    //     location: classLocation,
+    //     schedulerType: selectedCheckBox,
+    //     startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
+    //     schedules: [
+    //         {
+    //             startTime: startTime,
+    //             endTime: endTime,
+    //         },
+    //     ],
+    //     assignedMemberTicketId: member?.memberTicketId,
+    // }
       
     
+    const getAssignableMembersScreen = async(id, ableDate, startTime, endTime) => {
+        const date = `${ableDate.getFullYear()}-${(ableDate.getMonth() + 1).toString().padStart(2, '0')}-${ableDate.getDate().toString().padStart(2, '0')}`
+        console.log('상세아이디 getAssignableMembersScreen',id, date, startTime, endTime)
+            try{
+                const response = await getAssignableMembers({id, date, startTime, endTime});
+                console.log('회원 선택 응답',response)
+                navigation.navigate('MemberSelect',{
+                    selectData: response.content,
+                    routerType:'ableclass',
+                })
+            }catch(error){
+                console.log('error 뜸 ㅠㅠ', error)
+            }
+    }
+
+    
+    //맴버 삭제 버튼
+    const handleDeleteBtn = () =>{
+        setMember(null)
+    }
+    useEffect(() => {
+        if (selectedMember) {
+          setMember(selectedMember);
+        }
+      }, [selectedMember]);
+
     
     useEffect(() => {
         // console.log('Class data updated:', classData);
-        setIsActive(isActiveFn());
+        if(type === 'GROUP'){
+            if(selectedCheckBox === 'SINGLE'){
+                 setIsActive(isActiveFn());
+            }else if(selectedCheckBox === 'MULTIPLE'){
+                setIsActive(isActiveMultipleFn());
+            }
+        }else if(type === 'PERSONAL'){
+            setIsActive(isPersonalActiveFn());
+        }
         // console.log(12212,classData)
     }, [className, classItem, classLocation, startDate, startTime, endTime, classData]);
         // console.log('dfasdf',className,classItem,classLocation,location)
@@ -350,7 +437,7 @@ const [schedules, setSchedules] = useState([
     const clockIcon = require('../../assets/img/clockIcon.png');
     const itemIcon = require('../../assets/img/itemIcon.png');
     const locationIcon = require('../../assets/img/locationIcon.png');
-
+    const addBtnIcon = require('../../assets/img/pluscircle.png')
     return (
         <>
         <MainContainer>
@@ -407,7 +494,7 @@ const [schedules, setSchedules] = useState([
                     </>):(
                     // 1:1 수업
                     <>
-                    <CreateClassSelectCard state={name} imgIcon={classIcon} type="name" setState={setClassName} updateClassData={updateClassData}>수업명11</CreateClassSelectCard>
+                    <CreateClassSelectCard state={name} imgIcon={classIcon} type="name" setState={setClassName} updateClassData={updateClassData}>수업명</CreateClassSelectCard>
                     {/* <CreateClassSelectCard state={location} imgIcon={locationIcon} type="location" setState={setClassLocation} updateClassData={updateClassData}>장소1</CreateClassSelectCard> */}
                     
                     {
@@ -421,10 +508,10 @@ const [schedules, setSchedules] = useState([
                             date={date} setDate={setDate}
                             edate={edate} setEdate={setEdate}
                             imgIcon={calendarIcon} state={classData}
-                            >날짜22</DateSelectCard>)
+                            >날짜</DateSelectCard>)
                     }
 
-                    <CreateClassSelectCard state={location} imgIcon={locationIcon} type="location" setState={setClassLocation} updateClassData={updateClassData}>장소(선택)11</CreateClassSelectCard>
+                    <CreateClassSelectCard state={location} imgIcon={locationIcon} type="location" setState={setClassLocation} updateClassData={updateClassData}>장소(선택)</CreateClassSelectCard>
                     {
                         selectedCheckBox === 'SINGLE' &&  <ClassTimeSelectCard  setStartTime={setStartTime} setEndTime={setEndTime} imgIcon={clockIcon}>시간</ClassTimeSelectCard>
                     }
@@ -440,7 +527,24 @@ const [schedules, setSchedules] = useState([
                     
                     )
             }
-
+               {
+                   isLesson === false && selectedCheckBox==='SINGLE' &&  type !== 'GROUP' && (
+                        member ? (
+                            <MembersListContaniner>
+                            <MemberName>{member.name}</MemberName>
+                            <DeleteContainer onPress={handleDeleteBtn}>
+                            <MemberName>⎯</MemberName>
+                            </DeleteContainer>
+                            </MembersListContaniner>
+                        ):(
+                            <AssignMemberContainer onPress={()=>getAssignableMembersScreen(centerId, date, startTime, endTime)}>
+                            <AddbtnIcon source={addBtnIcon}/>    
+                            <LabelText>예약 회원</LabelText>
+                            </AssignMemberContainer>
+                                )
+                        
+                        )
+                }
 
 
             </ScrollView>
@@ -462,7 +566,49 @@ export default CreateClassScreen;
 
 const CreateBtnContainer = styled.View`
     margin-top: 80px;
+`;
+
+const AssignMemberContainer = styled.TouchableOpacity`
+display: flex;
+flex-direction: row;
+align-items: center;
+margin-top: 22px;
+margin-bottom: 42px;
+`;
+
+const LabelText = styled.Text`
+font-size: 14px;
+font-weight: 500;
+line-height: 22.40px;
+color: ${COLORS.gray_400};
+/* margin-bottom: 12px; */
+`;
+
+const AddbtnIcon = styled.Image`
+    margin-right: 8px;
+`;
+
+const MembersListContaniner = styled.View`
+background-color: ${COLORS.gray_100};
+border-radius: 13px;
+padding: 14px 16px;
+margin-bottom: 12px;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+`;
+
+const DeleteContainer = styled.TouchableOpacity`
+width: 28px;
 `
+
+const MemberName = styled.Text`
+ font-size: 16px;
+color: ${COLORS.sub};
+font-weight: 500;
+line-height: 22.40px;
+`;
 
 // {
 //     "centerId": "aef57d38a-2d7b-4666-a822-3243459e1e62",

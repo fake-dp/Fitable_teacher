@@ -2,17 +2,20 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { Modal} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { useRecoilState } from 'recoil';
+import { floatingState } from '../../store/atom';
 function RegisteredModal({setRegisteredModal , onPress}) {
 
     const navigation = useNavigation();
-
+    const [openFloatingModal, setOpenFloatingModal] = useRecoilState(floatingState);
     const closeModal = () => {
         setRegisteredModal(false);
     }
 
     const goScheduleScreen = () => {
-        navigation.navigate('Schedule');
+        navigation.navigate('Schedule',
+        setOpenFloatingModal(false)
+        );
     }
 
     return (

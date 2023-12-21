@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import DateTimeSelectCard from '../card/DateTimeSelectCard';
 
-function DaySelectBtnGrid({ title }) {
+function DaySelectBtnGrid({ title,setSchedules }) {
     const days = ['월', '화', '수', '목', '금', '토', '일'];
     const [selectedDays, setSelectedDays] = useState([]);
     const [classTimes, setClassTimes] = useState([]);
@@ -28,18 +28,48 @@ function DaySelectBtnGrid({ title }) {
 
     const [classTimeId, setClassTimeId] = useState(0);
 
+    // const addClassTime = (dayIndex) => {
+    //   const newClassTimes = [...classTimes, { id: classTimeId, dayIndex }];
+    //   setClassTimes(newClassTimes);
+    //   setClassTimeId(classTimeId + 1);
+    // };
     const addClassTime = (dayIndex) => {
-      const newClassTimes = [...classTimes, { id: classTimeId, dayIndex }];
-      setClassTimes(newClassTimes);
-      setClassTimeId(classTimeId + 1);
-    };
+        // 새로운 classTime 객체에 대한 기본 값을 설정합니다.
+        // 사용자가 시간을 아직 선택하지 않았으므로, startTime과 endTime은 null이거나 임시 값이 됩니다.
+        const newClassTime = {
+          id: classTimeId,
+          dayIndex,
+          dayOfWeek: dayToEnglish(dayIndex),
+          startTime: null, // 초기값으로 null 설정
+          endTime: null, // 초기값으로 null 설정
+        };
+      
+        setClassTimes(prevClassTimes => [...prevClassTimes, newClassTime]);
+        setClassTimeId(prevId => prevId + 1); // 고유 ID 증가
+      };
+      
     
     const removeClassTime = (id) => {
       const newClassTimes = classTimes.filter((classTime) => classTime.id !== id);
       setClassTimes(newClassTimes);
     };
-          
 
+    const dayToEnglish = (dayIndex) => {
+        const daysInEnglish = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+        return daysInEnglish[dayIndex];
+      };
+          
+    const updateClassTime = (id, startTime, endTime) => {
+        const updatedClassTimes = classTimes.map((classTime) => {
+          if (classTime.id === id) {
+            return { ...classTime, startTime, endTime, dayOfWeek: dayToEnglish(classTime.dayIndex) };
+          }
+          return classTime;
+        });
+        setClassTimes(updatedClassTimes);
+        // 상위 컴포넌트에 있는 schedules 상태를 업데이트
+        setSchedules(updatedClassTimes.map(ct => ({ dayOfWeek: ct.dayOfWeek, startTime: ct.startTime, endTime: ct.endTime })));
+      };
     const plusIcon = require('../../assets/img/plus_s.png');
 
     return (
@@ -69,7 +99,10 @@ function DaySelectBtnGrid({ title }) {
                 .filter((classTime) => classTime.dayIndex === selectedDay)
                 .map((classTime) => (
                 <TimeWrapper key={classTime.id}>
-                    <DateTimeSelectCard />
+                    <DateTimeSelectCard 
+                      setStartTime={(value) => updateClassTime(classTime.id, value, classTime.endTime)}
+                      setEndTime={(value) => updateClassTime(classTime.id, classTime.startTime, value)}
+                    />
                         <RemoveButton onPress={() => removeClassTime(classTime.id)}>
                             <RemoveButtonText>삭제</RemoveButtonText>
                         </RemoveButton>

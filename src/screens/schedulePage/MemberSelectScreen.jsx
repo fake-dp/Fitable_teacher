@@ -8,18 +8,26 @@ import { useRoute } from '@react-navigation/native';
 import { FlatList,Alert } from 'react-native';
 import {formatPhoneNumber} from '../../utils/CustomUtils';
 import {postLessonReservation} from '../../api/lessonApi';
+import { useState } from 'react';
 
 function MemberSelectScreen(props) {
     const route = useRoute();
     const { selectData, routerType, lessonId } = route.params;
     const navigation = useNavigation();
-
+    const [selectedMember, setSelectedMember] = useState(null);
     const goBack = () => {
         navigation.goBack();
     }
-    const reservationBtn = async(lessonId,memberTicketId) => {
 
-        if(routerType ==='class'){
+    console.log('dfsdafsdf PERSONAL',routerType)
+
+    const reservationBtn = async(lessonId,memberTicketId) => {
+        if(routerType ==='ableclass'){
+            console.log('callll123123')
+            const selected = selectData.find(member => member.memberTicketId === memberTicketId);
+            setSelectedMember(selected);
+            navigation.navigate('CreateClass', { selectedMember: selected, type:'PERSONAL' });
+        }else if(routerType ==='class'){
             console.log('callll')
         }else{
             console.log('id값확인',memberTicketId,lessonId)
