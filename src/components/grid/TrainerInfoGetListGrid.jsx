@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { ScrollView } from 'react-native';
-
+import React from 'react';
 function TrainerInfoGetListGrid({profileInfo}) {
-    console.log('1',profileInfo.centerProfiles)
-    console.log('12',profileInfo.centerProfiles.details)
+    // console.log('1',profileInfo.centerProfiles)
+    // console.log('12',profileInfo.centerProfiles[0].details)
 
     const clockIcon = require('../../assets/img/clockIcon.png');
 
@@ -46,24 +46,36 @@ function TrainerInfoGetListGrid({profileInfo}) {
 
             {
                 profileInfo?.centerProfiles.map((center,index) => (
-                    <>
+                    <React.Fragment key={index}>
                         <ProfileContentText>연동센터{index+1}</ProfileContentText>
                     <ProfileCenterContainer key={index}>
                         <ProfileCenterTitleText>{center.centerName}</ProfileCenterTitleText>
                     </ProfileCenterContainer>
-                        {
-                            center.details.map((detail,index) => (
-                    <ProfileDateContainer>
-                                <ProfileDateTitleText>근무 가능 시간</ProfileDateTitleText>
-                                <ProfileDateText>{detail.type} {detail.startTime} ~ {detail.endTime}</ProfileDateText>
-                    </ProfileDateContainer>
-                            ))
-                        }
+
                     
-                    </>
-                ))
-            
-            }
+                    {
+    center.details.length > 0 ?
+    <ProfileDateContainer>
+        <ProfileDateTitleContainer>
+            <ProfileDateTitleText>근무 가능 시간</ProfileDateTitleText>
+        </ProfileDateTitleContainer>
+        <ProfileDateDetailContainer>
+        {
+            center.details.map((detail,index) => (
+                <ProfileDateBox key={index}>
+                    <ClockIconImg source={clockIcon}/>
+                    <ProfileDateText>{detail.type} {detail.startTime} ~ {detail.endTime}</ProfileDateText>
+                </ProfileDateBox>
+            ))
+        }
+        </ProfileDateDetailContainer>
+    </ProfileDateContainer> : null
+}
+        
+        </React.Fragment>
+    ))
+
+}
 
         </ScrollView>
     );
@@ -109,7 +121,7 @@ border-radius: 13px;
 border: 1px solid ${COLORS.gray_200};
 background: ${COLORS.white};
 padding: 16px 16px 80px 16px;
-margin-bottom: 30px;
+margin-bottom: 90px;
 `
 
 const ProfileContentContainer = styled.View`
@@ -118,7 +130,7 @@ border-radius: 13px;
 border: 1px solid ${COLORS.gray_200};
 background: ${COLORS.white};
 padding: 16px;
-margin-bottom: 30px;
+margin-bottom: 60px;
 `
 
 const ProfileContentText = styled.Text`
@@ -150,9 +162,24 @@ color: ${COLORS.sub};
 const ProfileDateContainer = styled.View`
 display: flex;
 flex-direction: row;
-align-items: center;
 justify-content: space-between;
-margin-bottom: 8px;
+padding-bottom: 40px;
+border-bottom-width: 1px;
+border-bottom-color: ${COLORS.gray_100};
+margin-bottom: 40px;
+/* background: red; */
+`
+
+const ProfileDateDetailContainer = styled.View`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+`
+
+const ProfileDateTitleContainer = styled.View`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 `
 
 const ProfileDateTitleText = styled.Text`
@@ -171,4 +198,14 @@ font-size: 14px;
 font-weight: 400;
 line-height: 22.4px;
 letter-spacing: -0.35px;
+`
+
+const ClockIconImg = styled.Image`
+    margin-right: 8px;
+`
+
+const ProfileDateBox = styled.View`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 `

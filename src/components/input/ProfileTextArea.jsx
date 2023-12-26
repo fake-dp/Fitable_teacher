@@ -2,11 +2,12 @@ import { COLORS } from "../../constants/color";
 import { TextInput } from "react-native";
 import styled from 'styled-components/native';
 
-function ProfileTextArea({maxLength,value,onChangeText}) {
+function ProfileTextArea({maxLength,value,onChangeText,profileInfo,isEditMode}) {
     return (
         <TextInputWrapper>
         <TextAreaInput
-            placeholder="소개는 10자 이상 150자 이하로 작성 가능합니다"
+            // placeholder="소개는 10자 이상 150자 이하로 작성 가능합니다"
+            placeholder={isEditMode? profileInfo :"소개는 10자 이상 150자 이하로 작성 가능합니다"}
             multiline={true}
             // numberOfLines={15}
             placeholderTextColor={COLORS.gray_300}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useCallback} from 'react';
 import {MainContainer, GridLine} from '../../style/gridStyled'
 import { Text } from 'react-native';
 import GobackGrid from '../../components/grid/GobackGrid';
@@ -10,11 +10,13 @@ import TrainerInfoListGrid from '../../components/grid/TrainerInfoListGrid';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import TrainerInfoGetListGrid from '../../components/grid/TrainerInfoGetListGrid';
+import { useFocusEffect } from '@react-navigation/native';
 
 function EditProfileScreen(props) {
     const [selectedImages, setSelectedImages] = useState([]); 
     const navigation = useNavigation();
     const [profileInfo, setProfileInfo] = useState([]);
+    const [isEditMode, setIsEditMode] = useState(false);
 
     const getProfileInfo = async () => {
         try{
@@ -32,10 +34,11 @@ function EditProfileScreen(props) {
         }
     }
 
-    useEffect(() => {
-        getProfileInfo();
-    },[]);
-     
+
+    useFocusEffect(
+        useCallback(() => {
+            getProfileInfo();
+        },[]));
     // {
     // "career": null, 
     // "centerProfiles": null, 
@@ -45,7 +48,7 @@ function EditProfileScreen(props) {
     // "lessonItems": null, 
     // "qualifications": null
     // }
-    console.log('profileInfo',profileInfo)
+    console.log('profileInfoisEditMode',profileInfo,isEditMode)
 
     const goBack = () => {
         navigation.goBack();
@@ -56,16 +59,16 @@ function EditProfileScreen(props) {
             <HeaderGrid>
             <GobackGrid onPress={goBack}>프로필 관리</GobackGrid>
             {
-                profileInfo.isExistProfile && 
-            <EditContainerBtn>
+                profileInfo.isExistProfile && !isEditMode &&
+            <EditContainerBtn onPress={() => setIsEditMode(true)}>
                 <EditBtnText>수정</EditBtnText>
             </EditContainerBtn>
             }
             </HeaderGrid>
             {
-                profileInfo.isExistProfile ?
+                !isEditMode && profileInfo.isExistProfile ?
                 <TrainerInfoGetListGrid profileInfo={profileInfo}/> :
-                <TrainerInfoListGrid profileInfo={profileInfo} /> 
+                <TrainerInfoListGrid profileInfo={profileInfo} isEditMode={isEditMode} setIsEditMode={setIsEditMode}/> 
             }
         </MainContainer>
     );

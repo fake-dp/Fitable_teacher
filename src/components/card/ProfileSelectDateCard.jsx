@@ -1,12 +1,17 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
-import { useState ,useRef} from 'react';
+import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
-function ProfileSelectDateCard({timeSettings}) {
+function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/colsdowngray.png');
   
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedValue, setSelectedValue] = useState(timeSettings?.type || '');
+
+    const handleChangeValue = (value) => {
+      setSelectedValue(value);
+      changeType(timeSettingId, value, index);
+  };
     const pickerRef = useRef();
     const openPicker = () => {
         pickerRef.current?.togglePicker(true);
@@ -19,7 +24,9 @@ function ProfileSelectDateCard({timeSettings}) {
         value: '주말',
       }];
 
-      console.log('timess',timeSettings)
+  
+    // console.log('timeSettings',timeSettings)
+
 
     return (
         <>
@@ -29,7 +36,7 @@ function ProfileSelectDateCard({timeSettings}) {
                     <RNPickerSelect
                       ref={pickerRef}
                       InputAccessoryView={() => null}
-                        onValueChange={(value) => setSelectedValue(value)}
+                        onValueChange={(value) => handleChangeValue(value)}
                         items={items}
                         placeholder={{}}
                         style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>

@@ -3,15 +3,12 @@ import { COLORS } from '../../constants/color';
 import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
-function TimeSelectCard({children, imgIcon, text,timeSettings,setSelectedCenter,index,onTimeChange}) {
-    console.log('index',index)
+function TimeSelectCard({children, imgIcon, text,onTimeChange }) {
+
     // const {startTime,endTime}=state
     // console.log('state',state)
     const rightIcon = require('../../assets/img/colsdowngray.png');
- 
-    const [selectedStartValue, setSelectedStartValue] = useState(timeSettings.startTime);
-    const [selectedEndValue, setSelectedEndValue] = useState(timeSettings.endTime);
-    
+
     const startPickerRef = useRef();
     const endPickerRef = useRef();
 
@@ -23,57 +20,11 @@ function TimeSelectCard({children, imgIcon, text,timeSettings,setSelectedCenter,
         endPickerRef.current?.togglePicker(true);
     };
 
- 
+    const handleTimeChange = (newTime, timeType) => {
+        console.log(newTime);
+        onTimeChange(newTime, timeType);
+      };
 
-// 시간 변경 핸들러
-const handleTimeChange = (newTime, isStartTime, index) => {
-    setSelectedCenter(prevCenters => prevCenters.map(center => {
-        // 현재 timeSettings의 centerId와 일치하는 center 찾기
-        if (center.id === timeSettings.centerId) {
-            // 복사된 timeSettings 배열에서 현재 인덱스에 해당하는 설정 가져오기
-            const updatedTimeSettings = [...center.timeSettings];
-            const currentSetting = updatedTimeSettings[index];
-
-            // 시작 시간 또는 종료 시간 업데이트
-            if (isStartTime) {
-                currentSetting.startTime = newTime;
-                setSelectedStartValue(newTime);
-            } else {
-                currentSetting.endTime = newTime;
-                setSelectedEndValue(newTime);
-            }
-
-            // 업데이트된 timeSettings로 center 객체 업데이트
-            return { ...center, timeSettings: updatedTimeSettings };
-        }
-        return center;
-    }));
-};
-
-
-
-
-  console.log('timeSettings',timeSettings,selectedStartValue,selectedEndValue)
-      
-  const handleStartTimeChange = (newStartTime) => {
-    setSelectedStartValue(newStartTime);
-    onTimeChange(newStartTime, timeSettings.endTime, index);
-};
-
-// 종료 시간 변경 핸들러
-const handleEndTimeChange = (newEndTime) => {
-    setSelectedEndValue(newEndTime);
-    onTimeChange(timeSettings.startTime, newEndTime, index);
-};
-
-
-
-  useEffect(() => {
-    if (timeSettings && index !== undefined) {
-        setSelectedStartValue(timeSettings[index]?.startTime);
-        setSelectedEndValue(timeSettings[index]?.endTime);
-    }
-}, [timeSettings, index]);
 
     return (
         <Container>
@@ -92,13 +43,12 @@ const handleEndTimeChange = (newEndTime) => {
                     <RNPickerSelect
                       ref={startPickerRef}
                       InputAccessoryView={() => null}
-                      onValueChange={(newTime) => handleTimeChange(newTime, true, index)}
+                      onValueChange={(newTime) => handleTimeChange(newTime, 'startTime')}
                       items={startTime}
-                      value={selectedStartValue}
+                    //   value={}
                       placeholder={{}}
                       style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>) : null
                 }
-            {/* <SelectBoxText>11:00</SelectBoxText> */}
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>
@@ -114,13 +64,12 @@ const handleEndTimeChange = (newEndTime) => {
                     <RNPickerSelect
                       ref={endPickerRef}
                       InputAccessoryView={() => null}
-                      onValueChange={(newTime) => handleTimeChange(newTime, false, index)}
+                      onValueChange={(newTime) => handleTimeChange(newTime, 'endTime')}
                       items={endTime}
-                      value={selectedEndValue}
+                    //   value={}
                       placeholder={{}}
                       style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>) : null
                 }
-            {/* <SelectBoxText>13:00</SelectBoxText> */}
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>

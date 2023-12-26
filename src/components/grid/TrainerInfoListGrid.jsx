@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import ImagePicker from 'react-native-image-crop-picker';
-import React,{ useState,useCallback } from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Alert,TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import ProfileInput from '../input/ProfileInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -16,19 +16,25 @@ import ProfileSelectDateCard from '../card/ProfileSelectDateCard';
 import DateSelectCard from '../card/DateSelectCard';
 import TimeSelectCard from '../card/TimeSelectCard';
 import { useFocusEffect } from '@react-navigation/native';
+import {deleteTrainersProfileInfo,setTrainersProfileInfo} from '../../api/mypageApi';
+import DeleteProfileModal from '../modal/DeleteProfileModal';
+import { useNavigation } from '@react-navigation/native';
 
-function TrainerInfoListGrid({profileInfo}) {
+function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode}) {
     UseGetCenterListHook();
-    const [centerList, setCenterList] = useRecoilState(centerListState);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedImages, setSelectedImages] = useState([]); 
-    const [selectedCenter, setSelectedCenter] = useState([]);
 
+    const navigation = useNavigation();
+
+    const [centerList, setCenterList] = useRecoilState(centerListState);
+    const [selectedCenter, setSelectedCenter] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [deleteProfileModal, setDeleteProfileModal] = useState(false);
+
+    const [selectedImages, setSelectedImages] = useState([]); 
     const [trainerProfile, setTrainerProfile] = useRecoilState(profileState);
 
-    console.log('profileInfo',trainerProfile)
-    // console.log('selectedImages',selectedImages,centerList)
-    console.log('dddd@#!@#!@#!@#!@#!@#!@#!@#13123',trainerProfile.centerProfiles)
+
+
     const openImagePicker = () => {
     ImagePicker.openPicker({
         multiple: true, 
@@ -61,68 +67,83 @@ function TrainerInfoListGrid({profileInfo}) {
         setModalVisible(true);  
     };
 
-//     const addCenterListBtn = (selectedCenterId) => {
-//         const isCenterAlreadyAdded = trainerProfile.centerProfiles.some(center => center.centerId === selectedCenterId);
-//         if (isCenterAlreadyAdded) {
-//             // 중복된 경우 경고 표시
-//             Alert.alert("알림", "이미 선택한 센터입니다.\n다른 센터를 선택해주세요.");
-//             return; // 함수 실행 중단
-//         }
+    const openDateSelectModal = () => {
+        setDeleteProfileModal(true);
+    }
 
-//         const selectedCenter = centerList.find(center => center.id === selectedCenterId);
-//         const selectedCenterName = selectedCenter && selectedCenter.name;
+    // 프로필 설정
+    const postSettingProfile = async () => {
+        if(isEditMode){
+            console.log('에디터 모드임')
 
-//         const newCenterProfile = {
-//             centerName: selectedCenterName,
-//             centerId: selectedCenterId,
-//             type: "평일", // 기본값 설정
-//             startTime: "09:00:00", // 기본값 설정
-//             endTime: "18:00:00" // 기본값 설정
-//           };
-//           // trainerProfile의 centerProfiles 배열에 새 센터 프로필 추가
-//           setTrainerProfile(prevState => ({
-//             ...prevState,
-//             centerProfiles: [...prevState.centerProfiles, newCenterProfile]
-//           }));
-//           setModalVisible(false);
-// };
-
-       // 시간 추가 핸들러
-    //    const handleAddTimeCard = (centerId) => {
-    //     console.log('centerId',centerId)
-    //     const newTimeSetting = {
-    //         centerId: centerId, // 새로운 센터 ID 생성 또는 사용자로부터 입력 받음
-    //         type: "평일", // 기본값 또는 사용자 입력값
-    //         startTime: "09:00:00", // 사용자 입력값
-    //         endTime: "18:00:00", // 사용자 입력값
-    //     };
+        }else{
+            console.log('프로파일 설정!!헤헿',trainerProfile,selectedImages)
+            let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
+            console.log('combinedTimeSettings', combinedTimeSettings);
     
-    //     setTrainerProfile(prevState => ({
-    //         ...prevState,
-    //         centerProfiles: [...prevState.centerProfiles, newTimeSetting]
-    //     }));
-    // };
+            // 합친 배열을 centerProfiles 상태에 저장
+           
+            const formData = new FormData();
+            const requestDto = {
+                    description: trainerProfile.description,
+                    career: trainerProfile.career,
+                    qualifications: trainerProfile.qualifications,
+                    centerProfiles: combinedTimeSettings,
+            };
 
-    // const addCenterListBtn = (id, name) => {
-    //     console.log('id', id, name);
-    //     const newTimeSetting = {
-    //         centerId: id, // 새로운 센터 ID 생성 또는 사용자로부터 입력 받음
-    //         type: "주말일", // 기본값 또는 사용자 입력값
-    //         startTime: "09:00:00", // 사용자 입력값
-    //         endTime: "18:00:00", // 사용자 입력값
-    //     };
-    //      // 이미 선택된 센터인지 확인
-    // const isAlreadySelected = selectedCenter.some(center => center.id === id);
+            formData.append("requestDto", JSON.stringify(requestDto));
+            selectedImages.forEach((image, index) => {
+                // 이미지 파일 이름을 지정하여 FormData에 추가
+                formData.append('images', {
+                    uri: image, // 이미지 파일 경로 또는 URL
+                    type: 'image/jpeg', // 이미지 타입 (예: image/jpeg)
+                    name: `image${index}.jpg` // 이미지 파일 이름
+                });
+            });
+            console.log('formData111123',formData)
+            postSettingProfileApi(formData);
+        }
+    }
 
-    // if (isAlreadySelected) {
-    //     // 이미 선택된 경우 경고 메시지 표시
-    //     Alert.alert("알림", "이미 선택한 센터입니다.\n다른 센터를 선택해주세요.");
-    // } else {
-    //     // 새로운 센터 추가
-    //     setSelectedCenter([...selectedCenter, newTimeSetting, { id, name }]);
-    //     setModalVisible(false);
-    // }
-    // };
+    //프로필 설정api
+    const postSettingProfileApi = async (formData) => {
+        try{
+            const response = await setTrainersProfileInfo(formData);
+            if(response){
+                console.log('response',response);
+            }
+        }catch(error){
+            console.log('getProfileInfo',error)
+        }finally{
+            console.log('finally')
+            navigation.navigate('MyProfile')
+        }
+    }
+
+
+
+    // 프로필 삭제용
+    const deleteProfile = async () => {
+console.log('dkdkdk')
+        try{
+            const response = await deleteTrainersProfileInfo();
+            if(response){
+                console.log('response',response);
+                setSelectedImages([])
+                setSelectedCenter([])
+                setTrainerProfile([])
+            }
+        }catch(error){
+            console.log('getProfileInfo',error)
+        }finally{
+            console.log('finally')
+            setDeleteProfileModal(false);
+            setIsEditMode(false)
+            navigation.navigate('MyProfile')
+        }
+    }
+
+    
     const addCenterListBtn = (id, name) => {
         // 이미 선택된 센터인지 확인
         const isAlreadySelected = selectedCenter.some(center => center.id === id);
@@ -138,8 +159,8 @@ function TrainerInfoListGrid({profileInfo}) {
                 timeSettings: [{
                     centerId: id,
                     type: "평일",
-                    startTime: "09:00",
-                    endTime: "18:00"
+                    startTime: "00:00",
+                    endTime: "24:00"
                 }]
             };
             setSelectedCenter(prevCenters => [...prevCenters, newCenter]);
@@ -147,34 +168,12 @@ function TrainerInfoListGrid({profileInfo}) {
         }
     };
 
-
-
-    // const handleAddTimeCard = (centerId) => {
-    //             const newTimeSetting = {
-    //         centerId: centerId, // 새로운 센터 ID 생성 또는 사용자로부터 입력 받음
-    //         type: "평일", // 기본값 또는 사용자 입력값
-    //         startTime: "09:00:00", // 사용자 입력값
-    //         endTime: "18:00:00", // 사용자 입력값
-    //     };
-
-    //     const updatedCenters = selectedCenter.map(center => {
-    //         if (center.id === centerId) {
-    //             if (center.timeCardAdded) {
-    //                 Alert.alert("알림", "시간은 한 번만 추가할 수 있습니다.");
-    //             } else {
-    //                 return { ...center, newTimeSetting , timeCardAdded: true};
-    //             }
-    //         }
-    //         return center;
-    //     });
-    //     setSelectedCenter(updatedCenters);
-    // };
     const handleAddTimeCard = (centerId) => {
         const newTimeSetting = {
             centerId: centerId,
-            type: "평일@!", // 사용자 입력값 또는 기본값
-            startTime: "09:00", // 사용자 입력값 또는 기본값
-            endTime: "18:00"  // 사용자 입력값 또는 기본값
+            type: "평일",
+            startTime: "00:00",
+            endTime: "24:00"
         };
     
         const updatedCenters = selectedCenter.map(center => {
@@ -196,38 +195,50 @@ function TrainerInfoListGrid({profileInfo}) {
     
         setSelectedCenter(updatedCenters);
     };
+
+    const changeType = (centerId, type, index) => {
+        console.log('centerId, type, index',centerId, type, index)
+        const updatedCenters = selectedCenter.map(center => {
+            if (center.id === centerId) {
+                return {
+                    ...center,
+                    timeSettings: center.timeSettings.map((timeSetting, i) => 
+                        i === index ? { ...timeSetting, type } : timeSetting
+                    ),
+                };
+            }
+            return center;
+        });
     
-   console.log('selectedCenter',selectedCenter[0]?.timeSettings)
-   console.log('selectedCenter',selectedCenter[1]?.timeSettings)
-    // 이제 각 센터의 UI는 center의 startTime, endTime, type을 직접 사용하여 렌더링합니다.
+        setSelectedCenter(updatedCenters);
+    };
     
 
-    // [{"centerId": "18c09191-e393-4f0d-80cf-b0eff1348e3d", 
-    // "endTime": "18:00:00", 
-    // "startTime": "09:00:00", 
-    // "type": "평일"}, 
-    // {"centerId": "6a85762b-5d0c-4506-bdbb-1f2d640ddab1", 
-    // "endTime": "18:00:00", 
-    // "startTime": "09:00:00", 
-    // "type": "평일"
-    // }]
-
-
-    // [{"endTime": "", "startTime": "", "type": "",centerId:""}]
+    // 상위 컴포넌트
+    const changeTime = (centerId, newTime, timeType, index) => {
+        const updatedCenters = selectedCenter.map(center => {
+          if (center.id === centerId) {
+            return {
+              ...center,
+              timeSettings: center.timeSettings.map((timeSetting, i) =>
+                i === index
+                  ? { ...timeSetting, [timeType]: newTime }
+                  : timeSetting
+              ),
+            };
+          }
+          return center;
+        });
+      
+        setSelectedCenter(updatedCenters);
+    };
     
-      // 데이터 초기화
-    //   useFocusEffect(
-    //     useCallback(() => {
-    //         return () => {
-    //             setTrainerProfile({
-    //                 description: '',
-    //                 career: '',
-    //                 qualifications: '',
-    //                 centerProfiles: []
-    //             });
-    //         }
-    //     }, [])
-    // );
+  
+
+  
+      
+   console.log('selectedCenter11',selectedCenter[0]?.timeSettings)
+//    console.log('selectedCenter22',selectedCenter[1].timeSettings)
       
     const clockIcon = require('../../assets/img/clockIcon.png');
   
@@ -243,31 +254,38 @@ function TrainerInfoListGrid({profileInfo}) {
        
             <ProfileTitleText>프로필 사진 등록</ProfileTitleText>
             <ProfileSubTitleText>최대 10장까지 등록 가능합니다</ProfileSubTitleText>        
-                <ProfileImgContainer>
-                    {
-                        selectedImages.length === 10 ? null:
-                        <ProfileAddBtn onPress={openImagePicker}>
-                        <ProfileAddImg source={require('../../assets/img/plus_l.png')} />
-                        </ProfileAddBtn>
-                    }
-                      {
-                        selectedImages.length > 0 ? (
-                     <>
-                           {
-                    selectedImages.map((image, index) => (
-                        <SelectImgContainer key={index}>
-                        <DeleteBtn key={index} onPress={() => deleteImage(index)}>
-                            <DeleteImg source={require('../../assets/img/delete.png')} />
-                        </DeleteBtn>
-                            <SelectedImage source={{ uri: image }} />
-                        </SelectImgContainer>
-                    ))
-                }
-                        </>
-                ):(null)
-            }
+            <ProfileImgContainer>
+  {selectedImages.length === 10 ? null :
+    <ProfileAddBtn onPress={openImagePicker}>
+      <ProfileAddImg source={require('../../assets/img/plus_l.png')} />
+    </ProfileAddBtn>
+  }
 
-                </ProfileImgContainer>
+  {isEditMode ? (
+    profileInfo.images.map((image, index) => (
+      <SelectImgContainer key={index}>
+        <DeleteBtn key={index} onPress={() => deleteImage(index)}>
+          <DeleteImg source={require('../../assets/img/delete.png')} />
+        </DeleteBtn>
+        <SelectedImage source={{ uri: image.path }} />
+      </SelectImgContainer>
+    ))
+  ) : (
+    selectedImages.length > 0 && (
+      <>
+        {selectedImages.map((image, index) => (
+          <SelectImgContainer key={index}>
+            <DeleteBtn key={index} onPress={() => deleteImage(index)}>
+              <DeleteImg source={require('../../assets/img/delete.png')} />
+            </DeleteBtn>
+            <SelectedImage source={{ uri: image }} />
+          </SelectImgContainer>
+        ))}
+      </>
+    )
+  )}
+</ProfileImgContainer>
+
 
 
             {/* <SelectProfileItemBtn>종목선택</SelectProfileItemBtn> */}
@@ -276,6 +294,8 @@ function TrainerInfoListGrid({profileInfo}) {
             <ProfileCneterTitleText>소개</ProfileCneterTitleText>
                 <ProfileTextArea 
                  maxLength={150}
+                 isEditMode={isEditMode}
+                 profileInfo={profileInfo.description}
                  value={trainerProfile.description}
                  onChangeText={text => setTrainerProfile(prevState => ({
                       ...prevState,
@@ -283,10 +303,11 @@ function TrainerInfoListGrid({profileInfo}) {
                   }))}
                 />
             </CenterInfoContaniner>
-
+            
                 <ProfileInput
                 title="경력사항"
-                placeholder="300자 이하로 작성 가능합니다"
+                placeholder={isEditMode? profileInfo.career:'300자 이하로 작성 가능합니다'}
+                // placeholder="300자 이하로 작성 가능합니다"
                 maxLength={300}
                 value={trainerProfile.career}
                  onChangeText={text => setTrainerProfile(prevState => ({
@@ -297,7 +318,8 @@ function TrainerInfoListGrid({profileInfo}) {
 
                 <ProfileInput
                 title="자격사항"
-                placeholder="300자 이하로 작성 가능합니다"
+                placeholder={isEditMode? profileInfo.qualifications:'300자 이하로 작성 가능합니다'}
+                // placeholder="300자 이하로 작성 가능합니다"
                 maxLength={300}
                 value={trainerProfile.qualifications}
                  onChangeText={text => setTrainerProfile(prevState => ({
@@ -323,28 +345,37 @@ function TrainerInfoListGrid({profileInfo}) {
                         <ProfileCneterTitleText>근무 가능 시간</ProfileCneterTitleText>
 
                         <ProfileSelectDateCard
-                        centerId={center.id}
-                        timeSettings={center.timeSettings[0]?.type}
+                           timeSettingId={center.id}
+                            timeSettings={center?.timeSettings[0]}
+                            changeType={changeType}
+                            index={0}
                         />
                         <TimeSelectCard 
-                         index={0}
-                        setSelectedCenter={setSelectedCenter}
-                        timeSettings={center?.timeSettings[0]}
+                          onTimeChange={(newTime, timeType) => {
+                            changeTime(center.id, newTime, timeType, 0);
+                        }}
+                        startPickerTime={center.timeSettings[0]?.startTime}
+                        endPickerTime={center.timeSettings[0]?.endTime} 
                         imgIcon={clockIcon} 
                         text='profile'/>
                         {
                             center.timeCardAdded && (
-                                <>
+                                <React.Fragment>
                                     <ProfileSelectDateCard
-                                     timeSettings={center.timeSettings[1]?.type}
+                                     timeSettingId={center.id}
+                                     timeSettings={center?.timeSettings[1]?.type}
+                                     changeType={changeType}
+                                     index={1}
                                     />
                                     <TimeSelectCard 
-                                   index={1}
-                                      setSelectedCenter={setSelectedCenter}
-                                    timeSettings={center?.timeSettings[1]}
+                                     onTimeChange={(newTime, timeType) => {
+                                        changeTime(center.id, newTime, timeType, 1);
+                                    }}
+                                    startPickerTime={center.timeSettings[1]?.startTime}
+                                    endPickerTime={center.timeSettings[1]?.endTime} 
                                     imgIcon={clockIcon}
                                     text='profile' />
-                                </>
+                                </React.Fragment>
                             )
                         }
                         {
@@ -355,12 +386,24 @@ function TrainerInfoListGrid({profileInfo}) {
                     ))
                 }
                 </AddCenterListContaniner>
+                
                 <CenterAddGrayBtn onPress={showCenterListBtn}>센터 추가</CenterAddGrayBtn>
             </CenterListContaniner>
 
         </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
-            <BasicMainBtn>승인 요청</BasicMainBtn>
+            <BasicMainBtn onPress={postSettingProfile}>승인 요청</BasicMainBtn>
+            {
+                isEditMode && <CenterAddGrayBtn onPress={openDateSelectModal}>프로필 삭제</CenterAddGrayBtn>
+            }
+            {
+                deleteProfileModal && (
+                    <DeleteProfileModal
+                    onPress={deleteProfile}
+                    setDeleteProfileModal={setDeleteProfileModal}
+                    />
+                )
+            }
             {
             <CenterListSlideModal 
             modalVisible={modalVisible}
@@ -369,7 +412,7 @@ function TrainerInfoListGrid({profileInfo}) {
             text='센터 추가'
             onPress={addCenterListBtn}
             />
-        }
+            }
             </>
     );
 }
