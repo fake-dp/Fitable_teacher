@@ -3,7 +3,7 @@ import {COLORS} from '../../constants/color'
 import GobackWhiteGrid from '../../components/grid/GobackWhiteGrid';
 import { useNavigation } from '@react-navigation/native';
 import {formatPhoneNumber} from '../../utils/CustomUtils';
-
+import {Linking} from 'react-native';
 function MemberDetailHeader({detailData}) {
 
     const navigation = useNavigation();
@@ -12,6 +12,11 @@ function MemberDetailHeader({detailData}) {
     const goBack = () => {
         navigation.goBack();
     }
+
+    const dialCall = (number) => {
+        let phoneNumber = `tel:${number}`;
+        Linking.openURL(phoneNumber);
+      };
 
     const sendMsg = require('../../assets/img/emailIcon.png');
     const call = require('../../assets/img/phoneIcon.png');
@@ -32,7 +37,7 @@ function MemberDetailHeader({detailData}) {
                 <IconWrapper>
                     <InfoIcon source={sendMsg}/>
                 </IconWrapper>
-                <IconWrapper>
+                <IconWrapper onPress={() => dialCall(detailData.member.phone)}>
                     <InfoIcon source={call}/>
                 </IconWrapper>
             </RightInfoContainer>

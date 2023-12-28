@@ -3,6 +3,7 @@ import { COLORS } from '../../constants/color';
 import { ScrollView , Alert} from 'react-native';
 import {getLessonDetail} from '../../api/lessonApi'
 import { useNavigation } from '@react-navigation/native';
+import NoListCard from '../card/NoListCard';
 function AlarmLessonListGrid({lessonList}) {
 
     const navigation = useNavigation();
@@ -19,40 +20,44 @@ function AlarmLessonListGrid({lessonList}) {
             console.log('error 뜸 ㅠㅠ', error)
         }
     }
-
+    console.log('lessonList',lessonList)
     const personal = require('../../assets/img/oneperson.png');
     const group = require('../../assets/img/otherperson.png');
 
     return (
-        <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">
-        <Container>
-        {lessonList.map((item) => (
-            <DateGroup key={item.date}>
-                <DateText>{item.date}</DateText>
-                {item.alarms.map((alarm) => (
-                <AlarmItem key={alarm.id} onPress={()=>detailLessonScreen(alarm.path)}>
-                    {/* {
-                        alarm.type === 'PERSONAL' ? (<ConsultIcon source={personal}/>):
-                        alarm.type === 'GROUP' ?(<ConsultIcon source={group}/>) : null
-                        
-                    } */}
-                    <ConsultIcon source={personal}/>
-                 
-                    
-                    <ContentsBoxContainer>
-                    <ContentsContainer>
-                    <TitleText>수업 예약</TitleText>
-                    <TimeText>{alarm.time}</TimeText>
-                    </ContentsContainer>
-                    <AlarmText>{alarm.context}</AlarmText>
-                    </ContentsBoxContainer>
-                </AlarmItem>
-                ))}
-            </DateGroup>
-        ))}
-    </Container>
-    </ScrollView>
-    );
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">
+      <Container>
+          {lessonList ? (
+              lessonList.map((item) => (
+                  <DateGroup key={item.date}>
+                      <DateText>{item.date}</DateText>
+                      {item.alarms.map((alarm) => (
+                          <AlarmItem key={alarm.id} onPress={() => detailLessonScreen(alarm.path)}>
+                              {alarm.lessonType === 'PERSONAL' ? (
+                                  <ConsultIcon source={personal} />
+                              ) : alarm.lessonType === 'GROUP' ? (
+                                  <ConsultIcon source={group} />
+                              ) : null}
+
+                              <ContentsBoxContainer>
+                                  <ContentsContainer>
+                                      <TitleText>수업 예약</TitleText>
+                                      <TimeText>{alarm.time}</TimeText>
+                                  </ContentsContainer>
+                                  <AlarmText>{alarm.context}</AlarmText>
+                              </ContentsBoxContainer>
+                          </AlarmItem>
+                      ))}
+                  </DateGroup>
+              ))
+          ) : (
+                <NoListCardContainer>
+                <NoListCard>수업 내역이 없습니다.</NoListCard>
+                </NoListCardContainer>
+          )}
+      </Container>
+  </ScrollView>
+);
 }
 
 export default AlarmLessonListGrid;
@@ -116,3 +121,7 @@ font-weight: 400;
 
 const ConsultIcon = styled.Image`
 `   
+
+const NoListCardContainer = styled.View`
+  height: 300px;
+`

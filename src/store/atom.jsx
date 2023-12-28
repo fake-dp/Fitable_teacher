@@ -47,3 +47,15 @@ export const profileState = atom({
         centerProfiles: [],
     },
 });
+
+// 회원관리 버튼 넘버 상태관리
+export const totalElementsState = atom({
+    key: 'totalElementsState',
+    default: {
+      PERSONAL: 0,
+      GROUP: 0,
+      ATTENDANCE: 0,
+      MANAGING: 0,
+      POTENTIAL: 0
+    },
+  });

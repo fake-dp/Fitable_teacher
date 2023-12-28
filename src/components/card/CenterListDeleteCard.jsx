@@ -29,9 +29,11 @@ function CenterListDeleteCard({centerList,setCenterList,goSearchScreen}) {
         showsHorizontalScrollIndicator={false}
         overScrollMode="never">
          {centerList && centerList.map(center => (
-             <CenterListContaniner key={center.id} onPress={()=>deleteCenterBtn(center.id)}>
+             <CenterListContaniner key={center.id}>
              <CenterName>{center.name}</CenterName>
+             <DeleteContainer key={center.id} onPress={()=>deleteCenterBtn(center.id)}>
              <CenterDeleteText>삭제</CenterDeleteText>
+             </DeleteContainer>
              </CenterListContaniner>
          ))}
          <CenterAddGrayBtn onPress={goSearchScreen}>센터 추가</CenterAddGrayBtn>
@@ -42,7 +44,7 @@ function CenterListDeleteCard({centerList,setCenterList,goSearchScreen}) {
 export default CenterListDeleteCard;
 
 
-const CenterListContaniner = styled.TouchableOpacity`
+const CenterListContaniner = styled.View`
 background-color: ${COLORS.gray_100};
 border-radius: 13px;
 padding: 14px 16px;
@@ -72,3 +74,6 @@ const ScrollContainer = styled.ScrollView`
 flex:1;
 `
 
+const DeleteContainer = styled.TouchableOpacity`
+width: 28px;
+`

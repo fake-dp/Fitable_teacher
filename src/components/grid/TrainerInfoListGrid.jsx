@@ -16,7 +16,7 @@ import ProfileSelectDateCard from '../card/ProfileSelectDateCard';
 import DateSelectCard from '../card/DateSelectCard';
 import TimeSelectCard from '../card/TimeSelectCard';
 import { useFocusEffect } from '@react-navigation/native';
-import {deleteTrainersProfileInfo,setTrainersProfileInfo} from '../../api/mypageApi';
+import {deleteTrainersProfileInfo,setTrainersProfileInfo,updateTrainersProfileInfo} from '../../api/mypageApi';
 import DeleteProfileModal from '../modal/DeleteProfileModal';
 import { useNavigation } from '@react-navigation/native';
 
@@ -75,6 +75,25 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode}) {
     const postSettingProfile = async () => {
         if(isEditMode){
             console.log('에디터 모드임')
+            let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
+            const formData = new FormData();
+            const requestDto = {
+                description: trainerProfile.description,
+                career: trainerProfile.career,
+                qualifications: trainerProfile.qualifications,
+                centerProfiles: combinedTimeSettings,
+        };
+        selectedImages.forEach((image, index) => {
+            // 이미지 파일 이름을 지정하여 FormData에 추가
+            formData.append('images', {
+                uri: image, // 이미지 파일 경로 또는 URL
+                type: 'image/jpeg', // 이미지 타입 (예: image/jpeg)
+                name: `image${index}.jpg` // 이미지 파일 이름
+            });
+        });
+        updateSettingProfileApi(formData);
+        console.log('formData111123',formData)
+        console.log('requestDto',requestDto)
 
         }else{
             console.log('프로파일 설정!!헤헿',trainerProfile,selectedImages)
@@ -120,6 +139,20 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode}) {
         }
     }
 
+    //프로필 수정api
+    const updateSettingProfileApi = async (formData) => {
+        try{
+            const response = await updateTrainersProfileInfo(formData);
+            if(response){
+                console.log('response',response);
+            }
+        }catch(error){
+            console.log('updateSettin',error)
+        }finally{
+            console.log('finally')
+            navigation.navigate('MyProfile')
+        }
+    }
 
 
     // 프로필 삭제용

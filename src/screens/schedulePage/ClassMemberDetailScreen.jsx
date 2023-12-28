@@ -12,9 +12,9 @@ function ClassMemberDetailScreen(props) {
 
     const navigation = useNavigation();
     const route = useRoute();
-    const { detailData,screenType } = route.params;
+    const { detailData,screenType,memberId } = route.params;
 
-    console.log('나 넘어왔엉!', detailData,screenType)
+    console.log('나 넘어왔엉!', detailData,screenType,memberId)
 
     const cancelReservationBtn = async(id) => {
         try{
@@ -43,7 +43,12 @@ function ClassMemberDetailScreen(props) {
             console.log('출석처리 에러',error)
         }
     }
+   
+    console.log('detailData',detailData.sendPaymentLink,'detailData게야',detailData.contract)
 
+    const paymentlink = require('../../assets/img/paymentlink.png');
+    const contract = require('../../assets/img/contractfiles.png');
+    const nextIcon = require('../../assets/img/rightIcon.png');
 
     return (
         <Container>
@@ -56,7 +61,7 @@ function ClassMemberDetailScreen(props) {
                 <UseCenterContainer>
                     <TitleText>이용 센터</TitleText>
                     {
-                        detailData?.availableCenters.length !==  0 ? 
+                        detailData?.availableCenters?.length !==  0 ? 
                         <SubContentText>{detailData.availableCenters.join(', ')}</SubContentText> 
                       : <SubContentText>-</SubContentText> 
                     }
@@ -91,6 +96,35 @@ function ClassMemberDetailScreen(props) {
                     }
                 </MemoContainer>
 
+               
+
+                {
+                    screenType === 'memberDetail' &&
+                    <>
+                     <GridLineOne />
+                    <ConsultContainer>
+                    <ConsultTitleText>상담 신청 내역</ConsultTitleText>
+                    {
+                        detailData.consultings.length === 0 ?
+                        <SubContentText>-</SubContentText>
+                        : null
+                    }
+                    {
+                        detailData.consultings.map((consult, index) => (
+                            <ConsultListContaniner key={index}>
+                                        <TrainerName>
+                                            {consult.trainerName===null ? '센터 상담' : consult.trainerName}
+                                            </TrainerName>
+                                        <ConsultDateText>{consult.createdAt}</ConsultDateText>
+                            </ConsultListContaniner>
+                            )
+                        )
+                    }
+                    </ConsultContainer>
+                    
+                    </>
+                }
+
                </ContentsContainer>
 
             <TicketContainer>
@@ -100,7 +134,10 @@ function ClassMemberDetailScreen(props) {
                     isExpired={ticket.status === 'EXPIRED'}
                     >
                         <HeaderBox>
-                        <TicketInfoTitle isExpired={ticket.status === 'EXPIRED'}>{ticket.name}</TicketInfoTitle>
+                        <TicketInfoTitle isExpired={ticket.status === 'EXPIRED'}>
+                            {/* {ticket.name} */}
+                            {ticket.name.length > 16 ? ticket.name.substring(0, 16) + "..." : ticket.name}
+                            </TicketInfoTitle>
                         {
                             ticket.status === 'EXPIRED' ? null :  <TicketStatus>잔여 {ticket.left}</TicketStatus>
                         }
@@ -109,8 +146,10 @@ function ClassMemberDetailScreen(props) {
                     </TicketInfo>
                 ))}
             </TicketContainer>
-                       
-                <BtnContainer>
+
+                 {
+                    screenType !== 'memberDetail' &&
+                    <BtnContainer>
                     {
                         detailData.isAvailableCancel &&  
                         <MemberBtn
@@ -124,6 +163,34 @@ function ClassMemberDetailScreen(props) {
                         colorProp>출석처리</MemberBtn>
                    }
                 </BtnContainer>
+                 }
+
+                 {
+                    screenType === 'memberDetail' &&
+                    <PayAndContractContainer>
+                    {
+                        detailData.contract &&  
+                        <PayAndContractBox onPress={() => navigation.navigate('Contract',{memberId})}>
+                            <PayAndContractLeftBox>
+                               <LeftIcon source={contract}/>
+                               <PayAndContractText>계약서</PayAndContractText>
+                            </PayAndContractLeftBox>
+                        <BtnNextIcon source={nextIcon}/>
+                        </PayAndContractBox>
+                    }
+                    {
+                        detailData.sendPaymentLink &&
+                        <PayAndContractBox onPress={() => navigation.navigate('PaymentLink')}>
+                            <PayAndContractLeftBox>
+                                 <LeftIcon source={paymentlink}/>
+                                 <PayAndContractText>결제링크 전송</PayAndContractText>
+                            </PayAndContractLeftBox>
+                          <BtnNextIcon source={nextIcon}/>
+                        </PayAndContractBox>
+                    }
+                    </PayAndContractContainer>
+                 }
+            
 
             </ScrollView>
         </Container>
@@ -244,3 +311,84 @@ const BtnContainer = styled.View`
     justify-content: space-between;
     padding: 0 20px;
 `
+
+const ConsultContainer = styled.View`
+margin-bottom: 20px;
+`
+const ConsultTitleText = styled.Text`
+font-size: 16px;
+font-weight: 600;
+line-height: 22.40px;
+color: ${COLORS.sub};
+margin-bottom:16px;
+`;
+
+const ConsultListContaniner = styled.TouchableOpacity`
+background-color: ${COLORS.gray_100};
+border-radius: 13px;
+padding: 14px 16px;
+margin-bottom: 12px;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+`;
+
+const TrainerName = styled.Text`
+ font-size: 16px;
+color: ${COLORS.sub};
+font-weight: 500;
+line-height: 22.40px;
+`;
+
+const ConsultDateText = styled.Text`
+color: ${COLORS.gray_400};
+font-size: 14px;
+font-weight: 400;
+line-height: 22.40px;
+`;
+
+const PayAndContractContainer = styled.View`
+    display: flex;
+    flex-direction: column;
+    background-color: ${COLORS.white};
+    padding: 20px;
+`
+
+const PayAndContractBox = styled.TouchableOpacity`
+    display: flex;  
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: ${COLORS.white};
+    margin-bottom: 12px;
+    border-radius: 15px;
+    padding: 20px 20px 20px 16px;
+    border: 1px solid ${COLORS.gray_200};
+`
+
+const PayAndContractLeftBox = styled.View`
+display: flex;
+flex-direction: row;
+align-items: center;
+`
+
+const PayAndContractText = styled.Text`
+color: ${COLORS.sub};
+font-size: 16px;
+font-weight: 500;
+line-height: 22px;
+letter-spacing: -0.4px;
+`
+
+const LeftIcon = styled.Image`
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+`
+
+const BtnNextIcon = styled.Image`
+    width: 20px;
+    height: 20px;
+`;
+

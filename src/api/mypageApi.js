@@ -36,17 +36,17 @@ export const setTrainersProfileInfo = async(data) =>{
         const response = await multipartAxios.post("/api/trainers/v1/profile", data);
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error.response;
     }
 }
 
 // 프로필 수정
-export const updateTrainersProfileInfo = async({profile}) =>{
+export const updateTrainersProfileInfo = async(data) =>{
     try {
         const response = await multipartAxios.put("/api/trainers/v1/profile", data);
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error.response;
     }
 }
 
@@ -56,6 +56,6 @@ export const deleteTrainersProfileInfo = async() =>{
         const response = await customAxios.delete("/api/trainers/v1/profile");
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error.response;
     }
 }

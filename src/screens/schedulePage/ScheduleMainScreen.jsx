@@ -5,7 +5,8 @@ import {GridLine} from '../../style/gridStyled'
 import CustomCalendar from '../../components/custom/CustomCalender';
 import CenterListHeaderGrid from '../../components/grid/CenterListHeaderGrid';
 import FloatingBtn from '../../components/button/FloatingBtn';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import FloatingModal from '../../components/modal/FloatingModal';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
@@ -31,11 +32,12 @@ function ScheduleMainScreen(props) {
     }
 
 
-    useEffect(() => {
+    useFocusEffect(
+      useCallback(() => {
         if(centerId){
-        getLessonAvailableData()
-        }
-    },[centerId])
+          getLessonAvailableData()
+          }
+      },[centerId]));
 
     useEffect(() => {
         if (openFloatingModal) {

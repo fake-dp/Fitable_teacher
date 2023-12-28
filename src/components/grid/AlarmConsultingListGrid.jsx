@@ -4,6 +4,7 @@ import { COLORS } from '../../constants/color';
 import { ScrollView , Alert} from 'react-native';
 import {getConsultDetail} from '../../api/alarmApi';
 import { useNavigation } from '@react-navigation/native';
+import NoListCard from '../card/NoListCard';
 function AlarmConsultingListGrid({consultingList}) {
 
     const navigation = useNavigation();
@@ -23,28 +24,34 @@ function AlarmConsultingListGrid({consultingList}) {
     }
 
     return (
-        <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">
-        <Container>
-            {consultingList.map((item) => (
-                <DateGroup key={item.date}>
-                    <DateText>{item.date}</DateText>
-                    {item.alarms.map((alarm) => (
-                        <AlarmItem key={alarm.id} onPress={()=>detailConsultScreen(alarm.path)}>
-                            <ConsultIcon source={consultIcon}/>
-                            <ContentsBoxContainer>
-                            <ContentsContainer>
-                            <TitleText>상담 신청</TitleText>
-                            <TimeText>{alarm.time}</TimeText>
-                            </ContentsContainer>
-                            <AlarmText>{alarm.context}</AlarmText>
-                            </ContentsBoxContainer>
-                        </AlarmItem>
-                    ))}
-                </DateGroup>
-            ))}
-        </Container>
-        </ScrollView>
-    );
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">
+      <Container>
+        {consultingList && consultingList.length > 0 ? (
+          consultingList.map((item) => (
+            <DateGroup key={item.date}>
+              <DateText>{item.date}</DateText>
+              {item.alarms.map((alarm) => (
+                <AlarmItem key={alarm.id} onPress={() => detailConsultScreen(alarm.path)}>
+                  <ConsultIcon source={consultIcon} />
+                  <ContentsBoxContainer>
+                    <ContentsContainer>
+                      <TitleText>상담 신청</TitleText>
+                      <TimeText>{alarm.time}</TimeText>
+                    </ContentsContainer>
+                    <AlarmText>{alarm.context}</AlarmText>
+                  </ContentsBoxContainer>
+                </AlarmItem>
+              ))}
+            </DateGroup>
+          ))
+        ) : (
+          <NoListCardContainer>
+          <NoListCard>상담 내역이 없습니다.</NoListCard>
+          </NoListCardContainer>
+        )}
+      </Container>
+    </ScrollView>
+  );
 }
 
 export default AlarmConsultingListGrid;
@@ -108,3 +115,7 @@ font-weight: 400;
 `;
 
 const ConsultIcon = styled.Image``
+
+const NoListCardContainer = styled.View`
+  height: 300px;
+`

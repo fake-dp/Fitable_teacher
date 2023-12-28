@@ -3,32 +3,49 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { useState } from 'react';
 import { ScrollView } from 'react-native';
-function MemberBtnContents(props) {
+import { useRecoilState } from 'recoil';
+import {totalElementsState} from '../../store/atom';
+function MemberBtnContents({type, setType,setSearchText}) {
 
-    const [selectedTab, setSelectedTab] = useState('개인레슨');
-    
+  const [totalElements, setTotalElements] = useRecoilState(totalElementsState);
+
+    // console.log('totalElements123123123',totalElements.ATTENDANCE)
     const handleTabClick = (tab) => {
-        setSelectedTab(tab);
+      setType(tab);
+      setSearchText('');
       };
 
     return (
         <BtnListContainer>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <BtnListBox selected={selectedTab === '개인레슨'} onPress={()=>handleTabClick('개인레슨')}>
-          <BtnListText selected={selectedTab === '개인레슨'}>개인레슨</BtnListText>
+        
+        {
+             totalElements.PERSONAL > 0 &&
+            <BtnListBox selected={type === 'PERSONAL'} onPress={()=>handleTabClick('PERSONAL')}>
+             <BtnListText selected={type === 'PERSONAL'}>개인레슨 {totalElements.PERSONAL}</BtnListText>
+           </BtnListBox>
+        }
+
+        {
+          totalElements.GROUP > 0 &&
+            <BtnListBox selected={type === 'GROUP'} onPress={()=>handleTabClick('GROUP')}>
+            <BtnListText selected={type === 'GROUP'}>그룹레슨 {totalElements.GROUP}</BtnListText>
+          </BtnListBox>
+        }
+
+        <BtnListBox selected={type === 'ATTENDANCE'} onPress={()=>handleTabClick('ATTENDANCE')}>
+          <BtnListText selected={type === 'ATTENDANCE'}>입장중 {totalElements.ATTENDANCE}</BtnListText>
         </BtnListBox>
-        <BtnListBox selected={selectedTab === '그룹레슨'} onPress={()=>handleTabClick('그룹레슨')}>
-          <BtnListText selected={selectedTab === '그룹레슨'}>그룹레슨</BtnListText>
+
+        <BtnListBox selected={type === 'MANAGING'} onPress={()=>handleTabClick('MANAGING')}>
+          <BtnListText selected={type === 'MANAGING'}>관리담당 {totalElements.MANAGING}</BtnListText>
         </BtnListBox>
-        <BtnListBox selected={selectedTab === '입장중'} onPress={()=>handleTabClick('입장중')}>
-          <BtnListText selected={selectedTab === '입장중'}>입장중</BtnListText>
+
+          <BtnListBox selected={type === 'POTENTIAL'} onPress={()=>handleTabClick('POTENTIAL')}>
+          <BtnListText selected={type === 'POTENTIAL'}>비회원 {totalElements.POTENTIAL}</BtnListText>
         </BtnListBox>
-        <BtnListBox selected={selectedTab === '관리담당'} onPress={()=>handleTabClick('관리담당')}>
-          <BtnListText selected={selectedTab === '관리담당'}>관리담당</BtnListText>
-        </BtnListBox>
-        <BtnListBox selected={selectedTab === '비회원'} onPress={()=>handleTabClick('비회원')}>
-          <BtnListText selected={selectedTab === '비회원'}>비회원</BtnListText>
-        </BtnListBox>
+    
+        
         </ScrollView>
       </BtnListContainer>
     );

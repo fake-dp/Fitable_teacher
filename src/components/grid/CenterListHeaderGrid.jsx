@@ -1,15 +1,36 @@
-import React from 'react';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { useRecoilState } from 'recoil';
-import { centerListState } from '../../store/atom';
+import { centerListState,centerIdState } from '../../store/atom';
 import UseGetCenterListHook from '../../hooks/UseGetCenterListHook';
+import RNPickerSelect from 'react-native-picker-select';
+import {useRef,useEffect} from 'react';
 function CenterListHeaderGrid() {
 
     UseGetCenterListHook();
     const [centerList, setCenterList] = useRecoilState(centerListState);
+    const [centerId, setCenterId] = useRecoilState(centerIdState);
     const rightIcon = require('../../assets/img/caretdown.png');
-    // console.log('centerList',centerList)
+    console.log('centerId@',centerId)
+
+    const startPickerRef = useRef();
+
+
+    const openStartPicker = () => {
+        startPickerRef.current?.togglePicker(true);
+    };
+
+
+    const transformedState = (centerList || []).map(item => ({
+        label: item.name,
+        value: item.id,
+    }));
+
+    useEffect(() => {
+        startPickerRef.current?.forceUpdate();
+      }, [centerId]);
+      
+
     return (
         <>
         {
@@ -18,9 +39,22 @@ function CenterListHeaderGrid() {
                 <CenterListText>연동된 센터가 없습니다</CenterListText>
             </CenterListHeaderContainer>
             ):(
-             <CenterListHeaderContainerBtn>
-                <CenterListText>{centerList[0]?.name}</CenterListText>
-                <RigthIcon source={rightIcon}/>
+             <CenterListHeaderContainerBtn onPress={openStartPicker}>
+                {/* <CenterListText>{centerList[0]?.name}</CenterListText>
+                <RigthIcon source={rightIcon}/> */}
+               
+                <RNPickerSelect
+                      ref={startPickerRef}
+                      value={centerId}
+                    //   InputAccessoryView={() => null}
+                      onValueChange={(id) => setCenterId(id)}
+                      doneText="변경"
+                      items={transformedState}
+                    //   value={}
+                      placeholder={{}}
+                      style={{ inputIOS: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 }, 
+                            inputAndroid: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 } }}/>
+              <RigthIcon source={rightIcon}/>
             </CenterListHeaderContainerBtn>
             )
         }

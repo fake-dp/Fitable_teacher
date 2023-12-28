@@ -2,16 +2,44 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { GridLineOne } from '../../style/gridStyled';
+import {formatPhoneNumber} from '../../utils/CustomUtils';
+import { useRecoilState } from 'recoil';
+import { centerIdState } from '../../store/atom';
+import { useNavigation } from '@react-navigation/native';
+import {getMemberDetail} from '../../api/memberApi';
+
 function MemberInfoCard({ userInfo }) {
 
+    const navigation = useNavigation();
     const nextIcon = require('../../assets/img/rightIcon.png');
+    const [centerId, setCenterId] = useRecoilState(centerIdState);
+
+    const memberDetailScreen = async(id,memberId) => {
+        console.log('memberDetailScreen',id,memberId);
+        try{
+            const response = await getMemberDetail({id,memberId});
+            console.log('회원 상세 응답@@',response)
+            if(response){
+                navigation.navigate('ClassMemberDetail',{
+                    detailData: response,
+                    screenType:'memberDetail',
+                    memberId:memberId
+                })
+            }
+
+        }catch(error){
+            console.log('error',error);
+        }finally{
+            console.log('finally')
+        }
+    }
 
     return (
         <>
-        <CardContainer>
+        <CardContainer onPress={()=>memberDetailScreen(centerId,userInfo.id)}>
             <BtnGridBox>
             <UserName>{userInfo.name}</UserName>
-            <UserPhone>{userInfo.phone}</UserPhone>
+            <UserPhone>{formatPhoneNumber(userInfo.phone)}</UserPhone>
             </BtnGridBox>
             <BtnNextIcon source={nextIcon} />
         </CardContainer>

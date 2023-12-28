@@ -13,6 +13,9 @@ import MemberSelectScreen from './src/screens/schedulePage/MemberSelectScreen';
 import ClassMemberDetailScreen from './src/screens/schedulePage/ClassMemberDetailScreen';
 import MemberDetailScreen from './src/screens/schedulePage/MemberDetailScreen';
 import SearchCenterScreen from './src/screens/myPage/SearchCenterScreen';
+import PaymentLinkScreen from './src/screens/memberPage/PaymentLinkScreen';
+import ContractScreen from './src/screens/memberPage/ContractScreen';
+import ContractTicketScreen from './src/screens/memberPage/ContractTicketScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +53,10 @@ function AppScreens(props) {
           <Stack.Screen name="MemberSelect" component={MemberSelectScreen} options={{headerStyle: {backgroundColor: COLORS.gray_100}}}/>
           <Stack.Screen name="ClassMemberDetail" component={ClassMemberDetailScreen} options={{headerStyle: {backgroundColor: COLORS.sub}}}/>
           <Stack.Screen name="MemberDetail" component={MemberDetailScreen} />
+          <Stack.Screen name="PaymentLink" component={PaymentLinkScreen} />
+          {/* 계약서 */}
+          <Stack.Screen name="Contract" component={ContractScreen} />
+          <Stack.Screen name="ContractTicket" component={ContractTicketScreen} />
         </Stack.Group>
 
         {/* 알림 스크린 설정 */}

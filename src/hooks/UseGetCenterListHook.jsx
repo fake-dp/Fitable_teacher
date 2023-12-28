@@ -1,8 +1,8 @@
-import { useEffect,useState } from 'react';
+import { useEffect,useState,useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import { getCenterList } from '../api/trainersApi';
 import {centerIdState,centerListState} from '../store/atom';
-
+import { useFocusEffect } from '@react-navigation/native';
 
 function UseGetCenterListHook(props) {
 
@@ -10,9 +10,11 @@ function UseGetCenterListHook(props) {
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const [shouldFetch, setShouldFetch] = useState(true);
 
-    useEffect(() => {
-        getCenterListData();
-    },[shouldFetch])
+
+    useFocusEffect(
+        useCallback(() => {
+            getCenterListData();
+        },[centerId]));
 
     const getCenterListData = async () => {
         if (shouldFetch) {
