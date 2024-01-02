@@ -32,6 +32,11 @@ function ScheduleMainScreen(props) {
     }
 
 
+    const goRegitserMemberScreen = () => {
+        navigation.navigate('RegisterMember')
+    }
+
+
     useFocusEffect(
       useCallback(() => {
         if(centerId){
@@ -56,13 +61,25 @@ function ScheduleMainScreen(props) {
       }, [openFloatingModal]);
       
 
-      console.log('centerId',centerId)
+
+ const addUserIcon = require('../../assets/img/adduser.png')
 
     return (
     <>
         <Container>
             <HeaderContainer>
                 <CenterListHeaderGrid />
+                {
+                  centerId && centerId && (
+                    <IconContainer onPress={goRegitserMemberScreen}>
+                    <AddUserImg
+                      source={addUserIcon}
+                      resizeMode="contain"
+                    />
+                  </IconContainer>
+                  )
+                }
+               
             </HeaderContainer>
                 <CustomCalendar/>
             
@@ -89,7 +106,14 @@ const Container = styled.View`
 
 const HeaderContainer = styled.View`
     padding:0 20px;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
 `
 
+const IconContainer = styled.TouchableOpacity`
 
+`
 
+const AddUserImg = styled.Image``

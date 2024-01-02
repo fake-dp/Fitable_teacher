@@ -3,24 +3,19 @@ import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 import { COLORS } from "../../constants/color";
 import CheckBox from '@react-native-community/checkbox';
-function ClassDateCheckBtn({ isLesson,setIsLesson}) {
+function ClassDateCheckBtn({ isLesson,setIsLesson,setMember}) {
 
     console.log('classDatddda',isLesson)
 
     //toggle
     const handleCheckboxChange = () => {
         setIsLesson(!isLesson);
+        if(!isLesson){
+            setMember(null)
+        }
     }
 
     return (
-        // <CheckBoxWrapper>
-        // <CheckBoxContainer 
-        // isChecked={isChecked}
-        // >
-        //     {isChecked && <CheckedCircle isChecked={isChecked}/>}
-        // </CheckBoxContainer>
-        // <CheckText isChecked={isChecked}>수업 외 일정</CheckText>
-        // </CheckBoxWrapper>
         <CheckBoxWrapper>
 
         <CheckBoxStyle

@@ -19,7 +19,7 @@ function TrainerInfoGetListGrid({profileInfo}) {
           <ProfileTitleText>프로필 사진 등록</ProfileTitleText>
           <ProfileImgContainer>
             {
-                profileInfo?.images.map((image,index) => (        
+                profileInfo?.images?.map((image,index) => (        
             <SelectImgContainer key={index}>
                             <SelectedImage source={{ uri: image.path }} />
             </SelectImgContainer>

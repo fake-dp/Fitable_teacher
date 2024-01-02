@@ -8,29 +8,65 @@ function UseGetCenterListHook(props) {
 
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const [centerList, setCenterList] = useRecoilState(centerListState);
-    const [shouldFetch, setShouldFetch] = useState(true);
 
 
     useFocusEffect(
         useCallback(() => {
-            getCenterListData();
+                getCenterListData();
         },[centerId]));
 
-    const getCenterListData = async () => {
-        if (shouldFetch) {
-            try{
-                const response = await getCenterList();
-                console.log('응답데이터확인헤더',response)
-                if(response&&response){
-                    setCenterList(response);
-                    setCenterId(response[0].id);
-                }
-            }catch(error){
-                console.log('@@@@',error)
+    
+    // useEffect(() => {
+    //     getCenterListData();
+    // },[centerId])
+
+        const getCenterListData = async () => {
+                try{
+                    const response = await getCenterList();
+                    console.log('응답데이터확인헤더',response)
+
+                        if(response && response.length > 0){
+                            setCenterList(response);
+                            setCenterId(response[0].id);
+                        } else {
+                            setCenterList([]);
+                            setCenterId(null);
+                        }
+                }catch(error){
+                    console.log('@@@@',error)
+                    if(error.code === 10300) {
+                        console.log('센터를 찾지 못했습니다.');
+                    }
             }
-            setShouldFetch(false);
-    }
-   }
-}
+        }
+        
+    }        
 
 export default UseGetCenterListHook;
+
+
+// const getCenterListData = async () => {
+//     if (shouldFetch) {
+//         try{
+//             const response = await getCenterList();
+//             console.log('응답데이터확인헤더',response)
+//             if(centerId) { // centerId가 유효한지 확인
+//                 if(response && response.length > 0){
+//                     setCenterList(response);
+//                     setCenterId(response[0].id);
+//                 } else {
+//                     setCenterList([]);
+//                     setCenterId(null);
+//                 }
+//             }
+//         }catch(error){
+//             console.log('@@@@',error)
+//             setShouldFetch(false);
+//             if(error.code === 10300) {
+//                 console.log('센터를 찾지 못했습니다.');
+//             }
+//         }
+//     }
+// }
+
+// }    

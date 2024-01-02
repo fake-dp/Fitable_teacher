@@ -4,7 +4,7 @@ import CenterAddGrayBtn from '../button/CenterAddGrayBtn';
 import {deleteCenterList} from '../../api/trainersApi';
 import { Alert } from 'react-native';
 
-function CenterListDeleteCard({centerList,setCenterList,goSearchScreen}) {
+function CenterListDeleteCard({centerList,setCenterList,goSearchScreen,setCenterId,centerId}) {
 
     console.log('센터리스트',centerList)
 
@@ -15,12 +15,17 @@ function CenterListDeleteCard({centerList,setCenterList,goSearchScreen}) {
             const response = await deleteCenterList(id);
             if(response){
                 Alert.alert("센터 삭제","센터가 삭제되었습니다",
-                [{ text: "확인", onPress: () => setCenterList(centerList.filter(center => center.id !== id)) }]);
+                [{ text: "확인", onPress: () => {setCenterList(centerList.filter(center => center.id !== id))
+                    if(centerId === id) {
+                        setCenterId(null)
+                    }}
+                }]);
             }
         }catch(error){
-            console.log(error)
+            console.log(error);
         }
     }
+    
 
     return (
         <ScrollContainer

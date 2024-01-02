@@ -59,9 +59,9 @@ function ContractTicketScreen(props) {
                 contractList?.tickets?.map((item,index) => {
                     return(
                         <ContractCard key={item.id}>
-                            {/* <ContractBtnBox> */}
-                            <ContractTitle>{item.name}</ContractTitle>
-                            {/* </ContractBtnBox> */}
+                            <ContractTitle>
+                                {item.name.length > 16 ? item.name.substring(0, 16) + "..." : item.name}
+                                </ContractTitle>
                             <DeleteContainer>
                             <ContractTitle>⎯</ContractTitle>
                             </DeleteContainer>

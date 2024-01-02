@@ -16,6 +16,7 @@ import SearchCenterScreen from './src/screens/myPage/SearchCenterScreen';
 import PaymentLinkScreen from './src/screens/memberPage/PaymentLinkScreen';
 import ContractScreen from './src/screens/memberPage/ContractScreen';
 import ContractTicketScreen from './src/screens/memberPage/ContractTicketScreen';
+import RegisterMemberScreen from './src/screens/schedulePage/RegisterMemberScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ function AppScreens(props) {
           }}>
         <Stack.Screen name="MainTab" component={MainTabScreen} options={{ headerShown: false }} />
        
+
         {/* 일정 스크린 설정 */}
         <Stack.Group
           screenOptions={{
@@ -53,11 +55,29 @@ function AppScreens(props) {
           <Stack.Screen name="MemberSelect" component={MemberSelectScreen} options={{headerStyle: {backgroundColor: COLORS.gray_100}}}/>
           <Stack.Screen name="ClassMemberDetail" component={ClassMemberDetailScreen} options={{headerStyle: {backgroundColor: COLORS.sub}}}/>
           <Stack.Screen name="MemberDetail" component={MemberDetailScreen} />
+          {/* 회원등록 */}
+          <Stack.Screen name="RegisterMember" component={RegisterMemberScreen} />
+        </Stack.Group>
+
+           {/* 회원관리 설정 */}
+           <Stack.Group
+          screenOptions={{
+            title: '',
+            headerBackVisible: false,
+            headerStyle: {
+              backgroundColor: COLORS.white,
+            },
+            headerBackTitleVisible: false,
+        }}>
+
           <Stack.Screen name="PaymentLink" component={PaymentLinkScreen} />
           {/* 계약서 */}
           <Stack.Screen name="Contract" component={ContractScreen} />
           <Stack.Screen name="ContractTicket" component={ContractTicketScreen} />
+
         </Stack.Group>
+
+
 
         {/* 알림 스크린 설정 */}
         <Stack.Group

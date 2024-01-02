@@ -16,47 +16,68 @@ import ProfileSelectDateCard from '../card/ProfileSelectDateCard';
 import DateSelectCard from '../card/DateSelectCard';
 import TimeSelectCard from '../card/TimeSelectCard';
 import { useFocusEffect } from '@react-navigation/native';
-import {deleteTrainersProfileInfo,setTrainersProfileInfo,updateTrainersProfileInfo} from '../../api/mypageApi';
+import {deleteTrainersProfileInfo,setTrainersProfileInfo,updateTrainersProfileInfo,getTrainersProfileInfo} from '../../api/mypageApi';
 import DeleteProfileModal from '../modal/DeleteProfileModal';
 import { useNavigation } from '@react-navigation/native';
+import ProfileSettingBtn from '../button/ProfileSettingBtn';
 
-function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode}) {
-    UseGetCenterListHook();
+function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileInfo, setIsExistProfile}) {
+    // UseGetCenterListHook();
 
     const navigation = useNavigation();
-
+    const [isClicking, setIsClicking] = useState(false);
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const [selectedCenter, setSelectedCenter] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [deleteProfileModal, setDeleteProfileModal] = useState(false);
 
     const [selectedImages, setSelectedImages] = useState([]); 
+    const [updateSelectedImages, setUpdateSelectedImages] = useState(profileInfo?.images);
+    const [updateSelectImages, setUpdateSelectImages] = useState([]);
+    const [deleteImages, setDeleteImages] = useState([]);
+
     const [trainerProfile, setTrainerProfile] = useRecoilState(profileState);
-
-
-
+    console.log('updateSelectedImages@@',updateSelectedImages)
     const openImagePicker = () => {
     ImagePicker.openPicker({
         multiple: true, 
-        maxFiles:10 - selectedImages.length, 
+        maxFiles:isEditMode ? 10-updateSelectedImages.length:10 - selectedImages.length, 
         width: 300,
         height: 400,
         cropping: true,
       })
       .then(newImages => {
-        console.log(newImages);
+        console.log('@@@@@@@@@@@@@@@@@@@이미지',newImages);
       //   setSelectedImages(images.map(image => image.path));
-        setSelectedImages([...selectedImages, ...newImages.map(image => image.path)].reverse());
+      const newPaths = newImages.map(image => ({ id:null, path: image.path }));
+      if(isEditMode){
+            setUpdateSelectedImages([...updateSelectedImages, ...newPaths].reverse());
+        }else{
+            setSelectedImages([...selectedImages, ...newImages.map(image => image.path)].reverse());
+        }
       })
       .catch(error => {
         console.log(error);
       });
   };
-
+console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
     const deleteImage = (indexToDelete) => {
         setSelectedImages(currentImages =>
             currentImages.filter((_, index) => index !== indexToDelete)
         );
+    };
+
+
+    //t수정삭제
+    const updateDeleteImage = (indexToDelete, id) => {
+        console.log('index',indexToDelete)
+        setUpdateSelectedImages(currentImages =>
+            currentImages.filter((_, index) => index !== indexToDelete)
+        );
+        if(id){
+            console.log('dkid있는경구')
+            setDeleteImages([...deleteImages, updateSelectedImages[indexToDelete].id]);
+        }
     };
 
     const closeModal = () => {
@@ -71,37 +92,15 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode}) {
         setDeleteProfileModal(true);
     }
 
-    // 프로필 설정
-    const postSettingProfile = async () => {
-        if(isEditMode){
-            console.log('에디터 모드임')
-            let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
-            const formData = new FormData();
-            const requestDto = {
-                description: trainerProfile.description,
-                career: trainerProfile.career,
-                qualifications: trainerProfile.qualifications,
-                centerProfiles: combinedTimeSettings,
-        };
-        selectedImages.forEach((image, index) => {
-            // 이미지 파일 이름을 지정하여 FormData에 추가
-            formData.append('images', {
-                uri: image, // 이미지 파일 경로 또는 URL
-                type: 'image/jpeg', // 이미지 타입 (예: image/jpeg)
-                name: `image${index}.jpg` // 이미지 파일 이름
-            });
-        });
-        updateSettingProfileApi(formData);
-        console.log('formData111123',formData)
-        console.log('requestDto',requestDto)
-
-        }else{
+    // 프로필 설정 및 수정
+    const registerProfileSetting = async () => {
+        if (isClicking) {
+            return;
+          }
+            setIsClicking(true);
+        try{
             console.log('프로파일 설정!!헤헿',trainerProfile,selectedImages)
             let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
-            console.log('combinedTimeSettings', combinedTimeSettings);
-    
-            // 합친 배열을 centerProfiles 상태에 저장
-           
             const formData = new FormData();
             const requestDto = {
                     description: trainerProfile.description,
@@ -109,27 +108,71 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode}) {
                     qualifications: trainerProfile.qualifications,
                     centerProfiles: combinedTimeSettings,
             };
-
-            formData.append("requestDto", JSON.stringify(requestDto));
             selectedImages.forEach((image, index) => {
-                // 이미지 파일 이름을 지정하여 FormData에 추가
                 formData.append('images', {
-                    uri: image, // 이미지 파일 경로 또는 URL
-                    type: 'image/jpeg', // 이미지 타입 (예: image/jpeg)
-                    name: `image${index}.jpg` // 이미지 파일 이름
+                    uri: image,
+                    type: 'image/jpeg',
+                    name: `image${index}.jpg`
                 });
             });
+            formData.append("requestDto", JSON.stringify(requestDto));
             console.log('formData111123',formData)
             postSettingProfileApi(formData);
-        }
+    }
+    catch(error){
+        console.log('error',error)
+    }
+    finally{
+        setIsClicking(false);
+    }
+}
+
+    const registerProfileUpdate = async () => {
+        if (isClicking) {
+            return;
+          }
+            setIsClicking(true);
+            try{
+                console.log('에디터 모드임')
+                let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
+                const formData = new FormData();
+                const requestDto = {
+                    deleteImages:deleteImages,
+                    description: trainerProfile.description,
+                    career: trainerProfile.career,
+                    qualifications: trainerProfile.qualifications,
+                    centerProfiles: combinedTimeSettings,
+            };
+            const newPath = updateSelectedImages.map(image => image.path);
+            newPath.forEach((path, id) => {
+                formData.append('images', {
+                    uri: path,
+                    type: 'image/jpeg',
+                    name: `image${id}.jpg`
+                });
+            });
+            formData.append('requestDto', JSON.stringify(requestDto));
+            console.log('formData111123',formData)
+            updateSettingProfileApi(formData);
+            } catch(error){
+                console.log('error',error)
+            }
+            finally{
+                setIsClicking(false);
+            }
     }
 
+    // getTrainersProfileInfo
     //프로필 설정api
     const postSettingProfileApi = async (formData) => {
         try{
             const response = await setTrainersProfileInfo(formData);
             if(response){
                 console.log('response',response);
+              Alert.alert("알림","프로필이 설정되었습니다\n 곧 알림이 도착합니다.",
+                [{ text: "확인", onPress: () => {
+                    getProfileInfo()
+                } }]);
             }
         }catch(error){
             console.log('getProfileInfo',error)
@@ -139,18 +182,56 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode}) {
         }
     }
 
+  
     //프로필 수정api
     const updateSettingProfileApi = async (formData) => {
+        console.log('skRKwl 나까지 옴',formData)
         try{
             const response = await updateTrainersProfileInfo(formData);
             if(response){
                 console.log('response',response);
+                Alert.alert("알림","프로필이 수정되었습니다\n 곧 알림이 도착합니다.",
+                [{ text: "확인", onPress: () => {
+                    getProfileInfo()
+                    setIsEditMode(false)
+                } }]);
             }
         }catch(error){
-            console.log('updateSettin',error)
+            console.log('updateSettin',error.data)
         }finally{
             console.log('finally')
             navigation.navigate('MyProfile')
+        }
+    }
+
+    // 다시호출
+    const getProfileInfo = async () => {
+        try{
+            const response = await getTrainersProfileInfo();
+            if(response){
+                setProfileInfo(response);
+                setIsExistProfile(response.isExistProfile);
+                console.log('response',response.isExistProfile);
+            }
+        }catch(error){
+            console.log('getProfileInfo',error)
+        }finally{
+            console.log('finally')
+        }
+    }
+
+    const getProfileDeleteInfo = async () => {
+        try{
+            const response = await getTrainersProfileInfo();
+            if(response){
+                // setProfileInfo(response);
+                setIsExistProfile(false);
+                console.log('response',response.isExistProfile);
+            }
+        }catch(error){
+            console.log('getProfileInfo',error)
+        }finally{
+            console.log('finally')
         }
     }
 
@@ -162,9 +243,15 @@ console.log('dkdkdk')
             const response = await deleteTrainersProfileInfo();
             if(response){
                 console.log('response',response);
-                setSelectedImages([])
-                setSelectedCenter([])
-                setTrainerProfile([])
+                Alert.alert("알림","프로필이 삭제되었습니다",
+                [{ text: "확인", onPress: () => {
+                    setSelectedImages([])
+                    setSelectedCenter([])
+                    setTrainerProfile([])
+                    setUpdateSelectedImages([])
+                    setDeleteImages([])
+                    getProfileDeleteInfo()
+                } }]);
             }
         }catch(error){
             console.log('getProfileInfo',error)
@@ -193,7 +280,7 @@ console.log('dkdkdk')
                     centerId: id,
                     type: "평일",
                     startTime: "00:00",
-                    endTime: "24:00"
+                    endTime: "00:00"
                 }]
             };
             setSelectedCenter(prevCenters => [...prevCenters, newCenter]);
@@ -206,7 +293,7 @@ console.log('dkdkdk')
             centerId: centerId,
             type: "평일",
             startTime: "00:00",
-            endTime: "24:00"
+            endTime: "00:00"
         };
     
         const updatedCenters = selectedCenter.map(center => {
@@ -266,11 +353,19 @@ console.log('dkdkdk')
         setSelectedCenter(updatedCenters);
     };
     
-  
+    const isEditModefn = isEditMode ? registerProfileUpdate:registerProfileSetting;
+    const timeSettingState = 
+    selectedCenter[0]?.timeSettings[0]?.startTime !== selectedCenter[0]?.timeSettings[0]?.endTime &&
+    selectedCenter[0]?.timeSettings[0]?.startTime < selectedCenter[0]?.timeSettings[0]?.endTime
+    const isActivefn = trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState
+ 
+    console.log('selectedCenter11',trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState,isActivefn)
 
-  
-      
-   console.log('selectedCenter11',selectedCenter[0]?.timeSettings)
+// console.log('se1',selectedCenter[0]?.timeSettings[0]?.startTime,selectedCenter[0]?.timeSettings[0]?.endTime)
+// console.log('se2',selectedCenter[0]?.timeSettings[1]?.startTime,selectedCenter[0]?.timeSettings[1]?.endTime)
+// console.log('se3',selectedCenter[1]?.timeSettings[0]?.startTime,selectedCenter[1]?.timeSettings[0]?.endTime)
+// console.log('se4',selectedCenter[1]?.timeSettings[1]?.startTime,selectedCenter[1]?.timeSettings[1]?.endTime)
+//    console.log('selectedCenter11',selectedCenter[0]?.timeSettings[1].endTime,timeSettingState)
 //    console.log('selectedCenter22',selectedCenter[1].timeSettings)
       
     const clockIcon = require('../../assets/img/clockIcon.png');
@@ -286,27 +381,28 @@ console.log('dkdkdk')
             >
        
             <ProfileTitleText>프로필 사진 등록</ProfileTitleText>
-            <ProfileSubTitleText>최대 10장까지 등록 가능합니다</ProfileSubTitleText>        
+            <ProfileSubTitleText>최대 10장까지 등록 가능합니다</ProfileSubTitleText>  
+
             <ProfileImgContainer>
-  {selectedImages.length === 10 ? null :
+  {selectedImages?.length === 10 ? null :
     <ProfileAddBtn onPress={openImagePicker}>
       <ProfileAddImg source={require('../../assets/img/plus_l.png')} />
     </ProfileAddBtn>
   }
 
   {isEditMode ? (
-    profileInfo.images.map((image, index) => (
+    updateSelectedImages?.map((image, index) => (
       <SelectImgContainer key={index}>
-        <DeleteBtn key={index} onPress={() => deleteImage(index)}>
+        <DeleteBtn key={index} onPress={() => updateDeleteImage(index,image.id)}>
           <DeleteImg source={require('../../assets/img/delete.png')} />
         </DeleteBtn>
         <SelectedImage source={{ uri: image.path }} />
       </SelectImgContainer>
     ))
   ) : (
-    selectedImages.length > 0 && (
+    selectedImages?.length > 0 && (
       <>
-        {selectedImages.map((image, index) => (
+        {selectedImages?.map((image, index) => (
           <SelectImgContainer key={index}>
             <DeleteBtn key={index} onPress={() => deleteImage(index)}>
               <DeleteImg source={require('../../assets/img/delete.png')} />
@@ -425,10 +521,24 @@ console.log('dkdkdk')
 
         </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
-            <BasicMainBtn onPress={postSettingProfile}>승인 요청</BasicMainBtn>
-            {
-                isEditMode && <CenterAddGrayBtn onPress={openDateSelectModal}>프로필 삭제</CenterAddGrayBtn>
-            }
+            {/* {
+                isEditMode && 
+                <DeleteBtnContainer onPress={openDateSelectModal}>
+                    <DeleteBtnText>프로필 삭제</DeleteBtnText>
+                </DeleteBtnContainer>
+            } */}
+  
+            {/* <BasicMainBtn 
+            isActive={true}
+            onPress={postSettingProfile}>승인 요청</BasicMainBtn> */}
+
+            <ProfileSettingBtn
+            isActive={isActivefn}
+            onPress={isEditModefn}
+            openDateSelectModal={openDateSelectModal}
+            isEditMode={isEditMode}
+            >승인 요청</ProfileSettingBtn>
+
             {
                 deleteProfileModal && (
                     <DeleteProfileModal
@@ -511,6 +621,8 @@ const SelectedImage = styled.Image`
   height: 80px; */
   width: 74px;
   height: 74px;
+    /* width: 96px;
+  height: 96px; */
   margin-right: 10px;
     margin-bottom: 10px;
   border-radius: 10px;
@@ -565,5 +677,29 @@ color: ${COLORS.sub};
 font-size: 16px;
 font-weight: 500;
 line-height: 22.4px;
+letter-spacing: -0.4px;
+`
+
+const BtnContainer = styled.View`
+display: flex;
+flex-direction: column;
+margin-top: 40px;
+background: red;
+`
+
+const DeleteBtnContainer = styled.TouchableOpacity`
+margin-top: 84px;
+/* background-color: red; */
+display: flex;
+padding: 20px;
+align-items: center;
+justify-content: center;
+`
+
+const DeleteBtnText = styled.Text`
+color: ${COLORS.gray_300};
+font-size: 16px;
+font-weight: 500;
+line-height: 22px;
 letter-spacing: -0.4px;
 `

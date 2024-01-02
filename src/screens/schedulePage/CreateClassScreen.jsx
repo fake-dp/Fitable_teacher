@@ -27,7 +27,7 @@ function CreateClassScreen(props) {
     const { type } = route.params;
     const {selectedMember} = route.params;
     const [member, setMember] = useState(selectedMember);
-    console.log('selectedMember',selectedMember,member?.memberTicketId)
+    // console.log('selectedMember',selectedMember,member?.memberTicketId)
     const navigation = useNavigation();
 
     const [centerId, setCenterId] = useRecoilState(centerIdState);
@@ -82,6 +82,14 @@ const [schedules, setSchedules] = useState([
         endTime: "",
     },
 ]);
+
+
+// 버튼 활성화 상태 개인
+const [personalSingleBtnActive, setPersonalSingleBtnActive] = useState(false)
+const [personalMultipleBtnActive, setPersonalMultipleBtnActive] = useState(false)
+// 버튼 그룹 활성화 상태
+const [groupSingleBtnActive, setGroupSingleBtnActive] = useState(false)
+const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
 
     //api
     console.log('schedulesschedulesschedules',schedules)
@@ -234,6 +242,7 @@ const [schedules, setSchedules] = useState([
     // 개인 수업 등록SINGLE
     const singleRegisterBtn = async(personalData, selectedCheckBox) => {
         // console.log('Class data in test11111:', postPersonalSingleData);
+        
         if(selectedCheckBox === 'SINGLE'){
             console.log('tl싱글 개인이요',personalData)
             try {
@@ -264,7 +273,7 @@ const [schedules, setSchedules] = useState([
 
 
 
-
+ console.log('버튼 콘솔',personalSingleBtnActive,personalMultipleBtnActive,groupSingleBtnActive,groupMultipleBtnActive)
     // 그룹 수업 등록
     const groupRegisterBtn = async(postData,selectedCheckBox) => {
         console.log('postData@#!@#!@#!@#!@#@!#!@#!@#!@#!@#!@#!@#!@#@!',postData)
@@ -332,25 +341,27 @@ const [schedules, setSchedules] = useState([
     };
 
     const isActiveMultipleFn = () => {
+        const isScheduleValid = schedules.every(
+            (schedule) =>
+              schedule.startTime !== null &&
+              schedule.endTime !== null &&
+              schedule.startTime !== "" &&
+              schedule.endTime !== ""
+          );
         if (
-            (className === undefined || className === "") || 
-            (classItem === undefined || classItem === "" || classItem === null || classItem === "null" || classItem === "") ||
-            (selectDate === undefined || selectDate === "") ||
-            (edate === undefined || edate === "" || edate === "null") ||
-            (schedules.dayOfWeek !== 0)
+          (className === undefined || className === "") ||
+          (classItem === undefined || classItem === "" || classItem === null || classItem === "null" || classItem === "") ||
+          (selectDate === undefined || selectDate === "") ||
+          (edate === undefined || edate === "" || edate === "null") ||
+          !isScheduleValid
         ) {
-            return false;
+          console.log("Condition not met");
+          return false;
         }
-
+      
+        console.log("Condition met");
         return true;
-    }
-    
-    // const [schedules, setSchedules] = useState([
-    //     {
-    //         dayOfWeek: "",
-    //         startTime: "",
-    //         endTime: "",
-    //     },
+      }
 
     const isPersonalActiveFn = () => {
        if(
@@ -363,29 +374,31 @@ const [schedules, setSchedules] = useState([
          return true;
     }
 
+    const isPersonalMultipleActiveFn = () => {
+        const isScheduleValid = schedules.every(
+            (schedule) =>
+              schedule.startTime !== null &&
+              schedule.endTime !== null &&
+              schedule.startTime !== "" &&
+              schedule.endTime !== ""
+          );
+        if(
+            (postPersonalSingleData.name === "" || postPersonalSingleData.name === undefined) || 
+            (selectDate === undefined || selectDate === "") ||
+            (edate === undefined || edate === "" || edate === "null") ||!isScheduleValid
+        ){
+                return false;
+        }
+            return true;
+    }
 
-
-    // const postPersonalSingleData = {
-    //     centerId: centerId,
-    //     type: type,
-    //     isLesson: isLesson,
-    //     name: className,
-    //     location: classLocation,
-    //     schedulerType: selectedCheckBox,
-    //     startDate: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
-    //     schedules: [
-    //         {
-    //             startTime: startTime,
-    //             endTime: endTime,
-    //         },
-    //     ],
-    //     assignedMemberTicketId: member?.memberTicketId,
-    // }
-      
     
     const getAssignableMembersScreen = async(id, ableDate, startTime, endTime) => {
         const date = `${ableDate.getFullYear()}-${(ableDate.getMonth() + 1).toString().padStart(2, '0')}-${ableDate.getDate().toString().padStart(2, '0')}`
         console.log('상세아이디 getAssignableMembersScreen',id, date, startTime, endTime)
+        if(!date || !startTime || !endTime){
+            Alert.alert('날짜와 시간을 선택해주세요');
+        }
             try{
                 const response = await getAssignableMembers({id, date, startTime, endTime});
                 console.log('회원 선택 응답',response)
@@ -416,18 +429,19 @@ const [schedules, setSchedules] = useState([
             if(selectedCheckBox === 'SINGLE'){
                  setIsActive(isActiveFn());
             }else if(selectedCheckBox === 'MULTIPLE'){
-                setIsActive(isActiveMultipleFn());
+                 setIsActive(isActiveMultipleFn());
             }
         }else if(type === 'PERSONAL'){
-            setIsActive(isPersonalActiveFn());
+            if(selectedCheckBox === 'SINGLE'){
+                 setIsActive(isPersonalActiveFn());
+            }else if(selectedCheckBox === 'MULTIPLE'){
+                 setIsActive(isPersonalMultipleActiveFn());
+            }
         }
-        // console.log(12212,classData)
-    }, [className, classItem, classLocation, startDate, startTime, endTime, classData]);
-        // console.log('dfasdf',className,classItem,classLocation,location)
-        console.log('classDatac변화후1',classData.schedules[0].endTime ,endTime)
-        console.log('classDatac변화후2',classData.name ,className)
-        console.log('classDatac변화후3',classData.item ,classItem)
-        console.log('classDatac변화후4',classData.location,classLocation)
+    }, [className, classItem, classLocation, startDate, startTime, endTime, classData,schedules]);
+  
+
+
     const goBack = () => {
         navigation.goBack();
     }
@@ -455,6 +469,7 @@ const [schedules, setSchedules] = useState([
                     <CheckBtnGrid 
                     selectedCheckBox={selectedCheckBox} 
                     resetClassData={resetClassData}
+                    setIsActive={setIsActive}
                     setSelectedCheckBox={setSelectedCheckBox}/>
                     {
                     selectedCheckBox==='SINGLE' &&  type !== 'GROUP' && (
@@ -462,6 +477,7 @@ const [schedules, setSchedules] = useState([
                             classDate={classData}
                             isLesson={isLesson}
                             setIsLesson={setIsLesson}
+                            setMember={setMember}
                             />
                         )
                     }
@@ -551,6 +567,13 @@ const [schedules, setSchedules] = useState([
         <CreateBtnContainer />
         <BasicMainBtn 
         isActive={isActive}
+        // <BasicMainBtn 
+        // isActive={
+        //     type === 'GROUP' && selectedCheckBox === 'SINGLE'? setIsActive(isActiveFn()) 
+        // :   type === 'GROUP' && selectedCheckBox === 'MULTIPLE'? setIsActive(isActiveMultipleFn())
+        // :   type === 'PERSONAL' && selectedCheckBox === 'SINGLE'? setIsActive(isPersonalActiveFn())
+        // :   setIsActive(isPersonalActiveFn())
+        // }
         onPress={type === 'GROUP' ? ()=>groupRegisterBtn(postData, selectedCheckBox) : ()=>singleRegisterBtn(personalData, selectedCheckBox)}>등록하기</BasicMainBtn>
         </MainContainer>
         {

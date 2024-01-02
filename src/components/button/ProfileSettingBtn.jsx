@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
 
-function BasicMainBtn({children, onPress, isActive}) {
+function ProfileSettingBtn({children, onPress, isActive,openDateSelectModal,isEditMode}) {
     const handlePress = () => {
         if(isActive){
+            console.log('s나ㅡㄹ릭')
             onPress();
         }
     }
@@ -14,21 +15,22 @@ function BasicMainBtn({children, onPress, isActive}) {
         <BasicMainBtnNextBtn onPress={handlePress} isActive={isActive}>
             <BasicMainBtnNextBtnNextText isActive={isActive}>{children}</BasicMainBtnNextBtnNextText>
         </BasicMainBtnNextBtn>
+        {
+            isEditMode && (
+            <DeleteBtnContainer onPress={openDateSelectModal}>
+                <DeleteBtnText>프로필 삭제</DeleteBtnText>
+            </DeleteBtnContainer>
+            )
+        }
         </BasicMainBtnContainer>
     );
 }
 
-export default BasicMainBtn;
+export default ProfileSettingBtn;
 
 const BasicMainBtnContainer = styled.View`
-    position: absolute;
-    bottom: 0px;
-    left: 20px;
-    right: 20px;
-    height: 80px;
     background-color: ${COLORS.white};
-    /* align-items: center; */
-    /* justify-content: center;     */
+    margin-bottom: 20px;
 `
 
 const BasicMainBtnNextBtn = styled.TouchableOpacity`
@@ -45,4 +47,18 @@ font-size: 16px;
 font-weight: 600;
 line-height: 22.40px;
 color: ${props => props.isActive ? COLORS.white : COLORS.gray_300};
+`
+const DeleteBtnContainer = styled.TouchableOpacity`
+display: flex;
+padding: 20px;
+align-items: center;
+justify-content: center;
+`
+
+const DeleteBtnText = styled.Text`
+color: ${COLORS.gray_300};
+font-size: 16px;
+font-weight: 500;
+line-height: 22px;
+letter-spacing: -0.4px;
 `

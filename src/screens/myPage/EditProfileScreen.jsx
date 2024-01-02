@@ -17,12 +17,13 @@ function EditProfileScreen(props) {
     const navigation = useNavigation();
     const [profileInfo, setProfileInfo] = useState([]);
     const [isEditMode, setIsEditMode] = useState(false);
-
+    const [isExistProfile, setIsExistProfile] = useState(false);
     const getProfileInfo = async () => {
         try{
             const response = await getTrainersProfileInfo();
             if(response){
                 setProfileInfo(response);
+                setIsExistProfile(response.isExistProfile);
                 console.log('response',response.isExistProfile);
             }else{
                 console.log('ddd')
@@ -48,7 +49,7 @@ function EditProfileScreen(props) {
     // "lessonItems": null, 
     // "qualifications": null
     // }
-    console.log('profileInfoisEditMode',profileInfo,isEditMode)
+    console.log('profileInfoisEditMode',profileInfo,isEditMode,isExistProfile)
 
     const goBack = () => {
         navigation.goBack();
@@ -59,16 +60,20 @@ function EditProfileScreen(props) {
             <HeaderGrid>
             <GobackGrid onPress={goBack}>프로필 관리</GobackGrid>
             {
-                profileInfo.isExistProfile && !isEditMode &&
+                isExistProfile && !isEditMode &&
             <EditContainerBtn onPress={() => setIsEditMode(true)}>
                 <EditBtnText>수정</EditBtnText>
             </EditContainerBtn>
             }
             </HeaderGrid>
             {
-                !isEditMode && profileInfo.isExistProfile ?
+                !isEditMode && isExistProfile ?
                 <TrainerInfoGetListGrid profileInfo={profileInfo}/> :
-                <TrainerInfoListGrid profileInfo={profileInfo} isEditMode={isEditMode} setIsEditMode={setIsEditMode}/> 
+                <TrainerInfoListGrid 
+                isExistProfile={isExistProfile}
+                setProfileInfo={setProfileInfo}
+                setIsExistProfile={setIsExistProfile}
+                profileInfo={profileInfo} isEditMode={isEditMode} setIsEditMode={setIsEditMode}/> 
             }
         </MainContainer>
     );

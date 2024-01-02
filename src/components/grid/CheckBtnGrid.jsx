@@ -3,7 +3,7 @@ import CheckRadioBtn from '../button/CheckRadioBtn';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 
-function CheckBtnGrid({selectedCheckBox, setSelectedCheckBox,resetClassData}) {
+function CheckBtnGrid({selectedCheckBox, setSelectedCheckBox,resetClassData,setIsActive}) {
 
     // console.log('체크박스 선택',selectedCheckBox)
 
@@ -11,12 +11,14 @@ function CheckBtnGrid({selectedCheckBox, setSelectedCheckBox,resetClassData}) {
         setSelectedCheckBox('SINGLE');
         // setClassDate 초기화
         // resetClassData();
+        setIsActive(false);
     }
 
     const handleMultiple = () => {
         setSelectedCheckBox('MULTIPLE');
         // setClassDate 초기화
         // resetClassData();
+        setIsActive(false);
     }
     
 

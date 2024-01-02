@@ -5,6 +5,7 @@ import { centerListState,centerIdState } from '../../store/atom';
 import UseGetCenterListHook from '../../hooks/UseGetCenterListHook';
 import RNPickerSelect from 'react-native-picker-select';
 import {useRef,useEffect} from 'react';
+import { getCenterList } from '../../api/trainersApi';
 function CenterListHeaderGrid() {
 
     UseGetCenterListHook();
@@ -12,6 +13,7 @@ function CenterListHeaderGrid() {
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const rightIcon = require('../../assets/img/caretdown.png');
     console.log('centerId@',centerId)
+ 
 
     const startPickerRef = useRef();
 
@@ -25,6 +27,13 @@ function CenterListHeaderGrid() {
         label: item.name,
         value: item.id,
     }));
+
+    const onCenterChange = (id) => {
+        setCenterId(id);
+        const selectedCenter = centerList.find(center => center.id === id);
+        const otherCenters = centerList.filter(center => center.id !== id);
+        setCenterList([selectedCenter, ...otherCenters]);
+    };
 
     useEffect(() => {
         startPickerRef.current?.forceUpdate();
@@ -47,6 +56,7 @@ function CenterListHeaderGrid() {
                       ref={startPickerRef}
                       value={centerId}
                     //   InputAccessoryView={() => null}
+                    //   onValueChange={(centerId) => onCenterChange(centerId)}
                       onValueChange={(id) => setCenterId(id)}
                       doneText="변경"
                       items={transformedState}

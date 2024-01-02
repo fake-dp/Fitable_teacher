@@ -44,7 +44,7 @@ function ClassMemberDetailScreen(props) {
         }
     }
    
-    console.log('detailData',detailData.sendPaymentLink,'detailData게야',detailData.contract)
+    console.log('detailData',detailData.member,'detailData게야',detailData.contract)
 
     const paymentlink = require('../../assets/img/paymentlink.png');
     const contract = require('../../assets/img/contractfiles.png');
@@ -180,7 +180,7 @@ function ClassMemberDetailScreen(props) {
                     }
                     {
                         detailData.sendPaymentLink &&
-                        <PayAndContractBox onPress={() => navigation.navigate('PaymentLink')}>
+                        <PayAndContractBox onPress={() => navigation.navigate('PaymentLink',{memberInfo:detailData.member, type:'paylink'})}>
                             <PayAndContractLeftBox>
                                  <LeftIcon source={paymentlink}/>
                                  <PayAndContractText>결제링크 전송</PayAndContractText>

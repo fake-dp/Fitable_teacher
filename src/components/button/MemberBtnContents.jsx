@@ -4,11 +4,12 @@ import { COLORS } from '../../constants/color';
 import { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useRecoilState } from 'recoil';
-import {totalElementsState} from '../../store/atom';
+import {totalElementsState,centerIdState } from '../../store/atom';
+
 function MemberBtnContents({type, setType,setSearchText}) {
 
   const [totalElements, setTotalElements] = useRecoilState(totalElementsState);
-
+  const [centerId, setCenterId] = useRecoilState(centerIdState);
     // console.log('totalElements123123123',totalElements.ATTENDANCE)
     const handleTabClick = (tab) => {
       setType(tab);
@@ -20,29 +21,29 @@ function MemberBtnContents({type, setType,setSearchText}) {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         
         {
-             totalElements.PERSONAL > 0 &&
+             centerId && totalElements.PERSONAL > 0 &&
             <BtnListBox selected={type === 'PERSONAL'} onPress={()=>handleTabClick('PERSONAL')}>
-             <BtnListText selected={type === 'PERSONAL'}>개인레슨 {totalElements.PERSONAL}</BtnListText>
+             <BtnListText selected={type === 'PERSONAL'}>개인레슨 {centerId ? totalElements.PERSONAL:0}</BtnListText>
            </BtnListBox>
         }
 
         {
-          totalElements.GROUP > 0 &&
+            centerId && totalElements.GROUP > 0 &&
             <BtnListBox selected={type === 'GROUP'} onPress={()=>handleTabClick('GROUP')}>
-            <BtnListText selected={type === 'GROUP'}>그룹레슨 {totalElements.GROUP}</BtnListText>
+            <BtnListText selected={type === 'GROUP'}>그룹레슨 {centerId ? totalElements.GROUP:0}</BtnListText>
           </BtnListBox>
         }
 
         <BtnListBox selected={type === 'ATTENDANCE'} onPress={()=>handleTabClick('ATTENDANCE')}>
-          <BtnListText selected={type === 'ATTENDANCE'}>입장중 {totalElements.ATTENDANCE}</BtnListText>
+          <BtnListText selected={type === 'ATTENDANCE'}>입장중 {centerId ? totalElements.ATTENDANCE:0}</BtnListText>
         </BtnListBox>
 
         <BtnListBox selected={type === 'MANAGING'} onPress={()=>handleTabClick('MANAGING')}>
-          <BtnListText selected={type === 'MANAGING'}>관리담당 {totalElements.MANAGING}</BtnListText>
+          <BtnListText selected={type === 'MANAGING'}>관리담당 {centerId ? totalElements.MANAGING:0}</BtnListText>
         </BtnListBox>
 
           <BtnListBox selected={type === 'POTENTIAL'} onPress={()=>handleTabClick('POTENTIAL')}>
-          <BtnListText selected={type === 'POTENTIAL'}>비회원 {totalElements.POTENTIAL}</BtnListText>
+          <BtnListText selected={type === 'POTENTIAL'}>비회원 {centerId ? totalElements.POTENTIAL:0}</BtnListText>
         </BtnListBox>
     
         
