@@ -35,7 +35,8 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                     {(
                          <RNPickerSelect
                          ref={pickerRef}
-                         InputAccessoryView={() => null}
+                        //  InputAccessoryView={() => null}
+                        doneText='확인'
                          onValueChange={(value) => {
                             const selectedLabel = transformedState.find(item => item.value === value)?.label;
                             if(type === 'item'){

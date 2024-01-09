@@ -168,6 +168,9 @@ const TextInputBox = styled.TextInput`
     padding-left: 10px;
     margin-bottom: 20px;
     margin-top: 8px;
+    text-align: right;
+    padding-right: 8px;
+
 `;
 
 const ModalHdButton = styled.TouchableOpacity`

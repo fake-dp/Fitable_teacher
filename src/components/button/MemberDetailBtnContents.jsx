@@ -38,7 +38,7 @@ export function MemberTypeBtn({member, setMember}) {
           <BtnListBox selected={member === 'PAY_WAITING'} onPress={()=>handleTabClick('PAY_WAITING')}>
           <BtnListText selected={member === 'PAY_WAITING'}>미결제회원</BtnListText>
         </BtnListBox>
-
+        
         <BtnListBox selected={member === 'POTENTIAL'} onPress={()=>handleTabClick('POTENTIAL')}>
           <BtnListText selected={member === 'POTENTIAL'}>비회원</BtnListText>
         </BtnListBox>

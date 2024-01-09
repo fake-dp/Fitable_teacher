@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil';
 import { floatingState,centerIdState } from '../../store/atom';
 import {getLessonAvailable} from '../../api/lessonApi';
 import LessonListGrid from '../../components/grid/LessonListGrid';
+
 function ScheduleMainScreen(props) {
 
     const navigation = useNavigation();

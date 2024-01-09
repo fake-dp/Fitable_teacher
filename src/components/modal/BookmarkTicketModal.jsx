@@ -2,14 +2,15 @@ import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { Modal, ScrollView,Keyboard,TouchableWithoutFeedback,KeyboardAvoidingView, Platform } from 'react-native';
 import { useState } from 'react';
-
-function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,selectedTicket, setSelectedTicket,selectTicketId, setSelectTicketId}) {
+import {getMemberConditions} from '../../api/memberApi';
+function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,
+    selectedTicket, setSelectedTicket,addTicket,selectTicketId, setSelectTicketId}) {
     
     // console.log('bookmarkTickets',bookmarkTickets)
- 
+    // console.log('typetypetypetypetypetypetype',type)
 
     const selectTicket = (ticket) => {
-        console.log('ticket@#!@#!@#!@#!@#!@#!@#',ticket,selectTicketId)
+        console.log('ticket@#!@#!@#!@#!@#!@#!@#',selectedTicket)
         setSelectedTicket(ticket);
     }
 
@@ -18,10 +19,10 @@ function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,sele
             alert('티켓을 선택해주세요.');
             return;
         }
-
-        // setSelectTicketId(selectedTicket.id);
-        console.log('selectTicketId',selectTicketId,selectedTicket)
-        closeModal();
+        // 선택한 값들 저장
+        setSelectTicketId(prevIds => [...prevIds, selectedTicket]); 
+                closeModal();
+                addTicket();
     }
 
 

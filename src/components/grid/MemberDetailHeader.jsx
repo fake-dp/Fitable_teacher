@@ -4,6 +4,7 @@ import GobackWhiteGrid from '../../components/grid/GobackWhiteGrid';
 import { useNavigation } from '@react-navigation/native';
 import {formatPhoneNumber} from '../../utils/CustomUtils';
 import {Linking} from 'react-native';
+import Communications from 'react-native-communications';
 function MemberDetailHeader({detailData}) {
 
     const navigation = useNavigation();
@@ -17,6 +18,10 @@ function MemberDetailHeader({detailData}) {
         let phoneNumber = `tel:${number}`;
         Linking.openURL(phoneNumber);
       };
+
+      const sendMessage = (number) => {
+        Communications.text(number);
+    };
 
     const sendMsg = require('../../assets/img/emailIcon.png');
     const call = require('../../assets/img/phoneIcon.png');
@@ -34,7 +39,7 @@ function MemberDetailHeader({detailData}) {
             </MainLeftHeaderContainer>
             
             <RightInfoContainer>
-                <IconWrapper>
+                <IconWrapper onPress={() => sendMessage(detailData.member.phone)}>
                     <InfoIcon source={sendMsg}/>
                 </IconWrapper>
                 <IconWrapper onPress={() => dialCall(detailData.member.phone)}>

@@ -42,7 +42,8 @@ function TimeSelectCard({children, imgIcon, text,onTimeChange }) {
                     (
                     <RNPickerSelect
                       ref={startPickerRef}
-                      InputAccessoryView={() => null}
+                    //   InputAccessoryView={() => null}
+                    doneText='확인'
                       onValueChange={(newTime) => handleTimeChange(newTime, 'startTime')}
                       items={startTime}
                     //   value={}

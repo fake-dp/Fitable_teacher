@@ -29,7 +29,8 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
             <SelectInnerBox>
                 <RNPickerSelect
                       ref={startPickerRef}
-                      InputAccessoryView={() => null}
+                      // InputAccessoryView={() => null}
+                      doneText='확인'
                       onValueChange={(value) => setStartTime(value)}
                       items={startTime}
                       placeholder={{

@@ -44,12 +44,12 @@ function ClassMemberDetailScreen(props) {
         }
     }
    
-    console.log('detailData',detailData.member,'detailData게야',detailData.contract)
+    console.log('detailData@@@@#!@#@#',detailData.member)
 
     const paymentlink = require('../../assets/img/paymentlink.png');
     const contract = require('../../assets/img/contractfiles.png');
     const nextIcon = require('../../assets/img/rightIcon.png');
-
+    const ticketIcon = require('../../assets/img/ticketIcon.png');
     return (
         <Container>
             <MemberDetailHeader detailData={detailData}/>
@@ -127,25 +127,30 @@ function ClassMemberDetailScreen(props) {
 
                </ContentsContainer>
 
-            <TicketContainer>
-                <TitleText>보유 이용권</TitleText>
-                {detailData.tickets.map((ticket, index) => (
-                    <TicketInfo key={index}
-                    isExpired={ticket.status === 'EXPIRED'}
-                    >
-                        <HeaderBox>
-                        <TicketInfoTitle isExpired={ticket.status === 'EXPIRED'}>
-                            {/* {ticket.name} */}
-                            {ticket.name.length > 16 ? ticket.name.substring(0, 16) + "..." : ticket.name}
-                            </TicketInfoTitle>
-                        {
-                            ticket.status === 'EXPIRED' ? null :  <TicketStatus>잔여 {ticket.left}</TicketStatus>
-                        }
-                        </HeaderBox>
-                        <TicketDateText isExpired={ticket.status === 'EXPIRED'}>{ticket.startDate} ~ {ticket.endDate}</TicketDateText>
-                    </TicketInfo>
-                ))}
-            </TicketContainer>
+               <TicketContainer>
+    <TitleText>보유 이용권</TitleText>
+    {detailData.tickets.length > 0 ? (
+        detailData.tickets.map((ticket, index) => (
+            <TicketInfo key={index}
+            isExpired={ticket.status === 'EXPIRED'}
+            >
+                <HeaderBox>
+                <TicketInfoTitle isExpired={ticket.status === 'EXPIRED'}>
+                    {/* {ticket.name} */}
+                    {ticket.name.length > 16 ? ticket.name.substring(0, 16) + "..." : ticket.name}
+                    </TicketInfoTitle>
+                {
+                    ticket.status === 'EXPIRED' ? null :  <TicketStatus>잔여 {ticket.left}</TicketStatus>
+                }
+                </HeaderBox>
+                <TicketDateText isExpired={ticket.status === 'EXPIRED'}>{ticket.startDate} ~ {ticket.endDate}</TicketDateText>
+            </TicketInfo>
+        ))
+    ) : (
+        <TicketInfo isExpired={'EXPIRED'}><TicketInfoTitle>미보유</TicketInfoTitle></TicketInfo>
+    )}
+</TicketContainer>
+
 
                  {
                     screenType !== 'memberDetail' &&
@@ -168,6 +173,16 @@ function ClassMemberDetailScreen(props) {
                  {
                     screenType === 'memberDetail' &&
                     <PayAndContractContainer>
+                    {
+                        detailData.ticket &&  
+                        <PayAndContractBox onPress={() => navigation.navigate('RegisterMember',{memberInfo:detailData.member, type:'ticket'})}>
+                            <PayAndContractLeftBox>
+                               <LeftIcon source={ticketIcon}/>
+                               <PayAndContractText>이용권 목록</PayAndContractText>
+                            </PayAndContractLeftBox>
+                        <BtnNextIcon source={nextIcon}/>
+                        </PayAndContractBox>
+                    }
                     {
                         detailData.contract &&  
                         <PayAndContractBox onPress={() => navigation.navigate('Contract',{memberId})}>

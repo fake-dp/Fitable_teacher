@@ -19,7 +19,7 @@ function MemberSearch({onChange,searchText}) {
                 ref={inputRef} 
                  style={{marginLeft: 10, fontSize: 16, color: COLORS.sub}}
                  value={searchText}
-                 placeholder="회원 이름 또는 전화번호 4자리"
+                 placeholder="회원 이름 또는 전화번호 뒷자리 4자리"
                  placeholderTextColor={COLORS.gray_300}
                  returnKeyType="done"
                  onChangeText={onChange}

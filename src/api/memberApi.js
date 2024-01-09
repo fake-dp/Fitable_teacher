@@ -79,7 +79,7 @@ export const getMemberCoupons = async ({id,memberId}) => {
 // }
 export const getMemberManage = async ({centerId, type, searchTerm, member, ticket, leftTime}) => {
     try {
-        const response = await customAxios.get(`/api/trainers/v1/centers/${centerId}/members/type/${type}`, {
+        const response = await customAxios.get(`/api/trainers/v1/centers/${centerId}/members/type/${type}?page=0&size=3000`, {
             params: {
                 ...(searchTerm && {searchTerm}),
                 ...(member && {member}),

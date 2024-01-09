@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { centerListState,centerIdState } from '../../store/atom';
 import UseGetCenterListHook from '../../hooks/UseGetCenterListHook';
 import RNPickerSelect from 'react-native-picker-select';
-import {useRef,useEffect} from 'react';
+import {useRef,useEffect,useCallback} from 'react';
 import { getCenterList } from '../../api/trainersApi';
 function CenterListHeaderGrid() {
 
@@ -12,7 +12,7 @@ function CenterListHeaderGrid() {
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const rightIcon = require('../../assets/img/caretdown.png');
-    console.log('centerId@',centerId)
+    console.log('centerId@@@@@11',centerId,centerList)
  
 
     const startPickerRef = useRef();
@@ -28,12 +28,15 @@ function CenterListHeaderGrid() {
         value: item.id,
     }));
 
-    const onCenterChange = (id) => {
-        setCenterId(id);
-        const selectedCenter = centerList.find(center => center.id === id);
-        const otherCenters = centerList.filter(center => center.id !== id);
-        setCenterList([selectedCenter, ...otherCenters]);
-    };
+    const onCenterChange = useCallback((id) => {
+        console.log('v뭐로',id)
+        if (id !== centerId) { // 변경된 경우에만 업데이트
+            setCenterId(id);
+            const selectedCenter = centerList.find(center => center.id === id);
+            const otherCenters = centerList.filter(center => center.id !== id);
+            setCenterList([selectedCenter, ...otherCenters]);
+        }
+    }, [centerId, centerList, setCenterId, setCenterList]);
 
     useEffect(() => {
         startPickerRef.current?.forceUpdate();
@@ -56,8 +59,8 @@ function CenterListHeaderGrid() {
                       ref={startPickerRef}
                       value={centerId}
                     //   InputAccessoryView={() => null}
-                    //   onValueChange={(centerId) => onCenterChange(centerId)}
-                      onValueChange={(id) => setCenterId(id)}
+                      onValueChange={(centerId) => onCenterChange(centerId)}
+                    //   onValueChange={(centerId) => setCenterId(centerId)}
                       doneText="변경"
                       items={transformedState}
                     //   value={}

@@ -37,7 +37,7 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
     const [deleteImages, setDeleteImages] = useState([]);
 
     const [trainerProfile, setTrainerProfile] = useRecoilState(profileState);
-    console.log('updateSelectedImages@@',updateSelectedImages)
+    console.log('updateSelectedImages@!@#!@#!@#!@#!@#@',updateSelectImages)
     const openImagePicker = () => {
     ImagePicker.openPicker({
         multiple: true, 
@@ -52,6 +52,7 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
       const newPaths = newImages.map(image => ({ id:null, path: image.path }));
       if(isEditMode){
             setUpdateSelectedImages([...updateSelectedImages, ...newPaths].reverse());
+            setUpdateSelectImages([...updateSelectImages, ...newImages].reverse());
         }else{
             setSelectedImages([...selectedImages, ...newImages.map(image => image.path)].reverse());
         }
@@ -74,6 +75,9 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
         setUpdateSelectedImages(currentImages =>
             currentImages.filter((_, index) => index !== indexToDelete)
         );
+        setUpdateSelectImages(currentImages =>
+            currentImages.filter((_, index) => index !== indexToDelete)
+            )
         if(id){
             console.log('dkid있는경구')
             setDeleteImages([...deleteImages, updateSelectedImages[indexToDelete].id]);
@@ -143,7 +147,7 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
                     qualifications: trainerProfile.qualifications,
                     centerProfiles: combinedTimeSettings,
             };
-            const newPath = updateSelectedImages.map(image => image.path);
+            const newPath = updateSelectImages.map(image => image.path);
             newPath.forEach((path, id) => {
                 formData.append('images', {
                     uri: path,
@@ -357,9 +361,9 @@ console.log('dkdkdk')
     const timeSettingState = 
     selectedCenter[0]?.timeSettings[0]?.startTime !== selectedCenter[0]?.timeSettings[0]?.endTime &&
     selectedCenter[0]?.timeSettings[0]?.startTime < selectedCenter[0]?.timeSettings[0]?.endTime
-    const isActivefn = trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState
+    const isActivefn = trainerProfile?.career?.length !==0 && trainerProfile?.qualifications?.length !==0 && trainerProfile?.description?.length !==0 && timeSettingState
  
-    console.log('selectedCenter11',trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState,isActivefn)
+    // console.log('selectedCenter11',trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState,isActivefn)
 
 // console.log('se1',selectedCenter[0]?.timeSettings[0]?.startTime,selectedCenter[0]?.timeSettings[0]?.endTime)
 // console.log('se2',selectedCenter[0]?.timeSettings[1]?.startTime,selectedCenter[0]?.timeSettings[1]?.endTime)

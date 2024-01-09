@@ -41,7 +41,16 @@ function AlarmLessonListGrid({lessonList}) {
 
                               <ContentsBoxContainer>
                                   <ContentsContainer>
-                                      <TitleText>수업 예약</TitleText>
+                                    {
+                                      alarm.type === 'LESSON_RESERVE' && <TitleText>수업 예약</TitleText>
+                                    }
+                                    {
+                                      alarm.type === 'LESSON_CANCEL' && <TitleText>수업 취소</TitleText>
+                                    }
+                                    {
+                                      alarm.type === 'LESSON_CONFIRM' && <TitleText>수업 확정</TitleText>
+                                    }
+                                      {/* <TitleText>수업 예약</TitleText> */}
                                       <TimeText>{alarm.time}</TimeText>
                                   </ContentsContainer>
                                   <AlarmText>{alarm.context}</AlarmText>
@@ -123,5 +132,6 @@ const ConsultIcon = styled.Image`
 `   
 
 const NoListCardContainer = styled.View`
+
   height: 300px;
 `

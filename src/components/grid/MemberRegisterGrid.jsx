@@ -1,6 +1,6 @@
 import ProfileInput from '../input/ProfileInput';
 import GenderSelectBtn from '../button/GenderSelectBtn';
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import { ScrollView } from 'react-native';
 import MemberPhoneInfo from '../input/MemberPhoneInfo';
 import { COLORS } from '../../constants/color';
@@ -11,11 +11,15 @@ import { centerIdState } from '../../store/atom';
 import { useRecoilState } from 'recoil';
 import {getBookmarkTickets} from '../../api/memberApi';
 import MemberTicketsInfoGrid from './MemberTicketsInfoGrid';
-function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,setSelectedGender,phone, setPhone,bookmarkTickets, setBookmarkTickets,selectedTicket, setSelectedTicket,selectTicketId, setSelectTicketId}) {
+function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,
+    setSelectedGender,phone, setPhone,bookmarkTickets,
+     setBookmarkTickets,selectedTicket, setSelectedTicket,selectTicketId, 
+     setSelectTicketId,addTicket,formData,setFormData
+    }) {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [centerId, setCenterId] = useRecoilState(centerIdState);
-
+    
 
     const closeModal = () => {
       setModalVisible(false);
@@ -32,19 +36,19 @@ function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,setSel
         }catch(error){
             console.log('error',error)
         }
-
+      
     }
 
 
-console.log('selectedTicketselectedTicketselectedTicket111',selectedTicket)
-
+// console.log('selectedTicketselectedTicketselectedTicket111',selectedTicket)
+// console.log('bookmarkTickets',bookmarkTickets)
 
 
 // console.log('bname',name, selectedGender, phone)
     const addbtn = require('../../assets/img/pluscircle.png');
 
     return (
-        <ScrollView>
+        <>
             <ProfileInput 
                 type={type}
                 title={'이름'}
@@ -67,11 +71,20 @@ console.log('selectedTicketselectedTicketselectedTicket111',selectedTicket)
             />
 
             <GridLineGrayOne/>
-            {
-                selectedTicket &&
-                 <MemberTicketsInfoGrid selectedTicket={selectedTicket}/>
-            }
-
+            {formData.tickets.map((ticket, index) => (
+                <React.Fragment key={index}>
+                <MemberTicketsInfoGrid
+                  type={type}
+                  index={index}
+                  ticket={ticket}
+                  bookmarkTickets={bookmarkTickets}
+                  selectedTicket={selectedTicket}
+                  selectTicketId={selectTicketId}
+                  setSelectTicketId={setSelectTicketId}
+                  setSelectedTicket={setSelectedTicket}setFormData={setFormData}
+                />
+                </React.Fragment>
+            ))}
 
             <AddBtnContainer onPress={openBookmarkTicketModal}>
                 <AddbtnBox>
@@ -89,9 +102,10 @@ console.log('selectedTicketselectedTicketselectedTicket111',selectedTicket)
             setSelectedTicket={setSelectedTicket}
             selectTicketId={selectTicketId}
             setSelectTicketId={setSelectTicketId}
+            addTicket={addTicket}
             />
         }
-        </ScrollView>
+        </>
     );
 }
 

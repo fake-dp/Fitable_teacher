@@ -127,7 +127,7 @@ function MemberMainScreen(props) {
                 centerId && userList && userList?.length > 0 ? (
                 // <MemberInfoListCard userList={userList}/>
                 // <MemberInfoListCard userList={userList.filter(user => user.name.includes(searchText) || user.phone.includes(searchText))} />
-                <MemberInfoListCard userList={userList.filter(user => user.name.includes(searchText) || user.phone.slice(-4).includes(searchText))} />
+                <MemberInfoListCard userList={userList?.filter(user => user?.name.includes(searchText) || user?.phone.slice(-4).includes(searchText))} />
                 ):(
                 <NoListCard>회원이 없습니다</NoListCard>
                 )

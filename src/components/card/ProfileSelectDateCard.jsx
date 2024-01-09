@@ -35,7 +35,8 @@ function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index})
                 <SelectInnerBox>
                     <RNPickerSelect
                       ref={pickerRef}
-                      InputAccessoryView={() => null}
+                      // InputAccessoryView={() => null}
+                      doneText='확인'
                         onValueChange={(value) => handleChangeValue(value)}
                         items={items}
                         placeholder={{}}

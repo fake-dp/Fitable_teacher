@@ -52,7 +52,8 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
                 }
                         <RNPickerSelect
                       ref={endPickerRef}
-                      InputAccessoryView={() => null}
+                    //   InputAccessoryView={() => null}
+                    doneText='확인'
                       onValueChange={(value) => setEndTime(value)}
                       items={endTime}
                       placeholder={{
