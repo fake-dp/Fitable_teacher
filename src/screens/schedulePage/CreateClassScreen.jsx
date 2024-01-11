@@ -21,6 +21,7 @@ import ClassTimeSelectCard from '../../components/card/ClassTimeSelectCard';
 import RegisteredModal from '../../components/modal/RegisteredModal';
 import {formatDate} from '../../utils/CustomUtils';
 import ClassDateCheckBtn from '../../components/button/ClassDateCheckBtn';
+import FastImage from 'react-native-fast-image';
 function CreateClassScreen(props) {
 
     const route = useRoute();
@@ -607,8 +608,10 @@ color: ${COLORS.gray_400};
 /* margin-bottom: 12px; */
 `;
 
-const AddbtnIcon = styled.Image`
+const AddbtnIcon = styled(FastImage)`
     margin-right: 8px;
+    width:  20px;
+    height: 20px;
 `;
 
 const MembersListContaniner = styled.View`

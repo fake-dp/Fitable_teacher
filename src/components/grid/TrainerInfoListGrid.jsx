@@ -20,6 +20,7 @@ import {deleteTrainersProfileInfo,setTrainersProfileInfo,updateTrainersProfileIn
 import DeleteProfileModal from '../modal/DeleteProfileModal';
 import { useNavigation } from '@react-navigation/native';
 import ProfileSettingBtn from '../button/ProfileSettingBtn';
+import FastImage from 'react-native-fast-image';
 
 function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileInfo, setIsExistProfile}) {
     // UseGetCenterListHook();
@@ -612,7 +613,9 @@ align-items: center;
 margin-right: 10px;
 `;
 
-const ProfileAddImg = styled.Image`
+const ProfileAddImg = styled(FastImage)`
+width: 24px;
+height: 24px;
 `
 const SelectImgContainer = styled.View`
  position: relative;
@@ -620,7 +623,7 @@ const SelectImgContainer = styled.View`
     /* margin-bottom: 10px; */
 `
 
-const SelectedImage = styled.Image`
+const SelectedImage = styled(FastImage)`
   /* width: 80px;
   height: 80px; */
   width: 74px;
@@ -644,7 +647,7 @@ const DeleteBtn = styled.TouchableOpacity`
     background-color: rgba(0,0,0,0.5);
     border-radius: 50px;
 `
-const DeleteImg = styled.Image`
+const DeleteImg = styled(FastImage)`
 width: 12px;
 height: 12px;
 `

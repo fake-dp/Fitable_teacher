@@ -3,6 +3,7 @@ import { COLORS } from '../../constants/color';
 import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
+import FastImage from 'react-native-fast-image';
 function TimeSelectCard({children, imgIcon, text,onTimeChange }) {
 
     // const {startTime,endTime}=state
@@ -138,8 +139,13 @@ color: ${COLORS.gray_400};
 margin-bottom: 12px;
 `
 
-const RigthIcon = styled.Image``
+const RigthIcon = styled(FastImage)`
+width: 20px;
+height: 20px;
+`
 
-const LeftIcon = styled.Image`
-margin-right:11px
+const LeftIcon = styled(FastImage)`
+margin-right:11px;
+width: 20px;
+height: 20px;
 `

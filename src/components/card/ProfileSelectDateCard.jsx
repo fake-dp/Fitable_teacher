@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
+import FastImage from 'react-native-fast-image';
 function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/colsdowngray.png');
@@ -77,8 +78,13 @@ font-weight: 400;
 line-height: 22.40px;
 `
 
-const RigthIcon = styled.Image``
+const RigthIcon = styled(FastImage)`
+width: 20px;
+height: 20px;
+`
 
-const LeftIcon = styled.Image`
-margin-right:11px
+const LeftIcon = styled(FastImage)`
+margin-right:11px;
+width: 20px;
+height: 20px;
 `

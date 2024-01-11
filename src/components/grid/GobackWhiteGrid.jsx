@@ -1,13 +1,13 @@
 import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
-import {Image } from 'react-native';
-
+import FastImage from 'react-native-fast-image';
 function GobackWhiteGrid({children, onPress}) {
     
 const whiteArrow = require('../../assets/img/back_white.png');
     return (
         <GobackTouchable onPress={onPress}>
-            <Image source={whiteArrow}/>
+            <FastImage source={whiteArrow}    
+             style={{width: 24, height: 20}}/>
             <TitleText>{children}</TitleText>
         </GobackTouchable>
     );

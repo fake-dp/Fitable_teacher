@@ -9,6 +9,7 @@ import AlarmMainScreen from './src/screens/alarmPage/AlarmMainScreen';
 import { useRecoilValue } from 'recoil';
 import {floatingState} from './src/store/atom'
 import { BottomTabBar } from '@react-navigation/bottom-tabs';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +47,7 @@ function ScheduleScreens({ navigation }) {
     );
   }
   
-  // 맴버관리
+  // 맴버관리 
   function MemberScreens({ navigation }) {
     return (
       <Stack.Navigator>
@@ -58,7 +59,7 @@ function ScheduleScreens({ navigation }) {
       </Stack.Navigator>
     );
   }
-  
+  // MemberMainScreen
   // 알람페이지
   function AlarmScreens({ navigation }) {
     return (

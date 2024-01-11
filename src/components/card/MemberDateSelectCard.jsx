@@ -3,6 +3,7 @@ import { COLORS } from '../../constants/color';
 import { useState ,useRef, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker'
 import { Alert } from 'react-native';
+import FastImage from 'react-native-fast-image';
 function MemberDateSelectCard({setFormData,index}) {
 
     
@@ -213,7 +214,10 @@ color: ${COLORS.gray_400};
 margin-bottom: 12px;
 `
 
-const RigthIcon = styled.Image``
+const RigthIcon = styled(FastImage)`
+width: 16px;
+height: 16px;
+`
 
 
 const CountTextInput = styled.TextInput`

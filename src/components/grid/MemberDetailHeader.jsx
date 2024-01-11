@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import {formatPhoneNumber} from '../../utils/CustomUtils';
 import {Linking} from 'react-native';
 import Communications from 'react-native-communications';
+import FastImage from 'react-native-fast-image';
 function MemberDetailHeader({detailData}) {
 
     const navigation = useNavigation();
@@ -105,5 +106,7 @@ const IconWrapper = styled.TouchableOpacity`
     margin-left: 13px;
 `;
 
-const InfoIcon = styled.Image`
+const InfoIcon = styled(FastImage)`
+    width: 22px;
+    height: 22px;
 `;

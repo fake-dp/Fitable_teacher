@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
 import { TextInput, Image } from "react-native";
 import { useState } from 'react';
+import FastImage from 'react-native-fast-image';
 function AuthInput({value, onChangeText, placeholder,maxLength,onSubmitEditing}) {
 
     const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +23,9 @@ function AuthInput({value, onChangeText, placeholder,maxLength,onSubmitEditing})
            
            {value.length > 0 && (
             <TogglePasswordVisibility onPress={handlePasswordVisibilityChange}>
-              <Image source={showPassword ? require('../../assets/img/t_eye_open.png') : require('../../assets/img/t_eye_closed.png')} />
+              <FastImage 
+              style={{width: 20, height: 20}}
+              source={showPassword ? require('../../assets/img/t_eye_open.png') : require('../../assets/img/t_eye_closed.png')} />
             </TogglePasswordVisibility>
           )}
                 <AuthTextInput

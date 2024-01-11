@@ -12,6 +12,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {getMemberManage} from '../../api/memberApi';
 import { useRecoilState } from 'recoil';
 import { centerIdState,totalElementsState } from '../../store/atom';
+import FastImage from 'react-native-fast-image';
 import MemberDetailSearchModal from '../../components/modal/MemberDetailSearchModal';
 function MemberMainScreen(props) {
 
@@ -170,8 +171,10 @@ const DetailSearchBtn = styled.TouchableOpacity`
     align-items: center;
 `
 
-const DetailIcon = styled.Image`
+const DetailIcon = styled(FastImage)`
     margin-right: 8px;
+    width: 20px;
+    height: 20px;
 `
 const DetailSearchBtnText = styled.Text`
 font-size: 14px;

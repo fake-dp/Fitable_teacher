@@ -113,3 +113,14 @@ export const getMemberContractTicketList = async ({centerId, memberId}) => {
         throw error.response.data;
     }
 }
+
+
+// 결제 링크 전송
+export const sendPaymentLink = async (data) => {
+    try {
+        const response = await customAxios.post(`/api/trainers/v1/payment-link`, data);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+}

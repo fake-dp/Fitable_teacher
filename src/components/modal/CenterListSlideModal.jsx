@@ -1,7 +1,7 @@
 import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { Modal, ScrollView,} from 'react-native';
-
+import FastImage from 'react-native-fast-image';
 function CenterListSlideModal({modalVisible, closeModal,centerList ,text, onPress}) {
 
     // console.log('centerList',centerList)
@@ -77,10 +77,12 @@ color: ${COLORS.main};
 const ModalCloseButton = styled.TouchableOpacity`
 `;
 
-const ModalCloseBox = styled.Image`
+const ModalCloseBox = styled(FastImage)`
     position: absolute;
     right: 15px;
     top: 15px;
+    width: 28px;
+    height: 28px;
 `
 
 const CenterListContaniner = styled.TouchableOpacity`

@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { Image,Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 function FloatingModal() {
 
     const navigation = useNavigation();
@@ -25,7 +26,9 @@ function FloatingModal() {
                 <FloatingContentsContainer>
                 <FloatingBtnText>1:1 수업</FloatingBtnText>
                 <FloatingButtonTouchable onPress={()=>goClassScreen('PERSONAL')}>
-                    <Image source={personal} />
+                    <FastImage 
+                    style={{width: 40, height: 40}}
+                    source={personal} />
                 </FloatingButtonTouchable>
                 </FloatingContentsContainer>
             </FloatingBtnBox>
@@ -34,7 +37,9 @@ function FloatingModal() {
             <FloatingContentsContainer>
                 <FloatingBtnText>그룹 수업</FloatingBtnText>
                 <FloatingButtonTouchable onPress={()=>goClassScreen('GROUP')}>
-                    <Image source={group} />
+                    <FastImage 
+                    style={{width: 40, height: 40}}
+                    source={group} />
                 </FloatingButtonTouchable>
             </FloatingContentsContainer>
             </FloatingBtnBox>

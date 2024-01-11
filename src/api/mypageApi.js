@@ -59,3 +59,13 @@ export const deleteTrainersProfileInfo = async() =>{
         throw error.response;
     }
 }
+
+// 푸쉬 알림 설정
+export const setPushNotification = async(data) =>{
+    try {
+        const response = await customAxios.put("/api/trainers/v1/pushAlarm", data);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+}

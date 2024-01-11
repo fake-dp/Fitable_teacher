@@ -2,6 +2,7 @@ import {Image } from 'react-native';
 import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import {TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 function SearchListGridCard({searchListData,onPress}) {
     console.log('searchListData',searchListData)
     const {id, name, address, programs, mainImage} = searchListData;
@@ -39,12 +40,12 @@ function SearchListGridCard({searchListData,onPress}) {
                 <MainSpotImage
                 // source={{uri:mainImage}} 
                 source={{ uri: mainImage }}
-                resizeMode="cover" 
+                // resizeMode="cover" 
                 />
                 ): (
                 <MainSpotImage
                 source={noSearchimg}
-                resizeMode="cover"
+                // resizeMode="cover"
                 />
                 )
            }
@@ -118,7 +119,7 @@ color: ${COLORS.sub};
 font-weight: 400;
 `
 
-const MainSpotImage = styled.Image`
+const MainSpotImage = styled(FastImage)`
 width: 130px;
 height: 106px;
 border-radius: 15px;

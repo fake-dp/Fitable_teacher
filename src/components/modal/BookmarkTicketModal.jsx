@@ -3,6 +3,7 @@ import { COLORS } from '../../constants/color';
 import { Modal, ScrollView,Keyboard,TouchableWithoutFeedback,KeyboardAvoidingView, Platform } from 'react-native';
 import { useState } from 'react';
 import {getMemberConditions} from '../../api/memberApi';
+import FastImage from 'react-native-fast-image';
 function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,
     selectedTicket, setSelectedTicket,addTicket,selectTicketId, setSelectTicketId}) {
     
@@ -153,8 +154,9 @@ color: ${COLORS.gray_400};
 const ModalHdButton = styled.TouchableOpacity`
 `;
 
-const ModalIcons = styled.Image`
-
+const ModalIcons = styled(FastImage)`
+   width: 26px;
+height: 26px;
 `
 
 const BasicMainBtnContainer = styled.View`

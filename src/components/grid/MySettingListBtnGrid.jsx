@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {COLORS} from '../../constants/color';
 import ToggleBtn from '../toggle/ToggleBtn';
+import FastImage from 'react-native-fast-image';
 function MySettingListBtnGrid({children, text, onPress,isOnPushAlarm}) {
     const rightIcon = require('../../assets/img/rightIcon.png')
     return (
@@ -51,7 +52,7 @@ font-weight: 500;
 line-height: 22.40px;
 `
     
-const SettingListRightIcon = styled.Image`
+const SettingListRightIcon = styled(FastImage)`
     width: 20px;
     height: 20px;
 `

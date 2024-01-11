@@ -4,6 +4,7 @@ import { useState ,useRef, useEffect} from 'react';
 import {formatDate} from '../../utils/CustomUtils'
 import DatePicker from 'react-native-date-picker'
 import { startTime, endTime } from '../../data/selectDate';
+import FastImage from 'react-native-fast-image';
 function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
 
     
@@ -144,8 +145,13 @@ color: ${COLORS.gray_400};
 margin-bottom: 12px;
 `
 
-const RigthIcon = styled.Image``
+const RigthIcon = styled(FastImage)`
+width: 20px;
+height: 20px;
+`
 
-const LeftIcon = styled.Image`
-margin-right:5px
+const LeftIcon = styled(FastImage)`
+margin-right:5px;
+width: 20px;
+height: 20px;
 `

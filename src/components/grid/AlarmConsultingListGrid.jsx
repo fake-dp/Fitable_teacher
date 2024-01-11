@@ -5,6 +5,7 @@ import { ScrollView , Alert} from 'react-native';
 import {getConsultDetail} from '../../api/alarmApi';
 import { useNavigation } from '@react-navigation/native';
 import NoListCard from '../card/NoListCard';
+import FastImage from 'react-native-fast-image';
 function AlarmConsultingListGrid({consultingList}) {
 
     const navigation = useNavigation();
@@ -114,8 +115,11 @@ const TimeText = styled.Text`
 font-weight: 400;
 `;
 
-const ConsultIcon = styled.Image``
+const ConsultIcon = styled(FastImage)`
+  width:20px;
+height: 20px;
+`
 
-const NoListCardContainer = styled.View`
+const NoListCardContainer = styled(FastImage)`
   height: 300px;
 `

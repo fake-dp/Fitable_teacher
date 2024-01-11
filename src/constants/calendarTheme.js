@@ -3,8 +3,8 @@ import { COLORS } from "./color";
 export const themeStyled = {
         calendarBackground: COLORS.white,
         textSectionTitleColor: COLORS.gray_300,
-        selectedDayBackgroundColor: COLORS.sub,
-        selectedDayTextColor: COLORS.main,
+        selectedDayBackgroundColor: COLORS.white,
+        selectedDayTextColor: COLORS.gray_400,
         todayTextColor: COLORS.gray_sub,
         dayTextColor: COLORS.gray_400,
         textDisabledColor: 'transparent',

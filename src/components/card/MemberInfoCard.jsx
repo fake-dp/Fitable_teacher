@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { centerIdState } from '../../store/atom';
 import { useNavigation } from '@react-navigation/native';
 import {getMemberDetail} from '../../api/memberApi';
+import FastImage from 'react-native-fast-image';
 
 function MemberInfoCard({ userInfo }) {
 
@@ -73,7 +74,7 @@ line-height: 22.40px;
 `;
 const BtnGridBox = styled.View``
 
-const BtnNextIcon = styled.Image`
+const BtnNextIcon = styled(FastImage)`
     width: 20px;
     height: 20px;
 `;

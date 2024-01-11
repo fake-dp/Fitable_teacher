@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
 import { isLoginState } from '../../store/atom';
+import FastImage from 'react-native-fast-image';
 import { Alert,TouchableWithoutFeedback, Keyboard } from 'react-native';
 // ST_A_1000
 function LoginPage(props) {
@@ -106,8 +107,10 @@ function LoginPage(props) {
 
 export default LoginPage;
 
-const TitleLogo = styled.Image`
+const TitleLogo = styled(FastImage)`
     margin-bottom: 50px;
+    width: 180px;
+    height: 26px;
 `
 
 const FindPasswordContainer = styled.TouchableOpacity`

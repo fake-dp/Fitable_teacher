@@ -7,7 +7,7 @@ import MemberDetailHeader from '../../components/grid/MemberDetailHeader';
 import { ScrollView , Alert} from 'react-native';
 import MemberBtn from '../../components/button/MemberBtn';
 import {cancelLessonReservation, postLessonAttendance} from '../../api/lessonApi';
-
+import FastImage from 'react-native-fast-image';
 function ClassMemberDetailScreen(props) {
 
     const navigation = useNavigation();
@@ -195,7 +195,7 @@ function ClassMemberDetailScreen(props) {
                     }
                     {
                         detailData.sendPaymentLink &&
-                        <PayAndContractBox onPress={() => navigation.navigate('PaymentLink',{memberInfo:detailData.member, type:'paylink'})}>
+                        <PayAndContractBox onPress={() => navigation.navigate('PaymentLink',{memberInfo:detailData.member, type:'paylink',memberId})}>
                             <PayAndContractLeftBox>
                                  <LeftIcon source={paymentlink}/>
                                  <PayAndContractText>결제링크 전송</PayAndContractText>
@@ -396,13 +396,13 @@ line-height: 22px;
 letter-spacing: -0.4px;
 `
 
-const LeftIcon = styled.Image`
+const LeftIcon = styled(FastImage)`
     width: 24px;
     height: 24px;
     margin-right: 12px;
 `
 
-const BtnNextIcon = styled.Image`
+const BtnNextIcon = styled(FastImage)`
     width: 20px;
     height: 20px;
 `;

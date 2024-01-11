@@ -3,7 +3,8 @@ import { COLORS } from '../../constants/color';
 import {formatDate} from '../../utils/CustomUtils'
 import RNPickerSelect from 'react-native-picker-select';
 import { useState ,useRef, useEffect} from 'react';
-import DatePicker from 'react-native-date-picker'
+import DatePicker from 'react-native-date-picker';
+import FastImage from 'react-native-fast-image';
 function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateClassData,maindata}) {
     // const {startDate=""}=state ||{};
     console.log('Render CreateClassSelectCard:', type, maindata);
@@ -102,8 +103,13 @@ color: ${COLORS.gray_400};
 margin-bottom: 12px;
 `
 
-const RigthIcon = styled.Image``
+const RigthIcon = styled(FastImage)`
+width: 20px;
+height: 20px;
+`
 
-const LeftIcon = styled.Image`
+const LeftIcon = styled(FastImage)`
 margin-right:11px;
+width: 20px;
+height: 20px;
 `

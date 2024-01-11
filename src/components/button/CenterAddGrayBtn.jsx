@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
-
+import FastImage from 'react-native-fast-image';
 
 function CenterAddGrayBtn({children, onPress}) {
 
@@ -34,8 +34,10 @@ align-items: center;
 justify-content: center;
 `
 
-const AddbtnIcon = styled.Image`
+const AddbtnIcon = styled(FastImage)`
     margin-right: 8px;
+    width: 22px;
+    height: 22px;
 `
 
 const AddBtnText = styled.Text`

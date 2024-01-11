@@ -18,7 +18,7 @@ function RegisterMemberScreen(props) {
     const goBack = () => {
         navigation.goBack();
     }
-    const { memberInfo = {}, type = '' } = route.params || {};
+    const { memberInfo = {}, type = ''} = route.params || {};
   
     console.log('sk나넘어왔엉',memberInfo, type)
     const [centerId, setCenterId] = useRecoilState(centerIdState);

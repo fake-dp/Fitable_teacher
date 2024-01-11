@@ -5,7 +5,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { centerIdState } from '../../store/atom';
 import { useRecoilState } from 'recoil';
 import {getMemberCoupons} from '../../api/memberApi';
-
+import FastImage from 'react-native-fast-image';
 function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/caretdownblack.png');
@@ -56,23 +56,23 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
     return (
         <>
         {
-        type && type && (
-            <Container>
-            <InfoTitleText>쿠폰(선택)</InfoTitleText>
-            <SelectBox onPress={openCouponPicker}>
-                    <RNPickerSelect
-                      ref={couponRef}
-                        doneText="변경"
-                        onValueChange={(value)=>console.log('value',value)}
-                        items={paymentTypeItem}
-                        placeholder={{
+        // type && type && (
+        //     <Container>
+        //     <InfoTitleText>쿠폰(선택)</InfoTitleText>
+        //     <SelectBox onPress={openCouponPicker}>
+        //             <RNPickerSelect
+        //               ref={couponRef}
+        //                 doneText="변경"
+        //                 onValueChange={(value)=>console.log('value',value)}
+        //                 items={paymentTypeItem}
+        //                 placeholder={{
                      
-                        }}
-                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
-                <RigthIcon source={rightIcon}/>
-             </SelectBox>
-        </Container>
-        )
+        //                 }}
+        //                 style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+        //         <RigthIcon source={rightIcon}/>
+        //      </SelectBox>
+        // </Container>
+        // )
         }
 
         <Container>
@@ -99,9 +99,11 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
         </Container>
 
         <Container>
-            <PriceContainer>
+            <PriceContainer
+                paylink={type === 'paylink' ? true : false}
+            >
 
-             <PriceInnerContainer>
+             <PriceInnerContainer paylink={type === 'paylink' ? true : false}>
             <InfoTitleText>상품 가격</InfoTitleText>
             <PriceTextInput 
             value={timeAndPeriodStr}
@@ -123,20 +125,26 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
             />
             </PriceInnerContainer>
 
-            <PriceInnerContainer>
-            <InfoTitleText>받은 금액</InfoTitleText>
-            <PriceTextInput 
-            placeholder="0원" keyboardType="number-pad" 
-            onChangeText={(text) => {
-                setFormData((prevData) => {
-                    let tickets = [...prevData.tickets];
-                    tickets[index].receivedPrice = text;
-                    return {...prevData, tickets};
-                });
-            }}
+{
+    type === 'paylink' ? (
+        null
+    ):(
+        <PriceInnerContainer>
+        <InfoTitleText>받은 금액</InfoTitleText>
+        <PriceTextInput 
+        placeholder="0원" keyboardType="number-pad" 
+        onChangeText={(text) => {
+            setFormData((prevData) => {
+                let tickets = [...prevData.tickets];
+                tickets[index].receivedPrice = text;
+                return {...prevData, tickets};
+            });
+        }}
 
-            />
-            </PriceInnerContainer>
+        />
+        </PriceInnerContainer>
+    )
+}
            
             </PriceContainer>
         </Container>
@@ -173,15 +181,20 @@ const SelectBox = styled.TouchableOpacity`
 
 const PriceContainer = styled.View`
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: ${props => props.paylink ? '' : 'space-between'};
+
 `
 
 const PriceInnerContainer = styled.View`
     flex-direction: column;
     width: 32%;
+    margin-right: ${props => props.paylink ? '8px' : ''};
 `
 
-const RigthIcon = styled.Image``
+const RigthIcon = styled(FastImage)`
+width: 16px;
+height: 16px;
+`
 
 const PriceTextInput = styled.TextInput.attrs(props => ({
     editable: !props.disabled,

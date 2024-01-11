@@ -11,6 +11,7 @@ import { centerIdState } from '../../store/atom';
 import { useRecoilState } from 'recoil';
 import {getBookmarkTickets} from '../../api/memberApi';
 import MemberTicketsInfoGrid from './MemberTicketsInfoGrid';
+import FastImage from 'react-native-fast-image';
 function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,
     setSelectedGender,phone, setPhone,bookmarkTickets,
      setBookmarkTickets,selectedTicket, setSelectedTicket,selectTicketId, 
@@ -125,8 +126,10 @@ align-items: center;
 justify-content: center;
 `
 
-const AddbtnIcon = styled.Image`
+const AddbtnIcon = styled(FastImage)`
     margin-right: 8px;
+    width: 20px;
+    height: 20px; 
 `
 
 const AddBtnText = styled.Text`

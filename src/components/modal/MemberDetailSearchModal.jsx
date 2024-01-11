@@ -9,6 +9,7 @@ import BasicMainBtn from '../button/BasicMainBtn';
 import {getMemberManage} from '../../api/memberApi';
 import { useRecoilState } from 'recoil';
 import {totalElementsState} from '../../store/atom';
+import FastImage from 'react-native-fast-image';
 function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,member,setMember,setUserList,type,centerId,leftTime, setLeftTime}) {
   
 
@@ -176,8 +177,9 @@ const TextInputBox = styled.TextInput`
 const ModalHdButton = styled.TouchableOpacity`
 `;
 
-const ModalIcons = styled.Image`
-
+const ModalIcons = styled(FastImage)`
+width: 26px;
+height: 26px;
 `
 
 const BasicMainBtnContainer = styled.View`

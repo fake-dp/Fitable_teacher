@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
 import { TextInput, Image } from "react-native";
 import { useState } from 'react';
-
+import FastImage from 'react-native-fast-image';
 function CenterSearch({onFocus, onBlur, onChangeText, onSubmitEditing}) {
 
     const search = require('../../assets/img/searchicon.png');
@@ -37,6 +37,8 @@ const SearchContainer = styled.View`
     margin-bottom: 16px;
 `
 
-const ImageIcon = styled.Image`
+const ImageIcon = styled(FastImage)`
     margin-left: 16px;
+    width: 20px;
+    height: 20px;
 `

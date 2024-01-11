@@ -1,6 +1,7 @@
 import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { formatPhoneNumber } from '../../utils/CustomUtils';
+import FastImage from 'react-native-fast-image';
 function MyProfileHeaderGrid({name, phone, onPress}) {
 
  const rightIcon = require('../../assets/img/rightIcon.png')
@@ -33,7 +34,7 @@ const UserHeaderLeftContainer = styled.TouchableOpacity`
 `
 
 
-const RigthIcon = styled.Image`
+const RigthIcon = styled(FastImage)`
     width: 20px;
     height: 20px;
     margin-left: 8px;

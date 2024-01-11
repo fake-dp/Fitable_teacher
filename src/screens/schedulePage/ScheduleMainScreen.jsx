@@ -13,7 +13,7 @@ import { useRecoilState } from 'recoil';
 import { floatingState,centerIdState } from '../../store/atom';
 import {getLessonAvailable} from '../../api/lessonApi';
 import LessonListGrid from '../../components/grid/LessonListGrid';
-
+import FastImage from 'react-native-fast-image';
 function ScheduleMainScreen(props) {
 
     const navigation = useNavigation();
@@ -117,4 +117,7 @@ const IconContainer = styled.TouchableOpacity`
 
 `
 
-const AddUserImg = styled.Image``
+const AddUserImg = styled(FastImage)`
+  width: 30px;
+  height: 30px;
+`

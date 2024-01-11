@@ -4,6 +4,7 @@ import { ScrollView , Alert} from 'react-native';
 import {getLessonDetail} from '../../api/lessonApi'
 import { useNavigation } from '@react-navigation/native';
 import NoListCard from '../card/NoListCard';
+import FastImage from 'react-native-fast-image';
 function AlarmLessonListGrid({lessonList}) {
 
     const navigation = useNavigation();
@@ -128,10 +129,11 @@ const TimeText = styled.Text`
 font-weight: 400;
 `;
 
-const ConsultIcon = styled.Image`
-`   
+const ConsultIcon = styled(FastImage)`
+  width: 48px;
+  height: 48px;
+  `   
 
 const NoListCardContainer = styled.View`
-
   height: 300px;
 `

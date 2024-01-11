@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Image, Animated, Easing } from 'react-native';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
+import FastImage from 'react-native-fast-image';
 
 function FloatingBtn({ onPress, isOpen }) {
   const floatingIcon = require('../../assets/img/floating_plus.png');
@@ -33,7 +34,9 @@ function FloatingBtn({ onPress, isOpen }) {
   return (
     <FloatingButtonContainer>
       <FloatingButtonTouchable onPress={onPress} style={{ transform: [{ rotate }] }}>
-        <Image source={floatingIcon} />
+        <FastImage source={floatingIcon} 
+        style={{width: 22, height: 22}}
+        />
       </FloatingButtonTouchable>
     </FloatingButtonContainer>
   );

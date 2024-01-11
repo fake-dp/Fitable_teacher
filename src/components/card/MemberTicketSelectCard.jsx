@@ -4,6 +4,7 @@ import { COLORS } from '../../constants/color';
 import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import {getMemberConditions} from '../../api/memberApi';
+import FastImage from 'react-native-fast-image';
 function MemberTicketSelectCard({ticketId,bookmarkTickets,
     setSelectedTicket,setFormData,selectedTicket, timeAndPeriod, setTimeAndPeriod,index,setSelectTicketId}) {
     // const {startDate=""}=state ||{};
@@ -248,7 +249,10 @@ const SelectInnerSecondBox = styled.View`
     width: 50%;
 `
 
-const RigthIcon = styled.Image``
+const RigthIcon = styled(FastImage)`
+width: 16px;
+height: 16px;
+`
 
 const CountTextInput = styled.TextInput`
     text-align: right;

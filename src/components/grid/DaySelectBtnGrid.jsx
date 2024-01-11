@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import DateTimeSelectCard from '../card/DateTimeSelectCard';
-
+import FastImage from 'react-native-fast-image';
 function DaySelectBtnGrid({ title,setSchedules }) {
     const days = ['월', '화', '수', '목', '금', '토', '일'];
     const [selectedDays, setSelectedDays] = useState([]);
@@ -218,7 +218,7 @@ const AddButton = styled.TouchableOpacity`
   width: 120px;
 `;
 
-const PlusIconImg = styled.Image`
+const PlusIconImg = styled(FastImage)`
   width: 12px;
   height: 12px;
   margin-right: 8px;

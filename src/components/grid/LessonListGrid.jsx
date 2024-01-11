@@ -3,6 +3,7 @@ import { COLORS } from '../../constants/color';
 import { ScrollView } from 'react-native';
 import {getLessonDetail} from '../../api/lessonApi'
 import { useNavigation } from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 function LessonListGrid({lessonList}) {
 
     const navigation = useNavigation();
@@ -96,11 +97,13 @@ const LessonListContainer = styled.View`
     padding: 0 20px;
     background-color: ${COLORS.white};
 `;
-
-const LessonIcon = styled.Image`
+// Image
+const LessonIcon = styled(FastImage)`
+    width: 56px;
+    height: 70px;
 margin-right: 20px;
 `
-const LessonNextIcon = styled.Image`
+const LessonNextIcon = styled(FastImage)`
     width:20px;
     height:20px;
 `

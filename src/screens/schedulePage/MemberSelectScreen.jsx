@@ -9,7 +9,7 @@ import { FlatList,Alert } from 'react-native';
 import {formatPhoneNumber} from '../../utils/CustomUtils';
 import {postLessonReservation} from '../../api/lessonApi';
 import { useState } from 'react';
-
+import FastImage from 'react-native-fast-image';
 function MemberSelectScreen(props) {
     const route = useRoute();
     const { selectData, routerType, lessonId } = route.params;
@@ -153,4 +153,7 @@ line-height: 22.40px;
     color: ${COLORS.gray_400};
 `;
 
-const AddNextIcon = styled.Image``
+const AddNextIcon = styled(FastImage)`
+    width: 10px;
+    height: 10px;
+`

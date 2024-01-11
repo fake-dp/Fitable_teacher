@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { useNavigation } from '@react-navigation/native';
 import {getLessonReservationMembers,getLessonMemberDetail} from '../../api/lessonApi';
-
+import FastImage from 'react-native-fast-image';
 function DetailLessonCommonGrid({lessonDetail,routerType}) {
 
     const navigation = useNavigation();
@@ -121,7 +121,9 @@ const DateTitle = styled.Text`
 `;
 
 
-const IconImg = styled.Image`
+const IconImg = styled(FastImage)`
+    width: 48px;
+    height: 48px;
 `;
 
 const DetailContentContainer = styled.View``
@@ -184,8 +186,10 @@ align-items: center;
 justify-content: center;
 `
 
-const AddbtnIcon = styled.Image`
+const AddbtnIcon = styled(FastImage)`
     margin-right: 8px;
+    width: 20px;
+    height: 20px;
 `
 
 const AddBtnText = styled.Text`

@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
 import { TextInput, Image } from "react-native";
 import { useRef } from 'react';
-
+import FastImage from 'react-native-fast-image';
 function MemberSearch({onChange,searchText}) {
 
     const search = require('../../assets/img/searchicon.png');
@@ -41,6 +41,8 @@ const SearchContainer = styled.TouchableOpacity`
     margin-bottom: 16px;
 `
 
-const ImageIcon = styled.Image`
+const ImageIcon = styled(FastImage)`
     margin-left: 16px;
+    width: 20px;
+    height: 20px;
 `

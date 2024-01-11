@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useCallback } from 'react';
-import { Calendar, LocaleConfig } from 'react-native-calendars';
+import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar,Calendar, LocaleConfig} from 'react-native-calendars';
 import { COLORS } from '../../constants/color';
 import { themeStyled } from '../../constants/calendarTheme';
 import styled from 'styled-components/native';
@@ -11,7 +11,8 @@ import LessonListGrid from '../grid/LessonListGrid';
 import { GridLine } from '../../style/gridStyled';
 import {getFormattedDate} from '../../utils/CustomUtils';
 import { useIsFocused } from '@react-navigation/native';
-
+import FastImage from 'react-native-fast-image';
+import { Platform } from 'react-native';
 LocaleConfig.locales['ko'] = {
   monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
   monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -20,13 +21,16 @@ LocaleConfig.locales['ko'] = {
 };
 LocaleConfig.defaultLocale = 'ko';
 
-function CustomCalendar() {
+function CustomCalendar(props) {
+  const {weekView} = props;
+  console.log('weekView',weekView)
   const isFocused = useIsFocused();
     const [centerId, setCenterId] = useRecoilState(centerIdState || 'default_value');
 
   const today = new Date();
   const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   
+
   const [selected, setSelected] = useState(todayString);
   const [currentMonth, setCurrentMonth] = useState('');
   const [isActive, setIsActive] = useState(true);
@@ -45,6 +49,8 @@ function CustomCalendar() {
     } else {
       setSelected(day.dateString);
     }
+
+
     getLessonList(centerId, day.dateString)
     .then(data => {
         setLessonList(data.content);  // 응답 데이터를 lessonList state에 저장
@@ -108,79 +114,86 @@ useEffect(() => {
 }, [centerId,isFocused]);
 
 
-
-  const isTodayAvailable = availableDates[todayString];
-
-  const todayStyle = isTodayAvailable
-    ? {
-        [todayString]: {
-          ...availableDates[todayString],  // 오늘 날짜의 기존 스타일을 가져옴
-          dotColor: '#FF7A00',
-          marked: true,
-          selected: selected === todayString,
-        }
-      }
-    : { [todayString]: { dotColor: '#FF7A00', marked: true, selected: selected === todayString } };
-
-    
   const renderCustomHeader = () => {
     const rigthIcon = require('../../assets/img/rightIcon.png');
     return (
       <Container>
         <MonthContainer>
         <TitleText>{currentMonth}</TitleText>
-        <Icons source={rigthIcon}/>
+        {/* <Icons source={rigthIcon}/> */}
         </MonthContainer>
-        <CalenderToggleBtn isActive={isActive} setIsActive={setIsActive}/>
+        {/* <CalenderToggleBtn isActive={isActive} setIsActive={setIsActive}/> */}
       </Container>
     );
   };
 
+
+
   return (
     <>
-    <Calendar
-    // style={{ height: 320 }}
-    onMonthChange={(month) => {
-        setCurrentMonth(`${month.year}.${String(month.month).padStart(2, '0')}`);
-    }}
-    onDayPress={handleDayPress}
-    markedDates={{
-    // 예약된 날짜 표시
-    ...availableDates,
-    ...{[selected]: { selected: true, disableTouchEvent: true,selectedColor: COLORS.sub, }},
-    ...{[todayString]: { dotColor: '#FF7A00',marked: true, selected: selected === todayString}},
-    // ...todayStyle    
-}}
-    theme={themeStyled}
-    renderHeader={renderCustomHeader} // 커스텀 헤더 적용
-    enableSwipeMonths={true} // 좌우 스크롤로 월 넘기기
-    hideArrows={true} // 화살표 숨기기
-    // renderDay={({date, state, marking}) => renderDay({date, state, marking})} // 커스텀 날짜 적용
-    // dayComponent={({date, state, marking}) => renderDay({date, state, marking})} // 커스텀 날짜 적용
-    />
-  
+       <CalendarProvider
+          date={todayString}
+          // onDayPress={handleDayPress}
+          // TodayButton={true}
+        theme={themeStyled}
+        renderHeader={renderCustomHeader}
+    >
+      {weekView ? (
+        <WeekCalendar  
+        firstDay={1} markedDates={availableDates}
+        />
+      ) : (
+        <ExpandableCalendar
+        style={{
+            ...Platform.select({
+              ios: {
+                shadowColor: 'transparent',
+                zIndex: 99
+              },
+              android: {
+                elevation: 0
+              }
+            })
+        }}
+        renderHeader={renderCustomHeader}
+        hideArrows
+        markedDates={{
+          // 예약된 날짜 표시
+          ...availableDates,
+          ...{[selected]: { selected: true, disableTouchEvent: true,selectedColor: COLORS.sub,selectedTextColor: COLORS.main  }},
+          ...{[todayString]: { dotColor: '#FF7A00',marked: true, selected: selected === todayString}},
+          // ...todayStyle    
+      }}
+          onDayPress={handleDayPress}
+          theme={themeStyled&&themeStyled}
+          onMonthChange={(month) => {
+            setCurrentMonth(`${month.year}.${String(month.month).padStart(2, '0')}`);
+        }}
+          firstDay={1}
 
-    <GridWrapper>
-    <GridLine/>
-        {
-            lessonList.length === 0 ? null: (
-                <DateTitleContainer>
-                <DateTitleText>{getFormattedDate(selected)}</DateTitleText>
-                {
-                    selected === todayString ? <TodayText>오늘</TodayText> : null
-                }
-                </DateTitleContainer>
-            )
-        }
-    </GridWrapper>
-    <LessonListGrid lessonList={lessonList}/>
-   
+        />
+      )
+      }
+
+<GridWrapper>
+          <GridLine/>
+          {lessonList?.length === 0 ? null : (
+            <DateTitleContainer>
+              <DateTitleText>{getFormattedDate(selected)}</DateTitleText>
+              {selected === todayString ? (
+                <TodayText>오늘</TodayText>
+              ) : null}
+            </DateTitleContainer>
+          )}
+        </GridWrapper>
+        <LessonListGrid lessonList={lessonList} />
+
+    </CalendarProvider>
     </>
   );
 }
 
 export default CustomCalendar;
-
 
 const Container = styled.View`
     background-color: ${COLORS.white};
@@ -197,7 +210,7 @@ const MonthContainer = styled.TouchableOpacity`
     align-items: center;
 `
 
-const Icons = styled.Image`
+const Icons = styled(FastImage)`
     width: 20px;
     height: 20px;
     margin-left: 7px;
@@ -218,6 +231,7 @@ const DateTitleContainer = styled.View`
 `
 
 const DateTitleText = styled.Text`
+margin-top: 20px;
 color: ${COLORS.sub};
     font-size: 20px;
     font-weight: 600;

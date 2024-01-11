@@ -1,6 +1,9 @@
 import { styled } from 'styled-components/native';
 import {COLORS} from '../../constants/color';
 import { useState } from 'react';
+import {setPushNotification} from '../../api/mypageApi';
+import { useRecoilState } from 'recoil';
+import { pushAlarmState } from '../../store/atom';
 
 function ToggleBtn({isOnPushAlarm}) {
 

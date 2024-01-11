@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { ScrollView } from 'react-native';
 import React from 'react';
+import FastImage from 'react-native-fast-image';
 function TrainerInfoGetListGrid({profileInfo}) {
     // console.log('1',profileInfo.centerProfiles)
     // console.log('12',profileInfo.centerProfiles[0].details)
@@ -105,7 +106,7 @@ const SelectImgContainer = styled.View`
     /* margin-bottom: 10px; */
 `
 
-const SelectedImage = styled.Image`
+const SelectedImage = styled(FastImage)`
   /* width: 80px;
   height: 80px; */
   width: 74px;

@@ -6,6 +6,7 @@ import UseGetCenterListHook from '../../hooks/UseGetCenterListHook';
 import RNPickerSelect from 'react-native-picker-select';
 import {useRef,useEffect,useCallback} from 'react';
 import { getCenterList } from '../../api/trainersApi';
+import FastImage from 'react-native-fast-image';
 function CenterListHeaderGrid() {
 
     UseGetCenterListHook();
@@ -92,6 +93,8 @@ line-height: 28px;
 `
 
 
-const RigthIcon = styled.Image`
+const RigthIcon = styled(FastImage)`
     margin-left: 8px;
+    width: 20px;
+    height: 20px;
 `

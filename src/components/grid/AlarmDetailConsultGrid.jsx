@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { GridLineOne } from '../../style/gridStyled';
+import FastImage from 'react-native-fast-image';
 function AlarmDetailConsultGrid({ consultDetail }) {
     console.log('consultDetail:', consultDetail);
 
@@ -99,4 +100,7 @@ margin-top: 16px;
     padding: 16px;
     `
 const BtnGridBox = styled.View``
-const BtnNextIcon = styled.Image``;
+const BtnNextIcon = styled(FastImage)`
+width:20px;
+height:20px;
+`;
