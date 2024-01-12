@@ -10,47 +10,64 @@ const customAxios = axios.create({
 });
 
 // 요청 인터셉터
-customAxios.interceptors.request.use(async (config) => {
-    const token = await AsyncStorage.getItem("accessToken");
-    console.log('Access token from AsyncStorage:', token); // 콘솔 로그 추가
-    if (token) {
-      config.headers["Authorization"] = `${token}`;
-    }
-    return config;
-  });
-  
-  // 응답 인터셉터
-  customAxios.interceptors.response.use(null, async (error) => {
-    console.log('Error status:', error && error.response && error.response.status); // 콘솔 로그 추가
-    const originalRequest = error.config;
-    if (error && error.response && error.response.status === 401 && error.response.data && error.response.data.code === 10100) {
-      originalRequest._retry = true;
-      const refreshToken = await AsyncStorage.getItem("refreshToken");
-      console.log('Refresh token from AsyncStorage:', refreshToken); // 콘솔 로그 추가
-      if (!refreshToken) {
-        console.error("Refresh token is not available.");
-        return Promise.reject(error);
-      }
-      // console.log("Sending refreshToken:", refreshToken);
+customAxios.interceptors.request.use(async config => {
+  // const token = await AsyncStorage.getItem('accessToken');
+  const token = `eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiMDAxIiwibmFtZSI6Iuyepeyepe2drCIsInN1YiI6IjYyZGMzMTkwLTNlOTYtNGJjNy05NzQ2LWFhYjgzM2Y0ZWZiNiIsImV4cCI6MTcwNzY0MjY2OSwiaWF0IjoxNzA0OTY0MjY5fQ.ThRDEZq7xczldt_VMX5Xt0FVhs_vPdp5-NbvN7ISJZUb1ptTmvoNTx2XQvj6l7dGX3whjbOcOG-ynkoUW5FKLg`;
 
-      try {
-        const response = await axios.post(`${Config.API_URL}/api/trainers/v1/token`, { refreshToken });
-        console.log("Refresh token response:", response.data);
-        const { accessToken, refreshToken: newRefreshToken } = response.data;
-        
-        await AsyncStorage.setItem("accessToken", accessToken);
-        if (newRefreshToken) {
-            await AsyncStorage.setItem("refreshToken", newRefreshToken);
-        }
+  console.log('Access token from AsyncStorage:', token); // 콘솔 로그 추가
+  if (token) {
+    config.headers['Authorization'] = `${token}`;
+  }
+  return config;
+});
 
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return customAxios(originalRequest);
-      } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError.response.data);
-        return Promise.reject(error); // 원래의 오류 반환
-      }
+// 응답 인터셉터
+customAxios.interceptors.response.use(null, async error => {
+  console.log(
+    'Error status:',
+    error && error.response && error.response.status,
+  ); // 콘솔 로그 추가
+  const originalRequest = error.config;
+  if (
+    error &&
+    error.response &&
+    error.response.status === 401 &&
+    error.response.data &&
+    error.response.data.code === 10100
+  ) {
+    originalRequest._retry = true;
+    const refreshToken = await AsyncStorage.getItem('refreshToken');
+    console.log('Refresh token from AsyncStorage:', refreshToken); // 콘솔 로그 추가
+    if (!refreshToken) {
+      console.error('Refresh token is not available.');
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
+    // console.log("Sending refreshToken:", refreshToken);
+
+    try {
+      const response = await axios.post(
+        `${Config.API_URL}/api/trainers/v1/token`,
+        {refreshToken},
+      );
+      console.log('Refresh token response:', response.data);
+      const {accessToken, refreshToken: newRefreshToken} = response.data;
+
+      await AsyncStorage.setItem('accessToken', accessToken);
+      if (newRefreshToken) {
+        await AsyncStorage.setItem('refreshToken', newRefreshToken);
+      }
+
+      // originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+      accessToken = '';
+      originalRequest.headers.Authorization = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiMDAxIiwibmFtZSI6Iuyepeyepe2drCIsInN1YiI6IjYyZGMzMTkwLTNlOTYtNGJjNy05NzQ2LWFhYjgzM2Y0ZWZiNiIsImV4cCI6MTcwNzY0MjY2OSwiaWF0IjoxNzA0OTY0MjY5fQ.ThRDEZq7xczldt_VMX5Xt0FVhs_vPdp5-NbvN7ISJZUb1ptTmvoNTx2XQvj6l7dGX3whjbOcOG-ynkoUW5FKLg`;
+
+      return customAxios(originalRequest);
+    } catch (refreshError) {
+      console.error('Token refresh failed:', refreshError.response.data);
+      return Promise.reject(error); // 원래의 오류 반환
+    }
+  }
+  return Promise.reject(error);
 });
 
 export default customAxios;

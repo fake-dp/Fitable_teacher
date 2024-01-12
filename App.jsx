@@ -1,11 +1,11 @@
-import { RecoilRoot } from 'recoil';
+import {RecoilRoot} from 'recoil';
 import AppInner from './AppInner';
 
 function App(props) {
   return (
     <RecoilRoot>
-    <AppInner />
-  </RecoilRoot>
+      <AppInner />
+    </RecoilRoot>
   );
 }
 
