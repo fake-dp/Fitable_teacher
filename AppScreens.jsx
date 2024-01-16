@@ -17,7 +17,10 @@ import PaymentLinkScreen from './src/screens/memberPage/PaymentLinkScreen';
 import ContractScreen from './src/screens/memberPage/ContractScreen';
 import ContractTicketScreen from './src/screens/memberPage/ContractTicketScreen';
 import RegisterMemberScreen from './src/screens/schedulePage/RegisterMemberScreen';
-import EditContractSecreen from './src/screens/memberPage/EditContractSecreen';
+import EditContractSecreen from './src/screens/memberPage/EditContractScreen';
+import ContractAgreementScreen from './src/screens/memberPage/ContractAgreementScreen';
+import SignContractScreen from './src/screens/memberPage/SignContractScreen';
+import SignScreen from './src/screens/memberPage/SignScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -85,6 +88,12 @@ function AppScreens(props) {
         <Stack.Screen name="ContractTicket" component={ContractTicketScreen} />
 
         <Stack.Screen name="EditContract" component={EditContractSecreen} />
+        <Stack.Screen
+          name="AgreementContract"
+          component={ContractAgreementScreen}
+        />
+        <Stack.Screen name="SignContract" component={SignContractScreen} />
+        <Stack.Screen name="Sign" component={SignScreen} />
       </Stack.Group>
 
       {/* 알림 스크린 설정 */}

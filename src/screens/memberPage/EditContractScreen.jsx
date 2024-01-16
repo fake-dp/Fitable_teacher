@@ -32,7 +32,7 @@ const paymentTypeItem = [
   },
 ];
 
-function EditContractSecreen(props) {
+function EditContractScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
   const goBack = () => {
@@ -68,6 +68,10 @@ function EditContractSecreen(props) {
     });
 
     setEditContract(updatedContract);
+  };
+
+  const goContractAgreement = () => {
+    navigation.navigate('AgreementContract', {memberId});
   };
 
   return (
@@ -169,10 +173,10 @@ function EditContractSecreen(props) {
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
           isActive={contract.selectedContractes.length > 0}
-          onPress={() => goContractDetail(memberId)}>
+          onPress={() => goContractAgreement(memberId)}>
           <BasicMainBtnNextBtnNextText
             isActive={contract.selectedContractes.length > 0}>
-            계약서 작성
+            다음
           </BasicMainBtnNextBtnNextText>
         </BasicMainBtnNextBtn>
       </BasicMainBtnContainer>
@@ -180,7 +184,7 @@ function EditContractSecreen(props) {
   );
 }
 
-export default EditContractSecreen;
+export default EditContractScreen;
 
 const Title = styled.Text`
   font-size: 14px;

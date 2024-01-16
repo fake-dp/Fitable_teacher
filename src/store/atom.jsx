@@ -64,11 +64,14 @@ export const contractState = atom({
   default: {
     tickets: [],
 
-    sign: {
-      member: null,
-      teacher: null,
-      center: null,
-    },
+    memberSign: null,
+    teacherSign: null,
+    centerSign: null,
+
+    memberName: '',
+    teacherName: '',
+    centerName: '',
+
     contractTemplate: {},
     selectedContractes: [],
   },

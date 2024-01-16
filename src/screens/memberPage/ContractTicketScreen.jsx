@@ -36,29 +36,6 @@ function ContractTicketScreen(props) {
     navigation.navigate('EditContract', {memberId});
   };
 
-  const updateClassTime = (id, startTime, endTime) => {
-    const updatedClassTimes = classTimes.map(classTime => {
-      if (classTime.id === id) {
-        return {
-          ...classTime,
-          startTime,
-          endTime,
-          dayOfWeek: dayToEnglish(classTime.dayIndex),
-        };
-      }
-      return classTime;
-    });
-    setClassTimes(updatedClassTimes);
-    // 상위 컴포넌트에 있는 schedules 상태를 업데이트
-    setSchedules(
-      updatedClassTimes.map(ct => ({
-        dayOfWeek: ct.dayOfWeek,
-        startTime: ct.startTime,
-        endTime: ct.endTime,
-      })),
-    );
-  };
-
   const getMemberContractTicketListData = async () => {
     try {
       const response = await getMemberContractTicketList({centerId, memberId});
