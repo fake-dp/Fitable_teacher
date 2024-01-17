@@ -6,12 +6,12 @@ import { centerIdState } from '../../store/atom';
 import { useRecoilState } from 'recoil';
 import {getMemberCoupons} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
-function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
+function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/caretdownblack.png');
     const [timeAndPeriodStr, setTimeAndPeriodStr] = useState(String(timeAndPeriod));
     const [centerId, setCenterId] = useRecoilState(centerIdState);
-
+    const [couponList, setCouponList] = useState([]);
     useEffect(() => {
     setTimeAndPeriodStr(String(timeAndPeriod));
 }, [timeAndPeriod]);
@@ -28,11 +28,32 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
     };
 
 
-    const getCouponList = async () => {
-        const {data} = await getMemberCoupons(centerId, memberId);
-        console.log('data',data);
+    const getCouponList = async (id, memberId) => {
+        try{
+            const response = await getMemberCoupons({id, memberId});
+            console.log('response@@!@#1', response.coupons)
+            if(response && response.coupons && response.coupons.length > 0){
+                setCouponList(response.coupons);
+            }
+        }catch(error){
+            console.log('error@@', error)
+        }
     }
     
+
+const transformedCouponTickets = couponList && couponList.length > 0 ? couponList.map((ticket) => ({
+    label: ticket?.centerName,
+    value: ticket?.id,
+})) : [];
+
+
+
+useEffect(() => {
+    if(type === 'paylink' && centerId && memberId){
+        getCouponList(centerId, memberId);
+    }
+}, [centerId, memberId,type])
+
 
     const paymentTypeItem = [
         {
@@ -56,23 +77,32 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
     return (
         <>
         {
-        // type && type && (
-        //     <Container>
-        //     <InfoTitleText>쿠폰(선택)</InfoTitleText>
-        //     <SelectBox onPress={openCouponPicker}>
-        //             <RNPickerSelect
-        //               ref={couponRef}
-        //                 doneText="변경"
-        //                 onValueChange={(value)=>console.log('value',value)}
-        //                 items={paymentTypeItem}
-        //                 placeholder={{
-                     
-        //                 }}
-        //                 style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
-        //         <RigthIcon source={rightIcon}/>
-        //      </SelectBox>
-        // </Container>
-        // )
+        type && type && (
+            <Container>
+            <InfoTitleText>쿠폰(선택)</InfoTitleText>
+            <SelectBox onPress={openCouponPicker}>
+                    <RNPickerSelect
+                        ref={couponRef}
+                        doneText="변경"
+                        onValueChange={(value) => {
+                            if (value !== undefined) {
+                                setFormData((prevData) => {
+                                    let tickets = [...prevData.tickets];
+                                    tickets[index].couponId = value;
+                                    return {...prevData, tickets};
+                                });
+                            }
+                        }}
+                        items={transformedCouponTickets}
+                        placeholder={{
+                            label: '쿠폰을 선택해주세요',
+                            
+                        }}
+                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                <RigthIcon source={rightIcon}/>
+             </SelectBox>
+        </Container>
+        )
         }
 
         <Container>
@@ -81,6 +111,7 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
                     <RNPickerSelect
                         ref={pickerRef}
                         doneText="변경"
+                        disabled={type === 'paylink' ? true : false}
                         onValueChange={(value) => {
                             setFormData((prevData) => {
                                 let tickets = [...prevData.tickets];
@@ -90,7 +121,7 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod}) {
                         }}
                         items={paymentTypeItem}
                         placeholder={{
-                            label: '결제수단을 선택해주세요',
+                            label: type === 'paylink' ? '결제링크' : '결제수단을 선택해주세요',
                             value: null,
                         }}
                         style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>

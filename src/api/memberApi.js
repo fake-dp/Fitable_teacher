@@ -47,7 +47,7 @@ export const getMemberCoupons = async ({id,memberId}) => {
         const response = await customAxios.get(`/api/trainers/v1/centers/${id}/members/${memberId}/coupons`);
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error.response;
     }
 }
 
@@ -118,7 +118,7 @@ export const getMemberContractTicketList = async ({centerId, memberId}) => {
 // 결제 링크 전송
 export const sendPaymentLink = async (data) => {
     try {
-        const response = await customAxios.post(`/api/trainers/v1/payment-link`, data);
+        const response = await customAxios.post(`/api/trainers/v1/paymentLink`, data);
         return response.data;
     } catch (error) {
         throw error.response.data;

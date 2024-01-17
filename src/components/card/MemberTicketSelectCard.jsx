@@ -6,7 +6,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import {getMemberConditions} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
 function MemberTicketSelectCard({ticketId,bookmarkTickets,
-    setSelectedTicket,setFormData,selectedTicket, timeAndPeriod, setTimeAndPeriod,index,setSelectTicketId}) {
+    setFormData,selectedTicket, timeAndPeriod, setTimeAndPeriod,index,setSelectTicketId}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/caretdownblack.png');
   
@@ -41,7 +41,7 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
   
     // console.log('timeSettings',timeSettings)
     const changeTicketId = (index, newId) => {
-        console.log('newId',newId,index)
+        // console.log('newId',newId,index)
         const newTicket = bookmarkTickets.find(ticket => ticket.id === newId);
     
         if (newTicket) {
@@ -58,15 +58,14 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
       const getMemberConditionsData = async (id) => {
         try {
           const response = await getMemberConditions(id);
-          console.log('response',response)
+        //   console.log('response1123',response)
           if (response) {
-            setTimeAndPeriod(response);
-          }
+            setTimeAndPeriod(response);        
+            }
         } catch (error) {
           console.log('error',error);
         }
       }
-
 
       useEffect(() => {
         // 초기 호출인 경우 selectTicketId[index].id 값을 사용하고,

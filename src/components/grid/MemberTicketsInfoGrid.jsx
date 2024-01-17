@@ -5,13 +5,12 @@ import MemberTicketSelectCard from '../card/MemberTicketSelectCard';
 import MemberDateSelectCard from '../card/MemberDateSelectCard';
 import PaymentGridCard from '../card/PaymentGridCard';
 import { useState } from 'react';
-function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,
+function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,memberId,
   setSelectedTicket,setFormData,selectedTicket,index,selectTicketId,setSelectTicketId}) {
 
     const [timeAndPeriod, setTimeAndPeriod] = useState([]);
 
-  console.log('type있냐',index,selectTicketId[index].id,selectTicketId,timeAndPeriod[index]?.price)
-  console.log('timeAndPeriod[index].pricetimeAndPeriod[index].price',timeAndPeriod[index]?.price)
+  // console.log('timeAndPeriod[index]', timeAndPeriod[0]?.price)
     return (
         <>
           
@@ -41,9 +40,10 @@ function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,
             
                 <PaymentGridCard 
                 index={index}
+                memberId={memberId}
                 setFormData={setFormData}
                 type={type}
-                timeAndPeriod={timeAndPeriod[index]?.price}
+                timeAndPeriod={timeAndPeriod[0]?.price}
                 />
                 <GridLineGrayOne/>
         </>

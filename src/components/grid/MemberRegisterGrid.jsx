@@ -15,7 +15,7 @@ import FastImage from 'react-native-fast-image';
 function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,
     setSelectedGender,phone, setPhone,bookmarkTickets,
      setBookmarkTickets,selectedTicket, setSelectedTicket,selectTicketId, 
-     setSelectTicketId,addTicket,formData,setFormData
+     setSelectTicketId,addTicket,formData,setFormData,memberId
     }) {
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -81,7 +81,7 @@ function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,
                   bookmarkTickets={bookmarkTickets}
                   selectedTicket={selectedTicket}
                   selectTicketId={selectTicketId}
-                  setSelectTicketId={setSelectTicketId}
+                  setSelectTicketId={setSelectTicketId}memberId={memberId}
                   setSelectedTicket={setSelectedTicket}setFormData={setFormData}
                 />
                 </React.Fragment>
@@ -117,7 +117,7 @@ background-color: ${COLORS.white};
 border : 1px solid ${COLORS.gray_200};
 border-radius: 13px;
 padding: 14px 16px;
-margin-bottom: 22px;
+margin-bottom: 112px;
 `;
 
 const AddbtnBox = styled.View`

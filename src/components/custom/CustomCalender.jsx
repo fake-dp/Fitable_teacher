@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useCallback } from 'react';
-import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar,Calendar, LocaleConfig} from 'react-native-calendars';
+import {ExpandableCalendar, CalendarProvider, WeekCalendar,Calendar, LocaleConfig} from 'react-native-calendars';
 import { COLORS } from '../../constants/color';
 import { themeStyled } from '../../constants/calendarTheme';
 import styled from 'styled-components/native';
@@ -197,12 +197,12 @@ export default CustomCalendar;
 
 const Container = styled.View`
     background-color: ${COLORS.white};
-    margin-bottom: 25px;
+    margin-bottom: 6px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-top: 30px;
+    margin-top: 8px;
     padding: 0 5px;
 `
 const MonthContainer = styled.TouchableOpacity`
@@ -231,7 +231,7 @@ const DateTitleContainer = styled.View`
 `
 
 const DateTitleText = styled.Text`
-margin-top: 20px;
+margin-top: 10px;
 color: ${COLORS.sub};
     font-size: 20px;
     font-weight: 600;
@@ -247,4 +247,5 @@ font-size: 14px;
 font-weight: 500;
 line-height: 22.40px;
 margin-left: 8px;
+margin-top: 4px;
 `

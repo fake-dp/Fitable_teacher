@@ -6,7 +6,6 @@ import { Alert } from 'react-native';
 import FastImage from 'react-native-fast-image';
 function MemberDateSelectCard({setFormData,index}) {
 
-    
     const [showStartModal, setShowStartModal] = useState(false);
     const [showEndModal, setShowEndModal] = useState(false);
   

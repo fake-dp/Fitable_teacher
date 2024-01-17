@@ -56,8 +56,8 @@ function PaymentLinkScreen(props) {
             endDate: '',
             stopTicketDay: 0,
             stopTicketTime: 0,
-            couponId: '',
-            paymentType: null,
+            couponId: null,
+            paymentType: 'PAYMENT_LINK',
             salePrice: 0,
             receivedPrice: 0,
           },
@@ -91,6 +91,12 @@ console.log('formDataformData',formData)
       }
 
 
+      const isActive = formData.tickets.every(ticket => {
+        // endDate와 salePrice가 존재해야 하며, period가 있을 경우 periodType도 존재해야 한다.
+        return ticket.endDate && ticket.salePrice !== 0 && (!ticket.period || ticket.periodType);
+    });
+
+
     return (
       <MainContainer>
             <GobackGrid onPress={goBack}>결제링크 전송</GobackGrid>
@@ -118,11 +124,12 @@ console.log('formDataformData',formData)
             formData={formData}setFormData={setFormData}
             selectTicketId={selectTicketId}
             setSelectTicketId={setSelectTicketId}
+            memberId={memberId}
             />
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
         <BasicMainBtn
-        isActive={true}
+        isActive={isActive}
         onPress={sendPaymentLinkHandler}
         >결제링크 전송</BasicMainBtn>
         </MainContainer>
