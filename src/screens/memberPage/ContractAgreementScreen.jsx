@@ -4,7 +4,10 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {useRecoilState} from 'recoil';
 import styled, {css} from 'styled-components/native';
-import {getContractAgreement} from '../../api/contractApi';
+import {
+  getContractAgreement,
+  getIntergrateTemplate,
+} from '../../api/contractApi';
 import GobackGrid from '../../components/grid/GobackGrid';
 import ContractAgreementModal from '../../components/modal/ContractAgreementModal';
 import {COLORS} from '../../constants/color';
@@ -21,6 +24,8 @@ function ContractAgreementScreen(props) {
   const {memberId} = route.params;
 
   const [contract, setContract] = useRecoilState(contractState);
+
+  const [templateData, setTemplateData] = useState();
 
   const goSignContract = () => {
     navigation.navigate('SignContract', {memberId});
@@ -42,6 +47,7 @@ function ContractAgreementScreen(props) {
 
   const [currentAgreement, setCurrentAgreement] = useState('');
 
+  //계약서 약관
   useEffect(() => {
     const getData = async () => {
       const response = await getContractAgreement(contract.contractTemplate.id);
@@ -52,6 +58,66 @@ function ContractAgreementScreen(props) {
 
     getData();
   }, []);
+
+  //계약서 템플릿 호출 api
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await getIntergrateTemplate({
+          templateId: contract.contractTemplate.id,
+        });
+        if (response) {
+          setTemplateData(response);
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    getData();
+  }, []);
+
+  //체크박스
+  useEffect(() => {
+    if (isActive) {
+      setIsTotalAgreement(true);
+    } else {
+      setIsTotalAgreement(false);
+    }
+  }, [isTermsAgree, isPrivateAgree, isAdvertisementAgree]);
+
+  //이용약관
+  const isTermsAgreement = () => {
+    if (!templateData?.isTermsAgreement) {
+      return true;
+    } else {
+      return isTermsAgree;
+    }
+  };
+
+  //개인정보 이용 동의서
+  const isPrivateAgreement = () => {
+    if (!templateData?.isPrivateAgreement) {
+      return true;
+    } else {
+      return isPrivateAgree;
+    }
+  };
+
+  //광고성 정보 이용 동의서
+  const isAdvertisingAgreement = () => {
+    if (!templateData?.isAdvertisingAgreement) {
+      return true;
+    } else {
+      return isAdvertisementAgree;
+    }
+  };
+
+  const isActive =
+    templateData &&
+    isTermsAgreement() &&
+    isPrivateAgreement() &&
+    isAdvertisingAgreement();
 
   const getTitle = () => {
     if (currentAgreement === 'termsAgreement') {
@@ -80,16 +146,6 @@ function ContractAgreementScreen(props) {
       return detailData.advertisingAgreement;
     }
   };
-
-  useEffect(() => {
-    if (isTermsAgree && isPrivateAgree && isAdvertisementAgree) {
-      setIsTotalAgreement(true);
-    } else {
-      setIsTotalAgreement(false);
-    }
-  }, [isTermsAgree, isPrivateAgree, isAdvertisementAgree]);
-
-  const isActive = isTermsAgree && isPrivateAgree && isAdvertisementAgree;
 
   return (
     <MainContainer>
@@ -136,44 +192,50 @@ function ContractAgreementScreen(props) {
               paddingHorizontal: 20,
               gap: 24,
             }}>
-            <Agreement.Container
-              onPress={() => openAgreementModal('termsAgreement')}>
-              <Agreement.Text>이용약관 동의</Agreement.Text>
+            {templateData?.isTermsAgreement && (
+              <Agreement.Container
+                onPress={() => openAgreementModal('termsAgreement')}>
+                <Agreement.Text>이용약관 동의</Agreement.Text>
 
-              <CheckBoxBtn
-                isChecked={isTermsAgree}
-                setIsChecked={setIsTermsAgree}
-                handleCheckboxChange={() => {
-                  setIsTermsAgree(!isTermsAgree);
-                }}
-              />
-            </Agreement.Container>
+                <CheckBoxBtn
+                  isChecked={isTermsAgree}
+                  setIsChecked={setIsTermsAgree}
+                  handleCheckboxChange={() => {
+                    setIsTermsAgree(!isTermsAgree);
+                  }}
+                />
+              </Agreement.Container>
+            )}
 
-            <Agreement.Container
-              onPress={() => openAgreementModal('privateAgreement')}>
-              <Agreement.Text>개인정보 이용 동의서</Agreement.Text>
+            {templateData?.isPrivateAgreement && (
+              <Agreement.Container
+                onPress={() => openAgreementModal('privateAgreement')}>
+                <Agreement.Text>개인정보 이용 동의서</Agreement.Text>
 
-              <CheckBoxBtn
-                isChecked={isPrivateAgree}
-                setIsChecked={setIsPrivateAgree}
-                handleCheckboxChange={() => {
-                  setIsPrivateAgree(!isPrivateAgree);
-                }}
-              />
-            </Agreement.Container>
+                <CheckBoxBtn
+                  isChecked={isPrivateAgree}
+                  setIsChecked={setIsPrivateAgree}
+                  handleCheckboxChange={() => {
+                    setIsPrivateAgree(!isPrivateAgree);
+                  }}
+                />
+              </Agreement.Container>
+            )}
 
-            <Agreement.Container
-              onPress={() => openAgreementModal('advertisingAgreement')}>
-              <Agreement.Text>광고성 정보 이용 동의서</Agreement.Text>
+            {templateData?.isAdvertisingAgreement && (
+              <Agreement.Container
+                onPress={() => openAgreementModal('advertisingAgreement')}>
+                <Agreement.Text>광고성 정보 이용 동의서</Agreement.Text>
 
-              <CheckBoxBtn
-                isChecked={isAdvertisementAgree}
-                setIsChecked={setIsAdverTisementAgree}
-                handleCheckboxChange={() => {
-                  setIsAdverTisementAgree(!isAdvertisementAgree);
-                }}
-              />
-            </Agreement.Container>
+                <CheckBoxBtn
+                  isChecked={isAdvertisementAgree}
+                  setIsChecked={setIsAdverTisementAgree}
+                  handleCheckboxChange={() => {
+                    setIsAdverTisementAgree(!isAdvertisementAgree);
+                  }}
+                />
+              </Agreement.Container>
+            )}
           </View>
         </View>
       </ScrollView>

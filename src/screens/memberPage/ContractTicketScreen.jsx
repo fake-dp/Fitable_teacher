@@ -28,35 +28,34 @@ function ContractTicketScreen(props) {
 
   const [contractList, setContractList] = useState([]);
 
-  const goEditContract = memberId => {
-    navigation.navigate('EditContract', {memberId});
-  };
-
-  const getMemberContractTicketListData = async () => {
-    try {
-      const response = await getMemberContractTicketList({centerId, memberId});
-      if (response) {
-        setContractList(response);
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
-
-  const getIntergrateTemplate = async () => {
-    try {
-      const response = await getIntergrateTemplate({
-        templateId: contract.contractTemplate.id,
-      });
-      if (response) {
-        console.log('getIntergrate', response);
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
-
   useEffect(() => {
+    const getMemberContractTicketListData = async () => {
+      try {
+        const response = await getMemberContractTicketList({
+          centerId,
+          memberId,
+        });
+        if (response) {
+          setContractList(response);
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    const getIntergrateTemplate = async () => {
+      try {
+        const response = await getIntergrateTemplate({
+          templateId: contract.contractTemplate.id,
+        });
+        if (response) {
+          console.log('getIntergrate', response);
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
     if (centerId && memberId) {
       getMemberContractTicketListData();
       getIntergrateTemplate();
@@ -64,27 +63,31 @@ function ContractTicketScreen(props) {
   }, []);
 
   const onPressContractBtn = item => {
-    if (contract.selectedContracts.some(contract => contract.id === item.id)) {
-      const updatedContractData = contract.selectedContracts.filter(
+    if (contract.selectedTickets.some(contract => contract.id === item.id)) {
+      const updatedContractData = contract.selectedTickets.filter(
         contract => contract.id !== item.id,
       );
 
       setContract(prev => {
         return {
           ...prev,
-          ['selectedContracts']: updatedContractData,
+          ['selectedTickets']: updatedContractData,
         };
       });
     } else {
-      const updatedContractData = [...contract.selectedContracts, item];
+      const updatedContractData = [...contract.selectedTickets, item];
 
       setContract(prev => {
         return {
           ...prev,
-          ['selectedContracts']: updatedContractData,
+          ['selectedTickets']: updatedContractData,
         };
       });
     }
+  };
+
+  const goEditContract = () => {
+    navigation.navigate('EditContract', {memberId});
   };
 
   return (
@@ -100,12 +103,12 @@ function ContractTicketScreen(props) {
             return (
               <ContractCard
                 key={item.id}
-                isActive={contract.selectedContracts.some(
+                isActive={contract.selectedTickets.some(
                   contract => contract.id === item.id,
                 )}
                 onPress={() => onPressContractBtn(item)}>
                 <ContractTitle
-                  isActive={contract.selectedContracts.some(
+                  isActive={contract.selectedTickets.some(
                     contract => contract.id === item.id,
                   )}>
                   {item.name.length > 16
@@ -119,23 +122,18 @@ function ContractTicketScreen(props) {
       )}
 
       {contractList?.tickets?.length === 0 && (
-        <View
-          style={{
-            flex: 0.8,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+        <EmptyView>
           <Text style={{color: COLORS.gray_300}}>등록된 계약서가 없습니다</Text>
-        </View>
+        </EmptyView>
       )}
 
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
-          isActive={contract.selectedContracts.length > 0}
-          disabled={contract.selectedContracts.length < 1}
-          onPress={() => goEditContract(memberId)}>
+          isActive={contract.selectedTickets.length > 0}
+          disabled={contract.selectedTickets.length < 1}
+          onPress={() => goEditContract()}>
           <BasicMainBtnNextBtnNextText
-            isActive={contract.selectedContracts.length > 0}>
+            isActive={contract.selectedTickets.length > 0}>
             계약서 작성
           </BasicMainBtnNextBtnNextText>
         </BasicMainBtnNextBtn>
@@ -211,4 +209,10 @@ const BasicMainBtnNextBtnNextText = styled.Text`
   font-weight: 600;
   line-height: 22.4px;
   color: ${COLORS.white};
+`;
+
+const EmptyView = styled.View`
+  flex: 0.8;
+  align-items: center;
+  justify-content: center;
 `;

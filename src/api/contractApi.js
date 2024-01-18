@@ -2,11 +2,12 @@ import customAxios from './customAxios';
 import multipartAxios from './multipartAxios';
 
 // 계약서 템플릿 조회
-export const getIntergrateTemplate = async templateId => {
+export const getIntergrateTemplate = async ({templateId}) => {
   try {
     const response = await customAxios.get(
-      `/api/adminManagers/v1/contract/template/integrate/${templateId}`,
+      `/api/trainers/v1/contract/template/integrate/${templateId}`,
     );
+
     return response.data;
   } catch (error) {
     throw error;

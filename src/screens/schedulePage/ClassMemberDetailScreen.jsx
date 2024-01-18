@@ -219,7 +219,7 @@ function ClassMemberDetailScreen(props) {
                   setContract(prev => {
                     return {
                       ...prev,
-                      ['teacherName']: myInfo.name,
+                      ['trainerName']: myInfo.name,
                       ['centerName']: center[0].name,
                       ['memberName']: detailData.member.name,
                     };

@@ -1,17 +1,12 @@
-import React from 'react';
-import {MainContainer} from '../../style/gridStyled';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, TextInput, View} from 'react-native';
+import {useRecoilState} from 'recoil';
+import styled from 'styled-components/native';
 import GobackGrid from '../../components/grid/GobackGrid';
 import {COLORS} from '../../constants/color';
-import styled, {css} from 'styled-components/native';
-import {useNavigation} from '@react-navigation/native';
-import {getMemberContractList} from '../../api/memberApi';
-import {useRecoilState} from 'recoil';
-import {centerIdState, contractState} from '../../store/atom';
-import {useState, useEffect} from 'react';
-import {useRoute} from '@react-navigation/native';
-import {getMemberContractTicketList} from '../../api/memberApi';
-import {ScrollView, Text, TextInput, View} from 'react-native';
-import {text} from 'react-native-communications';
+import {contractState} from '../../store/atom';
+import {MainContainer} from '../../style/gridStyled';
 
 const paymentTypeItem = {
   CARD: '카드',
@@ -32,19 +27,19 @@ function EditContractScreen(props) {
 
   const [contract, setContract] = useRecoilState(contractState);
 
-  const [editContract, setEditContract] = useState([]);
+  const [updatedContractTicket, setUpdatedContractTicket] = useState([]);
 
   useEffect(() => {
-    if (editContract.editSelectedContracts) {
+    if (updatedContractTicket.updatedSelectedTickets) {
       console.log('ㅠㅠ');
-      setEditContract([contract.editSelectedContracts]);
+      setUpdatedContractTicket([contract.updatedSelectedTickets]);
     } else {
-      setEditContract(contract.selectedContracts);
+      setUpdatedContractTicket(contract.selectedTickets);
     }
   }, []);
 
-  const updateConractDetail = (item, key, value) => {
-    const updatedContract = editContract.map(contract => {
+  const updateContractTicketDetail = (item, key, value) => {
+    const updatedData = updatedContractTicket.map(contract => {
       if (contract.id === item.id) {
         return {
           ...contract,
@@ -54,39 +49,30 @@ function EditContractScreen(props) {
       return contract;
     });
 
-    setEditContract(updatedContract);
+    setUpdatedContractTicket(updatedData);
   };
 
   const goContractAgreement = () => {
     setContract(prev => {
-      return {...prev, ['editSelectedContracts']: editContract};
+      return {...prev, ['updatedSelectedTickets']: updatedContractTicket};
     });
     navigation.navigate('AgreementContract', {memberId});
   };
 
   const isActive = () => {
-    // let result = false;
-
-    let result = false;
-
-    (editContract || []).forEach(contract => {
-      console.log('@@@@@@', contract);
-
-      result = (
+    return !updatedContractTicket.some(ticket => {
+      return (
         [
-          contract.name,
-          contract.time,
-          contract.startDate,
-          contract.paymentType,
-          contract.price,
+          ticket.name,
+          ticket.time,
+          ticket.startDate,
+          ticket.paymentType,
+          ticket.price,
         ] || []
       ).some(element => {
         return element !== 0 && !element;
       });
     });
-    console.log('result', result);
-
-    return !result;
   };
 
   return (
@@ -101,7 +87,7 @@ function EditContractScreen(props) {
         <Divider />
 
         <View style={{gap: 20, marginTop: 30}}>
-          {contract.selectedContracts?.map((item, index) => {
+          {contract.selectedTickets?.map((item, index) => {
             return (
               <>
                 <View>
@@ -113,17 +99,17 @@ function EditContractScreen(props) {
                     <DateContainer>
                       <TextInput
                         style={{width: 87}}
-                        value={editContract[index]?.startDate}
+                        value={updatedContractTicket[index]?.startDate}
                         onChangeText={text => {
-                          updateConractDetail(item, 'startDate', text);
+                          updateContractTicketDetail(item, 'startDate', text);
                         }}
                       />
                       <DateContainer.Text>{`~`}</DateContainer.Text>
                       <TextInput
                         style={{width: 90}}
-                        value={editContract[index]?.endDate}
+                        value={updatedContractTicket[index]?.endDate}
                         onChangeText={text => {
-                          updateConractDetail(item, 'endDate', text);
+                          updateContractTicketDetail(item, 'endDate', text);
                         }}
                       />
                     </DateContainer>
@@ -133,9 +119,9 @@ function EditContractScreen(props) {
                     <InfoTitleText>이용권 상품</InfoTitleText>
                     <PriceTextInput
                       placeholder="이용권 상품"
-                      value={editContract[index]?.name}
+                      value={updatedContractTicket[index]?.name}
                       onChangeText={text => {
-                        updateConractDetail(item, 'name', text);
+                        updateContractTicketDetail(item, 'name', text);
                       }}
                     />
                   </Container>
@@ -146,9 +132,9 @@ function EditContractScreen(props) {
                       <PriceTextInput
                         placeholder="0회"
                         keyboardType="number-pad"
-                        value={String(editContract[index]?.time)}
+                        value={String(updatedContractTicket[index]?.time)}
                         onChangeText={text => {
-                          updateConractDetail(item, 'time', text);
+                          updateContractTicketDetail(item, 'time', text);
                         }}
                       />
                     </View>
@@ -160,11 +146,16 @@ function EditContractScreen(props) {
                         <PriceTextInput
                           placeholder="결제수단"
                           value={
-                            paymentTypeItem[editContract[index]?.paymentType] ||
-                            editContract[index]?.paymentType
+                            paymentTypeItem[
+                              updatedContractTicket[index]?.paymentType
+                            ] || updatedContractTicket[index]?.paymentType
                           }
                           onChangeText={text => {
-                            updateConractDetail(item, 'paymentType', text);
+                            updateContractTicketDetail(
+                              item,
+                              'paymentType',
+                              text,
+                            );
                           }}
                         />
                       </PriceInnerContainer>
@@ -174,9 +165,9 @@ function EditContractScreen(props) {
                         <PriceTextInput
                           placeholder="0원"
                           keyboardType="number-pad"
-                          value={String(editContract[index]?.price)}
+                          value={String(updatedContractTicket[index]?.price)}
                           onChangeText={text => {
-                            updateConractDetail(item, 'price', text);
+                            updateContractTicketDetail(item, 'price', text);
                           }}
                         />
                       </PriceInnerContainer>

@@ -16,37 +16,37 @@ function ContractScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const [contract, setContract] = useRecoilState(contractState);
-
   const goBack = () => {
     navigation.goBack();
   };
 
   const {memberId} = route.params;
 
+  //계약서 작성 관련 state
+  const [contract, setContract] = useRecoilState(contractState);
+
   const [centerId, setCenterId] = useRecoilState(centerIdState);
 
   const [contractList, setContractList] = useState([]);
 
-  const getMemberContractListData = async () => {
-    try {
-      const response = await getMemberContractList(centerId);
-      if (response) {
-        setContractList(response);
+  useEffect(() => {
+    const getMemberContractListData = async () => {
+      try {
+        const response = await getMemberContractList(centerId);
+        if (response) {
+          setContractList(response);
+        }
+      } catch (error) {
+        console.log('error', error);
       }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+    };
 
-  const goContractDetail = memberId => {
+    getMemberContractListData();
+  }, []);
+
+  const goContractDetail = () => {
     navigation.navigate('ContractTicket', {memberId});
   };
-
-  useEffect(() => {
-    getMemberContractListData();
-    console.log('contract.contractTemplate.id', contract.contractTemplate);
-  }, []);
 
   return (
     <MainContainer>
@@ -73,23 +73,17 @@ function ContractScreen(props) {
           </ContractCard>
         );
       })}
-
       {contractList.length === 0 && (
-        <View
-          style={{
-            flex: 0.8,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+        <EmptyView>
           <Text style={{color: COLORS.gray_300}}>등록된 계약서가 없습니다</Text>
-        </View>
+        </EmptyView>
       )}
 
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
           isActive={contract?.contractTemplate?.id}
           disabled={!contract?.contractTemplate?.id}
-          onPress={() => goContractDetail(memberId)}>
+          onPress={() => goContractDetail()}>
           <BasicMainBtnNextBtnNextText
             isActive={contract?.contractTemplate?.id}>
             이용권 선택
@@ -162,4 +156,10 @@ const BasicMainBtnNextBtnNextText = styled.Text`
   font-weight: 600;
   line-height: 22.4px;
   color: ${COLORS.white};
+`;
+
+const EmptyView = styled.View`
+  flex: 0.8;
+  align-items: center;
+  justify-content: center;
 `;

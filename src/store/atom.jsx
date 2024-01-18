@@ -62,18 +62,16 @@ export const totalElementsState = atom({
 export const contractState = atom({
   key: 'contractState',
   default: {
-    tickets: [],
-
-    memberSign: {uri: null, file: null},
-    teacherSign: {uri: null, file: null},
-    centerSign: {uri: null, file: null},
+    memberSignImage: {uri: null, file: null},
+    adminSignImage: {uri: null, file: null},
+    centerSignImage: {uri: null, file: null},
 
     memberName: '',
-    teacherName: '',
+    trainerName: '',
     centerName: '',
 
     contractTemplate: {},
-    selectedContracts: [],
-    editSelectedContracts: null,
+    selectedTickets: [],
+    updatedSelectedTickets: null,
   },
 });
