@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useResetRecoilState} from 'recoil';
 import styled from 'styled-components/native';
 import GobackGrid from '../../components/grid/GobackGrid';
 import {COLORS} from '../../constants/color';
@@ -12,7 +12,18 @@ import {useRoute} from '@react-navigation/native';
 
 import SignatureScreen from 'react-native-signature-canvas';
 
-const style = `.m-signature-pad--footer {display: none; margin: 0px;}`;
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
+const style = `
+.m-signature-pad--footer {display: none; margin: 0px;} 
+.m-signature-pad {box-shadow:none; border:none; background-color: #F6F6F6; height: }
+.m-signature-pad:before, .m-signature-pad:after {box-shadow:none;} 
+.m-signature-pad--body {border:none;}
+body,html {
+  background-color: #ddd;
+  width: 100%; height: 100%;
+}
+`;
 
 const removeImage = require('../../assets/img/eraser-1.png');
 
@@ -38,10 +49,17 @@ function SignScreen(props) {
   };
 
   const handleOK = async signature => {
+    const decodedURL = signature.replace(/^data:image\/\w+;base64,/, '');
+    const buf = Buffer.from(decodedURL, 'base64');
+    const blob = new Blob([buf], {type: 'image/png'});
+
     setContract(prev => {
       return {
         ...prev,
-        [currentView]: signature,
+        [currentView]: {
+          uri: signature,
+          file: new File([blob], `${currentView}.png`, {type: 'image/png'}),
+        },
       };
     });
     navigation.goBack();
@@ -51,23 +69,29 @@ function SignScreen(props) {
     await ref.current.readSignature();
   };
 
+  useEffect(() => {
+    console.log('contract onChange', contract);
+  }, [contract]);
+
   return (
     <MainContainer>
       <GobackGrid onPress={goBack}>서명하기</GobackGrid>
 
       <View style={{flex: 1}}>
-        <SignatureScreen
-          onOK={handleOK}
-          onEnd={() => setIsSignEnd(true)}
-          ref={ref}
-          webStyle={style}
-        />
+        <View style={{height: 270}}>
+          <SignatureScreen
+            onOK={handleOK}
+            onEnd={() => setIsSignEnd(true)}
+            ref={ref}
+            webStyle={style}
+          />
+        </View>
 
         <View
           style={{
             flex: 1,
             alignItems: 'flex-end',
-            marginTop: 12,
+            marginTop: 16,
           }}>
           <TouchableOpacity
             style={{

@@ -4,13 +4,14 @@ import GobackGrid from '../../components/grid/GobackGrid';
 import {COLORS} from '../../constants/color';
 import styled, {css} from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import {getMemberContractList} from '../../api/memberApi';
-import {useRecoilState} from 'recoil';
+import {getIntergrateTemplate} from '../../api/contractApi';
+
+import {useRecoilState, useResetRecoilState} from 'recoil';
 import {centerIdState, contractState} from '../../store/atom';
 import {useState, useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {getMemberContractTicketList} from '../../api/memberApi';
-import {ScrollView} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 
 function ContractTicketScreen(props) {
   const navigation = useNavigation();
@@ -19,20 +20,15 @@ function ContractTicketScreen(props) {
     navigation.goBack();
   };
 
-  // const {memberId} = route.params;
-  const memberId = `0bb89eca-16e4-43f5-b3f3-0dcbdb488bd6`;
+  const {memberId} = route.params;
 
-  // const [centerId, setCenterId] = useRecoilState(centerIdState);
-  const centerId = `18c09191-e393-4f0d-80cf-b0eff1348e3d`;
+  const [centerId, setCenterId] = useRecoilState(centerIdState);
 
   const [contract, setContract] = useRecoilState(contractState);
 
   const [contractList, setContractList] = useState([]);
 
   const goEditContract = memberId => {
-    // if (isActive) {
-    //   onPress();
-    // }
     navigation.navigate('EditContract', {memberId});
   };
 
@@ -47,37 +43,45 @@ function ContractTicketScreen(props) {
     }
   };
 
+  const getIntergrateTemplate = async () => {
+    try {
+      const response = await getIntergrateTemplate({
+        templateId: contract.contractTemplate.id,
+      });
+      if (response) {
+        console.log('getIntergrate', response);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   useEffect(() => {
     if (centerId && memberId) {
       getMemberContractTicketListData();
+      getIntergrateTemplate();
     }
   }, []);
 
-  useEffect(() => {
-    console.log('contract.selectedContractes', contract.selectedContractes);
-  }, [contract]);
-
-  // console.log('memberId', memberId, 'centerid', centerId, contractList);
-
   const onPressContractBtn = item => {
-    if (contract.selectedContractes.some(contract => contract.id === item.id)) {
-      const updatedContractData = contract.selectedContractes.filter(
+    if (contract.selectedContracts.some(contract => contract.id === item.id)) {
+      const updatedContractData = contract.selectedContracts.filter(
         contract => contract.id !== item.id,
       );
 
       setContract(prev => {
         return {
           ...prev,
-          ['selectedContractes']: updatedContractData,
+          ['selectedContracts']: updatedContractData,
         };
       });
     } else {
-      const updatedContractData = [...contract.selectedContractes, item];
+      const updatedContractData = [...contract.selectedContracts, item];
 
       setContract(prev => {
         return {
           ...prev,
-          ['selectedContractes']: updatedContractData,
+          ['selectedContracts']: updatedContractData,
         };
       });
     }
@@ -87,37 +91,51 @@ function ContractTicketScreen(props) {
     <MainContainer>
       <GobackGrid onPress={goBack}>계약서 작성</GobackGrid>
       <Title>이용 중인 이용권 선택</Title>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        style={{marginBottom: 100}}>
-        {contractList?.tickets?.map((item, index) => {
-          return (
-            <ContractCard
-              key={item.id}
-              isActive={contract.selectedContractes.some(
-                contract => contract.id === item.id,
-              )}
-              onPress={() => onPressContractBtn(item)}>
-              <ContractTitle
-                isActive={contract.selectedContractes.some(
+      {contractList?.tickets?.length > 0 && (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          style={{marginBottom: 100}}>
+          {contractList?.tickets?.map((item, index) => {
+            return (
+              <ContractCard
+                key={item.id}
+                isActive={contract.selectedContracts.some(
                   contract => contract.id === item.id,
-                )}>
-                {item.name.length > 16
-                  ? item.name.substring(0, 16) + '...'
-                  : item.name}
-              </ContractTitle>
-            </ContractCard>
-          );
-        })}
-      </ScrollView>
+                )}
+                onPress={() => onPressContractBtn(item)}>
+                <ContractTitle
+                  isActive={contract.selectedContracts.some(
+                    contract => contract.id === item.id,
+                  )}>
+                  {item.name.length > 16
+                    ? item.name.substring(0, 16) + '...'
+                    : item.name}
+                </ContractTitle>
+              </ContractCard>
+            );
+          })}
+        </ScrollView>
+      )}
+
+      {contractList?.tickets?.length === 0 && (
+        <View
+          style={{
+            flex: 0.8,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: COLORS.gray_300}}>등록된 계약서가 없습니다</Text>
+        </View>
+      )}
 
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
-          isActive={contract.selectedContractes.length > 0}
+          isActive={contract.selectedContracts.length > 0}
+          disabled={contract.selectedContracts.length < 1}
           onPress={() => goEditContract(memberId)}>
           <BasicMainBtnNextBtnNextText
-            isActive={contract.selectedContractes.length > 0}>
+            isActive={contract.selectedContracts.length > 0}>
             계약서 작성
           </BasicMainBtnNextBtnNextText>
         </BasicMainBtnNextBtn>

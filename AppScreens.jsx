@@ -21,6 +21,7 @@ import EditContractSecreen from './src/screens/memberPage/EditContractScreen';
 import ContractAgreementScreen from './src/screens/memberPage/ContractAgreementScreen';
 import SignContractScreen from './src/screens/memberPage/SignContractScreen';
 import SignScreen from './src/screens/memberPage/SignScreen';
+import ContractSuccess from './src/screens/memberPage/ContractSuccess';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +43,7 @@ function AppScreens(props) {
       }}>
       <Stack.Screen
         name="MainTab"
-        component={ContractScreen}
+        component={MainTabScreen}
         options={{headerShown: false}}
       />
 
@@ -94,6 +95,7 @@ function AppScreens(props) {
         />
         <Stack.Screen name="SignContract" component={SignContractScreen} />
         <Stack.Screen name="Sign" component={SignScreen} />
+        <Stack.Screen name="ContractSuccess" component={ContractSuccess} />
       </Stack.Group>
 
       {/* 알림 스크린 설정 */}

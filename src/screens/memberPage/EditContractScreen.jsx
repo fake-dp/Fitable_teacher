@@ -13,47 +13,34 @@ import {getMemberContractTicketList} from '../../api/memberApi';
 import {ScrollView, Text, TextInput, View} from 'react-native';
 import {text} from 'react-native-communications';
 
-const paymentTypeItem = [
-  {
-    label: '카드',
-    value: 'CARD',
-  },
-  {
-    label: '현금',
-    value: 'CASH',
-  },
-  {
-    label: '계좌이체',
-    value: 'BANK_TRANSFER',
-  },
-  {
-    label: '결제링크',
-    value: 'PAYMENT_LINK',
-  },
-];
+const paymentTypeItem = {
+  CARD: '카드',
+  CASH: '현금',
+  BANK_TRANSFER: '계좌이체',
+  PAYMENT_LINK: '결제링크',
+};
 
 function EditContractScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
+
   const goBack = () => {
     navigation.goBack();
   };
 
-  // const {memberId} = route.params;
-  const memberId = `0bb89eca-16e4-43f5-b3f3-0dcbdb488bd6`;
-
-  // const [centerId, setCenterId] = useRecoilState(centerIdState);
-  const centerId = `18c09191-e393-4f0d-80cf-b0eff1348e3d`;
+  const {memberId} = route.params;
 
   const [contract, setContract] = useRecoilState(contractState);
-
-  const [text1234, setText1234] = useState('');
 
   const [editContract, setEditContract] = useState([]);
 
   useEffect(() => {
-    setEditContract(contract.selectedContractes);
-    console.log('hello!!!', contract.selectedContractes);
+    if (editContract.editSelectedContracts) {
+      console.log('ㅠㅠ');
+      setEditContract([contract.editSelectedContracts]);
+    } else {
+      setEditContract(contract.selectedContracts);
+    }
   }, []);
 
   const updateConractDetail = (item, key, value) => {
@@ -71,7 +58,35 @@ function EditContractScreen(props) {
   };
 
   const goContractAgreement = () => {
+    setContract(prev => {
+      return {...prev, ['editSelectedContracts']: editContract};
+    });
     navigation.navigate('AgreementContract', {memberId});
+  };
+
+  const isActive = () => {
+    // let result = false;
+
+    let result = false;
+
+    (editContract || []).forEach(contract => {
+      console.log('@@@@@@', contract);
+
+      result = (
+        [
+          contract.name,
+          contract.time,
+          contract.startDate,
+          contract.paymentType,
+          contract.price,
+        ] || []
+      ).some(element => {
+        return element !== 0 && !element;
+      });
+    });
+    console.log('result', result);
+
+    return !result;
   };
 
   return (
@@ -86,7 +101,7 @@ function EditContractScreen(props) {
         <Divider />
 
         <View style={{gap: 20, marginTop: 30}}>
-          {contract.selectedContractes?.map((item, index) => {
+          {contract.selectedContracts?.map((item, index) => {
             return (
               <>
                 <View>
@@ -97,13 +112,13 @@ function EditContractScreen(props) {
 
                     <DateContainer>
                       <TextInput
-                        style={{width: 90}}
+                        style={{width: 87}}
                         value={editContract[index]?.startDate}
                         onChangeText={text => {
                           updateConractDetail(item, 'startDate', text);
                         }}
                       />
-                      <Text>{`~`}</Text>
+                      <DateContainer.Text>{`~`}</DateContainer.Text>
                       <TextInput
                         style={{width: 90}}
                         value={editContract[index]?.endDate}
@@ -117,7 +132,7 @@ function EditContractScreen(props) {
                   <Container>
                     <InfoTitleText>이용권 상품</InfoTitleText>
                     <PriceTextInput
-                      placeholder="0원"
+                      placeholder="이용권 상품"
                       value={editContract[index]?.name}
                       onChangeText={text => {
                         updateConractDetail(item, 'name', text);
@@ -131,6 +146,7 @@ function EditContractScreen(props) {
                       <PriceTextInput
                         placeholder="0회"
                         keyboardType="number-pad"
+                        value={String(editContract[index]?.time)}
                         onChangeText={text => {
                           updateConractDetail(item, 'time', text);
                         }}
@@ -143,6 +159,10 @@ function EditContractScreen(props) {
                         <InfoTitleText>결제수단</InfoTitleText>
                         <PriceTextInput
                           placeholder="결제수단"
+                          value={
+                            paymentTypeItem[editContract[index]?.paymentType] ||
+                            editContract[index]?.paymentType
+                          }
                           onChangeText={text => {
                             updateConractDetail(item, 'paymentType', text);
                           }}
@@ -154,6 +174,7 @@ function EditContractScreen(props) {
                         <PriceTextInput
                           placeholder="0원"
                           keyboardType="number-pad"
+                          value={String(editContract[index]?.price)}
                           onChangeText={text => {
                             updateConractDetail(item, 'price', text);
                           }}
@@ -172,10 +193,9 @@ function EditContractScreen(props) {
 
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
-          isActive={contract.selectedContractes.length > 0}
+          isActive={isActive()}
           onPress={() => goContractAgreement(memberId)}>
-          <BasicMainBtnNextBtnNextText
-            isActive={contract.selectedContractes.length > 0}>
+          <BasicMainBtnNextBtnNextText isActive={isActive()}>
             다음
           </BasicMainBtnNextBtnNextText>
         </BasicMainBtnNextBtn>
@@ -185,32 +205,6 @@ function EditContractScreen(props) {
 }
 
 export default EditContractScreen;
-
-const Title = styled.Text`
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 22px;
-  letter-spacing: -0.35px;
-  color: ${COLORS.gray_400};
-  margin-bottom: 10px;
-`;
-
-const ContractCard = styled.TouchableOpacity`
-  background-color: ${COLORS.gray_100};
-  border-radius: 13px;
-  padding: 14px 16px;
-  margin-top: 8px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  ${props =>
-    props.isActive &&
-    css`
-      background-color: ${COLORS.sub};
-    `}
-`;
 
 const ContractTitle = styled.Text`
   color: ${COLORS.sub};
@@ -226,6 +220,10 @@ const DateContainer = styled.View`
   background-color: ${COLORS.gray_100};
   align-items: center;
   padding: 0px 10px;
+`;
+
+DateContainer.Text = styled.Text`
+  color: ${COLORS.sub};
 `;
 
 const Container = styled.View`
@@ -293,7 +291,7 @@ const PriceTextInput = styled.TextInput.attrs(props => ({
 }))`
   width: 100%;
   font-size: 14px;
-  color: ${COLORS.gray_300};
+  color: ${COLORS.sub};
   font-weight: 400;
   border: 1px solid ${COLORS.gray_100};
   background-color: ${COLORS.gray_100};

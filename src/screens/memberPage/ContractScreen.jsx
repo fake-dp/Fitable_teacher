@@ -10,6 +10,8 @@ import {centerIdState, contractState} from '../../store/atom';
 import {useState, useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
 
+import {Text, View} from 'react-native';
+
 function ContractScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
@@ -20,40 +22,11 @@ function ContractScreen(props) {
     navigation.goBack();
   };
 
-  // route.params.memberId = `0bb89eca-16e4-43f5-b3f3-0dcbdb488bd6`;
-  // const {memberId} = route.params;
+  const {memberId} = route.params;
 
-  const memberId = `0bb89eca-16e4-43f5-b3f3-0dcbdb488bd6`;
-
-  console.log('memberId  @@@@@@@', memberId);
-
-  // const [centerId, setCenterId] = useRecoilState(centerIdState);
-  const centerId = `18c09191-e393-4f0d-80cf-b0eff1348e3d`;
+  const [centerId, setCenterId] = useRecoilState(centerIdState);
 
   const [contractList, setContractList] = useState([]);
-
-  const updateClassTime = (id, startTime, endTime) => {
-    const updatedClassTimes = classTimes.map(classTime => {
-      if (classTime.id === id) {
-        return {
-          ...classTime,
-          startTime,
-          endTime,
-          dayOfWeek: dayToEnglish(classTime.dayIndex),
-        };
-      }
-      return classTime;
-    });
-    setClassTimes(updatedClassTimes);
-    // 상위 컴포넌트에 있는 schedules 상태를 업데이트
-    setSchedules(
-      updatedClassTimes.map(ct => ({
-        dayOfWeek: ct.dayOfWeek,
-        startTime: ct.startTime,
-        endTime: ct.endTime,
-      })),
-    );
-  };
 
   const getMemberContractListData = async () => {
     try {
@@ -67,17 +40,12 @@ function ContractScreen(props) {
   };
 
   const goContractDetail = memberId => {
-    console.log('ContractTicket');
-
-    // if (isActive) {
-    //   onPress();
-    // }
     navigation.navigate('ContractTicket', {memberId});
   };
 
   useEffect(() => {
     getMemberContractListData();
-    console.log('contract.contractTemplate.id', contract.contractTemplate.id);
+    console.log('contract.contractTemplate.id', contract.contractTemplate);
   }, []);
 
   return (
@@ -106,9 +74,21 @@ function ContractScreen(props) {
         );
       })}
 
+      {contractList.length === 0 && (
+        <View
+          style={{
+            flex: 0.8,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: COLORS.gray_300}}>등록된 계약서가 없습니다</Text>
+        </View>
+      )}
+
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
           isActive={contract?.contractTemplate?.id}
+          disabled={!contract?.contractTemplate?.id}
           onPress={() => goContractDetail(memberId)}>
           <BasicMainBtnNextBtnNextText
             isActive={contract?.contractTemplate?.id}>

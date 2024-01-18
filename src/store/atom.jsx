@@ -64,15 +64,16 @@ export const contractState = atom({
   default: {
     tickets: [],
 
-    memberSign: null,
-    teacherSign: null,
-    centerSign: null,
+    memberSign: {uri: null, file: null},
+    teacherSign: {uri: null, file: null},
+    centerSign: {uri: null, file: null},
 
     memberName: '',
     teacherName: '',
     centerName: '',
 
     contractTemplate: {},
-    selectedContractes: [],
+    selectedContracts: [],
+    editSelectedContracts: null,
   },
 });

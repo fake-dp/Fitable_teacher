@@ -8,7 +8,7 @@ import {getContractAgreement} from '../../api/contractApi';
 import GobackGrid from '../../components/grid/GobackGrid';
 import ContractAgreementModal from '../../components/modal/ContractAgreementModal';
 import {COLORS} from '../../constants/color';
-import {contractState} from '../../store/atom';
+import {centerIdState, contractState} from '../../store/atom';
 import {MainContainer} from '../../style/gridStyled';
 
 function ContractAgreementScreen(props) {
@@ -18,22 +18,9 @@ function ContractAgreementScreen(props) {
     navigation.goBack();
   };
 
-  // const {memberId} = route.params;
-  const memberId = `0bb89eca-16e4-43f5-b3f3-0dcbdb488bd6`;
-
-  // const [centerId, setCenterId] = useRecoilState(centerIdState);
-  const centerId = `18c09191-e393-4f0d-80cf-b0eff1348e3d`;
+  const {memberId} = route.params;
 
   const [contract, setContract] = useRecoilState(contractState);
-
-  const [editContract, setEditContract] = useState([]);
-
-  useEffect(() => {
-    console.log('contract', contract);
-
-    setEditContract(contract.selectedContractes);
-    console.log('hello!!!', contract.selectedContractes);
-  }, []);
 
   const goSignContract = () => {
     navigation.navigate('SignContract', {memberId});
@@ -94,6 +81,16 @@ function ContractAgreementScreen(props) {
     }
   };
 
+  useEffect(() => {
+    if (isTermsAgree && isPrivateAgree && isAdvertisementAgree) {
+      setIsTotalAgreement(true);
+    } else {
+      setIsTotalAgreement(false);
+    }
+  }, [isTermsAgree, isPrivateAgree, isAdvertisementAgree]);
+
+  const isActive = isTermsAgree && isPrivateAgree && isAdvertisementAgree;
+
   return (
     <MainContainer>
       <GobackGrid onPress={goBack}>계약서 작성</GobackGrid>
@@ -107,7 +104,6 @@ function ContractAgreementScreen(props) {
           modalVisible={modalVisible}
           closeModal={() => {
             setModalVisible(false);
-            setDetailData('');
           }}
         />
 
@@ -124,6 +120,12 @@ function ContractAgreementScreen(props) {
               <CheckBoxBtn
                 isChecked={isTotalAgreement}
                 setIsChecked={setIsTotalAgreement}
+                handleCheckboxChange={() => {
+                  setIsTermsAgree(!isTotalAgreement);
+                  setIsPrivateAgree(!isTotalAgreement);
+                  setIsAdverTisementAgree(!isTotalAgreement);
+                  setIsTotalAgreement(!isTotalAgreement);
+                }}
               />
             </TotalAgreement.Container>
           </View>
@@ -139,8 +141,12 @@ function ContractAgreementScreen(props) {
               <Agreement.Text>이용약관 동의</Agreement.Text>
 
               <CheckBoxBtn
-                isChecked={isTotalAgreement}
-                setIsChecked={setIsTotalAgreement}></CheckBoxBtn>
+                isChecked={isTermsAgree}
+                setIsChecked={setIsTermsAgree}
+                handleCheckboxChange={() => {
+                  setIsTermsAgree(!isTermsAgree);
+                }}
+              />
             </Agreement.Container>
 
             <Agreement.Container
@@ -148,8 +154,12 @@ function ContractAgreementScreen(props) {
               <Agreement.Text>개인정보 이용 동의서</Agreement.Text>
 
               <CheckBoxBtn
-                isChecked={isTotalAgreement}
-                setIsChecked={setIsTotalAgreement}></CheckBoxBtn>
+                isChecked={isPrivateAgree}
+                setIsChecked={setIsPrivateAgree}
+                handleCheckboxChange={() => {
+                  setIsPrivateAgree(!isPrivateAgree);
+                }}
+              />
             </Agreement.Container>
 
             <Agreement.Container
@@ -157,8 +167,12 @@ function ContractAgreementScreen(props) {
               <Agreement.Text>광고성 정보 이용 동의서</Agreement.Text>
 
               <CheckBoxBtn
-                isChecked={isTotalAgreement}
-                setIsChecked={setIsTotalAgreement}></CheckBoxBtn>
+                isChecked={isAdvertisementAgree}
+                setIsChecked={setIsAdverTisementAgree}
+                handleCheckboxChange={() => {
+                  setIsAdverTisementAgree(!isAdvertisementAgree);
+                }}
+              />
             </Agreement.Container>
           </View>
         </View>
@@ -166,10 +180,10 @@ function ContractAgreementScreen(props) {
 
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
-          isActive={contract.selectedContractes.length > 0}
+          disabled={!isActive}
+          isActive={isActive}
           onPress={() => goSignContract(memberId)}>
-          <BasicMainBtnNextBtnNextText
-            isActive={contract.selectedContractes.length > 0}>
+          <BasicMainBtnNextBtnNextText isActive={isActive}>
             다음
           </BasicMainBtnNextBtnNextText>
         </BasicMainBtnNextBtn>
@@ -250,10 +264,10 @@ Agreement.Text = styled.Text`
   text-decoration-line: underline;
 `;
 
-function CheckBoxBtn({isChecked, setIsChecked}) {
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
+function CheckBoxBtn({isChecked, setIsChecked, handleCheckboxChange}) {
+  // const handleCheckboxChange = () => {
+  //   setIsChecked(!isChecked);
+  // };
 
   return (
     <>

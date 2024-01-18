@@ -23,7 +23,7 @@ function AppInner() {
 
   return (
     <NavigationContainer>
-      <AppScreens />
+      {isLoggedIn ? <AppScreens /> : <Auth />}
     </NavigationContainer>
   );
 }

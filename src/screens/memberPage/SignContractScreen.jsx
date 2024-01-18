@@ -1,17 +1,13 @@
-import React from 'react';
-import {MainContainer} from '../../style/gridStyled';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {Alert, ScrollView, View} from 'react-native';
+import {useRecoilState} from 'recoil';
+import styled from 'styled-components/native';
+import {getCenterSign, postNewIntegrateContract} from '../../api/contractApi';
 import GobackGrid from '../../components/grid/GobackGrid';
 import {COLORS} from '../../constants/color';
-import styled, {css} from 'styled-components/native';
-import {useNavigation} from '@react-navigation/native';
-import {getMemberContractList} from '../../api/memberApi';
-import {useRecoilState} from 'recoil';
 import {centerIdState, contractState} from '../../store/atom';
-import {useState, useEffect} from 'react';
-import {useRoute} from '@react-navigation/native';
-import {getMemberContractTicketList} from '../../api/memberApi';
-import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
-import {getCenterSign, postNewIntegrateContract} from '../../api/contractApi';
+import {MainContainer} from '../../style/gridStyled';
 
 function SignContractScreen(props) {
   const navigation = useNavigation();
@@ -20,19 +16,11 @@ function SignContractScreen(props) {
     navigation.goBack();
   };
 
-  // const {memberId} = route.params;
-  const memberId = `0bb89eca-16e4-43f5-b3f3-0dcbdb488bd6`;
+  const {memberId} = route.params;
 
-  // const [centerId, setCenterId] = useRecoilState(centerIdState);
-  const centerId = `18c09191-e393-4f0d-80cf-b0eff1348e3d`;
+  const [centerId, setCenterId] = useRecoilState(centerIdState);
 
   const [contract, setContract] = useRecoilState(contractState);
-
-  const [editContract, setEditContract] = useState([]);
-
-  useEffect(() => {
-    console.log('contract', contract);
-  }, []);
 
   const updateName = (key, value) => {
     setContract(prev => {
@@ -41,10 +29,6 @@ function SignContractScreen(props) {
         [key]: value,
       };
     });
-  };
-
-  const goContractAgreement = () => {
-    navigation.navigate('AgreementContract', {memberId});
   };
 
   const goEditSign = currentView => {
@@ -58,7 +42,7 @@ function SignContractScreen(props) {
         setContract(prev => {
           return {
             ...prev,
-            ['centerSign']: response.imagePath,
+            ['centerSign']: {uri: response.imagePath, file: null},
           };
         });
       }
@@ -68,8 +52,12 @@ function SignContractScreen(props) {
   }, []);
 
   const registerNewContract = async () => {
+    console.log('registerNewContract', contract.editSelectedContracts);
+
     try {
       const formData = new FormData();
+
+      console.log('contract');
 
       const requestDto = {
         templateId: contract.contractTemplate.id,
@@ -78,46 +66,55 @@ function SignContractScreen(props) {
         trainerName: contract.teacherName,
         centerId: centerId,
         centerName: contract.centerName,
-
-        ticketList: contract.contractTemplate,
+        ticketList: contract.editSelectedContracts,
         termsAgreement: true,
         privateAgreement: true,
         advertisingAgreement: true,
       };
 
-      if (contract.memberSign) {
-        formData.append('images', {
-          uri: contract.memberSign,
-          type: 'image/jpeg',
-          name: `image${'memberSign'}.jpg`,
+      if (contract['memberSign']?.file) {
+        formData.append('memberSignImage', {
+          name: 'memberSign.png',
+          type: 'image/png',
+          uri: contract['memberSign']?.uri,
         });
       }
 
-      if (contract.teacherSign) {
-        formData.append('images', {
-          uri: contract.teacherSign,
-          type: 'image/jpeg',
-          name: `image${'teacherSign'}.jpg`,
+      if (contract['teacherSign']?.file) {
+        formData.append('adminSignImage', {
+          name: 'adminSignImage.png',
+          type: 'image/png',
+          uri: contract['teacherSign']?.uri,
         });
       }
 
-      if (contract.centerSign) {
-        formData.append('images', {
-          uri: contract.centerSign,
-          type: 'image/jpeg',
-          name: `image${'centerSign'}.jpg`,
+      if (contract['centerSign']?.file) {
+        formData.append('centerSignImage', {
+          name: 'centerSign.png',
+          type: 'image/png',
+          uri: contract['centerSign']?.uri,
         });
       } else {
-        requestDto.centerSignatureImagePath = contract.contractTemplate.id;
+        requestDto.centerSignatureImagePath = contract['centerSign'].uri;
       }
 
       formData.append('requestDto', JSON.stringify(requestDto));
 
-      postNewIntegrateContract(formData);
+      const response = await postNewIntegrateContract(formData);
+      if (response) {
+        navigation.navigate('ContractSuccess', {memberId});
+      }
     } catch (error) {
       Alert('post 실패');
     }
   };
+
+  let isActive =
+    contract.memberName &&
+    contract.centerName &&
+    contract.teacherName &&
+    contract['memberSign'].uri &&
+    contract['teacherSign'];
 
   return (
     <MainContainer>
@@ -129,9 +126,9 @@ function SignContractScreen(props) {
         <View style={{gap: 24}}>
           <Container style={{gap: 14}}>
             <SignedDashedBorder onPress={() => goEditSign('memberSign')}>
-              {contract.memberSign ? (
+              {contract['memberSign']?.uri ? (
                 <SignedImage
-                  source={{uri: contract.memberSign}}
+                  source={{uri: contract['memberSign'].uri}}
                   resizeMode="contain"
                 />
               ) : (
@@ -153,9 +150,9 @@ function SignContractScreen(props) {
 
           <Container style={{gap: 14}}>
             <SignedDashedBorder onPress={() => goEditSign('teacherSign')}>
-              {contract.teacherSign ? (
+              {contract['teacherSign']?.uri ? (
                 <SignedImage
-                  source={{uri: contract.teacherSign}}
+                  source={{uri: contract.teacherSign.uri}}
                   resizeMode="contain"
                 />
               ) : (
@@ -177,9 +174,9 @@ function SignContractScreen(props) {
 
           <Container style={{gap: 14}}>
             <SignedDashedBorder onPress={() => goEditSign('centerSign')}>
-              {contract.centerSign ? (
+              {contract['centerSign']?.uri ? (
                 <SignedImage
-                  source={{uri: contract.centerSign}}
+                  source={{uri: contract.centerSign.uri}}
                   resizeMode="contain"
                 />
               ) : (
@@ -203,10 +200,10 @@ function SignContractScreen(props) {
 
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
-          isActive={contract.selectedContractes.length > 0}
-          onPress={() => registerNewContract(memberId)}>
-          <BasicMainBtnNextBtnNextText
-            isActive={contract.selectedContractes.length > 0}>
+          disabled={!isActive}
+          isActive={isActive}
+          onPress={() => registerNewContract()}>
+          <BasicMainBtnNextBtnNextText isActive={isActive}>
             작성완료
           </BasicMainBtnNextBtnNextText>
         </BasicMainBtnNextBtn>
