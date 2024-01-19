@@ -50,14 +50,22 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                             }
                           }}
                          items={transformedState}
-            
+                         textInputProps={{ underlineColorAndroid: 'transparent'}}
+                         useNativeAndroidPickerStyle={false}
+                         fixAndroidTouchableBug={true}
                          placeholder={{
                                 label: type ==='name' ? '수업명을 선택해주세요' :
                                        type ==='item' ? '수업 종목을 선택해주세요' :
                                        type ==='location' ? '수업장소를 선택해주세요' :'',
                                 value: null,
                          }}
-                         style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>)
+                         style={{ inputIOS: { color: 'black' }, 
+                         inputAndroid: { 
+                            color: 'black',
+                            height: 20,
+                            padding:0,
+                            margin:0,
+                         } }}/>)
                     }
                 </SelectInnerBox>
                 <RigthIcon source={rightIcon}/>

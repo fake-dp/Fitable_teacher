@@ -43,13 +43,22 @@ function TimeSelectCard({children, imgIcon, text,onTimeChange }) {
                     (
                     <RNPickerSelect
                       ref={startPickerRef}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                     //   InputAccessoryView={() => null}
                     doneText='확인'
                       onValueChange={(newTime) => handleTimeChange(newTime, 'startTime')}
                       items={startTime}
                     //   value={}
                       placeholder={{}}
-                      style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>) : null
+                      style={{ inputIOS: { color: 'black' },
+                       inputAndroid: { 
+                        color: 'black',
+                        height: 20,
+                        padding:0,
+                        margin:0,
+                    } }}/>) : null
                 }
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
@@ -65,12 +74,22 @@ function TimeSelectCard({children, imgIcon, text,onTimeChange }) {
                     (
                     <RNPickerSelect
                       ref={endPickerRef}
-                      InputAccessoryView={() => null}
+                    //   InputAccessoryView={() => null}
+                        doneText='확인'
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                       onValueChange={(newTime) => handleTimeChange(newTime, 'endTime')}
                       items={endTime}
                     //   value={}
                       placeholder={{}}
-                      style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>) : null
+                      style={{ inputIOS: { color: 'black' },
+                       inputAndroid: { 
+                        color: 'black',
+                        height: 20,
+                        padding:0,
+                        margin:0,
+                    } }}/>) : null
                 }
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>

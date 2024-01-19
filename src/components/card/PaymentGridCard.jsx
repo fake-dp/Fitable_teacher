@@ -83,6 +83,9 @@ useEffect(() => {
             <SelectBox onPress={openCouponPicker}>
                     <RNPickerSelect
                         ref={couponRef}
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                         doneText="변경"
                         onValueChange={(value) => {
                             if (value !== undefined) {
@@ -98,7 +101,13 @@ useEffect(() => {
                             label: '쿠폰을 선택해주세요',
                             
                         }}
-                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                        style={{ inputIOS: { color: 'black' }, 
+                        inputAndroid: {
+                            color: 'black',
+                            height: 20,
+                            padding:0,
+                            margin:0,
+                             } }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
         </Container>
@@ -111,6 +120,9 @@ useEffect(() => {
                     <RNPickerSelect
                         ref={pickerRef}
                         doneText="변경"
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                        useNativeAndroidPickerStyle={false}
+                        fixAndroidTouchableBug={true}
                         disabled={type === 'paylink' ? true : false}
                         onValueChange={(value) => {
                             setFormData((prevData) => {
@@ -124,7 +136,13 @@ useEffect(() => {
                             label: type === 'paylink' ? '결제링크' : '결제수단을 선택해주세요',
                             value: null,
                         }}
-                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                        style={{ inputIOS: { color: 'black' }, 
+                        inputAndroid: { 
+                            color: 'black',
+                            height: 20,
+                            padding:0,
+                            margin:0,
+                            } }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
         </Container>

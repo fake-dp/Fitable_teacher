@@ -64,10 +64,15 @@ function CenterListHeaderGrid() {
                     //   onValueChange={(centerId) => setCenterId(centerId)}
                       doneText="변경"
                       items={transformedState}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                     //   value={}
                       placeholder={{}}
                       style={{ inputIOS: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 }, 
-                            inputAndroid: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 } }}/>
+                            inputAndroid: {
+                                 color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 
+                                 } }}/>
               <RigthIcon source={rightIcon}/>
             </CenterListHeaderContainerBtn>
             )

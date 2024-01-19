@@ -32,6 +32,9 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
                 <RNPickerSelect
                       ref={startPickerRef}
                       // InputAccessoryView={() => null}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                       doneText='확인'
                       onValueChange={(value) => setStartTime(value)}
                       items={startTime}
@@ -39,7 +42,13 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
                         label: '시작 시간',
                         value: null,
                       }}
-                      style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                      style={{ inputIOS: { color: 'black' }, 
+                      inputAndroid: { 
+                        color: 'black',
+                        height: 20,
+                        padding:0,
+                        margin:0,
+                        } }}/>
             {/* <SelectBoxText>11:00</SelectBoxText> */}
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
@@ -52,11 +61,20 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
                       InputAccessoryView={() => null}
                       onValueChange={(value) => setEndTime(value)}
                       items={endTime}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                       placeholder={{
                         label: '종료 시간',
                         value: null,
                       }}
-                    style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                    style={{ inputIOS: { color: 'black' },
+                     inputAndroid: { 
+                      color: 'black',
+                      height: 20,
+                      padding:0,
+                      margin:0,
+                       } }}/>
             {/* <SelectBoxText>13:00</SelectBoxText> */}
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>

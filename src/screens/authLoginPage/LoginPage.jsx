@@ -76,6 +76,12 @@ function LoginPage(props) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <LoginContainer>
+
+            {/* <FastImage
+                source={require('../../assets/img/testtest.png')}
+                style={{width: 280, height: 36, marginBottom: 50}}
+                /> */}
+
             <TitleLogo source={require('../../assets/img/t_logo.png')}/>
             <AuthInput
              value={phone}

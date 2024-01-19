@@ -96,12 +96,24 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
             <SelectBox onPress={openPicker}>
                     <RNPickerSelect
                       ref={pickerRef}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                         doneText="변경"
                         value={ticketId[index].id}
                         onValueChange={(newId) => changeTicketId(index, newId)}
                         items={transformedBookmarkTickets}
                         placeholder={{}}
-                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' },placeholder: { color: COLORS.sub }  }}/>
+                        style={{ inputIOS: { color: 'black' }, 
+                        inputAndroid: { 
+                            color: 'black',
+                            height: 20,
+                            padding:0,
+                            margin:0,
+                        },
+                        placeholder: { 
+                            color: COLORS.sub
+                             }  }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
         </Container>
@@ -111,7 +123,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
             <SelectBoxDivider onPress={openSecPicker}>
                     <RNPickerSelect
                       ref={secPickerRef}
-
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                         doneText="변경"
                         value={currentTicketId}
                         onValueChange={(value) => {
@@ -124,7 +138,12 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                         }}
                         items={transformedTimeAndPeriodTickets}
                         placeholder={{}}
-                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                        style={{ inputIOS: { color: 'black' }, inputAndroid: { 
+                            color: 'black',
+                            height: 20,
+                            padding:0,
+                            margin:0,
+                         } }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBoxDivider>
         </Container>
@@ -170,6 +189,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                     <RNPickerSelect
                         ref={trPickerRef}
                         doneText="변경"
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                         onValueChange={(value) => {
                             setFormData((prevData) => {
                                 let tickets = [...prevData.tickets];
@@ -182,7 +204,12 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             label: '개월/일',
                             value: null,
                         }}
-                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                        style={{ inputIOS: { color: 'black' }, inputAndroid: { 
+                            color: 'black',
+                            height: 20,
+                            padding:0,
+                            margin:0,
+                            } }}/>
                         <RigthIcon source={rightIcon}/>
              </SelectTextInputSecondContainer>
                 </SelectInnerSecondBox>

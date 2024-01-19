@@ -36,12 +36,21 @@ function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index})
                 <SelectInnerBox>
                     <RNPickerSelect
                       ref={pickerRef}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
                       // InputAccessoryView={() => null}
                       doneText='확인'
                         onValueChange={(value) => handleChangeValue(value)}
                         items={items}
                         placeholder={{}}
-                        style={{ inputIOS: { color: 'black' }, inputAndroid: { color: 'black' } }}/>
+                        style={{ inputIOS: { color: 'black' }, 
+                        inputAndroid: { 
+                          color: 'black',
+                          height: 20,
+                          padding:0,
+                          margin:0,
+                           } }}/>
                 </SelectInnerBox>
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
