@@ -5,11 +5,12 @@ import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
 import FastImage from 'react-native-fast-image';
 import {Platform} from 'react-native';
+import { Dimensions } from 'react-native';
 function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
     // const {startTime,endTime}=state
-    // console.log('state',state)
+    // console.log('state',state) 40 32 
     const rightIcon = require('../../assets/img/colsdowngray.png');
-
+    const screenWidth = Dimensions.get('window').width;
     
     const startPickerRef = useRef();
     const endPickerRef = useRef();
@@ -68,11 +69,11 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
           <RigthIcon source={rightIcon}/>
        </SelectBox>
         ):(
-      
+      <AndSelectBox>
           <SelectInnerBox>
-              {/* {
+              {
                   imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
-              } */}
+              }
               <RNPickerSelect
                     ref={startPickerRef}
                     // InputAccessoryView={() => null}
@@ -86,22 +87,23 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
                       label: '시작 시간',
                       value: null,
                     }}
-                    Icon={() => {
-                      return <RigthIcon source={rightIcon}/>;
-                      }
-                    }
+                    // Icon={() => {
+                    //   return <RigthIcon source={rightIcon}/>;
+                    //   }
+                    // }
                     style={
                       { 
                     inputAndroid: 
                     {  
                     fontSize: 16,
                     height: 50, 
-                    width:150, 
+                    // width:'100%', 
                     color: '#000000',
-                    borderColor: COLORS.gray_200, 
-                    borderWidth: 1, 
-                    borderRadius: 12,
-                    padding: 10
+                    // backgroundColor:'red',
+                    // borderColor: COLORS.gray_200, 
+                    // borderWidth: 1, 
+                    // borderRadius: 12,
+                    // padding: 10
                     }, 
                     iconContainer: {
                       top: 14,
@@ -111,7 +113,8 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
                     />
 
           </SelectInnerBox>
-   
+          <RigthIcon source={rightIcon}/>
+          </AndSelectBox>
         )
       }
 
@@ -140,21 +143,17 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
                       value: null,
                     }}
                   style={{ inputIOS: { color: 'black' }, 
-                  inputAndroid: { 
-                    color: 'black',
-                    height: 20,
-                    margin:0,
-                    padding:0,
-                    
-                    // backgroundColor: 'red',
-                    } }}/>
+                   }}/>
           {/* <SelectBoxText>13:00</SelectBoxText> */}
           </SelectInnerBox>
           <RigthIcon source={rightIcon}/>
        </SelectBox>
         ):(
-       
+          <AndSelectBox>
           <SelectInnerBox>
+          {
+                  imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+              }
                       <RNPickerSelect
                     ref={endPickerRef}
                   //   InputAccessoryView={() => null}
@@ -168,22 +167,23 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
                       label: '종료 시간',
                       value: null,
                     }}
-                    Icon={() => {
-                      return <RigthIcon source={rightIcon}/>;
-                      }
-                    }
+                    // Icon={() => {
+                    //   return <RigthIcon source={rightIcon}/>;
+                    //   }
+                    // }
                     style={
                       { 
                     inputAndroid: 
                     {  
                     fontSize: 16,
                     height: 50, 
-                    width:150, 
+                    // width:70, 
                     color: '#000000',
-                    borderColor: COLORS.gray_200, 
-                    borderWidth: 1, 
-                    borderRadius: 12,
-                    padding: 10
+                    // borderColor: COLORS.gray_200, 
+                    // borderWidth: 1, 
+                    // borderRadius: 12,
+                    // padding: 10,
+                    // backgroundColor:'red'
                     }, 
                     iconContainer: {
                       top: 14,
@@ -192,7 +192,8 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
   
                      }}/>
           </SelectInnerBox>
-
+          <RigthIcon source={rightIcon}/>
+          </AndSelectBox>
         )
       }
 
@@ -204,9 +205,6 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime}) {
 
 export default ClassTimeSelectCard;
 
-
-
-         
 
 
 const Container = styled.View`
@@ -231,6 +229,16 @@ const SelectBox = styled.TouchableOpacity`
     padding: 15px 16px;
     width: 45%;
 `
+const AndSelectBox = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid ${COLORS.gray_200};
+    border-radius: 13px;
+    padding: 0 16px;
+    width: 45%;
+`
+
 const DividerText = styled.Text`
 font-size: 20px;
 color: ${COLORS.gray_200};

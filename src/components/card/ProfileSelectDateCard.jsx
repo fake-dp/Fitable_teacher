@@ -4,10 +4,11 @@ import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import FastImage from 'react-native-fast-image';
 import { Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index}) {
-    // const {startDate=""}=state ||{};
+    // const {startDate=""}=state ||{}; 40 32 
     const rightIcon = require('../../assets/img/colsdowngray.png');
-  
+    const screenWidth = Dimensions.get('window').width-88;
     const [selectedValue, setSelectedValue] = useState(timeSettings?.type || '');
 
     const handleChangeValue = (value) => {
@@ -58,6 +59,7 @@ function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index})
                   <RigthIcon source={rightIcon}/>
                </SelectBox>
                 ):(
+                  <AndSelectBox>
                   <SelectInnerBox>
                       <RNPickerSelect
                         ref={pickerRef}
@@ -69,22 +71,22 @@ function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index})
                           onValueChange={(value) => handleChangeValue(value)}
                           items={items}
                           placeholder={{}}
-                          Icon={() => {
-                            return <RigthIcon source={rightIcon}/>;
-                            }
-                          }
+                          // Icon={() => {
+                          //   return <RigthIcon source={rightIcon}/>;
+                          //   }
+                          // }
                           style={
                             { 
                           inputAndroid: 
                           {  
                           fontSize: 16,
                           height: 50, 
-                          width:350, 
+                          width:screenWidth, 
                           color: '#000000',
-                          borderColor: COLORS.gray_200, 
-                          borderWidth: 1, 
-                          borderRadius: 12,
-                          padding: 10
+                          // borderColor: COLORS.gray_200, 
+                          // borderWidth: 1, 
+                          // borderRadius: 12,
+                          // padding: 10
                           }, 
                           iconContainer: {
                             top: 14,
@@ -95,6 +97,8 @@ function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index})
                              }
                           }}/>
                   </SelectInnerBox>
+                  <RigthIcon source={rightIcon}/>
+                  </AndSelectBox>
                 )
           }
            
@@ -117,6 +121,15 @@ const SelectBox = styled.TouchableOpacity`
     border: 1px solid ${COLORS.gray_200};
     border-radius: 13px;
     padding: 15px 16px;
+`
+
+const AndSelectBox = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid ${COLORS.gray_200};
+    border-radius: 13px;
+    padding: 0 16px;
 `
 
 const SelectInnerBox = styled.View`

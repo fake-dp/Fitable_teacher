@@ -150,7 +150,7 @@ function SignContractScreen(props) {
     if (!templateData?.isCenterSignature) {
       return true;
     } else {
-      return !!contract.centerName;
+      return !!contract.centerName && !!contract['centerSignImage'].uri;
     }
   };
 
@@ -173,7 +173,7 @@ function SignContractScreen(props) {
   let isActive =
     isCenterSignature() && isMemberSignature() && isAdminSignature();
 
-  console.log('isActive', isActive);
+  // console.log('isActive', isActive);
 
   return (
     <MainContainer>

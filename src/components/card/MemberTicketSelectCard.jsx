@@ -5,11 +5,12 @@ import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import {getMemberConditions} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
+import { Dimensions } from 'react-native';
 function MemberTicketSelectCard({ticketId,bookmarkTickets,
     setFormData,selectedTicket, timeAndPeriod, setTimeAndPeriod,index,setSelectTicketId}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/caretdownblack.png');
-  
+    const screenWidth = Dimensions.get('window').width-92;
     const [currentTicketId, setCurrentTicketId] = useState(ticketId[index].id);
 
     const pickerRef = useRef();
@@ -120,7 +121,7 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
                 ):(
-                   
+                   <AndSelectBox>
                     <RNPickerSelect
                       ref={pickerRef}
                       textInputProps={{ underlineColorAndroid: 'transparent'}}
@@ -131,23 +132,18 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                         onValueChange={(newId) => changeTicketId(index, newId)}
                         items={transformedBookmarkTickets}
                         placeholder={{}}
-                        Icon={() => {
-                            return <RigthIcon source={rightIcon}/>;
-                            }
-                          }
+                        // Icon={() => {
+                        //     return <RigthIcon source={rightIcon}/>;
+                        //     }
+                        //   }
                           style={
                             { 
                           inputAndroid: 
                           {  
                           fontSize: 16,
                           height: 60, 
-                          width:350, 
+                          width:screenWidth, 
                           color: '#000000',
-                          borderColor: COLORS.gray_100, 
-                          backgroundColor: COLORS.gray_100,
-                          borderWidth: 1, 
-                          borderRadius: 12,
-                          padding: 10
                           }, 
                           iconContainer: {
                             top: 24,
@@ -159,7 +155,8 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                           }}
                           
                              />
-         
+                             <RigthIcon source={rightIcon}/>
+                        </AndSelectBox>
        
                 )
             }
@@ -198,6 +195,7 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                 <RigthIcon source={rightIcon}/>
              </SelectBoxDivider>
                 ):(
+                    <AndSelectBoxDivider>
                     <RNPickerSelect
                       ref={secPickerRef}
                       textInputProps={{ underlineColorAndroid: 'transparent'}}
@@ -215,23 +213,23 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                         }}
                         items={transformedTimeAndPeriodTickets}
                         placeholder={{}}
-                        Icon={() => {
-                            return <RigthIcon source={rightIcon}/>;
-                            }
-                          }
+                        // Icon={() => {
+                        //     return <RigthIcon source={rightIcon}/>;
+                        //     }
+                        //   }
                           style={
                             { 
                           inputAndroid: 
                           {  
                           fontSize: 16,
                           height: 60, 
-                          width:350, 
+                          width:124, 
                           color: '#000000',
-                          borderColor: COLORS.gray_100, 
-                          backgroundColor: COLORS.gray_100,
-                          borderWidth: 1, 
-                          borderRadius: 12,
-                          padding: 10
+                        //   borderColor: COLORS.gray_100, 
+                        //   backgroundColor: COLORS.gray_100,
+                        //   borderWidth: 1, 
+                        //   borderRadius: 12,
+                        //   padding: 10
                           }, 
                           iconContainer: {
                             top: 24,
@@ -241,6 +239,8 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             color: COLORS.sub
                              }
                           }}/>
+                          <RigthIcon source={rightIcon}/>
+                          </AndSelectBoxDivider>
                 )
              }
            
@@ -394,6 +394,16 @@ const SelectBox = styled.TouchableOpacity`
     background-color: ${COLORS.gray_100};
 `
 
+const AndSelectBox = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid ${COLORS.gray_100};
+    border-radius: 13px;
+    padding: 0 16px;
+    background-color: ${COLORS.gray_100};
+`
+
 const SelectBoxDivider = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
@@ -401,6 +411,17 @@ const SelectBoxDivider = styled.TouchableOpacity`
     border: 1px solid ${COLORS.gray_100};
     border-radius: 13px;
     padding: 15px 16px;
+    background-color: ${COLORS.gray_100};
+    width: 50%;
+`
+
+const AndSelectBoxDivider = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid ${COLORS.gray_100};
+    border-radius: 13px;
+    padding: 0 16px;
     background-color: ${COLORS.gray_100};
     width: 50%;
 `

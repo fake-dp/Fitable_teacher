@@ -49,16 +49,14 @@ function SignScreen(props) {
   };
 
   const handleOK = async signature => {
-    const decodedURL = signature.replace(/^data:image\/\w+;base64,/, '');
-    const buf = Buffer.from(decodedURL, 'base64');
-    const blob = new Blob([buf], {type: 'image/png'});
+
 
     setContract(prev => {
       return {
         ...prev,
         [currentView]: {
           uri: signature,
-          file: new File([blob], `${currentView}.png`, {type: 'image/png'}),
+          file: signature,
         },
       };
     });

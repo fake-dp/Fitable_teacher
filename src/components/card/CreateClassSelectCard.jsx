@@ -5,11 +5,15 @@ import RNPickerSelect from 'react-native-picker-select';
 import { useState ,useRef, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker';
 import FastImage from 'react-native-fast-image';
+import { Dimensions } from 'react-native';
+
+
 function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateClassData,maindata}) {
     // const {startDate=""}=state ||{};
     console.log('Render CreateClassSelectCard:', type, maindata);
     const rightIcon = require('../../assets/img/colsdowngray.png');
     // console.log('state@',type,maindata)
+    const screenWidth = Dimensions.get('window').width-123;
 
     const transformedState = (state || []).map(item => ({
         label: item.name,
@@ -75,9 +79,11 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                     <RigthIcon source={rightIcon}/>
                  </SelectBox>
                  ):(
-    
+                    <AndroidSelectBox>
                     <SelectInnerBox>
-                     
+                        {
+                            imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                        }
                         {(
                              <RNPickerSelect
                              ref={pickerRef}
@@ -104,23 +110,23 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                                            type ==='location' ? '수업장소를 선택해주세요' :'',
                                     value: null,
                              }}
-                             Icon={() => {
-                                return <RigthIcon source={rightIcon}/>;
-                                }
-                              }
-                              style={
-                                { 
+                            //  Icon={() => {
+                            //     return <RigthIcon source={rightIcon}/>;
+                            //     }
+                            //   }
+                              style={{
                               inputAndroid: 
                               {  
                               fontSize: 16,
-                              height: 50, 
-                              width:350, 
                               color: '#000000',
+                              width: screenWidth, 
+                            //   paddingHorizontal: 5,
                               borderColor: COLORS.gray_200, 
-                              borderWidth: 1, 
-                              borderRadius: 12,
-                              padding: 10
+                            //   borderWidth: 1, 
+                            //   borderRadius: 12,
+                            //   padding: 10,
                               }, 
+                             
                               iconContainer: {
                                 top: 14,
                                 right: 12,
@@ -130,7 +136,8 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                              )
                         }
                     </SelectInnerBox>
-                 
+                    <RigthIcon source={rightIcon}/>
+                    </AndroidSelectBox>
              
                  )
             }
@@ -154,6 +161,16 @@ const SelectBox = styled.TouchableOpacity`
     border: 1px solid ${COLORS.gray_200};
     border-radius: 13px;
     padding: 15px 16px;
+`
+
+const AndroidSelectBox = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid ${COLORS.gray_200};
+    border-radius: 13px;
+    padding: 0 16px;
+    flex:1;
 `
 
 const SelectInnerBox = styled.View`

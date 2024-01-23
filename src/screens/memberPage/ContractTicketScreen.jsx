@@ -1,17 +1,15 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {MainContainer} from '../../style/gridStyled';
+import styled, {css} from 'styled-components/native';
 import GobackGrid from '../../components/grid/GobackGrid';
 import {COLORS} from '../../constants/color';
-import styled, {css} from 'styled-components/native';
-import {useNavigation} from '@react-navigation/native';
-import {getIntergrateTemplate} from '../../api/contractApi';
-
-import {useRecoilState, useResetRecoilState} from 'recoil';
-import {centerIdState, contractState} from '../../store/atom';
-import {useState, useEffect} from 'react';
+import {MainContainer} from '../../style/gridStyled';
 import {useRoute} from '@react-navigation/native';
+import {useEffect, useState} from 'react';
+import {ScrollView, Text} from 'react-native';
+import {useRecoilState} from 'recoil';
 import {getMemberContractTicketList} from '../../api/memberApi';
-import {ScrollView, Text, View} from 'react-native';
+import {centerIdState, contractState} from '../../store/atom';
 
 function ContractTicketScreen(props) {
   const navigation = useNavigation();
@@ -43,22 +41,10 @@ function ContractTicketScreen(props) {
       }
     };
 
-    const getIntergrateTemplate = async () => {
-      try {
-        const response = await getIntergrateTemplate({
-          templateId: contract.contractTemplate.id,
-        });
-        if (response) {
-          console.log('getIntergrate', response);
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
+
 
     if (centerId && memberId) {
       getMemberContractTicketListData();
-      getIntergrateTemplate();
     }
   }, []);
 

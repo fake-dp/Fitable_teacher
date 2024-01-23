@@ -7,8 +7,10 @@ import { useRecoilState } from 'recoil';
 import {getMemberCoupons} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
 import { Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId}) {
     // const {startDate=""}=state ||{};
+    const screenWidth = Dimensions.get('window').width-92;
     const rightIcon = require('../../assets/img/caretdownblack.png');
     const [timeAndPeriodStr, setTimeAndPeriodStr] = useState(String(timeAndPeriod));
     const [centerId, setCenterId] = useRecoilState(centerIdState);
@@ -114,6 +116,7 @@ useEffect(() => {
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
                 ):(
+                    <AndSelectBox>
                     <RNPickerSelect
                         ref={couponRef}
                         textInputProps={{ underlineColorAndroid: 'transparent'}}
@@ -134,23 +137,20 @@ useEffect(() => {
                             label: '쿠폰을 선택해주세요',
                             
                         }}
-                        Icon={() => {
-                            return <RigthIcon source={rightIcon}/>;
-                            }
-                          }
+                      
                           style={
                             { 
                           inputAndroid: 
                           {  
                           fontSize: 16,
                           height: 60, 
-                          width:350, 
+                          width:screenWidth, 
                           color: '#000000',
-                          borderColor: COLORS.gray_100, 
-                          backgroundColor: COLORS.gray_100,
-                          borderWidth: 1, 
-                          borderRadius: 12,
-                          padding: 10
+                        //   borderColor: COLORS.gray_100, 
+                        //   backgroundColor: COLORS.gray_100,
+                        //   borderWidth: 1, 
+                        //   borderRadius: 12,
+                        //   padding: 10
                           }, 
                           iconContainer: {
                             top: 24,
@@ -162,6 +162,9 @@ useEffect(() => {
                           }}
                           
                              />
+
+<RigthIcon source={rightIcon}/>
+                             </AndSelectBox>
                 )
             }
             
@@ -203,7 +206,7 @@ useEffect(() => {
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
                  ):(
-                   
+                   <AndSelectBox>
                     <RNPickerSelect
                         ref={pickerRef}
                         doneText="변경"
@@ -223,23 +226,23 @@ useEffect(() => {
                             label: type === 'paylink' ? '결제링크' : '결제수단을 선택해주세요',
                             value: null,
                         }}
-                        Icon={() => {
-                            return <RigthIcon source={rightIcon}/>;
-                            }
-                          }
+                        // Icon={() => {
+                        //     return <RigthIcon source={rightIcon}/>;
+                        //     }
+                        //   }
                           style={
                             { 
                           inputAndroid: 
                           {  
                           fontSize: 16,
                           height: 60, 
-                          width:350, 
+                          width:screenWidth, 
                           color: '#000000',
-                          borderColor: COLORS.gray_100, 
-                          backgroundColor: COLORS.gray_100,
-                          borderWidth: 1, 
-                          borderRadius: 12,
-                          padding: 10
+                        //   borderColor: COLORS.gray_100, 
+                        //   backgroundColor: COLORS.gray_100,
+                        //   borderWidth: 1, 
+                        //   borderRadius: 12,
+                        //   padding: 10
                           }, 
                           iconContainer: {
                             top: 24,
@@ -249,7 +252,8 @@ useEffect(() => {
                             color: COLORS.sub
                              }
                           }}/>
-              
+                          <RigthIcon source={rightIcon}/>
+              </AndSelectBox>
                  )
             }
            
@@ -333,6 +337,16 @@ const SelectBox = styled.TouchableOpacity`
     border: 1px solid ${COLORS.gray_100};
     border-radius: 13px;
     padding: 15px 16px;
+    background-color: ${COLORS.gray_100};
+`
+
+const AndSelectBox = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid ${COLORS.gray_100};
+    border-radius: 13px;
+    padding: 0 16px;
     background-color: ${COLORS.gray_100};
 `
 
