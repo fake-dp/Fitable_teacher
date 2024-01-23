@@ -1,7 +1,6 @@
-import CheckBox from '@react-native-community/checkbox';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {Image, ScrollView, View} from 'react-native';
 import {useRecoilState} from 'recoil';
 import styled, {css} from 'styled-components/native';
 import {
@@ -11,7 +10,7 @@ import {
 import GobackGrid from '../../components/grid/GobackGrid';
 import ContractAgreementModal from '../../components/modal/ContractAgreementModal';
 import {COLORS} from '../../constants/color';
-import {centerIdState, contractState} from '../../store/atom';
+import {contractState} from '../../store/atom';
 import {MainContainer} from '../../style/gridStyled';
 
 function ContractAgreementScreen(props) {
@@ -38,16 +37,16 @@ function ContractAgreementScreen(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [detailData, setDetailData] = useState('');
+
+  const [currentAgreement, setCurrentAgreement] = useState('');
+
   const openAgreementModal = async agreement => {
     setCurrentAgreement(agreement);
     setModalVisible(true);
   };
 
-  const [detailData, setDetailData] = useState('');
-
-  const [currentAgreement, setCurrentAgreement] = useState('');
-
-  //계약서 약관
+  //계약서 약관 내용
   useEffect(() => {
     const getData = async () => {
       const response = await getContractAgreement(contract.contractTemplate.id);
@@ -59,7 +58,7 @@ function ContractAgreementScreen(props) {
     getData();
   }, []);
 
-  //계약서 템플릿 호출 api
+  //계약서 템플릿 호출 api (계약서 약관 및 서명 사용하는지 안하는지 여부)
   useEffect(() => {
     const getData = async () => {
       try {
@@ -168,19 +167,32 @@ function ContractAgreementScreen(props) {
             flexDirection: 'column',
           }}>
           <View>
-            <TotalAgreement.Container>
-              <TotalAgreement.Text isActive={true}>
+            <TotalAgreement.Container
+              onPress={() => {
+                setIsTermsAgree(!isTotalAgreement);
+                setIsPrivateAgree(!isTotalAgreement);
+                setIsAdverTisementAgree(!isTotalAgreement);
+                setIsTotalAgreement(!isTotalAgreement);
+              }}>
+              <TotalAgreement.Text isActive={isActive}>
                 약관 전체동의
               </TotalAgreement.Text>
 
               <CheckBoxBtn
                 isChecked={isTotalAgreement}
                 setIsChecked={setIsTotalAgreement}
-                handleCheckboxChange={() => {
+                onPress={() => {
                   setIsTermsAgree(!isTotalAgreement);
                   setIsPrivateAgree(!isTotalAgreement);
                   setIsAdverTisementAgree(!isTotalAgreement);
                   setIsTotalAgreement(!isTotalAgreement);
+                }}
+                style={{
+                  backgroundColor: 'none',
+                }}
+                checkBoxStyle={{
+                  width: 20,
+                  height: 20,
                 }}
               />
             </TotalAgreement.Container>
@@ -286,7 +298,7 @@ const BasicMainBtnNextBtnNextText = styled.Text`
 
 const TotalAgreement = styled``;
 
-TotalAgreement.Container = styled.View`
+TotalAgreement.Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -326,28 +338,50 @@ Agreement.Text = styled.Text`
   text-decoration-line: underline;
 `;
 
-function CheckBoxBtn({isChecked, setIsChecked, handleCheckboxChange}) {
-  // const handleCheckboxChange = () => {
-  //   setIsChecked(!isChecked);
-  // };
-
+function CheckBoxBtn({
+  isChecked,
+  handleCheckboxChange,
+  style = {},
+  checkBoxStyle = {},
+  ...props
+}) {
   return (
     <>
       <CheckBoxStyle
         value={isChecked}
-        onValueChange={handleCheckboxChange}
-        tintColors={{true: COLORS.main, false: COLORS.gray_200}}
-        onCheckColor={COLORS.main}
-        onFillColor={COLORS.box}
-        onTintColor={COLORS.box}
-        boxType={'square'}
-        tintColor={COLORS.gray_300}
-      />
+        onPress={handleCheckboxChange}
+        isActive={isChecked}
+        style={{...style}}
+        {...props}>
+        <CheckImage
+          source={require('../../../src/assets/img/check-2.png')}
+          resizeMode="contain"
+          tintColor={isChecked ? COLORS.main : COLORS.gray_300}
+          style={{...checkBoxStyle}}
+        />
+      </CheckBoxStyle>
     </>
   );
 }
 
-const CheckBoxStyle = styled(CheckBox)`
+const CheckImage = styled(Image)`
+  width: 15px;
+  height: 15px;
+`;
+
+const CheckBoxStyle = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
   width: 20px;
   height: 20px;
+
+  ${props =>
+    props.isActive
+      ? css`
+          background-color: ${COLORS.sub};
+        `
+      : css`
+          background-color: ${COLORS.gray_200};
+        `}
 `;

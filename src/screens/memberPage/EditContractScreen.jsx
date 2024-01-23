@@ -30,12 +30,19 @@ function EditContractScreen(props) {
   const [updatedContractTicket, setUpdatedContractTicket] = useState([]);
 
   useEffect(() => {
-    if (updatedContractTicket.updatedSelectedTickets) {
-      console.log('ㅠㅠ');
-      setUpdatedContractTicket([contract.updatedSelectedTickets]);
-    } else {
-      setUpdatedContractTicket(contract.selectedTickets);
-    }
+    //기간제라 횟수(time)가 null일 경우
+    setUpdatedContractTicket(
+      contract.selectedTickets.map((ticket, idx) => {
+        if (contract.selectedTickets[idx].time === null) {
+          return {
+            ...ticket,
+            time: '-',
+          };
+        } else {
+          return {...ticket};
+        }
+      }),
+    );
   }, []);
 
   const updateContractTicketDetail = (item, key, value) => {
@@ -99,18 +106,22 @@ function EditContractScreen(props) {
                     <DateContainer>
                       <TextInput
                         style={{width: 87}}
+                        placeholder="0000.00.00"
                         value={updatedContractTicket[index]?.startDate}
                         onChangeText={text => {
                           updateContractTicketDetail(item, 'startDate', text);
                         }}
+                        maxLength={10}
                       />
                       <DateContainer.Text>{`~`}</DateContainer.Text>
                       <TextInput
                         style={{width: 90}}
+                        placeholder="0000.00.00"
                         value={updatedContractTicket[index]?.endDate}
                         onChangeText={text => {
                           updateContractTicketDetail(item, 'endDate', text);
                         }}
+                        maxLength={10}
                       />
                     </DateContainer>
                   </Container>
@@ -123,8 +134,10 @@ function EditContractScreen(props) {
                       onChangeText={text => {
                         updateContractTicketDetail(item, 'name', text);
                       }}
+                      maxLength={16}
                     />
                   </Container>
+
                   <Container>
                     <InfoTitleText>횟수</InfoTitleText>
 
@@ -136,6 +149,7 @@ function EditContractScreen(props) {
                         onChangeText={text => {
                           updateContractTicketDetail(item, 'time', text);
                         }}
+                        maxLength={3}
                       />
                     </View>
                   </Container>
@@ -157,6 +171,7 @@ function EditContractScreen(props) {
                               text,
                             );
                           }}
+                          maxLength={8}
                         />
                       </PriceInnerContainer>
 
@@ -165,10 +180,19 @@ function EditContractScreen(props) {
                         <PriceTextInput
                           placeholder="0원"
                           keyboardType="number-pad"
-                          value={String(updatedContractTicket[index]?.price)}
+                          value={String(updatedContractTicket[index]?.price)
+                            .replace(/[^0-9]/g, '')
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                           onChangeText={text => {
-                            updateContractTicketDetail(item, 'price', text);
+                            updateContractTicketDetail(
+                              item,
+                              'price',
+                              text
+                                .replace(/[^0-9]/g, '')
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                            );
                           }}
+                          maxLength={10}
                         />
                       </PriceInnerContainer>
                     </PriceContainer>
@@ -184,6 +208,7 @@ function EditContractScreen(props) {
 
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
+          disabled={!isActive()}
           isActive={isActive()}
           onPress={() => goContractAgreement(memberId)}>
           <BasicMainBtnNextBtnNextText isActive={isActive()}>
