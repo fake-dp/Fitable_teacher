@@ -1,4 +1,4 @@
-
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { useState ,useRef, useEffect} from 'react';
@@ -93,7 +93,10 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
         <>
         <Container>
             <InfoTitleText>이용권</InfoTitleText>
-            <SelectBox onPress={openPicker}>
+
+            {
+                Platform.OS === 'ios' ? (
+                    <SelectBox onPress={openPicker}>
                     <RNPickerSelect
                       ref={pickerRef}
                       textInputProps={{ underlineColorAndroid: 'transparent'}}
@@ -116,11 +119,59 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                              }  }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
+                ):(
+                   
+                    <RNPickerSelect
+                      ref={pickerRef}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
+                        doneText="변경"
+                        value={ticketId[index].id}
+                        onValueChange={(newId) => changeTicketId(index, newId)}
+                        items={transformedBookmarkTickets}
+                        placeholder={{}}
+                        Icon={() => {
+                            return <RigthIcon source={rightIcon}/>;
+                            }
+                          }
+                          style={
+                            { 
+                          inputAndroid: 
+                          {  
+                          fontSize: 16,
+                          height: 60, 
+                          width:350, 
+                          color: '#000000',
+                          borderColor: COLORS.gray_100, 
+                          backgroundColor: COLORS.gray_100,
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10
+                          }, 
+                          iconContainer: {
+                            top: 24,
+                            right: 12,
+                          },
+                          placeholder: { 
+                            color: COLORS.sub
+                             }
+                          }}
+                          
+                             />
+         
+       
+                )
+            }
+
+          
         </Container>
 
         <Container>
              <InfoTitleText>기간 & 횟수</InfoTitleText>
-            <SelectBoxDivider onPress={openSecPicker}>
+             {
+                Platform.OS === 'ios' ? (
+                    <SelectBoxDivider onPress={openSecPicker}>
                     <RNPickerSelect
                       ref={secPickerRef}
                       textInputProps={{ underlineColorAndroid: 'transparent'}}
@@ -146,6 +197,53 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                          } }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBoxDivider>
+                ):(
+                    <RNPickerSelect
+                      ref={secPickerRef}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
+                        doneText="변경"
+                        value={currentTicketId}
+                        onValueChange={(value) => {
+                            setFormData((prevData) => {
+                                let tickets = [...prevData.tickets];
+                                tickets[index].id = value;
+                                return {...prevData, tickets};
+                            });
+                            setCurrentTicketId(value);
+                        }}
+                        items={transformedTimeAndPeriodTickets}
+                        placeholder={{}}
+                        Icon={() => {
+                            return <RigthIcon source={rightIcon}/>;
+                            }
+                          }
+                          style={
+                            { 
+                          inputAndroid: 
+                          {  
+                          fontSize: 16,
+                          height: 60, 
+                          width:350, 
+                          color: '#000000',
+                          borderColor: COLORS.gray_100, 
+                          backgroundColor: COLORS.gray_100,
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10
+                          }, 
+                          iconContainer: {
+                            top: 24,
+                            right:12,
+                          },
+                          placeholder: { 
+                            color: COLORS.sub
+                             }
+                          }}/>
+                )
+             }
+           
         </Container>
 
 
@@ -184,8 +282,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             />
                
 
-
-            <SelectTextInputSecondContainer onPress={openTrPicker}>
+            {
+                 Platform.OS === 'ios' ? (
+                    <SelectTextInputSecondContainer onPress={openTrPicker}>
                     <RNPickerSelect
                         ref={trPickerRef}
                         doneText="변경"
@@ -212,6 +311,57 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             } }}/>
                         <RigthIcon source={rightIcon}/>
              </SelectTextInputSecondContainer>
+                 ):(
+
+                    <RNPickerSelect
+                        ref={trPickerRef}
+                        doneText="변경"
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
+                        onValueChange={(value) => {
+                            setFormData((prevData) => {
+                                let tickets = [...prevData.tickets];
+                                tickets[index].periodType = value;
+                                return {...prevData, tickets};
+                            });
+                        }}
+                        items={periodTypeItem}
+                        placeholder={{
+                            label: '개월/일',
+                            value: null,
+                        }}
+                        Icon={() => {
+                            return <RigthIcon source={rightIcon}/>;
+                            }
+                          }
+                          style={
+                            { 
+                          inputAndroid: 
+                          {  
+                          fontSize: 16,
+                          height: 60, 
+                          width:100, 
+                          color: '#000000',
+                          borderColor: COLORS.gray_100, 
+                          backgroundColor: COLORS.gray_100,
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10,
+                          marginLeft: 10
+                          }, 
+                          iconContainer: {
+                            top: 24,
+                            right:12,
+                          },
+                          placeholder: { 
+                            color: COLORS.sub
+                             }
+                          }}/>
+                     
+                 )
+            }
+           
                 </SelectInnerSecondBox>
         </Container>
         </>

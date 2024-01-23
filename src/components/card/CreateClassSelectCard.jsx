@@ -28,48 +28,113 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
     return (
         <Container>
             <LabelText>{children}</LabelText>
-            <SelectBox onPress={openStartPicker}>
-                <SelectInnerBox>
-                    {
-                        imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
-                    }
-                    {(
-                         <RNPickerSelect
-                         ref={pickerRef}
-                        //  InputAccessoryView={() => null}
-                        doneText='확인'
-                         onValueChange={(value) => {
-                            const selectedLabel = transformedState.find(item => item.value === value)?.label;
-                            if(type === 'item'){
-                                setState(value);
-                                updateClassData();
-                                return;
-                            }else{
-                                setState(selectedLabel);
-                                updateClassData();
-                            }
-                          }}
-                         items={transformedState}
-                         textInputProps={{ underlineColorAndroid: 'transparent'}}
-                         useNativeAndroidPickerStyle={false}
-                         fixAndroidTouchableBug={true}
-                         placeholder={{
-                                label: type ==='name' ? '수업명을 선택해주세요' :
-                                       type ==='item' ? '수업 종목을 선택해주세요' :
-                                       type ==='location' ? '수업장소를 선택해주세요' :'',
-                                value: null,
-                         }}
-                         style={{ inputIOS: { color: 'black' }, 
-                         inputAndroid: { 
-                            color: 'black',
-                            height: 20,
-                            padding:0,
-                            margin:0,
-                         } }}/>)
-                    }
-                </SelectInnerBox>
-                <RigthIcon source={rightIcon}/>
-             </SelectBox>
+
+
+            {
+                 Platform.OS === 'ios' ? (
+                    <SelectBox onPress={openStartPicker}>
+                    <SelectInnerBox>
+                        {
+                            imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                        }
+                        {(
+                             <RNPickerSelect
+                             ref={pickerRef}
+                            //  InputAccessoryView={() => null}
+                            doneText='확인'
+                             onValueChange={(value) => {
+                                const selectedLabel = transformedState.find(item => item.value === value)?.label;
+                                if(type === 'item'){
+                                    setState(value);
+                                    updateClassData();
+                                    return;
+                                }else{
+                                    setState(selectedLabel);
+                                    updateClassData();
+                                }
+                              }}
+                             items={transformedState}
+                             textInputProps={{ underlineColorAndroid: 'transparent'}}
+                             useNativeAndroidPickerStyle={false}
+                             fixAndroidTouchableBug={true}
+                             placeholder={{
+                                    label: type ==='name' ? '수업명을 선택해주세요' :
+                                           type ==='item' ? '수업 종목을 선택해주세요' :
+                                           type ==='location' ? '수업장소를 선택해주세요' :'',
+                                    value: null,
+                             }}
+                             style={{ inputIOS: { color: 'black' }, 
+                             inputAndroid: { 
+                                color: 'black',
+                                height: 20,
+                                padding:0,
+                                margin:0,
+                             } }}/>)
+                        }
+                    </SelectInnerBox>
+                    <RigthIcon source={rightIcon}/>
+                 </SelectBox>
+                 ):(
+    
+                    <SelectInnerBox>
+                     
+                        {(
+                             <RNPickerSelect
+                             ref={pickerRef}
+                            //  InputAccessoryView={() => null}
+                            doneText='확인'
+                             onValueChange={(value) => {
+                                const selectedLabel = transformedState.find(item => item.value === value)?.label;
+                                if(type === 'item'){
+                                    setState(value);
+                                    updateClassData();
+                                    return;
+                                }else{
+                                    setState(selectedLabel);
+                                    updateClassData();
+                                }
+                              }}
+                             items={transformedState}
+                             textInputProps={{ underlineColorAndroid: 'transparent'}}
+                             useNativeAndroidPickerStyle={false}
+                             fixAndroidTouchableBug={true}
+                             placeholder={{
+                                    label: type ==='name' ? '수업명을 선택해주세요' :
+                                           type ==='item' ? '수업 종목을 선택해주세요' :
+                                           type ==='location' ? '수업장소를 선택해주세요' :'',
+                                    value: null,
+                             }}
+                             Icon={() => {
+                                return <RigthIcon source={rightIcon}/>;
+                                }
+                              }
+                              style={
+                                { 
+                              inputAndroid: 
+                              {  
+                              fontSize: 16,
+                              height: 50, 
+                              width:350, 
+                              color: '#000000',
+                              borderColor: COLORS.gray_200, 
+                              borderWidth: 1, 
+                              borderRadius: 12,
+                              padding: 10
+                              }, 
+                              iconContainer: {
+                                top: 14,
+                                right: 12,
+                              },
+                              }}
+                              />
+                             )
+                        }
+                    </SelectInnerBox>
+                 
+             
+                 )
+            }
+
         </Container>
     );
 }

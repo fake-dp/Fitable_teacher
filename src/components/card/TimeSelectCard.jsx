@@ -4,6 +4,7 @@ import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
 import FastImage from 'react-native-fast-image';
+import { Platform } from 'react-native';
 function TimeSelectCard({children, imgIcon, text,onTimeChange }) {
 
     // const {startTime,endTime}=state
@@ -33,67 +34,168 @@ function TimeSelectCard({children, imgIcon, text,onTimeChange }) {
                 text ==='profile' ? null : <LabelText>{children}</LabelText>
             }
         <SelectBoxGrid>
-        <SelectBox onPress={openStartPicker}>
-            <SelectInnerBox>
-                {
-                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
-                }
-                {
-                    text ==='profile' ?
-                    (
-                    <RNPickerSelect
-                      ref={startPickerRef}
-                      textInputProps={{ underlineColorAndroid: 'transparent'}}
-                      useNativeAndroidPickerStyle={false}
-                      fixAndroidTouchableBug={true}
-                    //   InputAccessoryView={() => null}
-                    doneText='확인'
-                      onValueChange={(newTime) => handleTimeChange(newTime, 'startTime')}
-                      items={startTime}
-                    //   value={}
-                      placeholder={{}}
-                      style={{ inputIOS: { color: 'black' },
-                       inputAndroid: { 
-                        color: 'black',
-                        height: 20,
-                        padding:0,
-                        margin:0,
-                    } }}/>) : null
-                }
-            </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
-         </SelectBox>
+            {
+                Platform.OS === 'ios' ? (
+                    <SelectBox onPress={openStartPicker}>
+                    <SelectInnerBox>
+                        {
+                            imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                        }
+                        {
+                            text ==='profile' ?
+                            (
+                            <RNPickerSelect
+                              ref={startPickerRef}
+                              textInputProps={{ underlineColorAndroid: 'transparent'}}
+                              useNativeAndroidPickerStyle={false}
+                              fixAndroidTouchableBug={true}
+                            //   InputAccessoryView={() => null}
+                            doneText='확인'
+                              onValueChange={(newTime) => handleTimeChange(newTime, 'startTime')}
+                              items={startTime}
+                            //   value={}
+                              placeholder={{}}
+                              style={{ inputIOS: { color: 'black' },
+                               inputAndroid: { 
+                                color: 'black',
+                                height: 20,
+                                padding:0,
+                                margin:0,
+                            } }}/>) : null
+                        }
+                    </SelectInnerBox>
+                    <RigthIcon source={rightIcon}/>
+                 </SelectBox>
+                ):(
+                    <SelectInnerBox>
+                        {
+                            text ==='profile' ?
+                            (
+                            <RNPickerSelect
+                              ref={startPickerRef}
+                              textInputProps={{ underlineColorAndroid: 'transparent'}}
+                              useNativeAndroidPickerStyle={false}
+                              fixAndroidTouchableBug={true}
+                            //   InputAccessoryView={() => null}
+                            doneText='확인'
+                              onValueChange={(newTime) => handleTimeChange(newTime, 'startTime')}
+                              items={startTime}
+                            //   value={}
+                              placeholder={{}}
+                              Icon={() => {
+                                return <RigthIcon source={rightIcon}/>;
+                                }
+                              }
+                              style={
+                                { 
+                              inputAndroid: 
+                              {  
+                              fontSize: 16,
+                              height: 50, 
+                              width:150, 
+                              color: '#000000',
+                              borderColor: COLORS.gray_200, 
+                              borderWidth: 1, 
+                              borderRadius: 12,
+                              padding: 10
+                              }, 
+                              iconContainer: {
+                                top: 14,
+                                right: 12,
+                              },
+                              placeholder: { 
+                                color: COLORS.sub
+                                 }
+                              }}/>
+                            ) : null
+                        }
+                    </SelectInnerBox>
+                  
+                )
+            }
+      
                 <DividerText>~</DividerText>
-         <SelectBox onPress={openEndPicker}>
-            <SelectInnerBox>
                 {
-                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                    Platform.OS === 'ios' ? (
+                        <SelectBox onPress={openEndPicker}>
+                        <SelectInnerBox>
+                            {
+                                imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                            }
+                            {
+                                text ==='profile' ?
+                                (
+                                <RNPickerSelect
+                                  ref={endPickerRef}
+                                //   InputAccessoryView={() => null}
+                                    doneText='확인'
+                                  textInputProps={{ underlineColorAndroid: 'transparent'}}
+                                  useNativeAndroidPickerStyle={false}
+                                  fixAndroidTouchableBug={true}
+                                  onValueChange={(newTime) => handleTimeChange(newTime, 'endTime')}
+                                  items={endTime}
+                                //   value={}
+                                  placeholder={{}}
+                                  style={{ inputIOS: { color: 'black' },
+                                   inputAndroid: { 
+                                    color: 'black',
+                                    height: 20,
+                                    padding:0,
+                                    margin:0,
+                                } }}/>) : null
+                            }
+                        </SelectInnerBox>
+                        <RigthIcon source={rightIcon}/>
+                     </SelectBox>
+                    ):(
+                      
+                        <SelectInnerBox>
+                            {
+                                text ==='profile' ?
+                                (
+                                <RNPickerSelect
+                                  ref={endPickerRef}
+                                //   InputAccessoryView={() => null}
+                                    doneText='확인'
+                                  textInputProps={{ underlineColorAndroid: 'transparent'}}
+                                  useNativeAndroidPickerStyle={false}
+                                  fixAndroidTouchableBug={true}
+                                  onValueChange={(newTime) => handleTimeChange(newTime, 'endTime')}
+                                  items={endTime}
+                                //   value={}
+                                  placeholder={{}}
+                                  Icon={() => {
+                                    return <RigthIcon source={rightIcon}/>;
+                                    }
+                                  }
+                                  style={
+                                    { 
+                                  inputAndroid: 
+                                  {  
+                                  fontSize: 16,
+                                  height: 50, 
+                                  width:150, 
+                                  color: '#000000',
+                                  borderColor: COLORS.gray_200, 
+                                  borderWidth: 1, 
+                                  borderRadius: 12,
+                                  padding: 10
+                                  }, 
+                                  iconContainer: {
+                                    top: 14,
+                                    right: 12,
+                                  },
+                                  placeholder: { 
+                                    color: COLORS.sub
+                                     }
+                                  }}/>
+                                ) : null
+                            }
+                        </SelectInnerBox>
+                     
+                    )
                 }
-                {
-                    text ==='profile' ?
-                    (
-                    <RNPickerSelect
-                      ref={endPickerRef}
-                    //   InputAccessoryView={() => null}
-                        doneText='확인'
-                      textInputProps={{ underlineColorAndroid: 'transparent'}}
-                      useNativeAndroidPickerStyle={false}
-                      fixAndroidTouchableBug={true}
-                      onValueChange={(newTime) => handleTimeChange(newTime, 'endTime')}
-                      items={endTime}
-                    //   value={}
-                      placeholder={{}}
-                      style={{ inputIOS: { color: 'black' },
-                       inputAndroid: { 
-                        color: 'black',
-                        height: 20,
-                        padding:0,
-                        margin:0,
-                    } }}/>) : null
-                }
-            </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
-         </SelectBox>
+        
          </SelectBoxGrid>
     </Container>
     );

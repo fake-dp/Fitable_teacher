@@ -59,3 +59,21 @@ export const totalElementsState = atom({
       POTENTIAL: 0
     },
   });
+
+  // 계약서 상태관리
+export const contractState = atom({
+  key: 'contractState',
+  default: {
+    memberSignImage: {uri: null, file: null},
+    adminSignImage: {uri: null, file: null},
+    centerSignImage: {uri: null, file: null},
+
+    memberName: '',
+    trainerName: '',
+    centerName: '',
+
+    contractTemplate: {},
+    selectedTickets: [],
+    updatedSelectedTickets: null,
+  },
+});

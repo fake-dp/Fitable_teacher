@@ -4,7 +4,7 @@ import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
 import FastImage from 'react-native-fast-image';
-
+import {Platform} from 'react-native';
 function DateTimeSelectCard({children,setStartTime,setEndTime}) {
     // const {startTime,endTime}=state
     // console.log('state',state)
@@ -27,34 +27,89 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
         <Container>
                 <LabelText>{children}</LabelText>
         <SelectBoxGrid>
-        <SelectBox onPress={openStartPicker}>
-            <SelectInnerBox>
-                <RNPickerSelect
-                      ref={startPickerRef}
-                      // InputAccessoryView={() => null}
-                      textInputProps={{ underlineColorAndroid: 'transparent'}}
-                      useNativeAndroidPickerStyle={false}
-                      fixAndroidTouchableBug={true}
-                      doneText='확인'
-                      onValueChange={(value) => setStartTime(value)}
-                      items={startTime}
-                      placeholder={{
-                        label: '시작 시간',
-                        value: null,
-                      }}
-                      style={{ inputIOS: { color: 'black' }, 
-                      inputAndroid: { 
-                        color: 'black',
-                        height: 20,
-                        padding:0,
-                        margin:0,
-                        } }}/>
-            {/* <SelectBoxText>11:00</SelectBoxText> */}
-            </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
-         </SelectBox>
+          {
+             Platform.OS === 'ios' ? (
+              <SelectBox onPress={openStartPicker}>
+              <SelectInnerBox>
+                  <RNPickerSelect
+                        ref={startPickerRef}
+                        // InputAccessoryView={() => null}
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                        useNativeAndroidPickerStyle={false}
+                        fixAndroidTouchableBug={true}
+                        doneText='확인'
+                        onValueChange={(value) => setStartTime(value)}
+                        items={startTime}
+                        placeholder={{
+                          label: '시작 시간',
+                          value: null,
+                        }}
+                        style={{ inputIOS: { color: 'black' }, 
+                        inputAndroid: { 
+                          color: 'black',
+                          height: 20,
+                          padding:0,
+                          margin:0,
+                          } }}/>
+              {/* <SelectBoxText>11:00</SelectBoxText> */}
+              </SelectInnerBox>
+              <RigthIcon source={rightIcon}/>
+           </SelectBox>
+             ):(
+         
+              <SelectInnerBox>
+                  <RNPickerSelect
+                        ref={startPickerRef}
+                        // InputAccessoryView={() => null}
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                        useNativeAndroidPickerStyle={false}
+                        fixAndroidTouchableBug={true}
+                        doneText='확인'
+                        onValueChange={(value) => setStartTime(value)}
+                        items={startTime}
+                        placeholder={{
+                          label: '시작 시간',
+                          value: null,
+                        }}
+                        Icon={() => {
+                          return <RigthIcon source={rightIcon}/>;
+                          }
+                        }
+                        style={
+                          { 
+                        inputAndroid: 
+                        {  
+                        fontSize: 16,
+                        height: 50, 
+                        width:120, 
+                        color: '#000000',
+                        borderColor: COLORS.gray_200, 
+                        borderWidth: 1, 
+                        borderRadius: 12,
+                        padding: 10
+                        }, 
+                        iconContainer: {
+                          top: 14,
+                          right: 12,
+                        },
+                        }}
+                        />
+            
+            
+         
+           </SelectInnerBox>
+             )
+          }
+       
+
+
+
+
                 <DividerText> ~ </DividerText>
-         <SelectBox onPress={openEndPicker}>
+         
+         {
+          Platform.OS === 'ios' ? (
+            <SelectBox onPress={openEndPicker}>
             <SelectInnerBox>
                         <RNPickerSelect
                       ref={endPickerRef}
@@ -79,6 +134,49 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
             </SelectInnerBox>
             <RigthIcon source={rightIcon}/>
          </SelectBox>
+          ):(
+         
+            <SelectInnerBox>
+                        <RNPickerSelect
+                      ref={endPickerRef}
+                      InputAccessoryView={() => null}
+                      onValueChange={(value) => setEndTime(value)}
+                      items={endTime}
+                      textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
+                      placeholder={{
+                        label: '종료 시간',
+                        value: null,
+                      }}
+                      Icon={() => {
+                        return <RigthIcon source={rightIcon}/>;
+                        }
+                      }
+                      style={
+                        { 
+                      inputAndroid: 
+                      {  
+                      fontSize: 16,
+                      height: 50, 
+                      width:120, 
+                      color: '#000000',
+                      borderColor: COLORS.gray_200, 
+                      borderWidth: 1, 
+                      borderRadius: 12,
+                      padding: 10
+                      }, 
+                      iconContainer: {
+                        top: 14,
+                        right: 12,
+                      },
+                      }}
+                      />
+            </SelectInnerBox>
+        
+          )
+         }
+              
          </SelectBoxGrid>
     </Container>
     );

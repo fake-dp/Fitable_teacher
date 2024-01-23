@@ -3,6 +3,7 @@ import { COLORS } from '../../constants/color';
 import { useState ,useRef, useEffect} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import FastImage from 'react-native-fast-image';
+import { Platform } from 'react-native';
 function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/colsdowngray.png');
@@ -32,28 +33,71 @@ function ProfileSelectDateCard({timeSettingId, timeSettings, changeType ,index})
     return (
         <>
         <Container>
-            <SelectBox onPress={openPicker}>
-                <SelectInnerBox>
-                    <RNPickerSelect
-                      ref={pickerRef}
-                      textInputProps={{ underlineColorAndroid: 'transparent'}}
-                      useNativeAndroidPickerStyle={false}
-                      fixAndroidTouchableBug={true}
-                      // InputAccessoryView={() => null}
-                      doneText='확인'
-                        onValueChange={(value) => handleChangeValue(value)}
-                        items={items}
-                        placeholder={{}}
-                        style={{ inputIOS: { color: 'black' }, 
-                        inputAndroid: { 
-                          color: 'black',
-                          height: 20,
-                          padding:0,
-                          margin:0,
-                           } }}/>
-                </SelectInnerBox>
-                <RigthIcon source={rightIcon}/>
-             </SelectBox>
+          {
+                Platform.OS === 'ios' ? (
+                  <SelectBox onPress={openPicker}>
+                  <SelectInnerBox>
+                      <RNPickerSelect
+                        ref={pickerRef}
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                        useNativeAndroidPickerStyle={false}
+                        fixAndroidTouchableBug={true}
+                        // InputAccessoryView={() => null}
+                        doneText='확인'
+                          onValueChange={(value) => handleChangeValue(value)}
+                          items={items}
+                          placeholder={{}}
+                          style={{ inputIOS: { color: 'black' }, 
+                          inputAndroid: { 
+                            color: 'black',
+                            height: 20,
+                            padding:0,
+                            margin:0,
+                             } }}/>
+                  </SelectInnerBox>
+                  <RigthIcon source={rightIcon}/>
+               </SelectBox>
+                ):(
+                  <SelectInnerBox>
+                      <RNPickerSelect
+                        ref={pickerRef}
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                        useNativeAndroidPickerStyle={false}
+                        fixAndroidTouchableBug={true}
+                        // InputAccessoryView={() => null}
+                        doneText='확인'
+                          onValueChange={(value) => handleChangeValue(value)}
+                          items={items}
+                          placeholder={{}}
+                          Icon={() => {
+                            return <RigthIcon source={rightIcon}/>;
+                            }
+                          }
+                          style={
+                            { 
+                          inputAndroid: 
+                          {  
+                          fontSize: 16,
+                          height: 50, 
+                          width:350, 
+                          color: '#000000',
+                          borderColor: COLORS.gray_200, 
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10
+                          }, 
+                          iconContainer: {
+                            top: 14,
+                            right: 12,
+                          },
+                          placeholder: { 
+                            color: COLORS.sub
+                             }
+                          }}/>
+                  </SelectInnerBox>
+                )
+          }
+           
         </Container>
         </>
     );

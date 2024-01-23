@@ -7,6 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import {useRef,useEffect,useCallback} from 'react';
 import { getCenterList } from '../../api/trainersApi';
 import FastImage from 'react-native-fast-image';
+import { Platform } from 'react-native';
 function CenterListHeaderGrid() {
 
     UseGetCenterListHook();
@@ -52,29 +53,60 @@ function CenterListHeaderGrid() {
                 <CenterListText>연동된 센터가 없습니다</CenterListText>
             </CenterListHeaderContainer>
             ):(
-             <CenterListHeaderContainerBtn onPress={openStartPicker}>
-                {/* <CenterListText>{centerList[0]?.name}</CenterListText>
-                <RigthIcon source={rightIcon}/> */}
-               
-                <RNPickerSelect
-                      ref={startPickerRef}
-                      value={centerId}
-                    //   InputAccessoryView={() => null}
-                      onValueChange={(centerId) => onCenterChange(centerId)}
-                    //   onValueChange={(centerId) => setCenterId(centerId)}
-                      doneText="변경"
-                      items={transformedState}
-                      textInputProps={{ underlineColorAndroid: 'transparent'}}
-                      useNativeAndroidPickerStyle={false}
-                      fixAndroidTouchableBug={true}
-                    //   value={}
-                      placeholder={{}}
-                      style={{ inputIOS: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 }, 
-                            inputAndroid: {
-                                 color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 
-                                 } }}/>
-              <RigthIcon source={rightIcon}/>
-            </CenterListHeaderContainerBtn>
+                
+                    Platform.OS === 'ios' ? (
+                        <CenterListHeaderContainerBtn onPress={openStartPicker}>
+                        <RNPickerSelect
+                              ref={startPickerRef}
+                              value={centerId}
+                              onValueChange={(centerId) => onCenterChange(centerId)}
+                              doneText="변경"
+                              items={transformedState}
+                              textInputProps={{ underlineColorAndroid: 'transparent'}}
+                              useNativeAndroidPickerStyle={false}
+                              fixAndroidTouchableBug={true}
+                              placeholder={{}}
+                              style={{ inputIOS: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 }, 
+                                    inputAndroid: {
+                                         color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 
+                                         } }}/>
+                      <RigthIcon source={rightIcon}/>
+                    </CenterListHeaderContainerBtn>
+                    ):(
+                            <CenterAndroidBtn>
+                        <RNPickerSelect
+                              ref={startPickerRef}
+                              value={centerId}
+                              onValueChange={(centerId) => onCenterChange(centerId)}
+                              doneText="변경"
+                              items={transformedState}
+                              textInputProps={{ underlineColorAndroid: 'transparent'}}
+                              useNativeAndroidPickerStyle={false}
+                              fixAndroidTouchableBug={true}
+                              placeholder={{}}
+                            
+                              style={
+                                { 
+                              inputAndroid: 
+                              {  
+                              fontSize: 16,
+                              height: 50, 
+                              color: '#000000',
+                              padding: 10
+                              }, 
+                              iconContainer: {
+                                top: 14,
+                                // left: 10,
+                              },
+                              placeholder: { 
+                                color: COLORS.sub
+                                 }
+                              }}/>
+                              <RigthIcon source={rightIcon}/>
+                              </CenterAndroidBtn>
+                    )
+                
+            
             )
         }
         </>
@@ -84,7 +116,10 @@ function CenterListHeaderGrid() {
 export default CenterListHeaderGrid;
 
 const CenterListHeaderContainer = styled.View``
-
+const CenterAndroidBtn = styled.TouchableOpacity`
+flex-direction: row;
+    align-items: center;
+`
 const CenterListHeaderContainerBtn = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
@@ -99,7 +134,7 @@ line-height: 28px;
 
 
 const RigthIcon = styled(FastImage)`
-    margin-left: 8px;
+    /* margin-left: 8px; */
     width: 20px;
     height: 20px;
 `

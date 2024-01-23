@@ -6,6 +6,7 @@ import { centerIdState } from '../../store/atom';
 import { useRecoilState } from 'recoil';
 import {getMemberCoupons} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
+import { Platform } from 'react-native';
 function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId}) {
     // const {startDate=""}=state ||{};
     const rightIcon = require('../../assets/img/caretdownblack.png');
@@ -80,7 +81,9 @@ useEffect(() => {
         type && type && (
             <Container>
             <InfoTitleText>쿠폰(선택)</InfoTitleText>
-            <SelectBox onPress={openCouponPicker}>
+            {
+                Platform.OS === 'ios' ? (
+                    <SelectBox onPress={openCouponPicker}>
                     <RNPickerSelect
                         ref={couponRef}
                         textInputProps={{ underlineColorAndroid: 'transparent'}}
@@ -110,13 +113,67 @@ useEffect(() => {
                              } }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
+                ):(
+                    <RNPickerSelect
+                        ref={couponRef}
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                      useNativeAndroidPickerStyle={false}
+                      fixAndroidTouchableBug={true}
+                        doneText="변경"
+                        onValueChange={(value) => {
+                            if (value !== undefined) {
+                                setFormData((prevData) => {
+                                    let tickets = [...prevData.tickets];
+                                    tickets[index].couponId = value;
+                                    return {...prevData, tickets};
+                                });
+                            }
+                        }}
+                        items={transformedCouponTickets}
+                        placeholder={{
+                            label: '쿠폰을 선택해주세요',
+                            
+                        }}
+                        Icon={() => {
+                            return <RigthIcon source={rightIcon}/>;
+                            }
+                          }
+                          style={
+                            { 
+                          inputAndroid: 
+                          {  
+                          fontSize: 16,
+                          height: 60, 
+                          width:350, 
+                          color: '#000000',
+                          borderColor: COLORS.gray_100, 
+                          backgroundColor: COLORS.gray_100,
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10
+                          }, 
+                          iconContainer: {
+                            top: 24,
+                            right: 12,
+                          },
+                          placeholder: { 
+                            color: COLORS.sub
+                             }
+                          }}
+                          
+                             />
+                )
+            }
+            
         </Container>
         )
         }
 
         <Container>
             <InfoTitleText>결제수단</InfoTitleText>
-            <SelectBox onPress={openPicker}>
+            {
+                 Platform.OS === 'ios' ? (
+                    <SelectBox onPress={openPicker}>
                     <RNPickerSelect
                         ref={pickerRef}
                         doneText="변경"
@@ -145,6 +202,57 @@ useEffect(() => {
                             } }}/>
                 <RigthIcon source={rightIcon}/>
              </SelectBox>
+                 ):(
+                   
+                    <RNPickerSelect
+                        ref={pickerRef}
+                        doneText="변경"
+                        textInputProps={{ underlineColorAndroid: 'transparent'}}
+                        useNativeAndroidPickerStyle={false}
+                        fixAndroidTouchableBug={true}
+                        disabled={type === 'paylink' ? true : false}
+                        onValueChange={(value) => {
+                            setFormData((prevData) => {
+                                let tickets = [...prevData.tickets];
+                                tickets[index].paymentType = value;
+                                return {...prevData, tickets};
+                            });
+                        }}
+                        items={paymentTypeItem}
+                        placeholder={{
+                            label: type === 'paylink' ? '결제링크' : '결제수단을 선택해주세요',
+                            value: null,
+                        }}
+                        Icon={() => {
+                            return <RigthIcon source={rightIcon}/>;
+                            }
+                          }
+                          style={
+                            { 
+                          inputAndroid: 
+                          {  
+                          fontSize: 16,
+                          height: 60, 
+                          width:350, 
+                          color: '#000000',
+                          borderColor: COLORS.gray_100, 
+                          backgroundColor: COLORS.gray_100,
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10
+                          }, 
+                          iconContainer: {
+                            top: 24,
+                            right: 12,
+                          },
+                          placeholder: { 
+                            color: COLORS.sub
+                             }
+                          }}/>
+              
+                 )
+            }
+           
         </Container>
 
         <Container>
