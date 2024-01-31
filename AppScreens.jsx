@@ -11,7 +11,7 @@ import AlarmConsultDetailScreen from './src/screens/alarmPage/AlarmConsultDetail
 import CreateClassScreen from './src/screens/schedulePage/CreateClassScreen';
 import MemberSelectScreen from './src/screens/schedulePage/MemberSelectScreen';
 import ClassMemberDetailScreen from './src/screens/schedulePage/ClassMemberDetailScreen';
-import MemberDetailScreen from './src/screens/schedulePage/MemberDetailScreen';
+
 import SearchCenterScreen from './src/screens/myPage/SearchCenterScreen';
 import PaymentLinkScreen from './src/screens/memberPage/PaymentLinkScreen';
 import ContractScreen from './src/screens/memberPage/ContractScreen';
@@ -68,7 +68,7 @@ function AppScreens(props) {
           component={ClassMemberDetailScreen}
           options={{headerStyle: {backgroundColor: COLORS.sub}}}
         />
-        <Stack.Screen name="MemberDetail" component={MemberDetailScreen} />
+   
         {/* 회원등록 */}
         <Stack.Screen name="RegisterMember" component={RegisterMemberScreen} />
       </Stack.Group>

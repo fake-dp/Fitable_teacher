@@ -10,6 +10,7 @@ import {
   cancelLessonReservation,
   postLessonAttendance,
 } from '../../api/lessonApi';
+import {getConsultDetail} from '../../api/alarmApi';
 import {
   useRecoilState,
   useRecoilValue,
@@ -44,11 +45,11 @@ function ClassMemberDetailScreen(props) {
     getMyInfoData();
   }, [myInfo]);
 
-  console.log('ceenter', myInfo);
+//   console.log('ceenter', myInfo);
 
   const {detailData, screenType, memberId} = route.params;
 
-  console.log('나 넘어왔엉!', detailData, screenType, memberId);
+//   console.log('나 넘어왔엉!', detailData, screenType, memberId);
 
   const cancelReservationBtn = async id => {
     try {
@@ -80,7 +81,19 @@ function ClassMemberDetailScreen(props) {
     }
   };
 
-  console.log('detailData@@@@#!@#@#', detailData.member);
+  const detailConsultScreen = async(id) => {
+    // console.log('상세 id확인 path',id)
+    try{
+        const response = await getConsultDetail(id);
+        if(response){
+            navigation.navigate('ConsultDetail', {consultDetail: response});
+        }
+    }catch(error){
+        console.log('error 뜸 ㅠㅠ')
+    }
+}
+
+  console.log('detailData@@@@#!@#@#', detailData.consultings);
 
   const paymentlink = require('../../assets/img/paymentlink.png');
   const contract = require('../../assets/img/contractfiles.png');
@@ -134,7 +147,9 @@ function ClassMemberDetailScreen(props) {
                   <SubContentText>-</SubContentText>
                 ) : null}
                 {detailData.consultings.map((consult, index) => (
-                  <ConsultListContaniner key={index}>
+                  <ConsultListContaniner 
+                  onPress={()=>detailConsultScreen(consult.id)}
+                  key={index}>
                     <TrainerName>
                       {consult.trainerName === null
                         ? '센터 상담'

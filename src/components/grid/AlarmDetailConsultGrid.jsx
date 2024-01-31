@@ -2,10 +2,35 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { GridLineOne } from '../../style/gridStyled';
 import FastImage from 'react-native-fast-image';
+import { useRecoilState } from 'recoil';
+import { centerIdState } from '../../store/atom';
+import { useNavigation } from '@react-navigation/native';
+import {getMemberDetail} from '../../api/memberApi';
 function AlarmDetailConsultGrid({ consultDetail }) {
-    console.log('consultDetail:', consultDetail);
-
+    // console.log('consultDetail:', consultDetail);
+    const navigation = useNavigation();
     const nextIcon = require('../../assets/img/g4rightIcon.png');
+    const [centerId, setCenterId] = useRecoilState(centerIdState);
+
+    const detailConsultScreen = async (id, memberId) => {
+        console.log('memberDetailScreen',id,memberId);
+        try{
+            const response = await getMemberDetail({id,memberId});
+            console.log('회원 상세 응답@@',response)
+            if(response){
+                navigation.navigate('ClassMemberDetail',{
+                    detailData: response,
+                    screenType:'memberDetail',
+                    memberId:memberId
+                })
+            }
+
+        }catch(error){
+            console.log('error',error);
+        }finally{
+            console.log('finally')
+        }
+    }
 
     return (
         <Container>
@@ -49,7 +74,9 @@ function AlarmDetailConsultGrid({ consultDetail }) {
             <GridLineOne />
 
                     <TitleText>회원정보</TitleText>
-            <BtnContainer>
+            <BtnContainer 
+                onPress={()=>detailConsultScreen(centerId, consultDetail.memberInfo.id)}
+            >
 
                 <BtnGridBox>
                     {
@@ -101,6 +128,6 @@ margin-top: 16px;
     `
 const BtnGridBox = styled.View``
 const BtnNextIcon = styled(FastImage)`
-width:20px;
-height:20px;
+width:10px;
+height:10px;
 `;

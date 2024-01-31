@@ -116,8 +116,8 @@ font-weight: 400;
 `;
 
 const ConsultIcon = styled(FastImage)`
-  width:20px;
-height: 20px;
+  width: 48px;
+  height: 48px;
 `
 
 const NoListCardContainer = styled(FastImage)`
