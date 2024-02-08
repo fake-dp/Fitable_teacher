@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845500362983",
+    "project_id": "fitable-trainer",
+    "storage_bucket": "fitable-trainer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845500362983:android:3d51a65f4ee201a0c5b242",
+        "android_client_info": {
+          "package_name": "com.fitableteacher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOnJRHvhMt_4rsXyAckqSFdSLBbVuX7I8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

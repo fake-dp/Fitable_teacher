@@ -19,7 +19,7 @@ function PaymentLinkScreen(props) {
 
     const { memberInfo = {}, type = '',memberId } = route.params || {};
 
-    console.log('dkdk나넘어왓와오옹ㅁ',memberInfo,type,memberId ===memberInfo.id)
+    console.log('dkdk나넘어왓와오옹ㅁ',memberInfo,type,memberId ,memberInfo.id)
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const [name, setName] = useState(type? memberInfo.name : '');
     const [selectedGender, setSelectedGender] = useState(type? memberInfo.genderType : 'MALE');
@@ -65,12 +65,13 @@ function PaymentLinkScreen(props) {
       }));
     };
 
-console.log('formDataformData',formData)
+// console.log('formDataformData',formData)
+console.log('bookmarkTickets',selectedTicket,selectTicketId)
 
       const sendPaymentLinkHandler = async () => {
         const { memberId, centerId, name, genderType, phone, tickets } = formData;
         const data = {
-          memberId,
+          memberId:memberInfo.id,
           centerId,
           name,
           genderType,
@@ -128,10 +129,14 @@ console.log('formDataformData',formData)
             />
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
-        <BasicMainBtn
-        isActive={isActive}
-        onPress={sendPaymentLinkHandler}
-        >결제링크 전송</BasicMainBtn>
+        {
+          selectTicketId.length > 0 && (
+            <BasicMainBtn
+            isActive={isActive}
+            onPress={()=>sendPaymentLinkHandler(memberInfo.id)}
+            >결제링크 전송</BasicMainBtn>
+          )
+        }
         </MainContainer>
     );
 }

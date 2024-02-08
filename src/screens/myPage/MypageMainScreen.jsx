@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {MainContainer, GridLine} from '../../style/gridStyled'
 import { useRecoilState } from 'recoil';
 import { getMyInfo } from '../../api/mypageApi';
 import { myinfoState } from '../../store/atom';
 import MyProfileHeaderGrid from '../../components/grid/MyProfileHeaderGrid';
 import MySettingListBtnGrid from '../../components/grid/MySettingListBtnGrid';
-
+import { useFocusEffect } from '@react-navigation/native';
 
 function MypageMainScreen(props) {
 
@@ -23,14 +23,17 @@ function MypageMainScreen(props) {
         }
     }
 
-    useEffect(() => {
-        getMyInfoData();
-    },[myInfo])
+    useFocusEffect(
+        useCallback(() => {
+            getMyInfoData();
+        }, []));
+
+
 
     const {name, phone, isOnPushAlarm} = myInfo
     // console.log('호출', name, phone, isOnPushAlarm)
 
-    console.log('마이페이지 메인1',myInfo)
+    // console.log('마이페이지 메121',myInfo)
     const goMyAccountScreen = () => {
         navigation.navigate('Account');
     }

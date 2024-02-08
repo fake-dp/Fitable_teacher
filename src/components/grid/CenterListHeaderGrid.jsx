@@ -14,7 +14,7 @@ function CenterListHeaderGrid() {
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const rightIcon = require('../../assets/img/caretdown.png');
-    console.log('centerId@@@@@11',centerId,centerList)
+    // console.log('centerId@@@@@11',centerId,centerList)
  
 
     const startPickerRef = useRef();

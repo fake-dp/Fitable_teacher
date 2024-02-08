@@ -11,12 +11,21 @@ export const myPhoneState = atom({
     default: '',
 });
 
+export const fcmTokenState = atom({
+  key: 'fcmTokenState',
+  default: '',
+});
+
 
 // mypage info
 export const myinfoState = atom({
-    key: 'myinfoState',
-    default: '',
-  });
+  key: 'myinfoState', // 고유한 키 값
+  default: { // 기본값을 객체 형태로 설정
+    name: '',
+    phone: '',
+    isOnPushAlarm: false, // 초기값 예시, 실제 기본값은 앱의 요구사항에 따라 달라질 수 있습니다.
+  },
+});
 
 // centerId
 export const centerIdState = atom({

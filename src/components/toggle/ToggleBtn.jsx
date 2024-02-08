@@ -1,21 +1,38 @@
 import { styled } from 'styled-components/native';
 import {COLORS} from '../../constants/color';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import {setPushNotification} from '../../api/mypageApi';
 import { useRecoilState } from 'recoil';
-import { pushAlarmState } from '../../store/atom';
-
+import {fcmTokenState} from '../../store/atom';
+import { Alert } from 'react-native';
 function ToggleBtn({isOnPushAlarm}) {
 
-    const [isActive, setIsActive] = useState(isOnPushAlarm);
-    console.log('isOnPushAlarm',isOnPushAlarm)
-    const handleToggle = () => {
-      setIsActive(!isActive);
-    };
+  const [isOn, setIsOn] = useState(isOnPushAlarm);
+  const [fcmToken, ] = useRecoilState(fcmTokenState);
+
+  useEffect(() => {
+    setIsOn(isOnPushAlarm);
+  }, [isOnPushAlarm]);
+
+  const handleToggle = async () => {
+    const newIsOn = !isOn;
+    try {
+      await setPushNotification({
+        isOn: newIsOn,
+        fcmToken: newIsOn ? fcmToken : null,
+      });
+      setIsOn(newIsOn);
+      console.log('Push notification setting updated successfully.');
+    } catch (error) {
+      console.error('Failed to update push notification setting:', error);
+      // Alert.('알림 설정에 실패했습니다.');
+    }
+  };
+  // console.log('isActive1', isOn,isOnPushAlarm);
 
     return (
-        <ToggleContainer isActive={isActive} onPress={handleToggle}>
-        <ToggleBall isActive={isActive} />
+        <ToggleContainer isActive={isOn} onPress={handleToggle}>
+        <ToggleBall isActive={isOn} />
       </ToggleContainer>
     );
 }
