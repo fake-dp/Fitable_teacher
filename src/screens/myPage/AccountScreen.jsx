@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import {MainContainer} from '../../style/gridStyled'
 import { COLORS } from '../../constants/color';
 import GobackGrid from '../../components/grid/GobackGrid';
-import InfoEditInput from '../../components/input/InfoEditInput';
+import {InfoEditInput} from '../../components/input/InfoEditInput';
 import styled from 'styled-components/native';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
 import {updateMyInfo} from '../../api/mypageApi'
@@ -24,7 +24,9 @@ function AccountScreen(props) {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
+    
+    const passwordInputRef = useRef(null);
+    const passwordCheckInputRef = useRef(null);
 
     const handleNameTextChange = (text) => {
         console.log('이름 입력 값 확인',text)
@@ -51,19 +53,22 @@ function AccountScreen(props) {
   // 비밀번호 변경
 
   const infoChangeBtn = async (name, password) => {
-    console.log('이름, 비밀번호 변경',name, password)
+    // console.log('이름, 비밀번호 변경',name.length,name, password)
+    const updatedName = name.length > 0 ? name : myInfo.name;
+    const updatedPassword = password; 
+    console.log('변경된 값 확인',updatedName, updatedPassword)
     try{
-        const response = await updateMyInfo({name, password});
+        const response = await updateMyInfo({name:updatedName, password:updatedPassword});
         console.log('응답확인',response)
         if(response){
-            setMyInfo({...myInfo, name: name});
+            setMyInfo({...myInfo, name: updatedName});
             Alert.alert('변경 완료', '변경되었습니다', [{text: '확인', onPress: () => navigation.goBack()}]);
         }
     }
     catch(error){
         if(error.code === 10106){
             console.error('이error:', error.code === 10106,error);
-            Alert.alert('오류', '오류발생ㅎㅎ', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
+            Alert.alert('오류', '다시 한번 확인해주세요!', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
         }
     }
 }
@@ -86,18 +91,22 @@ function AccountScreen(props) {
             <InfoEditInput 
             title="이름" 
             placeholder="10자까지 입력해주세요" 
+            maxLength={10}
             value={name}
             onChangeText={handleNameTextChange}
             />
 
 
             <InfoEditInput 
+            ref={passwordInputRef}
+            maxLength={16}
             title="비밀번호 변경" 
             placeholder="영어 소문자, 숫자, 특수문자 포함 8자리~16자리" 
             value={password}
             onChangeText={handlePasswordTextChange}
             onBlur={()=>validatePasswordInput(password)}
             hasError={!!passwordError} 
+            onSubmitEditing={() => passwordCheckInputRef.current.focus()}
             />
             {
                    passwordError &&  
@@ -106,6 +115,8 @@ function AccountScreen(props) {
                    </ErrorTextContainer>
             }
             <InfoEditInput 
+            ref={passwordCheckInputRef}
+            maxLength={16}
             title="비밀번호 확인" 
             placeholder="다시 입력해주세요"
             value={passwordCheck}
@@ -125,7 +136,7 @@ function AccountScreen(props) {
 
             <CertifiactionBtn 
             onPress={()=>infoChangeBtn(name, password)}
-            isActive={name.length > 0 && password.length > 7 && passwordCheck.length > 7 && isSamePassword}
+            isActive={password.length > 7 && passwordCheck.length > 7 && isSamePassword}
             >확인</CertifiactionBtn>
         </MainContainer>
     );

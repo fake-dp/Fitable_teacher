@@ -34,7 +34,7 @@ export const deleteCenterList = async (id) => {
 export const searchCenterList = async (search) => {
     try {
         // const response = await customAxios.get(`/api/trainers/v1/centers/searchTerm=${search}`);
-        const response = await customAxios.get(`/api/trainers/v1/centers`, { params: { searchTerm: search } });
+        const response = await customAxios.get(`/api/trainers/v1/centers?page=0&size=3000`, { params: { searchTerm: search } });
         return response.data;
     } catch (error) {
         throw error.response.data;

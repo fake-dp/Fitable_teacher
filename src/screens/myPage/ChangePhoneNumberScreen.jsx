@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'styled-components/native';
-import { useState } from 'react';
-import { TextInput ,Alert} from 'react-native';
+import { useState, useRef } from 'react';
+import { TextInput ,Alert,TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {MainContainer} from '../../style/gridStyled'
 import { COLORS } from '../../constants/color';
 import GobackGrid from '../../components/grid/GobackGrid';
@@ -10,6 +10,7 @@ import { formatTime,validatePhone } from '../../utils/CustomUtils';
 import {getCertificationNumber,checkCertificationNumber,changePhone} from '../../api/certificationApi';
 import { myinfoState } from '../../store/atom';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
+
 function ChangePhoneNumberScreen(props) {
 
     const navigation = useNavigation();
@@ -34,6 +35,17 @@ function ChangePhoneNumberScreen(props) {
     const certificationTextChange = (text) => {
         setNumber(text);
     }
+
+
+    const phoneInputRef = useRef(null);
+    const certificationInputRef = useRef(null);
+
+    const focusOnPhoneInput = () => {
+        phoneInputRef.current.focus();
+    };
+    const focusOnCertificationInput = () => {
+        certificationInputRef.current.focus();
+    };
 
         // 휴대폰번호 변경
         const changePhoneNum = async (phone, number) => {
@@ -95,10 +107,14 @@ function ChangePhoneNumberScreen(props) {
                 Alert.alert('에러', '인증 번호를 받아오는데 문제가 발생했습니다.');
             }
         }
-        
-    
+        console.log('@#!@#!@#',myInfo.phone, phone)
         const nextBtn = (phone) => {
-            if(phone.length !== 11){
+
+            if(myInfo.phone === phone){
+                Alert.alert('휴대폰번호 오류', '현재 이용 중인 휴대폰번호입니다', [
+                    {text: '확인', onPress: () => console.log('OK Pressed')},
+                    ]);
+            }else if(phone.length !== 11){
                 Alert.alert('휴대폰번호 오류', '입력하신 휴대폰번호가 올바른지\n 다시 한 번 확인해주세요', [
                     {text: '확인', onPress: () => console.log('OK Pressed')},
                   ]);
@@ -112,18 +128,23 @@ function ChangePhoneNumberScreen(props) {
         }
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <MainContainer>
             <GobackGrid onPress={goBack}>휴대폰번호 변경</GobackGrid>
             <TextContainer>
             <GuideText>새로운 휴대폰번호</GuideText>
         </TextContainer> 
-        <PasswordIputBox>
+        <PasswordIputBox 
+        activeOpacity={1}
+        onPress={focusOnPhoneInput}>
             <TextInput
+                ref={phoneInputRef}
                 style={{marginLeft: 10, fontSize: 14}}
                 placeholder="변경할 휴대폰번호 11자리를 - 없이 입력해주세요"
                 placeholderTextColor={COLORS.gray_300}
                 onChangeText={phoneTextChange}
                 maxLength={11}
+                keyboardType="number-pad"
                 />
         </PasswordIputBox>
 
@@ -133,13 +154,17 @@ function ChangePhoneNumberScreen(props) {
                 <CertificationTextContainer>
                 <GuideText>인증번호</GuideText>
      </CertificationTextContainer> 
-     <CertificationIputBox>
+     <CertificationIputBox 
+     activeOpacity={1}
+     onPress={focusOnCertificationInput}>
         <TextInput
+            ref={certificationInputRef}
             style={{marginLeft: 10, fontSize: 14}}
             placeholder="인증번호 6자리를 입력해주세요"
             placeholderTextColor={COLORS.gray_300}
             onChangeText={certificationTextChange}
             maxLength={6}
+            keyboardType="number-pad"
             // secureTextEntry={true}
             />
              <CertificationTimer>
@@ -167,6 +192,7 @@ function ChangePhoneNumberScreen(props) {
                     )
                 }
         </MainContainer>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -191,7 +217,7 @@ font-weight: 400;
 line-height: 22.40px;
 `
 
-const PasswordIputBox = styled.View`
+const PasswordIputBox = styled.TouchableOpacity`
 flex-direction: row;
 border: 1px solid ${COLORS.gray_200}; 
 border-radius: 13px;
@@ -199,7 +225,7 @@ height: 52px;
 align-items: center;
 `
 
-const CertificationIputBox = styled.View`
+const CertificationIputBox = styled.TouchableOpacity`
 flex-direction: row;
 border: 1px solid ${COLORS.gray_200}; 
 border-radius: 13px;

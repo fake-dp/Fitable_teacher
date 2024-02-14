@@ -19,11 +19,11 @@ export const fcmTokenState = atom({
 
 // mypage info
 export const myinfoState = atom({
-  key: 'myinfoState', // 고유한 키 값
-  default: { // 기본값을 객체 형태로 설정
+  key: 'myinfoState',
+  default: {
     name: '',
     phone: '',
-    isOnPushAlarm: false, // 초기값 예시, 실제 기본값은 앱의 요구사항에 따라 달라질 수 있습니다.
+    isOnPushAlarm: true,
   },
 });
 

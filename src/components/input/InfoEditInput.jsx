@@ -1,28 +1,34 @@
 import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
 import { TextInput } from "react-native";
+import React, { forwardRef } from 'react';
 
-function InfoEditInput({value, onChangeText, placeholder, onBlur,title,hasError}) {
-
+export const InfoEditInput = forwardRef(({
+    onSubmitEditing, value, onChangeText, placeholder, onBlur, title, hasError, maxLength
+  }, ref) => { // ref는 여기에 정확하게 위치합니다.
     const isNameInput = title === '이름';
-
+  
     return (
-        <>
+      <>
         <InfoTitleText>{title}</InfoTitleText>
         <InfoTextInputContainer hasError={hasError}>
-            <InfoTextInput
-                  value={value}
-                  onChangeText={onChangeText}
-                  placeholder={placeholder}
-                  secureTextEntry={!isNameInput}
-                  onBlur={onBlur}
-                  />
+          <InfoTextInput
+            ref={ref} // ref를 이렇게 연결합니다.
+            maxLength={maxLength}
+            value={value}
+            onChangeText={onChangeText}
+            placeholder={placeholder}
+            secureTextEntry={!isNameInput}
+            onBlur={onBlur}
+            onSubmitEditing={onSubmitEditing}
+            returnKeyType="done"
+          />
         </InfoTextInputContainer>
-                  </>
+      </>
     );
-}
+  });
+  
 
-export default InfoEditInput;
 
 const InfoTitleText = styled.Text`
 color: ${COLORS.gray_400};
