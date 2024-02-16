@@ -8,13 +8,15 @@ import {useRef,useEffect,useCallback} from 'react';
 import { getCenterList } from '../../api/trainersApi';
 import FastImage from 'react-native-fast-image';
 import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function CenterListHeaderGrid() {
 
     UseGetCenterListHook();
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const rightIcon = require('../../assets/img/caretdown.png');
-    // console.log('centerId@@@@@11',centerId,centerList)
+    // console.log('centerId@@@@@11',centerId)
  
 
     const startPickerRef = useRef();
@@ -30,10 +32,35 @@ function CenterListHeaderGrid() {
         value: item.id,
     }));
 
+
+// 센터 ID 저장하기
+const saveCenterId = async (centerId) => {
+    try {
+        await AsyncStorage.setItem('centerId', centerId);
+    } catch (error) {
+        console.log('Error saving center id', error);
+    }
+};
+
+// 센터 ID 불러오기
+const loadCenterId = async () => {
+    try {
+        const savedCenterId = await AsyncStorage.getItem('centerId');
+        if (savedCenterId !== null) {
+            setCenterId(savedCenterId);
+        }
+    } catch (error) {
+        console.log('Error loading center id', error);
+    }
+};
+
+
+
     const onCenterChange = useCallback((id) => {
         console.log('v뭐로',id)
         if (id !== centerId) { // 변경된 경우에만 업데이트
             setCenterId(id);
+            saveCenterId(id); 
             const selectedCenter = centerList.find(center => center.id === id);
             const otherCenters = centerList.filter(center => center.id !== id);
             setCenterList([selectedCenter, ...otherCenters]);
@@ -44,6 +71,10 @@ function CenterListHeaderGrid() {
         startPickerRef.current?.forceUpdate();
       }, [centerId]);
       
+// 앱 시작 시 센터 ID 불러오기
+useEffect(() => {
+    loadCenterId();
+}, []);
 
     return (
         <>

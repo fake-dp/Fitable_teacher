@@ -92,7 +92,7 @@ function ScheduleMainScreen(props) {
             <FloatingBtn onPress={toggleFloatingModal} isOpen={openFloatingModal}/>
         )
     }
-    {openFloatingModal && <FloatingModal/>}
+    {openFloatingModal && <FloatingModal isOpen={openFloatingModal} closeModal={toggleFloatingModal}/>}
     </>
     );
 }

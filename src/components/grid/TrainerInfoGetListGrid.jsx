@@ -91,6 +91,7 @@ font-weight: 500;
 line-height: 22.4px;
 letter-spacing: -0.35px;
 margin-bottom: 8px;
+margin-top: 44px;
 `;
 
 const ProfileImgContainer = styled.View`

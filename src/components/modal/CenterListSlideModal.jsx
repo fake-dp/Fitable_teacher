@@ -23,13 +23,20 @@ function CenterListSlideModal({modalVisible, closeModal,centerList ,text, onPres
             showsVerticalScrollIndicator={false}
             bounces={false}
            >
-           {
-            centerList && centerList.map(center => (
-                <CenterListContaniner key={center.id} onPress={()=>onPress(center.id, center.name)}>
-                <ModalSubTitle>{center.name}</ModalSubTitle>
-                </CenterListContaniner>
-            ))
-           }
+             {
+    centerList && centerList.length > 0 ? (
+      centerList.map(center => (
+        <CenterListContaniner key={center.id} onPress={() => onPress(center.id, center.name)}>
+          <ModalSubTitle>{center.name}</ModalSubTitle>
+        </CenterListContaniner>
+      ))
+    ) : (
+      <NoCenterContainer>
+        <NoCenterText>[연동센터 설정]에서</NoCenterText>
+        <NoCenterText>연동 센터를 먼저 추가해주세요</NoCenterText>
+      </NoCenterContainer>
+    )
+  }
            </ScrollView>
           </ModalContent>
         </ModalContainer>
@@ -94,3 +101,15 @@ padding: 10px 20px;
 border-radius: 50px;
 background-color: ${COLORS.sub};
 `
+
+const NoCenterContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+`;
+
+const NoCenterText = styled.Text`
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: ${COLORS.gray_300};
+`;

@@ -66,6 +66,7 @@ function EditProfileScreen(props) {
             </EditContainerBtn>
             }
             </HeaderGrid>
+      
             {
                 !isEditMode && isExistProfile ?
                 <TrainerInfoGetListGrid profileInfo={profileInfo}/> :
@@ -85,8 +86,9 @@ const HeaderGrid = styled.View`
     flex-direction: row;
     justify-content: space-between;
     /* align-items: center; */
-    margin-bottom: 20px;
+    /* background-color: red; */
 `
+
 
 const EditContainerBtn = styled.TouchableOpacity`
 

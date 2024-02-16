@@ -32,7 +32,7 @@ function FloatingBtn({ onPress, isOpen }) {
   });
 
   return (
-    <FloatingButtonContainer>
+    <FloatingButtonContainer isOpen={isOpen}>
       <FloatingButtonTouchable onPress={onPress} style={{ transform: [{ rotate }] }}>
         <FastImage source={floatingIcon} 
         style={{width: 22, height: 22}}
@@ -47,7 +47,8 @@ export default FloatingBtn;
 
 const FloatingButtonContainer = styled.View`
   position: absolute;
-  bottom: 40px;
+  /* bottom: 40px; */
+  bottom: ${props => (props.isOpen ? '120px' : '40px')};
   right: 20px;
   z-index: 15;
 `;

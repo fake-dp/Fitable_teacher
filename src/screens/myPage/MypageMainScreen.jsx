@@ -4,16 +4,17 @@ import { useEffect, useState, useCallback } from 'react';
 import {MainContainer, GridLine} from '../../style/gridStyled'
 import { useRecoilState } from 'recoil';
 import { getMyInfo } from '../../api/mypageApi';
-import { myinfoState } from '../../store/atom';
+import { myinfoState ,isLoginState } from '../../store/atom';
 import MyProfileHeaderGrid from '../../components/grid/MyProfileHeaderGrid';
 import MySettingListBtnGrid from '../../components/grid/MySettingListBtnGrid';
 import { useFocusEffect } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 function MypageMainScreen(props) {
 
     const navigation = useNavigation();
 
     const [myInfo, setMyInfo] = useRecoilState(myinfoState);
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoginState);
     const [shouldFetch, setShouldFetch] = useState(true);
     const getMyInfoData = async () => {
         if (shouldFetch) {
@@ -51,6 +52,13 @@ function MypageMainScreen(props) {
     }
 
 
+    const logoutBtn = () => {
+        AsyncStorage.removeItem('accessToken');
+        AsyncStorage.removeItem('refreshToken');
+        setIsLoggedIn(false);
+    }
+
+
     return (
         <MainContainer>
             <MyProfileHeaderGrid name={name} phone={phone} onPress={goMyAccountScreen}/>
@@ -65,6 +73,7 @@ function MypageMainScreen(props) {
             <MySettingListBtnGrid text='toggle' isOnPushAlarm={isOnPushAlarm}>알림</MySettingListBtnGrid>
             <MySettingListBtnGrid onPress={goMyTermsScreen}>이용약관 및 정책</MySettingListBtnGrid>
             <MySettingListBtnGrid text='version'>앱 버전</MySettingListBtnGrid>
+            <MySettingListBtnGrid onPress={logoutBtn}>임시 로그 아웃</MySettingListBtnGrid>
         </MainContainer>
     );
 }

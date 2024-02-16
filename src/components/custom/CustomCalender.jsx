@@ -13,6 +13,7 @@ import {getFormattedDate} from '../../utils/CustomUtils';
 import { useIsFocused } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { Platform } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 LocaleConfig.locales['ko'] = {
   monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
   monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -23,27 +24,55 @@ LocaleConfig.defaultLocale = 'ko';
 
 function CustomCalendar(props) {
   const {weekView} = props;
-  console.log('weekView',weekView)
+  // console.log('weekView',weekView)
   const isFocused = useIsFocused();
-    const [centerId, setCenterId] = useRecoilState(centerIdState || 'default_value');
+    const [centerId, setCenterId] = useRecoilState(centerIdState || '');
 
   const today = new Date();
   const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   
-
   const [selected, setSelected] = useState(todayString);
   const [currentMonth, setCurrentMonth] = useState('');
   const [isActive, setIsActive] = useState(true);
   const [availableDates, setAvailableDates] = useState({});
   const [lessonList, setLessonList] = useState([]);
 
+  const [showDatetModal, setShowDateModal] = useState(false);
+  console.log('currentMonth',currentMonth,centerId)
+  const openPicker = () => {
+    setShowDateModal(true);
+  };
+
+  const handleConfirm = useCallback(date => {
+    console.log('currentMonth',currentMonth)
+    const newSelectedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    setSelected(newSelectedDate);
+    setShowDateModal(false);
+
+    const newCurrentMonth = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+    setCurrentMonth(newCurrentMonth);
+
+    // API 호출을 통해 선택된 날짜의 수업 정보를 불러옵니다.
+    getLessonList(centerId, newSelectedDate)
+        .then(data => {
+            setLessonList(data.content); // 수업 리스트 상태 업데이트
+        })
+        .catch(error => {
+            console.error("Error fetching lesson list for the selected date:", error);
+        });
+      }, [centerId,setCurrentMonth, setSelected, setShowDateModal]);
+
+
+
+
+
   const handleDayPress = useCallback(day => {
     // 사용자가 선택한 날짜가 오늘 날짜이면 selected를 false로 설정하고, 그렇지 않으면 해당 날짜를 selected로 설정합니다.
-    if (!availableDates[day.dateString]) {
-      console.log('This date is not available for selection.');
-      return;
-  }
-   
+  //   if (!availableDates[day.dateString]) {
+  //     console.log('This date is not available for selection.');
+  //     return;
+  // }
+   console.log('dayday',day)
     if (day.dateString === todayString) {
       setSelected(todayString);
     } else {
@@ -53,7 +82,7 @@ function CustomCalendar(props) {
 
     getLessonList(centerId, day.dateString)
     .then(data => {
-        setLessonList(data.content);  // 응답 데이터를 lessonList state에 저장
+        setLessonList(data.content);
     })
     .catch(error => {
         console.error("Error fetching lesson list:", error);
@@ -101,11 +130,11 @@ const fetchLessons = (date = todayString) => {
           setLessonList(data.content);
       })
       .catch(error => {
-          console.error("Error fetching lesson list:", error);
+          console.error("Error fetching lesson list11:", error);
       });
 };
 
-
+console.log('selected',selected)
 useEffect(() => {
   if (isFocused) {
     setSelected(selected);
@@ -117,13 +146,15 @@ useEffect(() => {
   const renderCustomHeader = () => {
     const rigthIcon = require('../../assets/img/rightIcon.png');
     return (
+      <>
       <Container>
-        <MonthContainer>
+        <MonthContainer onPress={openPicker}>
         <TitleText>{currentMonth}</TitleText>
-        {/* <Icons source={rigthIcon}/> */}
+        <Icons source={rigthIcon}/>
         </MonthContainer>
         {/* <CalenderToggleBtn isActive={isActive} setIsActive={setIsActive}/> */}
       </Container>
+      </>
     );
   };
 
@@ -132,18 +163,22 @@ useEffect(() => {
   return (
     <>
        <CalendarProvider
-          date={todayString}
-          // onDayPress={handleDayPress}
-          // TodayButton={true}
+        date={todayString}
         theme={themeStyled}
+        // current={selected} 
+        // key={currentMonth}
         renderHeader={renderCustomHeader}
+    
+
     >
       {weekView ? (
         <WeekCalendar  
-        firstDay={1} markedDates={availableDates}
+        firstDay={0} markedDates={availableDates}
         />
       ) : (
         <ExpandableCalendar
+        // key={currentMonth}
+        // current={selected} 
         style={{
             ...Platform.select({
               ios: {
@@ -158,19 +193,19 @@ useEffect(() => {
         renderHeader={renderCustomHeader}
         hideArrows
         markedDates={{
-          // 예약된 날짜 표시
           ...availableDates,
-          ...{[selected]: { selected: true, disableTouchEvent: true,selectedColor: COLORS.sub,selectedTextColor: COLORS.main  }},
-          ...{[todayString]: { dotColor: '#FF7A00',marked: true, selected: selected === todayString}},
-          // ...todayStyle    
+          ...{[selected]: { selected: true,selectedColor: COLORS.sub,selectedTextColor: COLORS.main  }},
+          ...{[todayString]: selected === todayString ? 
+            { selected: true, selectedColor: COLORS.sub, selectedTextColor: COLORS.main, dotColor: '#FF7A00', marked: true } : 
+            { dotColor: '#FF7A00', marked: true }
+        }, 
       }}
           onDayPress={handleDayPress}
           theme={themeStyled&&themeStyled}
           onMonthChange={(month) => {
             setCurrentMonth(`${month.year}.${String(month.month).padStart(2, '0')}`);
         }}
-          firstDay={1}
-
+          firstDay={0}
         />
       )
       }
@@ -187,7 +222,23 @@ useEffect(() => {
           )}
         </GridWrapper>
         <LessonListGrid lessonList={lessonList} />
-
+        {
+      showDatetModal && (
+        <DatePicker
+        modal
+        open={showDatetModal}
+        locale="ko-KR"
+        date={today}
+        onConfirm={(today) => {
+          handleConfirm(today)
+      }}
+        mode="date"
+        onCancel={() => {
+         setShowDateModal(false)
+     }}
+     />
+      )
+    }
     </CalendarProvider>
     </>
   );

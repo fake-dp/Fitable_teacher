@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import DateTimeSelectCard from '../card/DateTimeSelectCard';
 import FastImage from 'react-native-fast-image';
+import { Alert } from 'react-native';
 function DaySelectBtnGrid({ title,setSchedules }) {
     const days = ['월', '화', '수', '목', '금', '토', '일'];
     const [selectedDays, setSelectedDays] = useState([]);
@@ -60,6 +61,18 @@ function DaySelectBtnGrid({ title,setSchedules }) {
       };
           
     const updateClassTime = (id, startTime, endTime) => {
+      const safeStartTime = startTime
+      const safeEndTime = endTime
+      const startHour = parseInt(safeStartTime?.split(':')[0], 10);
+      const endHour = parseInt(safeEndTime?.split(':')[0], 10);
+    
+      // 시작 시간이 종료 시간보다 같거나 늦은 경우 경고
+      if (startHour >= endHour) {
+        Alert.alert("시간 오류", "종료 시간은 시작 시간보다 나중이어야 합니다.");
+        return; // 업데이트를 중단하고 함수를 종료
+      }
+    
+
         const updatedClassTimes = classTimes.map((classTime) => {
           if (classTime.id === id) {
             return { ...classTime, startTime, endTime, dayOfWeek: dayToEnglish(classTime.dayIndex) };

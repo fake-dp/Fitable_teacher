@@ -201,7 +201,7 @@ export default ChangePhoneNumberScreen;
 
 
 const TextContainer = styled.View`
-    /* margin-top: 53px; */
+    margin-top: 44px;
     margin-bottom: 8px;
 `
 

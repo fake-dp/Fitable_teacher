@@ -5,6 +5,7 @@ import {formatDate} from '../../utils/CustomUtils'
 import DatePicker from 'react-native-date-picker'
 import { startTime, endTime } from '../../data/selectDate';
 import FastImage from 'react-native-fast-image';
+import { Alert } from 'react-native';
 function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
 
     
@@ -17,6 +18,25 @@ function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
   
     const openEndPicker = () => {
       setShowEndModal(true);
+    };
+
+    const handleStartConfirm = (selectedDate) => {
+        if (edate && selectedDate > edate) {
+            Alert.alert("오류", "시작 날짜는 종료 날짜보다 이전이어야 합니다.");
+        } else {
+            setDate(selectedDate);
+        }
+        setShowStartModal(false);
+    };
+
+    // 종료 날짜 선택 시의 onConfirm 수정
+    const handleEndConfirm = (selectedDate) => {
+        if (date && selectedDate < date) {
+            Alert.alert("오류", "종료 날짜는 시작 날짜보다 이후여야 합니다.");
+        } else {
+            setEdate(selectedDate);
+        }
+        setShowEndModal(false);
     };
 
     const selectDate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
@@ -46,10 +66,7 @@ function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
                         title={null}
                         confirmText="확인"
                         cancelText="취소"
-                        onConfirm={(date) => {
-                            setShowStartModal(false)
-                            setDate(date)
-                        }}
+                        onConfirm={handleStartConfirm}
                         onCancel={() => {
                             setShowStartModal(false)
                         }}
@@ -76,10 +93,7 @@ function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
                         title={null}
                         confirmText="확인"
                         cancelText="취소"
-                        onConfirm={(date) => {
-                            setShowEndModal(false)
-                            setEdate(date)
-                        }}
+                        onConfirm={handleEndConfirm}
                         onCancel={() => {
                             setShowEndModal(false)
                         }}

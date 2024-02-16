@@ -226,6 +226,7 @@ const ContractTitle = styled.Text`
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 29px;
+  margin-top: 44px;
 `;
 
 const DateContainer = styled.View`

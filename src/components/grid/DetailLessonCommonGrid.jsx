@@ -7,7 +7,7 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
 
     const navigation = useNavigation();
 
-    console.log('routerTyperouterType',routerType)
+    console.log('routerTyperouterType',routerType,lessonDetail)
 
 
 
@@ -84,7 +84,9 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
        overScrollMode="never">
         {lessonDetail.members && lessonDetail.members.map(member => (
             <MembersListContaniner key={member.id} onPress={()=>memberDetailScreen(member.id)}>
-            <MemberName>{member.name}</MemberName>
+            {
+                member.name === null ? (<MemberName>알 수 없음</MemberName>):(<MemberName>{member.name}</MemberName>)
+            }
             </MembersListContaniner>
         ))}
             <AddBtnContainer onPress={()=>selectMemberScreen(lessonDetail.id)}>
@@ -111,6 +113,7 @@ const DetailHeaderContainer = styled.View`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 57px;
+    margin-top: 44px;
 `
 
 const DateTitle = styled.Text`

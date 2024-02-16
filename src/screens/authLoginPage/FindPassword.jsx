@@ -146,6 +146,7 @@ function FindPassword(props) {
                            placeholder="6자리를 입력해주세요"
                            onChangeText={handleCertiNumberTextChange}
                            maxLength={6}
+                           keyboardType="number-pad"
                            />
                             <CertificationTimer>0{formatTime(secondsLeft)}</CertificationTimer>
                         </CertificationIputBox>
@@ -181,6 +182,7 @@ export default FindPassword;
 
 const TextContainer = styled.View`
     margin-bottom: 50px;
+    margin-top: 44px;
 `
 
 const CertificationIputBox = styled.View`

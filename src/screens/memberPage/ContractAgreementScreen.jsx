@@ -299,13 +299,14 @@ const BasicMainBtnNextBtnNextText = styled.Text`
   color: ${COLORS.white};
 `;
 
-const TotalAgreement = styled``;
+const TotalAgreement = styled`
+`;
 
 TotalAgreement.Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-
+  margin-top: 44px;
   height: 60px;
 
   border-radius: 13px;

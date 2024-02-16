@@ -34,6 +34,7 @@ function AlarmDetailConsultGrid({ consultDetail }) {
 
     return (
         <Container>
+            <GridContainer>
             <ContentsContainer>
                 <TitleText>상담 신청</TitleText>
                 {
@@ -42,6 +43,7 @@ function AlarmDetailConsultGrid({ consultDetail }) {
                     (<ContentText>{consultDetail.trainerName}</ContentText>)
                 }
             </ContentsContainer>
+                </GridContainer>
 
             <GridLineOne />
 
@@ -98,8 +100,12 @@ const Container = styled.View`
 `;
 
 const ContentsContainer = styled.View`
+    
 `;
 
+const GridContainer = styled.View`
+    margin-top: 44px;
+`
 
 const TitleText = styled.Text`
     font-size: 16px;

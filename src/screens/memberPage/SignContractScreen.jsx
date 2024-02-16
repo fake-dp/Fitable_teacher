@@ -182,6 +182,7 @@ function SignContractScreen(props) {
         showsVerticalScrollIndicator={false}
         bounces={false}
         style={{marginBottom: 100}}>
+          <GridMarginContainer>
         <View style={{gap: 24}}>
           {templateData?.isMemberSignature && (
             <Container style={{gap: 14}}>
@@ -261,6 +262,7 @@ function SignContractScreen(props) {
             </Container>
           )}
         </View>
+        </GridMarginContainer>
       </ScrollView>
 
       <BasicMainBtnContainer>
@@ -294,6 +296,10 @@ const BasicMainBtnContainer = styled.View`
   background-color: ${COLORS.white};
   /* align-items: center; */
   /* justify-content: center;     */
+`;
+
+const GridMarginContainer = styled.View`
+  margin-top: 44px;
 `;
 
 const BasicMainBtnNextBtn = styled.TouchableOpacity`
@@ -340,6 +346,8 @@ const SignedDashedBorder = styled.TouchableOpacity`
   border-radius: 10px;
   border: 1px dashed ${COLORS.gray_300};
   background: ${COLORS.white};
+  
+  
 `;
 
 SignedDashedBorder.Text = styled.Text`

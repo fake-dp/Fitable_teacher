@@ -21,7 +21,7 @@ function AlarmLessonListGrid({lessonList}) {
             console.log('error 뜸 ㅠㅠ', error)
         }
     }
-    console.log('lessonList',lessonList)
+
     const personal = require('../../assets/img/oneperson.png');
     const group = require('../../assets/img/otherperson.png');
 

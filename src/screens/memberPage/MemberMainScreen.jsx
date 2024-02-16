@@ -80,28 +80,35 @@ function MemberMainScreen(props) {
         setSearchText('');
     }, [type]);
 
-    useEffect(() => {
-        fetchAllTotalElements();
-    }, [centerId]);
 
 
-    useEffect(() => {
-        if(centerId){
-            getMemberManageData().then((response) => {
-                setUserList(response);
+
+    // useEffect(() => {
+    //     fetchAllTotalElements();
+    // }, [centerId]);
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchAllTotalElements();
+        },[centerId]));
+
+    // useEffect(() => {
+    //     if(centerId){
+    //         getMemberManageData().then((response) => {
+    //             setUserList(response);
                
-            });
-        }
-    }, [centerId, type]);
+    //         });
+    //     }
+    // }, [centerId, type]);
     
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         if(centerId){
-    //             getMemberManageData().then((response) => {
-    //                 setUserList(response);
-    //             });
-    //         }
-    //     },[centerId,type]));
+    useFocusEffect(
+        useCallback(() => {
+            if(centerId){
+                getMemberManageData().then((response) => {
+                    setUserList(response);
+                });
+            }
+        },[centerId,type]));
 
     // console.log('type',type,totalElements)
 

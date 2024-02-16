@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Linking } from 'react-native';
 import GobackGrid from '../../components/grid/GobackGrid';
 import MySettingListBtnGrid from '../../components/grid/MySettingListBtnGrid';
+import styled from 'styled-components/native';
 import AgreementModal from '../../components/modal/AgreementModal';
 
 function TermsScreen(props) {
@@ -37,8 +38,10 @@ function TermsScreen(props) {
         <>
         <MainContainer>
             <GobackGrid onPress={goBack}>이용약관 및 정책</GobackGrid>
+            <GridContainer>
             <MySettingListBtnGrid onPress={()=>handleLinkPress('https://fitable.notion.site/Terms-of-use-151276937bf842ad9eabc522978f9148')}>이용약관 동의</MySettingListBtnGrid>
             <MySettingListBtnGrid onPress={()=>handleLinkPress('https://fitable.notion.site/Privacy-Policy-fcfd2a7bbea3444fa49730fb12879755')}>개인정보수집 및 이용에 대한 안내</MySettingListBtnGrid>
+            </GridContainer>
         </MainContainer>
         {/* {
             <AgreementModal 
@@ -51,3 +54,7 @@ function TermsScreen(props) {
 }
 
 export default TermsScreen;
+
+const GridContainer = styled.View`
+    margin-top: 44px;
+`;

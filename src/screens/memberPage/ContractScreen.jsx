@@ -103,6 +103,7 @@ const Title = styled.Text`
   letter-spacing: -0.35px;
   color: ${COLORS.gray_400};
   margin-bottom: 10px;
+  margin-top: 44px;
 `;
 
 const ContractCard = styled.View`

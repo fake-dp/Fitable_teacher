@@ -46,6 +46,9 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
         width: 300,
         height: 400,
         cropping: true,
+        compressImageQuality: 0.8,
+        compressImageMaxWidth: 750,
+        compressImageMaxHeight: 750,
       })
       .then(newImages => {
         console.log('@@@@@@@@@@@@@@@@@@@이미지',newImages);
@@ -423,7 +426,7 @@ console.log('dkdkdk')
 
 
             {/* <SelectProfileItemBtn>종목선택</SelectProfileItemBtn> */}
-            <CenterInfoContaniner>
+            {/* <CenterInfoContaniner>
 
             <ProfileCneterTitleText>소개</ProfileCneterTitleText>
                 <ProfileTextArea 
@@ -436,7 +439,21 @@ console.log('dkdkdk')
                       description: text
                   }))}
                 />
-            </CenterInfoContaniner>
+            </CenterInfoContaniner> */}
+
+            <ProfileInput
+                title="소개"
+                isEditMode={isEditMode}
+                placeholder={isEditMode? profileInfo.description:'소개는 10자 이상 150자 이하로 작성 가능합니다'}
+                // placeholder="300자 이하로 작성 가능합니다"
+                maxLength={150}
+                value={trainerProfile.description}
+                onChangeText={text => setTrainerProfile(prevState => ({
+                    ...prevState,
+                    description: text
+                }))}
+                />
+
             
                 <ProfileInput
                 title="경력사항"
@@ -574,6 +591,7 @@ font-size: 14px;
 font-weight: 500;
 line-height: 22.4px;
 letter-spacing: -0.35px;
+margin-top: 44px;
 `;
 
 const ProfileCneterTitleText = styled.Text`

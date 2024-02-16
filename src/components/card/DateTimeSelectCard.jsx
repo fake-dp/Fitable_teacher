@@ -5,6 +5,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { startTime, endTime } from '../../data/selectDate';
 import FastImage from 'react-native-fast-image';
 import {Platform} from 'react-native';
+import { Alert } from 'react-native';
 function DateTimeSelectCard({children,setStartTime,setEndTime}) {
     // const {startTime,endTime}=state
     // console.log('state',state)
@@ -22,6 +23,14 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
         endPickerRef.current?.togglePicker(true);
     };
 
+    const handleStartTimeChange = (value) => {
+      setStartTime(value);
+    };
+    
+    const handleEndTimeChange = (value) => {
+      setEndTime(value);
+    };
+    
 
     return (
         <Container>
@@ -38,11 +47,11 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
                         useNativeAndroidPickerStyle={false}
                         fixAndroidTouchableBug={true}
                         doneText='확인'
-                        onValueChange={(value) => setStartTime(value)}
+                        onValueChange={(value) => handleStartTimeChange(value)}
                         items={startTime}
                         placeholder={{
                           label: '시작 시간',
-                          value: null,
+                          value: '',
                         }}
                         style={{ inputIOS: { color: 'black' }, 
                         inputAndroid: { 
@@ -65,11 +74,11 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
                         useNativeAndroidPickerStyle={false}
                         fixAndroidTouchableBug={true}
                         doneText='확인'
-                        onValueChange={(value) => setStartTime(value)}
+                        onValueChange={(value) => handleStartTimeChange(value)}
                         items={startTime}
                         placeholder={{
                           label: '시작 시간',
-                          value: null,
+                          value: '',
                         }}
                         Icon={() => {
                           return <RigthIcon source={rightIcon}/>;
@@ -114,14 +123,14 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
                         <RNPickerSelect
                       ref={endPickerRef}
                       InputAccessoryView={() => null}
-                      onValueChange={(value) => setEndTime(value)}
+                      onValueChange={(value) => handleEndTimeChange(value)}
                       items={endTime}
                       textInputProps={{ underlineColorAndroid: 'transparent'}}
                       useNativeAndroidPickerStyle={false}
                       fixAndroidTouchableBug={true}
                       placeholder={{
                         label: '종료 시간',
-                        value: null,
+                        value: '',
                       }}
                     style={{ inputIOS: { color: 'black' },
                      inputAndroid: { 
@@ -140,14 +149,14 @@ function DateTimeSelectCard({children,setStartTime,setEndTime}) {
                         <RNPickerSelect
                       ref={endPickerRef}
                       InputAccessoryView={() => null}
-                      onValueChange={(value) => setEndTime(value)}
+                      onValueChange={(value) => handleEndTimeChange(value)}
                       items={endTime}
                       textInputProps={{ underlineColorAndroid: 'transparent'}}
                       useNativeAndroidPickerStyle={false}
                       fixAndroidTouchableBug={true}
                       placeholder={{
                         label: '종료 시간',
-                        value: null,
+                        value: '',
                       }}
                       Icon={() => {
                         return <RigthIcon source={rightIcon}/>;

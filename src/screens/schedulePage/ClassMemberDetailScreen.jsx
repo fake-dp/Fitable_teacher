@@ -222,7 +222,7 @@ function ClassMemberDetailScreen(props) {
                 }>
                 <PayAndContractLeftBox>
                   <LeftIcon source={ticketIcon} />
-                  <PayAndContractText>이용권 목록</PayAndContractText>
+                  <PayAndContractText>이용권 등록</PayAndContractText>
                 </PayAndContractLeftBox>
                 <BtnNextIcon source={nextIcon} />
               </PayAndContractBox>

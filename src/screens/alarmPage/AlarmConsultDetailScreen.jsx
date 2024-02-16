@@ -10,7 +10,7 @@ function AlarmConsultDetailScreen(props) {
     const { consultDetail} = route.params;
     const navigation = useNavigation();
 
-    console.log('상담 디테일',consultDetail)
+    // console.log('상담 디테일',consultDetail)
 
     const goBack = () => {
         navigation.goBack();

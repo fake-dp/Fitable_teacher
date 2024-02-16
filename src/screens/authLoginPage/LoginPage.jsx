@@ -8,14 +8,14 @@ import {loginApi} from '../../api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
-import { isLoginState } from '../../store/atom';
+import { isLoginState,fcmTokenState } from '../../store/atom';
 import FastImage from 'react-native-fast-image';
 import { Alert,TouchableWithoutFeedback, Keyboard } from 'react-native';
 // ST_A_1000
 function LoginPage(props) {
 
     const navigation = useNavigation();
-
+    const [fcmToken, setFcmToken] = useRecoilState(fcmTokenState);
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoginState);
@@ -27,44 +27,25 @@ function LoginPage(props) {
     //     const test1 = await AsyncStorage.getItem('refreshToken');
     // console.log('토큰', test,'@@@@@',test1);
     // }
-
+    console.log('fcmToken',fcmToken)
     const findPasswordScreen = () => {
         console.log('password찾기로')
         navigation.navigate('FindPassword');
     }
 
-
     const handleLogin = async () => {
         try {
-            const response = await loginApi(phone, password); // 로그인 함수 호출
-    
-            // if (!response) {
-            //     return Alert.alert('로그인 실패하였습니다.', '', [{ text: '확인', onPress: () => console.log('서버 응답 없음') }]);
-            // }
-            console.log('값확인',password,phone)
+            const response = await loginApi(phone, password, fcmToken);
             const isValidInput = phone.length > 10  && password.length > 7;
-    
             if (response && isValidInput) {
-                // console.log('response@', response)
-                const { accessToken, refreshToken } = response;
-                 await AsyncStorage.setItem("accessToken", accessToken);
-                 await AsyncStorage.setItem("refreshToken", refreshToken);
-                      const test = await AsyncStorage.getItem('accessToken');
-        const test1 = await AsyncStorage.getItem('refreshToken');
-    console.log('토큰', test,'@@@@@',test1);
-               
-                // setMyPhone(phone);
-                setPhone('');
-                setPassword('');
                 setIsLoggedIn(true);
-                // return Alert.alert('로그인 성공하였습니다.', '', [{ text: '확인', onPress: () => setIsLoggedIn(true) }]);
             } 
         } catch (error) {
-            console.log('Error during login@@:', error.code);
-            if(error.code === 10202){
+            console.log('Error during login@@:',error.response.data);
+            if(error.response.data.code === 10202){
               Alert.alert('올바른 비밀번호로 입력해주세요.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
             }
-        else if(error.code === 20000){
+        else if(error.response.data.code === 20000){
           Alert.alert('가입되지 않은 정보입니다. \n먼저 회원가입을 해주세요.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
         }
     }
@@ -90,6 +71,7 @@ function LoginPage(props) {
               onChangeText={setPassword}
               placeholder="비밀번호"
               onSubmitEditing={handleLogin}
+              maxLength={16}
             />
             <MainBtn
              onPress={handleLogin}

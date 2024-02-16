@@ -56,9 +56,13 @@ function LessonListGrid({lessonList}) {
                                         <MembersInfoText>아직 예약한 회원이 없습니다</MembersInfoText>
                                     ):(
                                         <MembersInfoContainer>
-                                        <MembersInfoText>
-                                        {lesson.reservationMembers.memberName} 회원
-                                        </MembersInfoText>
+                                            {
+                                                lesson.reservationMembers.memberName === null ? (
+                                                    <MembersInfoText>알 수 없음 회원</MembersInfoText>
+                                                ):(
+                                                    <MembersInfoText>{lesson.reservationMembers.memberName} 회원</MembersInfoText>
+                                                )
+                                            }
                                         {
                                             lesson.reservationMembers.max && (
                                                 <MembersInfoText>

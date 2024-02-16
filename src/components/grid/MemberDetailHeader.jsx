@@ -12,7 +12,7 @@ function MemberDetailHeader({detailData}) {
 
 
     const goBack = () => {
-        navigation.goBack();
+        navigation.navigate('Schedule')
     }
 
     const dialCall = (number) => {

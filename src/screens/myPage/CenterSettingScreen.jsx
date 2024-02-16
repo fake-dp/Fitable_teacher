@@ -38,4 +38,5 @@ font-weight: 600;
 line-height: 28px;
 color: ${COLORS.sub};
 margin-bottom:26px;
+margin-top: 44px;
 `

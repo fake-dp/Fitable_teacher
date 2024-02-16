@@ -66,12 +66,12 @@ function App() {
     requestUserPermission();
 
     const unsubscribeToken = messaging().onTokenRefresh(token => {
-      console.log("FCM Token Refresh >>> ", token);
+      // console.log("FCM Token Refresh >>> ", token);
       setFcmToken(token);
     });
 
     messaging().getToken().then(token => {
-      console.log("FCM Token >>> ", token);
+      // console.log("FCM Token >>> ", token);
       setFcmToken(token);
     });
 
@@ -88,19 +88,19 @@ function App() {
 
     useEffect(() => {
       messaging().getToken().then(token => {
-        console.log("FCM Token1 >>> ", token);
+        // console.log("FCM Token1 >>> ", token);
         setFcmToken(token);
       });
     }, []);
 
     useEffect(() => {
       return messaging().onTokenRefresh(token => {
-        console.log("FCM Token Refresh >>> ", token);
+        // console.log("FCM Token Refresh >>> ", token);
         setFcmToken(token);
       });
     }, []);
     
-    console.log('fcmToken',fcmToken)
+    // console.log('fcmToken',fcmToken)
 
   return <AppInner />;
 }

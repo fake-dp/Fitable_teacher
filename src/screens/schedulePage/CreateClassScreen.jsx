@@ -37,7 +37,6 @@ function CreateClassScreen(props) {
     const [name, setName] = useState([]);
     const [item, setItem] = useState([]);
     const [location, setLocation] = useState([]);
-    console.log('typetypetype',type)
   
     // 상태관리 값 
 const [classData, setClassData] = useState({
@@ -85,12 +84,6 @@ const [schedules, setSchedules] = useState([
 ]);
 
 
-// 버튼 활성화 상태 개인
-const [personalSingleBtnActive, setPersonalSingleBtnActive] = useState(false)
-const [personalMultipleBtnActive, setPersonalMultipleBtnActive] = useState(false)
-// 버튼 그룹 활성화 상태
-const [groupSingleBtnActive, setGroupSingleBtnActive] = useState(false)
-const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
 
     //api
     console.log('schedulesschedulesschedules',schedules)
@@ -243,7 +236,6 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
     // 개인 수업 등록SINGLE
     const singleRegisterBtn = async(personalData, selectedCheckBox) => {
         // console.log('Class data in test11111:', postPersonalSingleData);
-        
         if(selectedCheckBox === 'SINGLE'){
             console.log('tl싱글 개인이요',personalData)
             try {
@@ -255,6 +247,11 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
                 }
             } catch (error) {
                 console.log('err', error);
+                if(error.response.data.code === 20919){
+                    Alert.alert('수업 시간이 겹칩니다. 다시 선택해주세요')
+                }else if(error.response.data.code === 20808){
+                    Alert.alert('시작일보다 끝나는 날짜가 더 빠릅니다. 다시 선택해주세요')
+                }
             }
 
         }else if(selectedCheckBox === 'MULTIPLE'){
@@ -268,28 +265,33 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
                 }
             } catch (error) {
                 console.log('err', error);
+                if(error.response.data.code === 20919){
+                    Alert.alert('수업 시간이 겹칩니다. 다시 선택해주세요')
+                }else if(error.response.data.code === 20808){
+                    Alert.alert('시작일보다 끝나는 날짜가 더 빠릅니다. 다시 선택해주세요')
+                }
             }
         }
     }
 
 
 
- console.log('버튼 콘솔',personalSingleBtnActive,personalMultipleBtnActive,groupSingleBtnActive,groupMultipleBtnActive)
+//  console.log('버튼 콘솔',personalSingleBtnActive,personalMultipleBtnActive,groupSingleBtnActive,groupMultipleBtnActive)
     // 그룹 수업 등록
     const groupRegisterBtn = async(postData,selectedCheckBox) => {
-        console.log('postData@#!@#!@#!@#!@#@!#!@#!@#!@#!@#!@#!@#!@#@!',postData)
+        // console.log('postData@#!@#!@#!@#!@#@!#!@#!@#!@#!@#!@#!@#!@#@!',postData)
         updateClassData();
         console.log('Class data in test:', classData);
-        if (className === undefined || className === "") {
-            Alert.alert('수업명을 입력해주세요');
-            return;
-        } else if (classData.item === undefined || classData.item === "" || classData.item === null || classItem === undefined || classItem === null || classItem === "null" || classItem === "") {
-            Alert.alert('수업 종목을 입력해주세요');
-            return;
-        } else if (selectDate === undefined || selectDate === "") {
-            Alert.alert('수업 날짜를 입력해주세요');
-            return;
-        } 
+        // if (className === undefined || className === "") {
+        //     Alert.alert('수업명을 입력해주세요');
+        //     return;
+        // } else if (classData.item === undefined || classData.item === "" || classData.item === null || classItem === undefined || classItem === null || classItem === "null" || classItem === "") {
+        //     Alert.alert('수업 종목을 입력해주세요');
+        //     return;
+        // } else if (selectDate === undefined || selectDate === "") {
+        //     Alert.alert('수업 날짜를 입력해주세요');
+        //     return;
+        // } 
         // else if (startTime === undefined || startTime === "" || startTime === "null") {
         //     Alert.alert('수업 시작 시간을 입력해주세요');
         //     return;
@@ -337,7 +339,18 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
         ) {
             return false;
         }
-    
+    const isInvalidSchedule = postData.schedules.some(schedule => {
+    const start = schedule.startTime;
+    const end = schedule.endTime;
+    const startDate = new Date(`2024-01-01T${start}:00`);
+    const endDate = new Date(`2024-01-01T${end}:00`);
+    return startDate >= endDate;
+});
+if (isInvalidSchedule) {
+    return false;
+}
+
+
         return true;
     };
 
@@ -368,12 +381,24 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
        if(
         (postPersonalSingleData.name === "" || postPersonalSingleData.name === undefined) || 
         (startTime === undefined || startTime === "" || startTime === "null") ||
-        (endTime === undefined || endTime === "" || endTime === "null")
+        (endTime === undefined || endTime === "" || endTime === "null") 
        ){
-              return false;
+        return false;
        }
+        const isInvalidSchedule = personalData.schedules.some(schedule => {
+        const start = schedule.startTime;
+        const end = schedule.endTime;
+        const startDate = new Date(`2024-01-01T${start}:00`);
+        const endDate = new Date(`2024-01-01T${end}:00`);
+        return startDate >= endDate;
+    });
+    if (isInvalidSchedule) {
+        return false;
+    }
          return true;
     }
+
+
 
     const isPersonalMultipleActiveFn = () => {
         const isScheduleValid = schedules.every(
@@ -429,18 +454,53 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
         if(type === 'GROUP'){
             if(selectedCheckBox === 'SINGLE'){
                  setIsActive(isActiveFn());
+                 grupPersActive(postGroupSingleData)
             }else if(selectedCheckBox === 'MULTIPLE'){
                  setIsActive(isActiveMultipleFn());
             }
         }else if(type === 'PERSONAL'){
             if(selectedCheckBox === 'SINGLE'){
                  setIsActive(isPersonalActiveFn());
+                 singlePersActive(postPersonalSingleData)
             }else if(selectedCheckBox === 'MULTIPLE'){
                  setIsActive(isPersonalMultipleActiveFn());
             }
         }
     }, [className, classItem, classLocation, startDate, startTime, endTime, classData,schedules]);
   
+
+const singlePersActive = (personalData) => {
+    const isInvalidSchedule = personalData.schedules.some(schedule => {
+        const start = schedule.startTime;
+        const end = schedule.endTime;
+        const startDate = new Date(`2024-01-01T${start}:00`);
+        const endDate = new Date(`2024-01-01T${end}:00`);
+        return endDate <= startDate;
+    });
+    if (isInvalidSchedule) {
+        Alert.alert('시작 시간이 끝 시간보다 클 수 없습니다.');
+        return;
+    }
+
+}
+
+
+
+const grupPersActive = (postData) => {
+    const isInvalidSchedule = postData.schedules.some(schedule => {
+        const start = schedule.startTime;
+        const end = schedule.endTime;
+        const startDate = new Date(`2024-01-01T${start}:00`);
+        const endDate = new Date(`2024-01-01T${end}:00`);
+        return endDate <= startDate;
+    });
+    if (isInvalidSchedule) {
+        Alert.alert('시작 시간이 끝 시간보다 클 수 없습니다.');
+        return;
+    }
+
+}
+
 
 
     const goBack = () => {
@@ -460,9 +520,13 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
                 <ScrollView showsVerticalScrollIndicator={false}overScrollMode="never"bounces={false}>
                     {
                         type === 'GROUP' ? (
+                            <GridContainer>
                             <MainLongTextGrid>그룹 수업을</MainLongTextGrid>
+                            </GridContainer>
                             ):(
+                                <GridContainer>
                                 <MainLongTextGrid>1:1수업 일정을</MainLongTextGrid>
+                                </GridContainer>
                                 )
                     }
                     <MainLongTextGrid>만들어주세요</MainLongTextGrid>
@@ -555,8 +619,10 @@ const [groupMultipleBtnActive, setGroupMultipleBtnActive] = useState(false)
                             </MembersListContaniner>
                         ):(
                             <AssignMemberContainer onPress={()=>getAssignableMembersScreen(centerId, date, startTime, endTime)}>
+                            <AddbtnBox>
                             <AddbtnIcon source={addBtnIcon}/>    
                             <LabelText>예약 회원</LabelText>
+                            </AddbtnBox>
                             </AssignMemberContainer>
                                 )
                         
@@ -593,19 +659,33 @@ const CreateBtnContainer = styled.View`
 `;
 
 const AssignMemberContainer = styled.TouchableOpacity`
-display: flex;
+/* display: flex;
 flex-direction: row;
 align-items: center;
 margin-top: 22px;
-margin-bottom: 42px;
+margin-bottom: 42px; */
+background-color: ${COLORS.white};
+border : 1px solid ${COLORS.gray_200};
+border-radius: 13px;
+padding: 14px 16px;
+margin-bottom: 22px;
 `;
 
+const AddbtnBox = styled.View`
+flex-direction: row;
+align-items: center;
+justify-content: center;
+`
+
 const LabelText = styled.Text`
-font-size: 14px;
+/* font-size: 14px;
 font-weight: 500;
 line-height: 22.40px;
-color: ${COLORS.gray_400};
-/* margin-bottom: 12px; */
+color: ${COLORS.gray_400}; */
+font-size: 14px;
+color: ${COLORS.sub};
+font-weight: 400;
+line-height: 22.40px;
 `;
 
 const AddbtnIcon = styled(FastImage)`
@@ -636,26 +716,6 @@ font-weight: 500;
 line-height: 22.40px;
 `;
 
-// {
-//     "centerId": "aef57d38a-2d7b-4666-a822-3243459e1e62",
-//     "type": "PERSONAL",
-//     "isLesson": true,
-//     "name": "1:1 P.T 집중코칭",
-//     "item": "7657d38a-2d7b-4666-a822-3243459e1e62",
-//     "location": "PT실",
-//     "schedulerType": "SINGLE",
-//     "startDate": "2023-08-28T10:00:35+09:00",
-//     "endDate": "2023-09-28T10:00:35+09:00",
-//     "schedules": [
-//       {
-//         "dayOfWeek": "MONDAY",
-//         "startTime": "08:00:00",
-//         "endTime": "09:00:00"
-//       }
-//     ],
-//     "assignedMemberTicketId": "1217d38a-2d7b-4666-a822-3243459e1e62",
-//     "isRequiredReservation": true,
-//     "isWaiting": true,
-//     "totalMembers": 4,
-//     "totalWaitingMembers": 4
-//   }
+const GridContainer = styled.View`
+    margin-top: 44px;
+`

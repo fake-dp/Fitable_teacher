@@ -7,7 +7,8 @@ const backArrow = require('../../assets/img/back_black.png');
     return (
         <GobackTouchable onPress={onPress}>
             <FastImage source={backArrow}
-                style={{width: 24, height: 20}}
+                style={{width: 22, height: 22}}
+                resizeMode='contain'
             />
             <TitleText>{children}</TitleText>
         </GobackTouchable>
@@ -19,7 +20,7 @@ export default GobackGrid;
 const GobackTouchable = styled.TouchableOpacity`
 flex-direction: row;
 align-items: center;
-margin-bottom: 44px;
+/* margin-bottom: 44px; */
 `;
 
 const TitleText = styled.Text`

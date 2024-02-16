@@ -266,7 +266,7 @@ useEffect(() => {
 
              <PriceInnerContainer paylink={type === 'paylink' ? true : false}>
             <InfoTitleText>상품 가격</InfoTitleText>
-            <PriceTextInput 
+            <FirstPriceTextInput
             value={timeAndPeriodStr}
             disabled={true}
             />
@@ -367,12 +367,27 @@ width: 16px;
 height: 16px;
 `
 
+const FirstPriceTextInput = styled.TextInput.attrs(props => ({
+    editable: !props.disabled,
+    placeholderTextColor: props.disabled ? COLORS.sub : COLORS.gray_300,
+  }))`
+        font-size: 14px;
+      color: ${COLORS.gray_300};
+      font-weight: 400;
+      border: 1px solid ${COLORS.gray_100};
+      background-color: ${COLORS.gray_100};
+      border-radius: 13px;
+      padding: 15px 16px;
+      margin-bottom: 8px;
+      text-align: right;
+  `
+
 const PriceTextInput = styled.TextInput.attrs(props => ({
     editable: !props.disabled,
     placeholderTextColor: props.disabled ? COLORS.sub : COLORS.gray_300,
   }))`
       font-size: 14px;
-      color: ${COLORS.gray_300};
+      color: ${COLORS.sub};
       font-weight: 400;
       border: 1px solid ${COLORS.gray_100};
       background-color: ${COLORS.gray_100};

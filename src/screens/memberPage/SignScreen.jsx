@@ -74,7 +74,7 @@ function SignScreen(props) {
   return (
     <MainContainer>
       <GobackGrid onPress={goBack}>서명하기</GobackGrid>
-
+      <GridMargin/>
       <View style={{flex: 1}}>
         <View style={{height: 270}}>
           <SignatureScreen
@@ -104,7 +104,7 @@ function SignScreen(props) {
           </TouchableOpacity>
         </View>
       </View>
-
+         {/* </GridMargin> */}
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn
           isActive={isSignEnd}
@@ -128,6 +128,10 @@ const BasicMainBtnContainer = styled.View`
   height: 80px;
   background-color: ${COLORS.white};
 `;
+
+const GridMargin = styled.View`
+  margin-top: 44px;
+`
 
 const BasicMainBtnNextBtn = styled.TouchableOpacity`
   background-color: ${props => (props.isActive ? COLORS.sub : COLORS.gray_100)};

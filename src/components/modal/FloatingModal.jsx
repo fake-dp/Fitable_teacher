@@ -4,7 +4,7 @@ import { COLORS } from '../../constants/color';
 import { Image,Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-function FloatingModal() {
+function FloatingModal({isOpen,closeModal}) {
 
     const navigation = useNavigation();
 
@@ -19,8 +19,11 @@ function FloatingModal() {
    
 
     return (
-        <ModalBackground>
-            <FloatingButtonContainer>
+        <ModalBackground
+        onPress={closeModal}
+        activeOpacity={1}
+        >
+            <FloatingButtonContainer isOpen={isOpen}>
 
             <FloatingBtnBox>
                 <FloatingContentsContainer>
@@ -69,7 +72,8 @@ const FloatingBtnBox = styled.View`
 
 const FloatingButtonContainer = styled.View`
     position: absolute;
-    bottom: 80px;
+    /* bottom: 80px; */
+    bottom: ${props => (props.isOpen ? '160px' : '160px')};
     right: 0;
     margin: 20px;
     z-index: 15;

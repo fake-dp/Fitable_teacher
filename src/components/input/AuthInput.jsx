@@ -34,6 +34,7 @@ function AuthInput({value, onChangeText, placeholder,maxLength,onSubmitEditing})
                   placeholder={placeholder}
                   secureTextEntry={!showPassword}
                   onSubmitEditing={onSubmitEditing}
+                  maxLength={maxLength}
                 />
                 </AuthTextInputContainer>   
             ):(

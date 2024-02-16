@@ -137,6 +137,7 @@ export default NewPassword;
 
 const TextContainer = styled.View`
     margin-bottom: 50px;
+    margin-top: 44px;
 `
 
 const ErrorTextContainer = styled.View`

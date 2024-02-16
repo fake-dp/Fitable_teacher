@@ -85,7 +85,9 @@ function MemberSelectScreen(props) {
                     renderItem={({ item }) => (
                         <MemberItem onPress={()=>reservationBtn(lessonId, item.memberTicketId)}>
                             <ContentContainer>
-                            <NameText>{item.name}</NameText>
+                                {
+                                   item.name === null ? <NameText>알 수 없음</NameText> : <NameText>{item.name}</NameText>
+                                }
                             <PhoneText>{formatPhoneNumber(item.phone)}</PhoneText>
                             </ContentContainer>
                             <AddNextIcon source={nextIcon}/>
@@ -132,6 +134,7 @@ const TitleText = styled.Text`
     line-height: 22.40px;
     color: ${COLORS.gray_400};
     margin-bottom: 8px;
+    margin-top: 44px;
 `;
 
 const ContentContainer = styled.View`

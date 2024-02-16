@@ -87,7 +87,7 @@ function AccountScreen(props) {
     return (
         <MainContainer>
             <GobackGrid onPress={goBack}>계정 관리</GobackGrid>
-
+            <GridMargin />
             <InfoEditInput 
             title="이름" 
             placeholder="10자까지 입력해주세요" 
@@ -162,4 +162,8 @@ const ErrorTextContainer = styled.View`
     width: 100%;
     margin-top: 3px;
     /* margin-bottom: 12px; */
+`;
+
+const GridMargin = styled.View`
+    margin-top: 24px;
 `;

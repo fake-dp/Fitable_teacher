@@ -14,7 +14,8 @@ function ProfileInput({value, onChangeText, placeholder,title,maxLength,type}) {
     return (
         <>
         <InfoTitleText>{title}</InfoTitleText>
-        <InfoTextInputContainer  style={{ height: Math.max(60, inputHeight) }}>
+        <InfoTextInputContainer  
+            style={{ height: Math.max(60, inputHeight) }}>
             <InfoTextInput
                 value={value}
                 onChangeText={onChangeText}
@@ -57,11 +58,12 @@ const InfoTextInputContainer = styled.View`
 const InfoTextInput = styled(TextInput).attrs(() => ({
     placeholderTextColor: COLORS.gray_300,
     textAlignVertical: 'top',
+    fontSize: 14,
 }))`
     flex: 1;
     margin: 0;
     color: ${COLORS.sub};
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     line-height: 22.40px;
     font-family: 'Pretendard-Regular';
