@@ -2,8 +2,8 @@ import styled from 'styled-components/native';
 import {COLORS} from '../../constants/color';
 import { LoginContainer } from '../../style/gridStyled';
 import MainBtn from '../../components/button/MainBtn';
-import AuthInput from '../../components/input/AuthInput';
-import { useState } from 'react';
+import {AuthInput} from '../../components/input/AuthInput';
+import { useState,useRef } from 'react';
 import {loginApi} from '../../api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +20,11 @@ function LoginPage(props) {
     const [password, setPassword] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoginState);
     
+    const [isFocused, setIsFocused] = useState(false);
+    const inputRef = useRef();
+  
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
 
     // const tokenBtn = async () => {
     //     console.log('fkfkfkffk')
@@ -44,10 +49,9 @@ function LoginPage(props) {
             console.log('Error during login@@:',error.response.data);
             if(error.response.data.code === 10202){
               Alert.alert('올바른 비밀번호로 입력해주세요.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
+            }else if(error.response.data.code === 20000){
+              Alert.alert('권한이 없는 계정입니다.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
             }
-        else if(error.response.data.code === 20000){
-          Alert.alert('가입되지 않은 정보입니다. \n먼저 회원가입을 해주세요.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
-        }
     }
 };
 
@@ -57,13 +61,16 @@ function LoginPage(props) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <LoginContainer>
-
+        <LoginScreenView focus={isFocused}>
             <TitleLogo source={require('../../assets/img/t_logo.png')}/>
             <AuthInput
              value={phone}
              onChangeText={setPhone}
              placeholder="휴대폰번호"
              maxLength={11}
+             ref={inputRef}
+             onFocus={handleFocus}
+             onBlur={handleBlur}
             />
 
               <AuthInput
@@ -72,6 +79,9 @@ function LoginPage(props) {
               placeholder="비밀번호"
               onSubmitEditing={handleLogin}
               maxLength={16}
+              ref={inputRef}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <MainBtn
              onPress={handleLogin}
@@ -83,6 +93,7 @@ function LoginPage(props) {
             >
                 <FindPassword>비밀번호 찾기</FindPassword>
             </FindPasswordContainer>
+            </LoginScreenView>
         </LoginContainer>
         </TouchableWithoutFeedback>
     );
@@ -95,10 +106,18 @@ const TitleLogo = styled(FastImage)`
     width: 180px;
     height: 26px;
 `
-
+const LoginScreenView = styled.View`
+    /* flex: .9; */
+    flex: ${props => props.focus ? 0.88 : 1};
+    background-color: ${COLORS.white};
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20px;
+`
 const FindPasswordContainer = styled.TouchableOpacity`
     align-items: center;
     margin-top: 20px;
+    margin-bottom: 80px;
 `
 
 const FindPassword = styled.Text`

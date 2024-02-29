@@ -61,7 +61,7 @@ PushNotification.configure({
 
 function App() {
   const [fcmToken, setFcmToken] = useRecoilState(fcmTokenState);
-
+console.log('fcmTokfcmTokenfcmTokenen',fcmToken)
   useEffect(() => {
     requestUserPermission();
 
@@ -74,10 +74,16 @@ function App() {
       // console.log("FCM Token >>> ", token);
       setFcmToken(token);
     });
-
     const unsubscribeMessage = messaging().onMessage(async remoteMessage => {
       const {title, body} = remoteMessage.notification;
-      Alert.alert(title, body);
+      // Alert.alert(title, body);
+      PushNotification.localNotification({
+        title: title, // 알림 제목
+        message: body, // 알림 내용
+        playSound: true, // 소리 재생 여부
+        soundName: 'default', // 재생할 소리 파일 (기본값은 'default')
+        // 여기에 추가적인 옵션을 설정할 수 있습니다.
+      });
     });
 
     return () => {
