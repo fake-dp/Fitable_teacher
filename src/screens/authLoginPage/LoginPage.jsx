@@ -27,12 +27,10 @@ function LoginPage(props) {
     const handleBlur = () => setIsFocused(false);
 
     // const tokenBtn = async () => {
-    //     console.log('fkfkfkffk')
-    //     const test = await AsyncStorage.getItem('accessToken');
-    //     const test1 = await AsyncStorage.getItem('refreshToken');
-    // console.log('토큰', test,'@@@@@',test1);
+        console.log('fkfkfkffk')
+
     // }
-    console.log('fcmToken',fcmToken)
+    // console.log('fcmToken',fcmToken)
     const findPasswordScreen = () => {
         console.log('password찾기로')
         navigation.navigate('FindPassword');
@@ -104,7 +102,7 @@ export default LoginPage;
 const TitleLogo = styled(FastImage)`
     margin-bottom: 50px;
     width: 180px;
-    height: 26px;
+    height: 34px;
 `
 const LoginScreenView = styled.View`
     /* flex: .9; */

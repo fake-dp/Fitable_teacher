@@ -1,6 +1,5 @@
 import AppInner from './AppInner';
 import { RecoilRoot } from 'recoil';
-import { Alert } from 'react-native';
 import { useEffect } from 'react';
 import {fcmTokenState} from './src/store/atom';
 import { useRecoilState } from 'recoil';
@@ -28,7 +27,7 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
   onRegister: function (token) {
-    console.log("TOKEN:", token);
+    // console.log("TOKEN:", token);
   },
 
   onNotification: function (notification) {
@@ -61,7 +60,7 @@ PushNotification.configure({
 
 function App() {
   const [fcmToken, setFcmToken] = useRecoilState(fcmTokenState);
-console.log('fcmTokfcmTokenfcmTokenen',fcmToken)
+// console.log('fcmTokfcmTokenfcmTokenen',fcmToken)
   useEffect(() => {
     requestUserPermission();
 

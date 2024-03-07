@@ -27,7 +27,7 @@ function MemberMainScreen(props) {
     const [member, setMember] = useState('ALL')
     const [leftTime, setLeftTime] = useState('');
     const closeModal = () => {
-        console.log('ekeekekekfjdaksljflk')
+        // console.log('ekeekekekfjdaksljflk')
       setModalVisible(false);
       setTicket('ALL')
         setMember('ALL')
@@ -89,7 +89,9 @@ function MemberMainScreen(props) {
 
     useFocusEffect(
         useCallback(() => {
-            fetchAllTotalElements();
+            if(centerId){
+                fetchAllTotalElements();
+            }
         },[centerId]));
 
     // useEffect(() => {

@@ -78,15 +78,23 @@ function CustomCalendar(props) {
     } else {
       setSelected(day.dateString);
     }
+    if(centerId){
+      getLessonList(centerId, day.dateString)
+      .then(data => {
+          setLessonList(data.content);
+      })
+      .catch(error => {
+          console.error("Error fetching lesson list:", error);
+      });
+    }
 
-
-    getLessonList(centerId, day.dateString)
-    .then(data => {
-        setLessonList(data.content);
-    })
-    .catch(error => {
-        console.error("Error fetching lesson list:", error);
-    });
+    // getLessonList(centerId, day.dateString)
+    // .then(data => {
+    //     setLessonList(data.content);
+    // })
+    // .catch(error => {
+    //     console.error("Error fetching lesson list:", error);
+    // });
   }, [todayString, centerId,availableDates]);
 
 
@@ -278,11 +286,12 @@ const TitleText = styled.Text`
 const DateTitleContainer = styled.View`
     flex-direction: row;
     align-items: center;
-    margin-bottom:20px;  
+    margin-bottom:20px; 
+    margin-top: 10px;
 `
 
 const DateTitleText = styled.Text`
-margin-top: 10px;
+
 color: ${COLORS.sub};
     font-size: 20px;
     font-weight: 600;
@@ -298,5 +307,4 @@ font-size: 14px;
 font-weight: 500;
 line-height: 22.40px;
 margin-left: 8px;
-margin-top: 4px;
 `

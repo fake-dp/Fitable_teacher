@@ -21,7 +21,7 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
                     lessonId: id,
                 })
             }catch{
-                console.log('error 뜸 ㅠㅠ', error)
+                console.log('5err', error)
             }
     }
 
@@ -35,7 +35,7 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
                 screenType: 'class',
             })
         }catch(error){
-            console.log('error 뜸 ㅠㅠ', error)
+            console.log('error 뜸 ㅠ3123123ㅠ', error)
         }
 
     }

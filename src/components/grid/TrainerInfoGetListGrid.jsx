@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
 function TrainerInfoGetListGrid({profileInfo}) {
-    // console.log('1',profileInfo.centerProfiles)
+    console.log('1',profileInfo.centerProfiles)
     // console.log('12',profileInfo.centerProfiles[0].details)
 
     const clockIcon = require('../../assets/img/clockIcon.png');
@@ -204,6 +204,8 @@ letter-spacing: -0.35px;
 
 const ClockIconImg = styled.Image`
     margin-right: 8px;
+    width: 20px;
+    height: 20px;
 `
 
 const ProfileDateBox = styled.View`

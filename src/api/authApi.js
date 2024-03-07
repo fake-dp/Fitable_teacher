@@ -3,9 +3,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Config from 'react-native-config';
 
+const baseURL = Config.API_URL;
+
 export const loginApi = async (phone, password, fcmToken) => {
     try {
-        const response = await axios.post(`${Config.API_URL}/api/trainers/v1/login`, { phone, password,fcmToken });
+        const response = await axios.post(`${baseURL}/api/trainers/v1/login`, { phone, password,fcmToken });
         // console.log('responseresponse',response.data)
         const { accessToken, refreshToken } = response.data;
         await AsyncStorage.setItem("accessToken", accessToken);
@@ -23,7 +25,7 @@ export const loginApi = async (phone, password, fcmToken) => {
 
 export const autoLoginApi = async (refreshToken) => {
     try {
-        const response = await axios.post(`${Config.API_URL}/api/trainers/v1/token`, {refreshToken});
+        const response = await axios.post(`${baseURL}/api/trainers/v1/token`, {refreshToken});
         // const { accessToken } = response.data;
         // await AsyncStorage.setItem("accessToken", accessToken);
         return response.data; // 갱신 성공 시 true 반환

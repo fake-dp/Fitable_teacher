@@ -21,7 +21,7 @@ function LessonListGrid({lessonList}) {
                 });
             }
         }catch(error){
-            console.log('error 뜸 ㅠㅠ', error)
+            console.log('error 뜸', error)
         }
     }
 

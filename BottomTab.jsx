@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image } from 'react-native';
 import { COLORS } from './src/constants/color';
 import ScheduleMainScreen from './src/screens/schedulePage/ScheduleMainScreen';
 import MemberMainScreen from './src/screens/memberPage/MemberMainScreen';
@@ -9,6 +8,7 @@ import AlarmMainScreen from './src/screens/alarmPage/AlarmMainScreen';
 import { useRecoilValue } from 'recoil';
 import {floatingState} from './src/store/atom'
 import { BottomTabBar } from '@react-navigation/bottom-tabs';
+import FastImage from 'react-native-fast-image'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,8 +30,8 @@ const baseOptions = {
 }
 
 const bottonIconSize = {
-  width: 18.75,
-  height: 18.75,
+  width: 24,
+  height: 24,
 }
 
 // 스케줄
@@ -116,12 +116,16 @@ function MainTabScreen(props) {
             title: '내 일정',
             unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
-              <Image
-                source={require('./src/assets/bottomTab/bottom_sc.png')}
-                style={{ 
-                  ...bottonIconSize,
-                  tintColor: focused ? COLORS.sub : COLORS.gray_300 }}
-              />
+              <FastImage
+              source={
+                focused? 
+                require('./src/assets/bottomTab/bottom_scactive.png') :
+                require('./src/assets/bottomTab/bottom_scunactive.png')}
+              style={{ 
+                ...bottonIconSize,}}
+                resizeMode={FastImage.resizeMode.contain}
+            />
+
             ),
             
           }}
@@ -130,14 +134,17 @@ function MainTabScreen(props) {
          options={{
           title: '회원 관리',
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={require('./src/assets/bottomTab/bottom_me.png')}
-              style={{ 
-                ...bottonIconSize,
-                tintColor: focused ? COLORS.sub : COLORS.gray_300 ,
-               
-            }}
-            />
+            <FastImage
+            source={
+              focused? 
+              require('./src/assets/bottomTab/bottom_meactive.png') :
+              require('./src/assets/bottomTab/bottom_meunactive.png')}
+            style={{ 
+              ...bottonIconSize,}}
+              resizeMode={FastImage.resizeMode.contain}
+          />
+
+
           ),
               }}
         />
@@ -145,12 +152,15 @@ function MainTabScreen(props) {
                 options={{
                   title: '알림',
                   tabBarIcon: ({ focused }) => (
-                    <Image
-                      source={require('./src/assets/bottomTab/bottom_be.png')}
-                      style={{ 
-                        ...bottonIconSize,
-                        tintColor: focused ? COLORS.sub : COLORS.gray_300 }}
-                    />
+                    <FastImage
+                    source={
+                      focused? 
+                      require('./src/assets/bottomTab/bottom_beactive.png') :
+                      require('./src/assets/bottomTab/bottom_beunactive.png')}
+                    style={{ 
+                      ...bottonIconSize,}}
+                      resizeMode={FastImage.resizeMode.contain}
+                  />
                   ),
                       }}
         />
@@ -158,12 +168,15 @@ function MainTabScreen(props) {
             options={{
               title: '마이',
               tabBarIcon: ({ focused }) => (
-                <Image
-                  source={require('./src/assets/bottomTab/bottom_my.png')}
-                  style={{ 
-                    ...bottonIconSize,
-                    tintColor: focused ? COLORS.sub : COLORS.gray_300 }}
-                />
+                <FastImage
+                source={
+                  focused? 
+                  require('./src/assets/bottomTab/bottom_myactive.png') :
+                  require('./src/assets/bottomTab/bottom_myunactive.png')}
+                style={{ 
+                  ...bottonIconSize,}}
+                  resizeMode={FastImage.resizeMode.contain}
+              />
               ),
                   }}
         />

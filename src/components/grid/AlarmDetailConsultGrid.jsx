@@ -9,7 +9,7 @@ import {getMemberDetail} from '../../api/memberApi';
 function AlarmDetailConsultGrid({ consultDetail }) {
     // console.log('consultDetail:', consultDetail);
     const navigation = useNavigation();
-    const nextIcon = require('../../assets/img/g4rightIcon.png');
+    const nextIcon = require('../../assets/img/rightIcon.png');
     const [centerId, setCenterId] = useRecoilState(centerIdState);
 
     const detailConsultScreen = async (id, memberId) => {
@@ -134,6 +134,6 @@ margin-top: 16px;
     `
 const BtnGridBox = styled.View``
 const BtnNextIcon = styled(FastImage)`
-width:10px;
-height:10px;
+width:20px;
+height:20px;
 `;

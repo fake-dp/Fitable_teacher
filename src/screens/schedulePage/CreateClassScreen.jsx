@@ -433,7 +433,7 @@ if (isInvalidSchedule) {
                     routerType:'ableclass',
                 })
             }catch(error){
-                console.log('error 뜸 ㅠㅠ', error)
+                console.log('123err', error)
             }
     }
 

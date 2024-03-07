@@ -18,12 +18,12 @@ function AlarmLessonListGrid({lessonList}) {
                 navigation.navigate('LessonDetail', {lessonDetail: response});
             }
         }catch(error){
-            console.log('error 뜸 ㅠㅠ', error)
+            console.log('error 뜸 ㅠㅠ123', error)
         }
     }
 
-    const personal = require('../../assets/img/oneperson.png');
-    const group = require('../../assets/img/otherperson.png');
+    const personal = require('../../assets/img/alarmoneperson.png');
+    const group = require('../../assets/img/alarmgroupperson.png');
 
     return (
       <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">
@@ -132,6 +132,7 @@ font-weight: 400;
 const ConsultIcon = styled(FastImage)`
   width: 48px;
   height: 48px;
+  border-radius: 13px;
   `   
 
 const NoListCardContainer = styled.View`

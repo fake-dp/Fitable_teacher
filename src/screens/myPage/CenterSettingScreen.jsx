@@ -19,7 +19,7 @@ function CenterSettingScreen(props) {
     const goSearchScreen = () => {
         navigation.navigate('MyCenterSearch');
     }
-    console.log('22',centerList)
+    // console.log('22',centerList)
     return (
         <MainContainer>
             <GobackGrid onPress={goBack}>연동센터 설정</GobackGrid>

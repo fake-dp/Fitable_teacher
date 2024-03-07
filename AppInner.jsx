@@ -12,6 +12,7 @@ function AppInner() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log('ddgegeg1')
     const checkLoginStatus = async () => {
       setIsLoading(true);
       const token = await AsyncStorage.getItem('refreshToken');

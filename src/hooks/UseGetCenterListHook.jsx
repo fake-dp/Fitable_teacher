@@ -10,15 +10,25 @@ function UseGetCenterListHook(props) {
     const [centerList, setCenterList] = useRecoilState(centerListState);
 
     // console.log('hookes@@@@@@@@@@@@@',centerId,centerList)
-    // useFocusEffect(
-    //     useCallback(() => {
-    //             getCenterListData();
-    //     },[centerId]));
+    useFocusEffect(
+        useCallback(() => {
+                getCenterListData();
+        },[centerId]));
 
     
+    // useEffect(() => {
+    //     getCenterListData();
+    // },[centerList])
+
+
     useEffect(() => {
-        getCenterListData();
-    },[])
+        if (centerList.length === 0) {
+            setCenterId(null);
+        } else if(centerList.length ===1){
+            setCenterId(centerList[0].id);
+        }
+    }
+    , [centerList]);
 
     // useEffect(() => {
     //     if(centerId === null && centerList.length > 0) {
@@ -31,7 +41,7 @@ function UseGetCenterListHook(props) {
                     const response = await getCenterList();
                     // console.log('응답데이터확인헤더@@@',response)
 
-                        if(response && response.length > 0){
+                        if(response){
                             setCenterList(response);
                         //     setCenterId(response[0].id);
                         //         // 이미 선택된 센터가 새로운 리스트에 포함되어 있는지 확인
@@ -41,11 +51,7 @@ function UseGetCenterListHook(props) {
                         // if (!selectedCenterExists) {
                         //     setCenterId(response[0].id);
                         //      }
-                                    } else {
-                                        await AsyncStorage.removeItem('centerId');
-                                   setCenterList([]);
-                                   setCenterId(null);
-                        }
+                        } 
                          }catch(error){
                                  console.log('@@@@',error)
                             if(error.code === 10300) {

@@ -13,7 +13,7 @@ const customAxios = axios.create({
 // 요청 인터셉터
 customAxios.interceptors.request.use(async (config) => {
     const token = await AsyncStorage.getItem("accessToken");
-    console.log('Access token from AsyncStorage:', token); // 콘솔 로그 추가
+    // console.log('Access token from AsyncStorage:', token); // 콘솔 로그 추가
     if (token) {
       config.headers["Authorization"] = `${token}`;
     }
@@ -27,12 +27,12 @@ customAxios.interceptors.request.use(async (config) => {
     if (error && error.response && error.response.status === 401 && error.response.data && error.response.data.code === 10100) {
       originalRequest._retry = true;
       const refreshToken = await AsyncStorage.getItem("refreshToken");
-      // console.log('Refresh token from AsyncStorage:', refreshToken); // 콘솔 로그 추가
+      console.log('Refresh token from AsyncStorage:', refreshToken); // 콘솔 로그 추가
       if (!refreshToken) {
         console.error("Refresh token is not available.");
         return Promise.reject(error);
       }
-      // console.log("Sending refreshToken:", refreshToken);
+      console.log("Sending refreshToken:", refreshToken);
 
       try {
         const response = await axios.post(`${Config.API_URL}/api/trainers/v1/token`, { refreshToken });

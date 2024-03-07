@@ -15,10 +15,13 @@ function CenterListSlideModal({modalVisible, closeModal,centerList ,text, onPres
       >
         <ModalContainer>
           <ModalContent>
+            <ModalHeaderContainer>
+           <ModalTitle>{text}</ModalTitle>
           <ModalCloseButton onPress={closeModal}>
             <ModalCloseBox source={require('../../assets/img/close.png')} />
            </ModalCloseButton>
-           <ModalTitle>{text}</ModalTitle>
+           </ModalHeaderContainer>
+           <ListContainer>
            <ScrollView
             showsVerticalScrollIndicator={false}
             bounces={false}
@@ -38,6 +41,7 @@ function CenterListSlideModal({modalVisible, closeModal,centerList ,text, onPres
     )
   }
            </ScrollView>
+           </ListContainer>
           </ModalContent>
         </ModalContainer>
       </Modal>
@@ -61,12 +65,13 @@ width: 100%;
 padding: 20px;
 border-top-left-radius: 20px;
 border-top-right-radius: 20px;
-flex: .45;
+flex: .6;
 `;
 
 const ModalTitle = styled.Text`
-    margin-top: 100px;
-    margin-bottom: 43px;
+    /* margin-top: 100px; */
+    padding: 20px;
+    /* margin-bottom: 43px; */
   font-size: 28px;
 font-weight: 500;
 line-height: 37.80px;
@@ -82,30 +87,45 @@ color: ${COLORS.main};
 `;
 
 const ModalCloseButton = styled.TouchableOpacity`
+  /* background-color: red; */
+  padding: 20px;
 `;
 
+const ModalHeaderContainer = styled.View`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+`
+
 const ModalCloseBox = styled(FastImage)`
-    position: absolute;
+    /* position: absolute;
     right: 15px;
-    top: 15px;
+    top: 15px; */
     width: 28px;
     height: 28px;
 `
 
 const CenterListContaniner = styled.TouchableOpacity`
-margin-bottom: 20px;
+margin-top: 22px;
 justify-content: center;
 align-items: center;
 border: 1px solid ${COLORS.sub};
 padding: 10px 20px;
 border-radius: 50px;
 background-color: ${COLORS.sub};
+
+`
+const ListContainer = styled.View`
+flex: 1;
+/* margin-top: 20px; */
+margin-bottom: 10px;
 `
 
 const NoCenterContainer = styled.View`
   align-items: center;
   justify-content: center;
   padding: 20px;
+  margin-top: 100px;
 `;
 
 const NoCenterText = styled.Text`

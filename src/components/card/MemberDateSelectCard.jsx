@@ -72,7 +72,9 @@ function MemberDateSelectCard({setFormData,index}) {
                         }}
                       />
             </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
+            <RigthIcon 
+              resizeMode='contain'
+            source={rightIcon}/>
          </SelectBox>
             
                         <DividerText>~</DividerText>
@@ -120,7 +122,8 @@ function MemberDateSelectCard({setFormData,index}) {
                         }}
                       />
             </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
+            <RigthIcon  
+             resizeMode='contain' source={rightIcon}/>
          </SelectBox>
          </SelectBoxGrid>
     </Container>
@@ -214,8 +217,8 @@ margin-bottom: 12px;
 `
 
 const RigthIcon = styled(FastImage)`
-width: 16px;
-height: 16px;
+width: 14px;
+height: 14px;
 `
 
 

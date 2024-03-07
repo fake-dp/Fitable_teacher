@@ -26,24 +26,25 @@ function MemberDetailHeader({detailData}) {
 
     const sendMsg = require('../../assets/img/emailIcon.png');
     const call = require('../../assets/img/phoneIcon.png');
-
+    console.log('detailData',detailData.member.generation)
     return (
         <HeaderContainer>
         <GobackWhiteGrid onPress={goBack}>회원 정보</GobackWhiteGrid>
         <MainHeaderContainer>
             <MainLeftHeaderContainer>
-                   <MainHeaderTitleText>{detailData.member.name}</MainHeaderTitleText>
+                   <MainHeaderTitleText>{detailData?.member?.name}</MainHeaderTitleText>
                  <LeftInfoContainer>
-                   <MainHeaderPhoneTitleText>{formatPhoneNumber(detailData.member.phone)} </MainHeaderPhoneTitleText>
-                   {detailData.member.generation && <MainHeaderPhoneTitleText>• {detailData.member.generation}대</MainHeaderPhoneTitleText>}
+                   <MainHeaderPhoneTitleText>{formatPhoneNumber(detailData?.member?.phone)}</MainHeaderPhoneTitleText>
+                   {detailData?.member?.generation !== null && 
+                   <MainHeaderPhoneTitleText>• {detailData?.member?.generation}대</MainHeaderPhoneTitleText>}
                  </LeftInfoContainer>
             </MainLeftHeaderContainer>
             
             <RightInfoContainer>
-                <IconWrapper onPress={() => sendMessage(detailData.member.phone)}>
+                <IconWrapper onPress={() => sendMessage(detailData?.member?.phone)}>
                     <InfoIcon source={sendMsg}/>
                 </IconWrapper>
-                <IconWrapper onPress={() => dialCall(detailData.member.phone)}>
+                <IconWrapper onPress={() => dialCall(detailData?.member?.phone)}>
                     <InfoIcon source={call}/>
                 </IconWrapper>
             </RightInfoContainer>
@@ -107,6 +108,6 @@ const IconWrapper = styled.TouchableOpacity`
 `;
 
 const InfoIcon = styled(FastImage)`
-    width: 22px;
-    height: 22px;
+    width: 32px;
+    height: 32px;
 `;

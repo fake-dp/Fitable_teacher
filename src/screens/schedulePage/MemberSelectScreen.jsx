@@ -66,7 +66,7 @@ function MemberSelectScreen(props) {
         }
     }
 
-    const nextIcon = require('../../assets/img/g4rightIcon.png');
+    const nextIcon = require('../../assets/img/rightIcon.png');
 
     return (
         <SelectContainer>
@@ -157,6 +157,6 @@ line-height: 22.40px;
 `;
 
 const AddNextIcon = styled(FastImage)`
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
 `

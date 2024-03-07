@@ -15,10 +15,7 @@ function CenterListDeleteCard({centerList,setCenterList,goSearchScreen,setCenter
             const response = await deleteCenterList(id);
             if(response){
                 Alert.alert("센터 삭제","센터가 삭제되었습니다",
-                [{ text: "확인", onPress: () => {setCenterList(centerList.filter(center => center.id !== id))
-                    if(centerId === id) {
-                        setCenterId(null)
-                    }}
+                [{ text: "확인", onPress: () => {setCenterList(centerList.filter(center => center.id !== id))}
                 }]);
             }
         }catch(error){

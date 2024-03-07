@@ -9,19 +9,32 @@ import { useEffect, useState } from 'react';
 import {searchCenterList,addCenterList} from '../../api/trainersApi';
 import { ScrollView , Alert, View } from 'react-native';
 import { useRecoilState } from 'recoil';
-import { centerListState } from '../../store/atom';
+import { centerListState,centerIdState } from '../../store/atom';
 import NoListCard from '../../components/card/NoListCard';
 function SearchCenterScreen(props) {
 
     const navigation = useNavigation();
 
     const [centerList, setCenterList] = useRecoilState(centerListState);
+    const [centerId, setCenterId] = useRecoilState(centerIdState);
 
     const [isTyping, setIsTyping] = useState(false);
     const [searchData, setSearchData] = useState([])
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+
+    // useEffect를 활용해서 센터리스트길이가 하나면 그 센터값이 센터아이디
+
+    useEffect(() => {
+        if (centerList.length === 0) {
+            setCenterId(null);
+        } else if(centerList.length ===1){
+            setCenterId(centerList[0].id);
+        }
+    }
+    , [centerList]);
+    
 
     const handleSearchQueryChange = (text) => {
         setSearchQuery(text);
@@ -67,12 +80,11 @@ function SearchCenterScreen(props) {
 
         try{
             const response = await addCenterList(id);
-            console.log('response',response)
+            console.log('response11',response)
             if(response){
                 setCenterList([...centerList,response])
                 Alert.alert("센터 추가","센터가 추가되었습니다",
-                [{ text: "확인", onPress: () => navigation.goBack()}]);
-            }
+                [{ text: "확인", onPress: () => navigation.goBack()}]);}
         }catch(error){
             console.log(error)
             if(error.code === 30102){

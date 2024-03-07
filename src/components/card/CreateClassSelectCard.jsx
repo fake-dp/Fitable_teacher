@@ -76,7 +76,9 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                              } }}/>)
                         }
                     </SelectInnerBox>
-                    <RigthIcon source={rightIcon}/>
+                    <RigthIcon 
+                    resizeMode='contain'
+                    source={rightIcon}/>
                  </SelectBox>
                  ):(
                     <AndroidSelectBox>

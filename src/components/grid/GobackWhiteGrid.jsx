@@ -7,7 +7,9 @@ const whiteArrow = require('../../assets/img/back_white.png');
     return (
         <GobackTouchable onPress={onPress}>
             <FastImage source={whiteArrow}    
-             style={{width: 24, height: 20}}/>
+             style={{width: 24, height: 20}}
+             resizeMode='contain'
+             />
             <TitleText>{children}</TitleText>
         </GobackTouchable>
     );

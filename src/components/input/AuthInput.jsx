@@ -29,8 +29,8 @@ export const AuthInput = React.forwardRef(({
                   <AuthTextInputContainer isPasswordInput={isPasswordInput}>
                     {value.length > 0 && (
                       <TogglePasswordVisibility onPress={handlePasswordVisibilityChange}>
-                        <FastImage 
-                          style={{width:20, height:20}}
+                        <SecretIcon 
+                          resizeMode='contain'
                           source={showPassword ? require('../../assets/img/t_eye_open.png') : require('../../assets/img/t_eye_closed.png')} />
                           {/* source={showPassword ? require('../../../assets/img/eye-open.png') : require('../../../assets/img/eye-closed.png')} /> */}
                       </TogglePasswordVisibility>
@@ -90,6 +90,11 @@ export const AuthInput = React.forwardRef(({
       `}
   `;
   
+  const SecretIcon = styled(FastImage)`
+  width :24px;
+  height: 24px;
+  `
+
   const AuthTextInput = styled(TextInput).attrs(() => ({
       placeholderTextColor: COLORS.gray_300,
   }))`

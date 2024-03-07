@@ -35,7 +35,8 @@ function FloatingBtn({ onPress, isOpen }) {
     <FloatingButtonContainer isOpen={isOpen}>
       <FloatingButtonTouchable onPress={onPress} style={{ transform: [{ rotate }] }}>
         <FastImage source={floatingIcon} 
-        style={{width: 22, height: 22}}
+        style={{width: 28, height: 28}}
+        resizeMode='contain'
         />
       </FloatingButtonTouchable>
     </FloatingButtonContainer>
@@ -62,3 +63,5 @@ const FloatingButtonTouchable = styled.TouchableOpacity`
   align-items: center;
   box-shadow: 2px 3px 5px rgba(94.56, 94.56, 94.56, 0.15);
 `;
+
+

@@ -20,7 +20,7 @@ import {
 import {centerListState, contractState, myinfoState} from '../../store/atom';
 import {useEffect, useState} from 'react';
 import {getMyInfo} from '../../api/mypageApi';
-
+import FastImage from 'react-native-fast-image';
 function ClassMemberDetailScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
@@ -89,7 +89,7 @@ function ClassMemberDetailScreen(props) {
             navigation.navigate('ConsultDetail', {consultDetail: response});
         }
     }catch(error){
-        console.log('error 뜸 ㅠㅠ')
+        console.log('error 뜸 ㅠㅠ@@')
     }
 }
 
@@ -108,7 +108,7 @@ function ClassMemberDetailScreen(props) {
             <TitleText>이용 센터</TitleText>
             {detailData?.availableCenters?.length !== 0 ? (
               <SubContentText>
-                {detailData.availableCenters.join(', ')}
+                {detailData?.availableCenters.join(', ')}
               </SubContentText>
             ) : (
               <SubContentText>-</SubContentText>
@@ -119,20 +119,20 @@ function ClassMemberDetailScreen(props) {
 
           <MemoContainer>
             <TitleText>메모</TitleText>
-            {detailData.memos.length === 0 ? (
+            {detailData?.memos?.length === 0 ? (
               <SubContentText>-</SubContentText>
             ) : null}
-            {detailData.memos.map((memo, index) => (
+            {detailData?.memos.map((memo, index) => (
               <MemoInnerBox key={index}>
                 <HeaderBox>
                   <MemoTitleLabel>
-                    <MemoTitleText>{memo.centerName}</MemoTitleText>
+                    <MemoTitleText>{memo?.centerName}</MemoTitleText>
                   </MemoTitleLabel>
 
-                  <MemoDateText>{memo.createdAt}</MemoDateText>
+                  <MemoDateText>{memo?.createdAt}</MemoDateText>
                 </HeaderBox>
                 <MemoSubContentBox>
-                  <SubContentText>{memo.context}</SubContentText>
+                  <SubContentText>{memo?.context}</SubContentText>
                 </MemoSubContentBox>
               </MemoInnerBox>
             ))}
@@ -193,14 +193,14 @@ function ClassMemberDetailScreen(props) {
 
         {screenType !== 'memberDetail' && (
           <BtnContainer>
-            {detailData.isAvailableCancel && (
+            {detailData?.isAvailableCancel && (
               <MemberBtn
                 onPress={() => cancelReservationBtn(detailData.id)}
                 colorProp>
                 예약취소
               </MemberBtn>
             )}
-            {detailData.isAvailableAttendance && (
+            {detailData?.isAvailableAttendance && (
               <MemberBtn
                 onPress={() => postLessonAttendanceBtn(detailData.id)}
                 colorProp>
@@ -221,7 +221,9 @@ function ClassMemberDetailScreen(props) {
                   })
                 }>
                 <PayAndContractLeftBox>
-                  <LeftIcon source={ticketIcon} />
+                  <LeftIcon 
+                  resizeMode='contain'
+                  source={ticketIcon} />
                   <PayAndContractText>이용권 등록</PayAndContractText>
                 </PayAndContractLeftBox>
                 <BtnNextIcon source={nextIcon} />
@@ -243,7 +245,9 @@ function ClassMemberDetailScreen(props) {
                   navigation.navigate('Contract', {memberId});
                 }}>
                 <PayAndContractLeftBox>
-                  <LeftIcon source={contract} />
+                  <LeftIcon 
+                  resizeMode='contain'
+                  source={contract} />
                   <PayAndContractText>계약서</PayAndContractText>
                 </PayAndContractLeftBox>
                 <BtnNextIcon source={nextIcon} />
@@ -444,6 +448,8 @@ const PayAndContractLeftBox = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
+  /* background-color: red; */
+
 `;
 
 const PayAndContractText = styled.Text`
@@ -454,13 +460,13 @@ const PayAndContractText = styled.Text`
   letter-spacing: -0.4px;
 `;
 
-const LeftIcon = styled.Image`
-  width: 24px;
-  height: 24px;
+const LeftIcon = styled(FastImage)`
+  width: 22px;
+  height: 22px;
   margin-right: 12px;
 `;
 
-const BtnNextIcon = styled.Image`
+const BtnNextIcon = styled(FastImage)`
   width: 20px;
   height: 20px;
 `;

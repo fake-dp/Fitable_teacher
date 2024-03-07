@@ -118,7 +118,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                         placeholder: { 
                             color: COLORS.sub
                              }  }}/>
-                <RigthIcon source={rightIcon}/>
+                <RigthIcon 
+                resizeMode='contain'
+                source={rightIcon}/>
              </SelectBox>
                 ):(
                    <AndSelectBox>
@@ -155,7 +157,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                           }}
                           
                              />
-                             <RigthIcon source={rightIcon}/>
+                             <RigthIcon 
+                               resizeMode='contain'
+                             source={rightIcon}/>
                         </AndSelectBox>
        
                 )
@@ -192,7 +196,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             padding:0,
                             margin:0,
                          } }}/>
-                <RigthIcon source={rightIcon}/>
+                <RigthIcon 
+                  resizeMode='contain'
+                source={rightIcon}/>
              </SelectBoxDivider>
                 ):(
                     <AndSelectBoxDivider>
@@ -239,7 +245,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             color: COLORS.sub
                              }
                           }}/>
-                          <RigthIcon source={rightIcon}/>
+                          <RigthIcon 
+                            resizeMode='contain'
+                          source={rightIcon}/>
                           </AndSelectBoxDivider>
                 )
              }
@@ -309,7 +317,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             padding:0,
                             margin:0,
                             } }}/>
-                        <RigthIcon source={rightIcon}/>
+                        <RigthIcon 
+                          resizeMode='contain'
+                        source={rightIcon}/>
              </SelectTextInputSecondContainer>
                  ):(
 
@@ -332,7 +342,9 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             value: null,
                         }}
                         Icon={() => {
-                            return <RigthIcon source={rightIcon}/>;
+                            return <RigthIcon 
+                            resizeMode='contain'
+                            source={rightIcon}/>;
                             }
                           }
                           style={
@@ -447,8 +459,8 @@ const SelectInnerSecondBox = styled.View`
 `
 
 const RigthIcon = styled(FastImage)`
-width: 16px;
-height: 16px;
+width: 14px;
+height: 14px;
 `
 
 const CountTextInput = styled.TextInput`

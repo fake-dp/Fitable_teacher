@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import ImagePicker from 'react-native-image-crop-picker';
-import React,{ useState,useEffect } from 'react';
+import React,{ useState,useEffect,useRef } from 'react';
 import { Alert,TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import ProfileInput from '../input/ProfileInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -26,7 +26,8 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
     // UseGetCenterListHook();
 
     const navigation = useNavigation();
-    const [isClicking, setIsClicking] = useState(false);
+    // const [isClicking, setIsClicking] = useState(false);
+    const isClicking = useRef(false);
     const [centerList, setCenterList] = useRecoilState(centerListState);
     const [selectedCenter, setSelectedCenter] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -102,12 +103,12 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
 
     // 프로필 설정 및 수정
     const registerProfileSetting = async () => {
-        if (isClicking) {
+        if (isClicking.current) {
             return;
-          }
-            setIsClicking(true);
+        }
+        isClicking.current = true;
         try{
-            console.log('프로파일 설정!!헤헿',trainerProfile,selectedImages)
+            console.log('프로파일 설정!!헤헿')
             let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
             const formData = new FormData();
             const requestDto = {
@@ -131,15 +132,15 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
         console.log('error',error)
     }
     finally{
-        setIsClicking(false);
+        isClicking.current = false;
     }
 }
 
     const registerProfileUpdate = async () => {
-        if (isClicking) {
+        if (isClicking.current) {
             return;
-          }
-            setIsClicking(true);
+        }
+        isClicking.current = true;
             try{
                 console.log('에디터 모드임')
                 let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
@@ -166,7 +167,7 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
                 console.log('error',error)
             }
             finally{
-                setIsClicking(false);
+                isClicking.current = false;
             }
     }
 
@@ -259,6 +260,7 @@ console.log('dkdkdk')
                     setUpdateSelectedImages([])
                     setDeleteImages([])
                     getProfileDeleteInfo()
+
                 } }]);
             }
         }catch(error){
@@ -287,8 +289,8 @@ console.log('dkdkdk')
                 timeSettings: [{
                     centerId: id,
                     type: "평일",
-                    startTime: "00:00",
-                    endTime: "00:00"
+                    startTime: "01:00",
+                    endTime: "01:00"
                 }]
             };
             setSelectedCenter(prevCenters => [...prevCenters, newCenter]);
@@ -300,8 +302,8 @@ console.log('dkdkdk')
         const newTimeSetting = {
             centerId: centerId,
             type: "평일",
-            startTime: "00:00",
-            endTime: "00:00"
+            startTime: "01:00",
+            endTime: "01:00"
         };
     
         const updatedCenters = selectedCenter.map(center => {
@@ -365,8 +367,14 @@ console.log('dkdkdk')
     const timeSettingState = 
     selectedCenter[0]?.timeSettings[0]?.startTime !== selectedCenter[0]?.timeSettings[0]?.endTime &&
     selectedCenter[0]?.timeSettings[0]?.startTime < selectedCenter[0]?.timeSettings[0]?.endTime
-    const isActivefn = trainerProfile?.career?.length !==0 && trainerProfile?.qualifications?.length !==0 && trainerProfile?.description?.length !==0 && timeSettingState
- 
+    const isActivefn = 
+    (trainerProfile?.career?.length !==0 && trainerProfile?.career?.length !==undefined)
+    && 
+    (trainerProfile?.qualifications?.length !==0 && trainerProfile?.qualifications?.length !==undefined) &&
+    (trainerProfile?.description?.length !==0 && trainerProfile?.description?.length !==undefined)
+    && 
+    timeSettingState
+    console.log('trainerProfile?.career?.length !==10',trainerProfile?.career?.length,trainerProfile?.qualifications?.length,trainerProfile?.description?.length )
     // console.log('selectedCenter11',trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState,isActivefn)
 
 // console.log('se1',selectedCenter[0]?.timeSettings[0]?.startTime,selectedCenter[0]?.timeSettings[0]?.endTime)
@@ -555,8 +563,12 @@ console.log('dkdkdk')
             onPress={postSettingProfile}>승인 요청</BasicMainBtn> */}
 
             <ProfileSettingBtn
-            isActive={isActivefn}
-            onPress={isEditModefn}
+                isActive={isActivefn} 
+            onPress={() => {
+                if (!isClicking.current) {
+                    isEditModefn(); // or any other function you need to execute
+                }
+            }}
             openDateSelectModal={openDateSelectModal}
             isEditMode={isEditMode}
             >승인 요청</ProfileSettingBtn>
@@ -662,7 +674,7 @@ const DeleteBtn = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     z-index: 1;
-    background-color: rgba(0,0,0,0.5);
+    background-color: ${COLORS.sub};
     border-radius: 50px;
 `
 const DeleteImg = styled(FastImage)`

@@ -7,14 +7,13 @@ import {getAlarmList} from '../../api/alarmApi';
 import AlarmLessonListGrid from '../grid/AlarmLessonListGrid';
 import AlarmConsultingListGrid from '../grid/AlarmConsultingListGrid';
 import { useRecoilState } from 'recoil';
-import { centerIdState } from '../../store/atom';
+import { centerIdState,centerListState } from '../../store/atom';
 
 function AlarmTwoBtn() {
     const [centerId, setCenterId] = useRecoilState(centerIdState || 'default_value'); 
-
+    const [centerList, setCenterList] = useRecoilState(centerListState);
     
 
-    const navigation = useNavigation();
     const [selectedTab, setSelectedTab] = useState('LESSON');
     const [lessonList, setLessonList] = useState([]);
     const [consultingList, setConsultingList] = useState([]);
@@ -23,11 +22,12 @@ function AlarmTwoBtn() {
         setSelectedTab(tab);
       };
 
-    console.log('centerId',centerId)
+    console.log('centerId123',centerId,centerList.length)
     const getAlarmDataList = async (id, type) => {
         console.log('id',id)
         try{
             const response = await getAlarmList({id,type});
+            console.log('respons123123e',response)
             if(type === 'LESSON'){
                 setLessonList(response.content);
             }else if(type === 'CONSULTING'){
@@ -39,14 +39,26 @@ function AlarmTwoBtn() {
         console.log('알람 list 에러',error)
     }
 }
+useEffect(() => {
+  if (centerList.length === 0) {
+      setCenterId(null);
+  } else if(centerList.length ===1){
+      setCenterId(centerList[0].id);
+  }
+}
+, [centerList]);
 
 useEffect(() => {
     if(centerId) {
+      console.log('centerId',centerId)
         getAlarmDataList(centerId, 'LESSON');
         getAlarmDataList(centerId, 'CONSULTING');
+    }else if(centerId === null){
+        setLessonList([]);
+        setConsultingList([]);
     }
 }, [centerId])
-
+// console.log('lessonList',lessonList)
  
     return (
         <>

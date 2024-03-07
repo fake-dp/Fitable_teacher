@@ -8,8 +8,8 @@ function FloatingModal({isOpen,closeModal}) {
 
     const navigation = useNavigation();
 
-    const personal = require('../../assets/img/oneperson.png');
-    const group = require('../../assets/img/otherperson.png');
+    const personal = require('../../assets/img/personone.png');
+    const group = require('../../assets/img/persongroup.png');
 
     const goClassScreen = (type) =>{
         console.log('111',type)
@@ -30,7 +30,7 @@ function FloatingModal({isOpen,closeModal}) {
                 <FloatingBtnText>1:1 수업</FloatingBtnText>
                 <FloatingButtonTouchable onPress={()=>goClassScreen('PERSONAL')}>
                     <FastImage 
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={personal} />
                 </FloatingButtonTouchable>
                 </FloatingContentsContainer>
@@ -41,7 +41,7 @@ function FloatingModal({isOpen,closeModal}) {
                 <FloatingBtnText>그룹 수업</FloatingBtnText>
                 <FloatingButtonTouchable onPress={()=>goClassScreen('GROUP')}>
                     <FastImage 
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={group} />
                 </FloatingButtonTouchable>
             </FloatingContentsContainer>
@@ -68,6 +68,7 @@ const ModalBackground = styled.TouchableOpacity`
 const FloatingBtnBox = styled.View`
    margin-bottom: 20px;
   z-index: 15;
+  /* background-color: red; */
 `;
 
 const FloatingButtonContainer = styled.View`
@@ -82,6 +83,7 @@ const FloatingButtonContainer = styled.View`
 const FloatingButtonTouchable = styled.TouchableOpacity`
   width: 60px;
   height: 60px;
+
   border-radius: 30px;
   background-color: ${COLORS.gray_100};
   display: flex;
@@ -98,8 +100,9 @@ color: ${COLORS.white};
 `
 
 const FloatingContentsContainer = styled.View`
+/* width: 140px; */
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 `

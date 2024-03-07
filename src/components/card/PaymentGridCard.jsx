@@ -113,7 +113,9 @@ useEffect(() => {
                             padding:0,
                             margin:0,
                              } }}/>
-                <RigthIcon source={rightIcon}/>
+                <RigthIcon   
+                resizeMode='contain'
+                source={rightIcon}/>
              </SelectBox>
                 ):(
                     <AndSelectBox>
@@ -163,7 +165,9 @@ useEffect(() => {
                           
                              />
 
-<RigthIcon source={rightIcon}/>
+<RigthIcon 
+  resizeMode='contain'
+source={rightIcon}/>
                              </AndSelectBox>
                 )
             }
@@ -203,7 +207,9 @@ useEffect(() => {
                             padding:0,
                             margin:0,
                             } }}/>
-                <RigthIcon source={rightIcon}/>
+                <RigthIcon 
+                  resizeMode='contain'
+                source={rightIcon}/>
              </SelectBox>
                  ):(
                    <AndSelectBox>
@@ -252,7 +258,9 @@ useEffect(() => {
                             color: COLORS.sub
                              }
                           }}/>
-                          <RigthIcon source={rightIcon}/>
+                          <RigthIcon   
+                          resizeMode='contain'
+                          source={rightIcon}/>
               </AndSelectBox>
                  )
             }
@@ -363,8 +371,8 @@ const PriceInnerContainer = styled.View`
 `
 
 const RigthIcon = styled(FastImage)`
-width: 16px;
-height: 16px;
+width: 14px;
+height: 14px;
 `
 
 const FirstPriceTextInput = styled.TextInput.attrs(props => ({
