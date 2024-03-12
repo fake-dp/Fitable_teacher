@@ -4,7 +4,7 @@ import { useState ,useRef, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker'
 import { Alert } from 'react-native';
 import FastImage from 'react-native-fast-image';
-function MemberDateSelectCard({setFormData,index}) {
+function MemberDateSelectCard({setFormData,index,formData}) {
 
     const [showStartModal, setShowStartModal] = useState(false);
     const [showEndModal, setShowEndModal] = useState(false);
@@ -130,29 +130,39 @@ function MemberDateSelectCard({setFormData,index}) {
 
     <Container>
         <LabelText>중지권</LabelText>
-        <SelectBoxGrid>           
+        <SelectBoxGrid> 
+
+          <CountTextInputContainer>
              <CountTextInput
-             placeholder="0일"
+             placeholder="0"
              keyboardType='numeric'
              onChangeText={(text) => {
-                setFormData((prevData) => {
-                    let tickets = [...prevData.tickets];
-                    tickets[index].stopTicketDay = text;
-                    return {...prevData, tickets};
+               setFormData((prevData) => {
+                 let tickets = [...prevData.tickets];
+                 tickets[index].stopTicketDay = text;
+                 return {...prevData, tickets};
                 });
-            }}
-             />
+              }}
+              />
+             <DayLabel isActive={!!formData.tickets[index].stopTicketDay}>일</DayLabel>
+              </CountTextInputContainer>          
+
+              <CountTextInputContainer>
+
+
             <CountTextInput
-            placeholder="0회"
+            placeholder="0"
             keyboardType='numeric'
             onChangeText={(text) => {
-                setFormData((prevData) => {
-                    let tickets = [...prevData.tickets];
-                    tickets[index].stopTicketTime = text;
-                    return {...prevData, tickets};
-                });
+              setFormData((prevData) => {
+                let tickets = [...prevData.tickets];
+                tickets[index].stopTicketTime = text;
+                return {...prevData, tickets};
+              });
             }}
             />
+             <DayLabel isActive={!!formData.tickets[index].stopTicketTime}>회</DayLabel>
+            </CountTextInputContainer>
          </SelectBoxGrid>
     </Container>
 
@@ -186,6 +196,29 @@ const SelectBox = styled.TouchableOpacity`
     padding: 15px 16px;
     width: 46%;
 `
+const CountTextInputContainer = styled.View`
+    flex-direction: row;
+    align-items: center;
+    text-align: right;
+    justify-content: space-between;
+    border: 1px solid ${COLORS.gray_100};
+    border-radius: 13px;
+    padding: 15px 16px;
+    background-color: ${COLORS.gray_100};
+    width: 48%;
+`;
+
+const CountTextInput = styled.TextInput`
+    text-align: right;
+    flex:1;
+    width: 100%;
+`
+
+const DayLabel = styled.Text`
+    /* margin-left: 10px; */
+    font-size: 16px;
+    color: ${(props) => props.isActive ? COLORS.sub : COLORS.gray_300};
+`;
 
 const DividerText = styled.Text`
 font-size: 16px;
@@ -222,14 +255,3 @@ height: 14px;
 `
 
 
-const CountTextInput = styled.TextInput`
-    text-align: right;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid ${COLORS.gray_100};
-    border-radius: 13px;
-    padding: 15px 16px;
-    background-color: ${COLORS.gray_100};
-    width: 48%;
-`

@@ -10,14 +10,14 @@ function CheckBtnGrid({selectedCheckBox, setSelectedCheckBox,resetClassData,setI
     const handleSingle = () => {
         setSelectedCheckBox('SINGLE');
         // setClassDate 초기화
-        // resetClassData();
+        resetClassData();
         setIsActive(false);
     }
 
     const handleMultiple = () => {
         setSelectedCheckBox('MULTIPLE');
         // setClassDate 초기화
-        // resetClassData();
+        resetClassData();
         setIsActive(false);
     }
     

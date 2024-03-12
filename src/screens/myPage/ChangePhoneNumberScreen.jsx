@@ -7,7 +7,7 @@ import { COLORS } from '../../constants/color';
 import GobackGrid from '../../components/grid/GobackGrid';
 import { useRecoilState } from 'recoil';
 import { formatTime,validatePhone } from '../../utils/CustomUtils';
-import {getCertificationNumber,checkCertificationNumber,changePhone} from '../../api/certificationApi';
+import {getCertificationNumber,checkCertificationNumber,checkCertificationNumberTrainer,changePhone} from '../../api/certificationApi';
 import { myinfoState } from '../../store/atom';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
 
@@ -16,7 +16,7 @@ function ChangePhoneNumberScreen(props) {
     const navigation = useNavigation();
 
     const [myInfo, setMyInfo] = useRecoilState(myinfoState);
-
+    console.log('myInfo',myInfo.name)
     const [phone, setPhone] = useState('');
     const [number, setNumber] = useState('');
 
@@ -48,11 +48,12 @@ function ChangePhoneNumberScreen(props) {
     };
 
         // 휴대폰번호 변경
-        const changePhoneNum = async (phone, number) => {
-            console.log('휴대폰번호 변경 값 확인',phone,number)
+        const changePhoneNum = async (name, phone, number) => {
+            console.log('휴대폰번호 변경 값 확인',name,phone,number)
             try{
-                const response = await checkCertificationNumber({phone, number});
+                const response = await checkCertificationNumberTrainer({name,phone, number});
                 if(response){
+                    console.log('re',response)
                     changePhoneNumInnerFc(phone)
                 }
             }catch(error){
@@ -66,6 +67,7 @@ function ChangePhoneNumberScreen(props) {
     
         // 번호 변경 내부 함수
         const changePhoneNumInnerFc = async (phone) => {
+            console.log('휴대폰번호 변경 값 확인3123123',phone)
             try{
                 const response = await changePhone(phone);
                 if(response){
@@ -188,7 +190,7 @@ function ChangePhoneNumberScreen(props) {
                     ) : (
                     <CertifiactionBtn 
                     isActive={number.length === 6}
-                    onPress={()=>changePhoneNum(phone, number)}>다음</CertifiactionBtn>
+                    onPress={()=>changePhoneNum(myInfo.name, phone, number)}>다음</CertifiactionBtn>
                     )
                 }
         </MainContainer>

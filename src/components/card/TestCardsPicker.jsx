@@ -1,3 +1,5 @@
+
+
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { useState} from 'react';
@@ -5,7 +7,7 @@ import FastImage from 'react-native-fast-image';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 
-function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTime, endTime}) {
+function DateTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTime, endTime}) {
     // const {startTime,endTime}=state
     // console.log('state',state) 40 32 
     const rightIcon = require('../../assets/img/colsdowngray.png');
@@ -59,16 +61,13 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTim
             {startTime? startTime: '시작 시간'}
           </SelectBoxText>
           </SelectInnerBox>
-          <RigthIcon source={rightIcon}/>
+       
        </SelectBox>
 
             <DividerText>~</DividerText>
 
           <SelectBox onPress={openEndPicker}>
           <SelectInnerBox>
-              {
-                  imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
-              }
                       <DatePicker
                        modal
                        locale="ko-KR"
@@ -91,7 +90,7 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTim
             {endTime? endTime: '종료 시간'}
           </SelectBoxText>
           </SelectInnerBox>
-          <RigthIcon source={rightIcon}/>
+         
        </SelectBox>
    
          </SelectBoxGrid>
@@ -100,7 +99,7 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTim
     );
 }
 
-export default ClassTimeSelectCard;
+export default DateTimeSelectCard;
 
 
 
@@ -134,7 +133,6 @@ const AndSelectBox = styled.TouchableOpacity`
     border-radius: 13px;
     padding: 0 16px;
     width: 45%;
-    
 `
 
 const DividerText = styled.Text`

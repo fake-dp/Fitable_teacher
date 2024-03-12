@@ -6,13 +6,17 @@ import {formatPhoneNumber} from '../../utils/CustomUtils';
 import {Linking} from 'react-native';
 import Communications from 'react-native-communications';
 import FastImage from 'react-native-fast-image';
-function MemberDetailHeader({detailData}) {
+function MemberDetailHeader({detailData, isPotential}) {
 
     const navigation = useNavigation();
 
 
     const goBack = () => {
-        navigation.navigate('Schedule')
+        if(isPotential){
+            navigation.goBack()
+        }else{
+            navigation.navigate('Schedule')
+        }
     }
 
     const dialCall = (number) => {
@@ -26,13 +30,13 @@ function MemberDetailHeader({detailData}) {
 
     const sendMsg = require('../../assets/img/emailIcon.png');
     const call = require('../../assets/img/phoneIcon.png');
-    console.log('detailData',detailData.member.generation)
+    // console.log('detailData',detailData.member.generation)
     return (
         <HeaderContainer>
         <GobackWhiteGrid onPress={goBack}>회원 정보</GobackWhiteGrid>
         <MainHeaderContainer>
             <MainLeftHeaderContainer>
-                   <MainHeaderTitleText>{detailData?.member?.name}</MainHeaderTitleText>
+                   <MainHeaderTitleText>{detailData?.member?.name ? detailData.member.name :'알수 없음'}</MainHeaderTitleText>
                  <LeftInfoContainer>
                    <MainHeaderPhoneTitleText>{formatPhoneNumber(detailData?.member?.phone)}</MainHeaderPhoneTitleText>
                    {detailData?.member?.generation !== null && 

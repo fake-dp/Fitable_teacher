@@ -10,7 +10,7 @@ import {getMemberManage} from '../../api/memberApi';
 import { useRecoilState } from 'recoil';
 import {totalElementsState} from '../../store/atom';
 import FastImage from 'react-native-fast-image';
-function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,member,setMember,setUserList,type,centerId,leftTime, setLeftTime}) {
+function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,member,setMember,setUserList,type,centerId,leftTime, setLeftTime,saveCloseModal}) {
   
 
   const [totalElements, setTotalElements] = useRecoilState(totalElementsState);
@@ -41,13 +41,13 @@ function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,memb
               ...prevState,
               [type]: response.totalElements
             }));
-            closeModal();
+            saveCloseModal();
         } catch (error) {
             console.error(error);
         }
     }
 
-    console.log('totalElements',totalElements)
+    // console.log('totalElements',totalElements)
     return (
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

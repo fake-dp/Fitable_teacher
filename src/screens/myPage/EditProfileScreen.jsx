@@ -11,27 +11,39 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import TrainerInfoGetListGrid from '../../components/grid/TrainerInfoGetListGrid';
 import { useFocusEffect } from '@react-navigation/native';
+import { Alert,ActivityIndicator, View  } from 'react-native';
+import TrainerProfileGrid from '../../components/grid/TrainerProfileGrid';
+import { useRecoilState } from 'recoil';
+import { profileState } from '../../store/atom';
 
 function EditProfileScreen(props) {
     const [selectedImages, setSelectedImages] = useState([]); 
+    const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
     const [profileInfo, setProfileInfo] = useState([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isExistProfile, setIsExistProfile] = useState(false);
+    const [trainerProfile, setTrainerProfile] = useRecoilState(profileState);
+
+
+
     const getProfileInfo = async () => {
         try{
             const response = await getTrainersProfileInfo();
             if(response){
                 setProfileInfo(response);
                 setIsExistProfile(response.isExistProfile);
+                setTrainerProfile(response);
                 console.log('response',response.isExistProfile);
             }else{
                 console.log('ddd')
             }
         }catch(error){
-            console.log('getProfileInfo',error)
+            console.log('getProfileInfo++error',error)
+            Alert.alert('프로필 정보를 불러오는데 실패했습니다.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
         }finally{
             console.log('finally')
+            setLoading(false);
         }
     }
 
@@ -50,10 +62,20 @@ function EditProfileScreen(props) {
     // "qualifications": null
     // }
     console.log('profileInfoisEditMode',profileInfo,isEditMode,isExistProfile)
-
+        console.log('trainerProfile',trainerProfile)
     const goBack = () => {
         navigation.goBack();
     }
+
+
+    if (loading) {
+        return (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:COLORS.white }}>
+            <ActivityIndicator size="large" color={COLORS.sub} />
+          </View>
+        );
+      }
+
 
     return (
         <MainContainer>
@@ -67,6 +89,7 @@ function EditProfileScreen(props) {
             }
             </HeaderGrid>
       
+            {/* <TrainerProfileGrid /> */}
             {
                 !isEditMode && isExistProfile ?
                 <TrainerInfoGetListGrid profileInfo={profileInfo}/> :
@@ -85,13 +108,11 @@ export default EditProfileScreen;
 const HeaderGrid = styled.View`
     flex-direction: row;
     justify-content: space-between;
-    /* align-items: center; */
-    /* background-color: red; */
 `
 
 
 const EditContainerBtn = styled.TouchableOpacity`
-
+padding: 0 0 10px 30px;
 `
 
 const EditBtnText = styled.Text``

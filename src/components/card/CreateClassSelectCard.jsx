@@ -8,9 +8,9 @@ import FastImage from 'react-native-fast-image';
 import { Dimensions } from 'react-native';
 
 
-function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateClassData,maindata}) {
+function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, state ,setState,type,updateClassData,maindata}) {
     // const {startDate=""}=state ||{};
-    console.log('Render CreateClassSelectCard:', type, maindata);
+    console.log('Render CreateClassSelectCard11:', type,maindata);
     const rightIcon = require('../../assets/img/colsdowngray.png');
     // console.log('state@',type,maindata)
     const screenWidth = Dimensions.get('window').width-123;
@@ -19,6 +19,10 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
         label: item.name,
         value: item.id,
     }));
+    
+    useEffect(() => {
+        console.log('state@',type,maindata)
+    }, [maindata]);
 
 
     const pickerRef = useRef();
@@ -26,6 +30,7 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
     const openStartPicker = () => {
         pickerRef.current?.togglePicker(true);
     };
+
 
     
 
@@ -47,6 +52,7 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                             //  InputAccessoryView={() => null}
                             doneText='확인'
                              onValueChange={(value) => {
+                                setSelectState(value);
                                 const selectedLabel = transformedState.find(item => item.value === value)?.label;
                                 if(type === 'item'){
                                     setState(value);
@@ -57,6 +63,7 @@ function CreateClassSelectCard({children, imgIcon, state ,setState,type,updateCl
                                     updateClassData();
                                 }
                               }}
+                             value={selectState}
                              items={transformedState}
                              textInputProps={{ underlineColorAndroid: 'transparent'}}
                              useNativeAndroidPickerStyle={false}

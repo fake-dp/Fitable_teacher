@@ -17,6 +17,7 @@ function ProfileInput({value, onChangeText, placeholder,title,maxLength,type}) {
         <InfoTextInputContainer  
             style={{ height: Math.max(60, inputHeight) }}>
             <InfoTextInput
+                isType={type}
                 value={value}
                 onChangeText={onChangeText}
                 placeholder={placeholder}
@@ -65,6 +66,6 @@ const InfoTextInput = styled(TextInput).attrs(() => ({
     color: ${COLORS.sub};
     font-size: 14px;
     font-weight: 500;
-    line-height: 22.40px;
+    line-height: ${props => (props.isType ? '0' : '22px')};
     font-family: 'Pretendard-Regular';
 `;

@@ -15,7 +15,7 @@ function EctInput({placeholder, text,onChangeText,value,onBlur, isSignUp,hasErro
             onBlur={onBlur}
 
             maxLength={text==='연락처'? maxLength: text ==="인증번호" ? 6:null}
-            keyboardType={text==='연락처'? 'numeric':'default'}
+            keyboardType={text==='연락처' || text==='인증번호'? 'numeric':'default'}
             returnKeyType={text==='연락처'? 'done':'next'}
             onSubmitEditing={onSubmitEditing}
             />

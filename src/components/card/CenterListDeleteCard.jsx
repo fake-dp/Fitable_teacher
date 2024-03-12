@@ -3,25 +3,38 @@ import { COLORS } from '../../constants/color';
 import CenterAddGrayBtn from '../button/CenterAddGrayBtn';
 import {deleteCenterList} from '../../api/trainersApi';
 import { Alert } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 function CenterListDeleteCard({centerList,setCenterList,goSearchScreen,setCenterId,centerId}) {
 
     console.log('센터리스트',centerList)
 
 
-    const deleteCenterBtn = async(id) => {
-        console.log('센터삭제',id)
-        try{
-            const response = await deleteCenterList(id);
-            if(response){
-                Alert.alert("센터 삭제","센터가 삭제되었습니다",
-                [{ text: "확인", onPress: () => {setCenterList(centerList.filter(center => center.id !== id))}
-                }]);
+    // const deleteCenterBtn = async(id) => {
+    //     console.log('센터삭제',id)
+    //     try{
+    //         const response = await deleteCenterList(id);
+    //         if(response){
+    //             Alert.alert("센터 삭제","센터가 삭제되었습니다",
+    //             [{ text: "확인", onPress: () => {setCenterList(centerList.filter(center => center.id !== id))}
+    //             }]);
+    //         }
+    //     }catch(error){
+    //         console.log(error);
+    //     }
+    // }
+    const deleteCenterBtn = async (id) => {
+        const response = await deleteCenterList(id); // 센터 삭제 API 호출
+        if (response) {
+            const updatedCenterList = centerList.filter(center => center.id !== id);
+            setCenterList(updatedCenterList); // Recoil 상태 업데이트
+            Alert.alert('센터 삭제', '센터가 삭제되었습니다', [{ text: '확인', onPress: () => {} }]);
+            if (centerId === id) { // 삭제된 센터가 현재 선택된 센터라면
+                const newSelectedId = updatedCenterList.length > 0 ? updatedCenterList[0].id : null;
+                setCenterId(newSelectedId); // 새로운 센터 선택 또는 null 설정
+                AsyncStorage.setItem('centerId', newSelectedId ?? ''); // 새로운 센터 ID를 AsyncStorage에 저장
             }
-        }catch(error){
-            console.log(error);
         }
-    }
+    };
     
 
     return (

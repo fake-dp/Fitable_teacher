@@ -23,6 +23,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "axios": "^1.4.0",
     "ios": "^0.0.1",
+    "moment": "2.30.1",
     "react": "18.2.0",
     "react-native": "0.72.1",
     "react-native-calendars": "1.1300.0",

@@ -4,11 +4,12 @@ import { Modal} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
 import { floatingState } from '../../store/atom';
-function RegisteredModal({setRegisteredModal , onPress}) {
+function RegisteredModal({setRegisteredModal , resetClassData}) {
 
     const navigation = useNavigation();
     const [openFloatingModal, setOpenFloatingModal] = useRecoilState(floatingState);
     const closeModal = () => {
+        resetClassData();
         setRegisteredModal(false);
     }
 

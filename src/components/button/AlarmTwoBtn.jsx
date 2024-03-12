@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
-import { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState,useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {getAlarmList} from '../../api/alarmApi';
 import AlarmLessonListGrid from '../grid/AlarmLessonListGrid';
 import AlarmConsultingListGrid from '../grid/AlarmConsultingListGrid';
@@ -19,12 +19,16 @@ function AlarmTwoBtn() {
     const [consultingList, setConsultingList] = useState([]);
     
     const handleTabClick = (tab) => {
-        setSelectedTab(tab);
+      console.log('tab',tab,centerId)
+      getAlarmDataList(centerId, tab);
+      setSelectedTab(tab);
+
       };
 
     console.log('centerId123',centerId,centerList.length)
     const getAlarmDataList = async (id, type) => {
         console.log('id',id)
+        if (!id) return; 
         try{
             const response = await getAlarmList({id,type});
             console.log('respons123123e',response)
@@ -48,16 +52,17 @@ useEffect(() => {
 }
 , [centerList]);
 
-useEffect(() => {
-    if(centerId) {
-      console.log('centerId',centerId)
-        getAlarmDataList(centerId, 'LESSON');
-        getAlarmDataList(centerId, 'CONSULTING');
-    }else if(centerId === null){
-        setLessonList([]);
-        setConsultingList([]);
-    }
-}, [centerId])
+useFocusEffect(
+  useCallback(() => {
+      if(centerId) {
+          getAlarmDataList(centerId, 'LESSON');
+          getAlarmDataList(centerId, 'CONSULTING');
+      } else if(centerId === null){
+          setLessonList([]);
+          setConsultingList([]);
+      }
+  }, [centerId])
+);
 // console.log('lessonList',lessonList)
  
     return (

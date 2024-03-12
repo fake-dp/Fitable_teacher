@@ -23,7 +23,6 @@ import ProfileSettingBtn from '../button/ProfileSettingBtn';
 import FastImage from 'react-native-fast-image';
 
 function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileInfo, setIsExistProfile}) {
-    // UseGetCenterListHook();
 
     const navigation = useNavigation();
     // const [isClicking, setIsClicking] = useState(false);
@@ -34,12 +33,12 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
     const [deleteProfileModal, setDeleteProfileModal] = useState(false);
 
     const [selectedImages, setSelectedImages] = useState([]); 
-    const [updateSelectedImages, setUpdateSelectedImages] = useState(profileInfo?.images);
+    const [updateSelectedImages, setUpdateSelectedImages] = useState(profileInfo?.images|| []);
     const [updateSelectImages, setUpdateSelectImages] = useState([]);
     const [deleteImages, setDeleteImages] = useState([]);
-
+    console.log('profileInfo2132',profileInfo,updateSelectedImages)
     const [trainerProfile, setTrainerProfile] = useRecoilState(profileState);
-    console.log('updateSelectedImages@!@#!@#!@#!@#!@#@',updateSelectImages)
+    
     const openImagePicker = () => {
     ImagePicker.openPicker({
         multiple: true, 
@@ -52,7 +51,6 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
         compressImageMaxHeight: 750,
       })
       .then(newImages => {
-        console.log('@@@@@@@@@@@@@@@@@@@이미지',newImages);
       //   setSelectedImages(images.map(image => image.path));
       const newPaths = newImages.map(image => ({ id:null, path: image.path }));
       if(isEditMode){
@@ -66,7 +64,7 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
         console.log(error);
       });
   };
-console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
+
     const deleteImage = (indexToDelete) => {
         setSelectedImages(currentImages =>
             currentImages.filter((_, index) => index !== indexToDelete)
@@ -194,7 +192,6 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
   
     //프로필 수정api
     const updateSettingProfileApi = async (formData) => {
-        console.log('skRKwl 나까지 옴',formData)
         try{
             const response = await updateTrainersProfileInfo(formData);
             if(response){
@@ -235,7 +232,7 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
             if(response){
                 // setProfileInfo(response);
                 setIsExistProfile(false);
-                console.log('response',response.isExistProfile);
+                // console.log('response',response.isExistProfile);
             }
         }catch(error){
             console.log('getProfileInfo',error)
@@ -244,10 +241,8 @@ console.log('updateSelectedImagesupdateSelectedImages',deleteImages)
         }
     }
 
-
     // 프로필 삭제용
     const deleteProfile = async () => {
-console.log('dkdkdk')
         try{
             const response = await deleteTrainersProfileInfo();
             if(response){
@@ -256,11 +251,11 @@ console.log('dkdkdk')
                 [{ text: "확인", onPress: () => {
                     setSelectedImages([])
                     setSelectedCenter([])
+                    setUpdateSelectImages([])
                     setTrainerProfile([])
                     setUpdateSelectedImages([])
                     setDeleteImages([])
                     getProfileDeleteInfo()
-
                 } }]);
             }
         }catch(error){
@@ -367,6 +362,9 @@ console.log('dkdkdk')
     const timeSettingState = 
     selectedCenter[0]?.timeSettings[0]?.startTime !== selectedCenter[0]?.timeSettings[0]?.endTime &&
     selectedCenter[0]?.timeSettings[0]?.startTime < selectedCenter[0]?.timeSettings[0]?.endTime
+
+
+    console.log('11231233',updateSelectedImages.length)
     const isActivefn = 
     (trainerProfile?.career?.length !==0 && trainerProfile?.career?.length !==undefined)
     && 
@@ -375,14 +373,14 @@ console.log('dkdkdk')
     && 
     timeSettingState
     console.log('trainerProfile?.career?.length !==10',trainerProfile?.career?.length,trainerProfile?.qualifications?.length,trainerProfile?.description?.length )
-    // console.log('selectedCenter11',trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState,isActivefn)
 
+    // console.log('selectedCenter11',trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState,isActivefn)
 // console.log('se1',selectedCenter[0]?.timeSettings[0]?.startTime,selectedCenter[0]?.timeSettings[0]?.endTime)
 // console.log('se2',selectedCenter[0]?.timeSettings[1]?.startTime,selectedCenter[0]?.timeSettings[1]?.endTime)
 // console.log('se3',selectedCenter[1]?.timeSettings[0]?.startTime,selectedCenter[1]?.timeSettings[0]?.endTime)
 // console.log('se4',selectedCenter[1]?.timeSettings[1]?.startTime,selectedCenter[1]?.timeSettings[1]?.endTime)
-//    console.log('selectedCenter11',selectedCenter[0]?.timeSettings[1].endTime,timeSettingState)
-//    console.log('selectedCenter22',selectedCenter[1].timeSettings)
+// console.log('selectedCenter11',selectedCenter[0]?.timeSettings[1].endTime,timeSettingState)
+// console.log('selectedCenter22',selectedCenter[1].timeSettings)
       
     const clockIcon = require('../../assets/img/clockIcon.png');
   
@@ -398,16 +396,18 @@ console.log('dkdkdk')
        
             <ProfileTitleText>프로필 사진 등록</ProfileTitleText>
             <ProfileSubTitleText>최대 10장까지 등록 가능합니다</ProfileSubTitleText>  
-
             <ProfileImgContainer>
-  {selectedImages?.length === 10 ? null :
+  {
+    updateSelectedImages?.length === 10 ||
+  updateSelectImages?.length === 10 ||
+  selectedImages?.length === 10 ? null :
     <ProfileAddBtn onPress={openImagePicker}>
       <ProfileAddImg source={require('../../assets/img/plus_l.png')} />
     </ProfileAddBtn>
   }
 
   {isEditMode ? (
-    updateSelectedImages?.map((image, index) => (
+   updateSelectedImages&& updateSelectedImages?.map((image, index) => (
       <SelectImgContainer key={index}>
         <DeleteBtn key={index} onPress={() => updateDeleteImage(index,image.id)}>
           <DeleteImg source={require('../../assets/img/delete.png')} />
@@ -416,9 +416,9 @@ console.log('dkdkdk')
       </SelectImgContainer>
     ))
   ) : (
-    selectedImages?.length > 0 && (
+    selectedImages&&selectedImages?.length > 0 && (
       <>
-        {selectedImages?.map((image, index) => (
+        {selectedImages&&selectedImages?.map((image, index) => (
           <SelectImgContainer key={index}>
             <DeleteBtn key={index} onPress={() => deleteImage(index)}>
               <DeleteImg source={require('../../assets/img/delete.png')} />
@@ -430,25 +430,6 @@ console.log('dkdkdk')
     )
   )}
 </ProfileImgContainer>
-
-
-
-            {/* <SelectProfileItemBtn>종목선택</SelectProfileItemBtn> */}
-            {/* <CenterInfoContaniner>
-
-            <ProfileCneterTitleText>소개</ProfileCneterTitleText>
-                <ProfileTextArea 
-                 maxLength={150}
-                 isEditMode={isEditMode}
-                 profileInfo={profileInfo.description}
-                 value={trainerProfile.description}
-                 onChangeText={text => setTrainerProfile(prevState => ({
-                      ...prevState,
-                      description: text
-                  }))}
-                />
-            </CenterInfoContaniner> */}
-
             <ProfileInput
                 title="소개"
                 isEditMode={isEditMode}
@@ -486,15 +467,13 @@ console.log('dkdkdk')
                      qualifications: text
                  }))}
                 />
-
-
             <CenterListContaniner>
                 {
                     selectedCenter.length === 0 &&<ProfileCneterTitleText>센터별 설정</ProfileCneterTitleText>
                 }
              <AddCenterListContaniner>
                {
-                    selectedCenter.map((center, index) => (
+                   selectedCenter && selectedCenter.map((center, index) => (
                         <ListContaniner  key={center.id}>
                         <ProfileCneterTitleText>연동센터{index+1}</ProfileCneterTitleText>
                         <CenterTitleBoxContainer>
@@ -551,27 +530,20 @@ console.log('dkdkdk')
 
         </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
-            {/* {
-                isEditMode && 
-                <DeleteBtnContainer onPress={openDateSelectModal}>
-                    <DeleteBtnText>프로필 삭제</DeleteBtnText>
-                </DeleteBtnContainer>
-            } */}
-  
-            {/* <BasicMainBtn 
-            isActive={true}
-            onPress={postSettingProfile}>승인 요청</BasicMainBtn> */}
+
 
             <ProfileSettingBtn
-                isActive={isActivefn} 
+            isActive={isActivefn} 
             onPress={() => {
                 if (!isClicking.current) {
-                    isEditModefn(); // or any other function you need to execute
+                    isEditModefn();
                 }
             }}
             openDateSelectModal={openDateSelectModal}
             isEditMode={isEditMode}
             >승인 요청</ProfileSettingBtn>
+
+       
 
             {
                 deleteProfileModal && (

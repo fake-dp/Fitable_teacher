@@ -4,6 +4,7 @@ import { COLORS } from '../../constants/color';
 import DateTimeSelectCard from '../card/DateTimeSelectCard';
 import FastImage from 'react-native-fast-image';
 import { Alert } from 'react-native';
+import moment from 'moment';
 function DaySelectBtnGrid({ title,setSchedules }) {
     const days = ['월', '화', '수', '목', '금', '토', '일'];
     const [selectedDays, setSelectedDays] = useState([]);
@@ -61,13 +62,14 @@ function DaySelectBtnGrid({ title,setSchedules }) {
       };
           
     const updateClassTime = (id, startTime, endTime) => {
-      const safeStartTime = startTime
-      const safeEndTime = endTime
-      const startHour = parseInt(safeStartTime?.split(':')[0], 10);
-      const endHour = parseInt(safeEndTime?.split(':')[0], 10);
-    
+      // const safeStartTime = startTime
+      // const safeEndTime = endTime
+      // const startHour = parseInt(safeStartTime?.split(':')[0], 10);
+      // const endHour = parseInt(safeEndTime?.split(':')[0], 10);
+      const startMoment = moment(startTime, 'HH:mm');
+      const endMoment = moment(endTime, 'HH:mm');
       // 시작 시간이 종료 시간보다 같거나 늦은 경우 경고
-      if (startHour >= endHour) {
+      if (startMoment.isSameOrAfter(endMoment)) {
         Alert.alert("시간 오류", "종료 시간은 시작 시간보다 나중이어야 합니다.");
         return; // 업데이트를 중단하고 함수를 종료
       }
@@ -113,6 +115,8 @@ function DaySelectBtnGrid({ title,setSchedules }) {
                 .map((classTime) => (
                 <TimeWrapper key={classTime.id}>
                     <DateTimeSelectCard 
+                    startTime={classTime.startTime}
+                    endTime={classTime.endTime}
                       setStartTime={(value) => updateClassTime(classTime.id, value, classTime.endTime)}
                       setEndTime={(value) => updateClassTime(classTime.id, classTime.startTime, value)}
                     />

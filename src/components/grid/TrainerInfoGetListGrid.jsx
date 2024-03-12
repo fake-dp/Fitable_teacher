@@ -20,7 +20,7 @@ function TrainerInfoGetListGrid({profileInfo}) {
           <ProfileTitleText>프로필 사진 등록</ProfileTitleText>
           <ProfileImgContainer>
             {
-                profileInfo?.images?.map((image,index) => (        
+            profileInfo?.images?.map((image,index) => (        
             <SelectImgContainer key={index}>
                             <SelectedImage source={{ uri: image.path }} />
             </SelectImgContainer>
@@ -46,7 +46,7 @@ function TrainerInfoGetListGrid({profileInfo}) {
             </ProfileContentContainer>
 
             {
-                profileInfo?.centerProfiles.map((center,index) => (
+             profileInfo?.centerProfiles.map((center,index) => (
                     <React.Fragment key={index}>
                         <ProfileContentText>연동센터{index+1}</ProfileContentText>
                     <ProfileCenterContainer key={index}>

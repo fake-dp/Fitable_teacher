@@ -136,7 +136,7 @@ function AccountScreen(props) {
 
             <CertifiactionBtn 
             onPress={()=>infoChangeBtn(name, password)}
-            isActive={password.length > 7 && passwordCheck.length > 7 && isSamePassword}
+            isActive={name.length > 0 || (password.length > 7 && passwordCheck.length > 7 && isSamePassword)}
             >확인</CertifiactionBtn>
         </MainContainer>
     );

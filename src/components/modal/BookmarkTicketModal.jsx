@@ -1,11 +1,9 @@
 import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { Modal, ScrollView,Keyboard,TouchableWithoutFeedback,KeyboardAvoidingView, Platform } from 'react-native';
-import { useState } from 'react';
-import {getMemberConditions} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
 function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,
-    selectedTicket, setSelectedTicket,addTicket,selectTicketId, setSelectTicketId}) {
+    selectedTicket, setSelectedTicket,addTicket,selectTicketId, setSelectTicketId,openBookmarkTicketModal}) {
     
     // console.log('bookmarkTickets',bookmarkTickets)
     // console.log('typetypetypetypetypetypetype',type)
@@ -30,7 +28,7 @@ function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,
     const reload = require('../../assets/img/reload.png')
 
     const resetBtn = () => {  
-        setSelectedTicket(null)
+      openBookmarkTicketModal();
     }
 
 

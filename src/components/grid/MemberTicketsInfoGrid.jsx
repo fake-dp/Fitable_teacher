@@ -5,7 +5,7 @@ import MemberTicketSelectCard from '../card/MemberTicketSelectCard';
 import MemberDateSelectCard from '../card/MemberDateSelectCard';
 import PaymentGridCard from '../card/PaymentGridCard';
 import { useState } from 'react';
-function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,memberId,
+function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,memberId,formData,
   setSelectedTicket,setFormData,selectedTicket,index,selectTicketId,setSelectTicketId}) {
 
     const [timeAndPeriod, setTimeAndPeriod] = useState([]);
@@ -34,6 +34,7 @@ function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,memberId,
                <MemberDateSelectCard 
                setFormData={setFormData}
                index={index}
+               formData={formData}
                />
                 
                 <GridLineGrayOne/>
@@ -43,6 +44,7 @@ function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,memberId,
                 memberId={memberId}
                 setFormData={setFormData}
                 type={type}
+                formData={formData}
                 timeAndPeriod={timeAndPeriod[0]?.price}
                 />
                 <GridLineGrayOne/>

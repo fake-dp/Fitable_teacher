@@ -1,211 +1,121 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
-import { useState ,useRef, useEffect} from 'react';
-import RNPickerSelect from 'react-native-picker-select';
-import { startTime, endTime } from '../../data/selectDate';
+import { useState} from 'react';
 import FastImage from 'react-native-fast-image';
-import {Platform} from 'react-native';
-import { Alert } from 'react-native';
-function DateTimeSelectCard({children,setStartTime,setEndTime}) {
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+
+function DateTimeSelectCard({children,setStartTime,setEndTime,startTime, endTime}) {
     // const {startTime,endTime}=state
-    // console.log('state',state)
+    // console.log('state',state) 40 32 
     const rightIcon = require('../../assets/img/colsdowngray.png');
-
     
-    const startPickerRef = useRef();
-    const endPickerRef = useRef();
-
     const openStartPicker = () => {
-        startPickerRef.current?.togglePicker(true);
+        console.log("Opening start picker");
+        setSopen(true);
     };
-
+    
     const openEndPicker = () => {
-        endPickerRef.current?.togglePicker(true);
+        console.log("Opening end picker");
+        setEopen(true);
     };
-
-    const handleStartTimeChange = (value) => {
-      setStartTime(value);
-    };
-    
-    const handleEndTimeChange = (value) => {
-      setEndTime(value);
-    };
-    
+    const [sopen, setSopen] = useState(false)
+    const [eopen, setEopen] = useState(false)
+    const [sdate, setSdate] = useState(new Date())
+    const [edate, setEdate] = useState(new Date())
 
     return (
+       
         <Container>
                 <LabelText>{children}</LabelText>
         <SelectBoxGrid>
-          {
-             Platform.OS === 'ios' ? (
-              <SelectBox onPress={openStartPicker}>
-              <SelectInnerBox>
-                  <RNPickerSelect
-                        ref={startPickerRef}
-                        // InputAccessoryView={() => null}
-                        textInputProps={{ underlineColorAndroid: 'transparent'}}
-                        useNativeAndroidPickerStyle={false}
-                        fixAndroidTouchableBug={true}
-                        doneText='확인'
-                        onValueChange={(value) => handleStartTimeChange(value)}
-                        items={startTime}
-                        placeholder={{
-                          label: '시작 시간',
-                          value: '',
-                        }}
-                        style={{ inputIOS: { color: 'black' }, 
-                        inputAndroid: { 
-                          color: 'black',
-                          height: 20,
-                          padding:0,
-                          margin:0,
-                          } }}/>
-              {/* <SelectBoxText>11:00</SelectBoxText> */}
-              </SelectInnerBox>
-              <RigthIcon source={rightIcon}/>
-           </SelectBox>
-             ):(
-         
-              <SelectInnerBox>
-                  <RNPickerSelect
-                        ref={startPickerRef}
-                        // InputAccessoryView={() => null}
-                        textInputProps={{ underlineColorAndroid: 'transparent'}}
-                        useNativeAndroidPickerStyle={false}
-                        fixAndroidTouchableBug={true}
-                        doneText='확인'
-                        onValueChange={(value) => handleStartTimeChange(value)}
-                        items={startTime}
-                        placeholder={{
-                          label: '시작 시간',
-                          value: '',
-                        }}
-                        Icon={() => {
-                          return <RigthIcon source={rightIcon}/>;
-                          }
-                        }
-                        style={
-                          { 
-                        inputAndroid: 
-                        {  
-                        fontSize: 16,
-                        height: 50, 
-                        width:120, 
-                        color: '#000000',
-                        borderColor: COLORS.gray_200, 
-                        borderWidth: 1, 
-                        borderRadius: 12,
-                        padding: 10
-                        }, 
-                        iconContainer: {
-                          top: 14,
-                          right: 12,
-                        },
-                        }}
-                        />
-            
-            
-         
-           </SelectInnerBox>
-             )
-          }
-       
-
-
-
-
-                <DividerText> ~ </DividerText>
-         
-         {
-          Platform.OS === 'ios' ? (
-            <SelectBox onPress={openEndPicker}>
-            <SelectInnerBox>
-                        <RNPickerSelect
-                      ref={endPickerRef}
-                      InputAccessoryView={() => null}
-                      onValueChange={(value) => handleEndTimeChange(value)}
-                      items={endTime}
-                      textInputProps={{ underlineColorAndroid: 'transparent'}}
-                      useNativeAndroidPickerStyle={false}
-                      fixAndroidTouchableBug={true}
-                      placeholder={{
-                        label: '종료 시간',
-                        value: '',
-                      }}
-                    style={{ inputIOS: { color: 'black' },
-                     inputAndroid: { 
-                      color: 'black',
-                      height: 20,
-                      padding:0,
-                      margin:0,
-                       } }}/>
-            {/* <SelectBoxText>13:00</SelectBoxText> */}
-            </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
-         </SelectBox>
-          ):(
-         
-            <SelectInnerBox>
-                        <RNPickerSelect
-                      ref={endPickerRef}
-                      InputAccessoryView={() => null}
-                      onValueChange={(value) => handleEndTimeChange(value)}
-                      items={endTime}
-                      textInputProps={{ underlineColorAndroid: 'transparent'}}
-                      useNativeAndroidPickerStyle={false}
-                      fixAndroidTouchableBug={true}
-                      placeholder={{
-                        label: '종료 시간',
-                        value: '',
-                      }}
-                      Icon={() => {
-                        return <RigthIcon source={rightIcon}/>;
-                        }
-                      }
-                      style={
-                        { 
-                      inputAndroid: 
-                      {  
-                      fontSize: 16,
-                      height: 50, 
-                      width:120, 
-                      color: '#000000',
-                      borderColor: COLORS.gray_200, 
-                      borderWidth: 1, 
-                      borderRadius: 12,
-                      padding: 10
-                      }, 
-                      iconContainer: {
-                        top: 14,
-                        right: 12,
-                      },
-                      }}
-                      />
-            </SelectInnerBox>
         
-          )
-         }
+
+  
+          <SelectBox onPress={openStartPicker}>
+          <SelectInnerBox>
               
+                 
+              
+              <DatePicker
+               modal
+               open={sopen}
+               mode='time'
+               locale="ko-KR"
+               title={null}
+               confirmText="확인"
+               cancelText="취소"
+               onConfirm={(value) => {
+                setStartTime(moment(value).format('HH:mm'));
+                setSopen(false);
+                }}
+               date={sdate}
+               minuteInterval={5} 
+               onCancel={() => {
+                setSopen(false)
+                }}
+               />
+          <SelectBoxText>
+            {startTime? startTime: '시작 시간'}
+          </SelectBoxText>
+          <RigthIcon source={rightIcon}/>
+          </SelectInnerBox>
+       
+       </SelectBox>
+
+            <DividerText>~</DividerText>
+
+          <SelectBox onPress={openEndPicker}>
+          <SelectInnerBox>
+                      <DatePicker
+                       modal
+                       locale="ko-KR"
+                       title={null}
+                       mode='time'
+                    confirmText="확인"
+                    cancelText="취소"
+                    date={edate}
+                    open={eopen}
+                    minuteInterval={5} 
+                    onConfirm={(value) => {
+                        setEndTime(moment(value).format('HH:mm'));
+                        setEopen(false);
+                    }}
+                    onCancel={() => {
+                        setEopen(false)
+                      }}
+                />
+          <SelectBoxText>
+            {endTime? endTime: '종료 시간'}
+          </SelectBoxText>
+          <RigthIcon source={rightIcon}/>
+          </SelectInnerBox>
+         
+       </SelectBox>
+   
          </SelectBoxGrid>
     </Container>
+
     );
 }
 
 export default DateTimeSelectCard;
 
 
+
 const Container = styled.View`
-/* margin-top: 10px; */
-/* margin-bottom: 20px; */
-/* background-color: ${COLORS.main}; */
+/* margin-top: 10px;
+margin-bottom: 10px; */
+width: 80%;
 `
 
 const SelectBoxGrid = styled.View`
 display: flex;
+flex:1;
 flex-direction: row;
 align-items: center; 
 justify-content: space-between;
-width: 74%;
+width: 100%;
 `
 
 const SelectBox = styled.TouchableOpacity`
@@ -215,8 +125,10 @@ const SelectBox = styled.TouchableOpacity`
     border: 1px solid ${COLORS.gray_200};
     border-radius: 13px;
     padding: 15px 16px;
-    width: 56%;
+    width: 44%;
 `
+
+
 const DividerText = styled.Text`
 font-size: 20px;
 color: ${COLORS.gray_200};
@@ -230,8 +142,17 @@ line-height: 28px;
 const SelectInnerBox = styled.View`
 flex-direction: row;
 align-items: center;
-`
+justify-content : space-between;
+/* background-color: red; */
+width: 100%;
+`;
 
+const SelectBoxText = styled.Text`
+font-size: 14px;
+color: ${COLORS.gray_300};
+font-weight: 400;
+line-height: 22.40px;
+`;
 
 const LabelText = styled.Text`
 font-size: 14px;
@@ -239,15 +160,12 @@ font-weight: 500;
 line-height: 22.40px;
 color: ${COLORS.gray_400};
 margin-bottom: 12px;
-`
+`;
+
+
 
 const RigthIcon = styled(FastImage)`
+margin-left:12px;
 width: 20px;
 height: 20px;
-`
-
-const LeftIcon = styled(FastImage)`
-margin-right:11px;
-width:20px;
-height: 20px;
-`
+`;

@@ -13,7 +13,7 @@ import {getFormattedDate} from '../../utils/CustomUtils';
 import { useIsFocused } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { Platform } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+
 LocaleConfig.locales['ko'] = {
   monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
   monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -26,7 +26,7 @@ function CustomCalendar(props) {
   const {weekView} = props;
   // console.log('weekView',weekView)
   const isFocused = useIsFocused();
-    const [centerId, setCenterId] = useRecoilState(centerIdState || '');
+    const [centerId, setCenterId] = useRecoilState(centerIdState);
 
   const today = new Date();
   const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -38,29 +38,29 @@ function CustomCalendar(props) {
   const [lessonList, setLessonList] = useState([]);
 
   const [showDatetModal, setShowDateModal] = useState(false);
-  console.log('currentMonth',currentMonth,centerId)
+  console.log('currentMoncurrentMonthth',centerId)
   const openPicker = () => {
     setShowDateModal(true);
   };
 
-  const handleConfirm = useCallback(date => {
-    console.log('currentMonth',currentMonth)
-    const newSelectedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-    setSelected(newSelectedDate);
-    setShowDateModal(false);
+  // const handleConfirm = useCallback(date => {
+  
+  //   const newSelectedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+  //   setSelected(newSelectedDate);
+  //   setShowDateModal(false);
 
-    const newCurrentMonth = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-    setCurrentMonth(newCurrentMonth);
+  //   const newCurrentMonth = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+  //   setCurrentMonth(newCurrentMonth);
 
-    // API 호출을 통해 선택된 날짜의 수업 정보를 불러옵니다.
-    getLessonList(centerId, newSelectedDate)
-        .then(data => {
-            setLessonList(data.content); // 수업 리스트 상태 업데이트
-        })
-        .catch(error => {
-            console.error("Error fetching lesson list for the selected date:", error);
-        });
-      }, [centerId,setCurrentMonth, setSelected, setShowDateModal]);
+  //   // API 호출을 통해 선택된 날짜의 수업 정보를 불러옵니다.
+  //   getLessonList(centerId, newSelectedDate)
+  //       .then(data => {
+  //           setLessonList(data.content); // 수업 리스트 상태 업데이트
+  //       })
+  //       .catch(error => {
+  //           console.error("Error fetching lesson list for the selected date:", error);
+  //       });
+  //     }, [centerId,setCurrentMonth, setSelected, setShowDateModal]);
 
 
 
@@ -97,7 +97,7 @@ function CustomCalendar(props) {
     // });
   }, [todayString, centerId,availableDates]);
 
-
+console.log('centerIdcenterIdcenterId',centerId)
 
   useEffect(() => {
     // 현재 날짜 정보를 가져와서 초기 월과 년도 설정
@@ -108,7 +108,12 @@ function CustomCalendar(props) {
   useEffect(() => {
     if(centerId){
       fetchAvailableDates();
+    }else if(!centerId){
+      setAvailableDates({});
+      setLessonList([]);
+
     }
+
 }, [centerId, currentMonth ,isFocused]);
 
   function fetchAvailableDates() {
@@ -133,8 +138,10 @@ function CustomCalendar(props) {
 
 const fetchLessons = (date = todayString) => {
   if (!centerId) return;
+  console.log('centerIdcenterIdcenterIdcenterId',centerId)
   getLessonList(centerId, date)
       .then(data => {
+        // console.log('d왜호출됨 ?',centerId,data)
           setLessonList(data.content);
       })
       .catch(error => {
@@ -142,9 +149,9 @@ const fetchLessons = (date = todayString) => {
       });
 };
 
-console.log('selected',selected)
+
 useEffect(() => {
-  if (isFocused) {
+  if (centerId&&isFocused) {
     setSelected(selected);
     fetchLessons(selected); // 오늘 날짜의 수업 목록을 불러옵니다.
 }
@@ -165,7 +172,6 @@ useEffect(() => {
       </>
     );
   };
-
 
 
   return (
@@ -230,7 +236,7 @@ useEffect(() => {
           )}
         </GridWrapper>
         <LessonListGrid lessonList={lessonList} />
-        {
+        {/* {
       showDatetModal && (
         <DatePicker
         modal
@@ -246,7 +252,7 @@ useEffect(() => {
      }}
      />
       )
-    }
+    } */}
     </CalendarProvider>
     </>
   );
@@ -307,4 +313,5 @@ font-size: 14px;
 font-weight: 500;
 line-height: 22.40px;
 margin-left: 8px;
+padding-top: 2px;
 `

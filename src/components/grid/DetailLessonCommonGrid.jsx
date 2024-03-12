@@ -7,7 +7,7 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
 
     const navigation = useNavigation();
 
-    console.log('routerTyperouterType',routerType,lessonDetail)
+    // console.log('routerTyperouterType',routerType,lessonDetail)
 
 
 

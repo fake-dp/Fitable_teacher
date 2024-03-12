@@ -47,9 +47,9 @@ function ClassMemberDetailScreen(props) {
 
 //   console.log('ceenter', myInfo);
 
-  const {detailData, screenType, memberId} = route.params;
+  const {detailData, screenType, memberId, isPotential} = route.params;
 
-//   console.log('나 넘어왔엉!', detailData, screenType, memberId);
+  console.log('나 넘어왔엉!', detailData, screenType, memberId, isPotential);
 
   const cancelReservationBtn = async id => {
     try {
@@ -101,7 +101,7 @@ function ClassMemberDetailScreen(props) {
   const ticketIcon = require('../../assets/img/ticketIcon.png');
   return (
     <Container>
-      <MemberDetailHeader detailData={detailData} />
+      <MemberDetailHeader detailData={detailData} isPotential={isPotential}/>
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <ContentsContainer>
           <UseCenterContainer>
@@ -307,6 +307,7 @@ const SubContentText = styled.Text`
 `;
 const MemoSubContentBox = styled.View`
   margin-bottom: 20px;
+  margin-left: 6px;
 `;
 
 const TicketContainer = styled.View`

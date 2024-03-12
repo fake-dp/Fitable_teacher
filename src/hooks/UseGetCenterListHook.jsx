@@ -9,57 +9,59 @@ function UseGetCenterListHook(props) {
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const [centerList, setCenterList] = useRecoilState(centerListState);
 
-    // console.log('hookes@@@@@@@@@@@@@',centerId,centerList)
-    useFocusEffect(
-        useCallback(() => {
-                getCenterListData();
-        },[centerId]));
-
-    
-    // useEffect(() => {
-    //     getCenterListData();
-    // },[centerList])
-
 
     useEffect(() => {
-        if (centerList.length === 0) {
-            setCenterId(null);
-        } else if(centerList.length ===1){
-            setCenterId(centerList[0].id);
-        }
-    }
-    , [centerList]);
+        const fetchCenterList = async () => {
+            const response = await getCenterList(); // 센터 리스트 API 호출
+            setCenterList(response); // Recoil 상태 업데이트
+            const storedCenterId = await AsyncStorage.getItem('centerId'); // 저장된 센터 ID 불러오기
+            
+            if (storedCenterId && response.some(center => center.id === storedCenterId)) {
+                setCenterId(storedCenterId); // 저장된 센터 ID가 유효하면 선택
+            } else if (response.length > 0) {
+                const defaultCenterId = response[0].id; // 기본 센터 ID 설정
+                setCenterId(defaultCenterId);
+                AsyncStorage.setItem('centerId', defaultCenterId); // 새로운 기본 센터 ID 저장
+            }
+        };
+
+        fetchCenterList();
+    }, []);
+}
+    // console.log('hookes@@@@@@@@@@@@@',centerId,centerList)
+    // useFocusEffect(
+    //     useCallback(() => {
+    //             getCenterListData();
+    //     },[centerId]));
+
+
 
     // useEffect(() => {
-    //     if(centerId === null && centerList.length > 0) {
+    //     if (centerList.length === 0) {
+    //         setCenterId(null);
+    //     } else if(centerList.length ===1){
     //         setCenterId(centerList[0].id);
     //     }
-    // }, [centerList,centerId]);
+    // }
+    // , [centerList]);
 
-        const getCenterListData = async () => {
-                try{
-                    const response = await getCenterList();
-                    // console.log('응답데이터확인헤더@@@',response)
 
-                        if(response){
-                            setCenterList(response);
-                        //     setCenterId(response[0].id);
-                        //         // 이미 선택된 센터가 새로운 리스트에 포함되어 있는지 확인
-                        //     const selectedCenterExists = response.some(center => center.id === centerId);
-            
-                        //  // 선택된 센터가 새로운 리스트에 없을 경우 첫 번째 센터를 선택
-                        // if (!selectedCenterExists) {
-                        //     setCenterId(response[0].id);
-                        //      }
-                        } 
-                         }catch(error){
-                                 console.log('@@@@',error)
-                            if(error.code === 10300) {
-                        console.log('센터를 찾지 못했습니다.');
-                    }
-            }
-        }
+
+    //     const getCenterListData = async () => {
+    //             try{
+    //                 const response = await getCenterList();
+
+    //                     if(response){
+    //                         setCenterList(response);
+    //                     } 
+    //                      }catch(error){
+    //                              console.log('@@@@',error)
+    //                         if(error.code === 10300) {
+    //                     console.log('센터를 찾지 못했습니다.');
+    //                 }
+    //         }
+    //     }
         
-    }        
+    // }        
 
 export default UseGetCenterListHook;

@@ -3,7 +3,7 @@ import MemberInfoCard from '../card/MemberInfoCard';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 
-function MemberInfoListCard({ userList }) {
+function MemberInfoListCard({ userList, type }) {
     return (
         <ListContainer>
             <ScrollView
@@ -11,7 +11,7 @@ function MemberInfoListCard({ userList }) {
             overScrollMode="never"
             bounces={false}>
                 {userList.map(user => (
-                <MemberInfoCard key={user.id} userInfo={user} />
+                <MemberInfoCard key={user.id} userInfo={user} type={type} />
                 ))}
             </ScrollView>
         </ListContainer>

@@ -9,14 +9,14 @@ import { useNavigation } from '@react-navigation/native';
 import {getMemberDetail} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
 
-function MemberInfoCard({ userInfo }) {
+function MemberInfoCard({ userInfo,type }) {
 
     const navigation = useNavigation();
     const nextIcon = require('../../assets/img/rightIcon.png');
     const [centerId, setCenterId] = useRecoilState(centerIdState);
 
     const memberDetailScreen = async(id,memberId) => {
-        console.log('memberDetailScreen',id,memberId);
+        console.log('memberDetailScreen',id,memberId,type);
         try{
             const response = await getMemberDetail({id,memberId});
             console.log('회원 상세 응답@@',response)
@@ -24,7 +24,8 @@ function MemberInfoCard({ userInfo }) {
                 navigation.navigate('ClassMemberDetail',{
                     detailData: response,
                     screenType:'memberDetail',
-                    memberId:memberId
+                    memberId:memberId,
+                    ...(type === 'POTENTIAL' && { isPotential: true })
                 })
             }
 

@@ -8,7 +8,7 @@ import FastImage from 'react-native-fast-image';
 function AlarmLessonListGrid({lessonList}) {
 
     const navigation = useNavigation();
-
+  console.log('lessonList',lessonList)
     const detailLessonScreen = async(id) => {
         // console.log('상세 id확인',id)
         try{
@@ -28,7 +28,7 @@ function AlarmLessonListGrid({lessonList}) {
     return (
       <ScrollView bounces={false} showsVerticalScrollIndicator={false} overScrollMode="never">
       <Container>
-          {lessonList ? (
+          {lessonList && lessonList.length > 0 ? (
               lessonList.map((item) => (
                   <DateGroup key={item.date}>
                       <DateText>{item.date}</DateText>
@@ -137,4 +137,5 @@ const ConsultIcon = styled(FastImage)`
 
 const NoListCardContainer = styled.View`
   height: 300px;
+  flex:1;
 `

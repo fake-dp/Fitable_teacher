@@ -6,7 +6,7 @@ export const getClassNames = async (id) => {
         const response = await customAxios.get(`/api/trainers/v1/centers/${id}/lessons/name`);
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error;
     }
 }
 
@@ -16,7 +16,7 @@ export const getClassItem = async (id) => {
         const response = await customAxios.get(`/api/trainers/v1/centers/${id}/lessons/item`);
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error;
     }
 }
 
@@ -26,7 +26,7 @@ export const getClassPlaces = async (id) => {
         const response = await customAxios.get(`/api/trainers/v1/centers/${id}/lessons/location`);
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        throw error;
     }
 }
 
@@ -36,7 +36,7 @@ export const registerClass = async (data) => {
         const response = await customAxios.post("/api/trainers/v1/lessons", data);
         return response.data;
     } catch (error) {
-        throw error.response;
+        throw error;
     }
 }
 

@@ -1,7 +1,7 @@
 import ProfileInput from '../input/ProfileInput';
 import GenderSelectBtn from '../button/GenderSelectBtn';
 import React,{ useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import MemberPhoneInfo from '../input/MemberPhoneInfo';
 import { COLORS } from '../../constants/color';
 import styled from 'styled-components/native';
@@ -50,7 +50,7 @@ function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,
 
     return (
         <>
-            <ProfileInput 
+            <ProfileInput
                 type={type}
                 title={'이름'}
                 onChangeText={setName}
@@ -78,6 +78,7 @@ function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,
                   type={type}
                   index={index}
                   ticket={ticket}
+                  formData={formData}
                   bookmarkTickets={bookmarkTickets}
                   selectedTicket={selectedTicket}
                   selectTicketId={selectTicketId}
@@ -104,6 +105,7 @@ function MemberRegisterGrid({memberInfo,type,name, setName,selectedGender,
             selectTicketId={selectTicketId}
             setSelectTicketId={setSelectTicketId}
             addTicket={addTicket}
+            openBookmarkTicketModal={openBookmarkTicketModal}
             />
         }
         </>
@@ -138,4 +140,3 @@ color: ${COLORS.sub};
 font-weight: 400;
 line-height: 22.40px;
 `
-

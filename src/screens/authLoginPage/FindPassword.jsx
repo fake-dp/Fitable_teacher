@@ -75,8 +75,8 @@ function FindPassword(props) {
 
     // 인증번호 확인
     const checkCerityNumber = async (name, phone, number) => {
-        // console.log('인증번호 확인', name, phone, number)
-        if(number.length===0){
+        console.log('인증번호 확인', name, phone, number)
+        if(number.length!==6){
             Alert.alert('인증번호 오류', '인증번호를 입력해주세요', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
         }
         try{
@@ -88,12 +88,12 @@ function FindPassword(props) {
             Alert.alert('인증번호 확인', '인증번호를 확인하였습니다.',[{text: '확인', onPress: () => navigation.navigate('NewPassword')}]);
             }
         }catch(error){
-            // console.log('인증번호 확인 error', error.response.data)
-        if(error.response.data.code === 10106){
-            Alert.alert('인증번호 오류', '올바른 인증번호로 입력해주세요', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
-         }else if(error.response.data.code === 10107){
+            console.log('인증번호 확인 error', error.code)
+        if(error.code === 10106){
+            Alert.alert('인증번호 오류', '정확한 인증번호로 다시 입력해주시길 바랍니다', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
+         }else if(error.code === 10107){
             Alert.alert('인증번호 오류', '인증번호가 만료되었습니다. 인증번호를 재전송해주세요', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
-         }else if(error.response.data.code === 10109){
+         }else if(error.code === 10109){
             Alert.alert('변경 실패', '회원 정보를 올바르게 입력해주세요.', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
         }else{
             Alert.alert('인증번호 오류', '인증번호를 확인하는데 실패했습니다.', [{text: '확인', onPress: () => console.log('OK Pressed')}]);
@@ -146,7 +146,7 @@ function FindPassword(props) {
                            placeholder="6자리를 입력해주세요"
                            onChangeText={handleCertiNumberTextChange}
                            maxLength={6}
-                           keyboardType="number-pad"
+                           keyboardType="numeric"
                            />
                             <CertificationTimer>0{formatTime(secondsLeft)}</CertificationTimer>
                         </CertificationIputBox>

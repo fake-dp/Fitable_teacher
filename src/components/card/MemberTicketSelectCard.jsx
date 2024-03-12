@@ -12,7 +12,7 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
     const rightIcon = require('../../assets/img/caretdownblack.png');
     const screenWidth = Dimensions.get('window').width-92;
     const [currentTicketId, setCurrentTicketId] = useState(ticketId[index].id);
-
+    const [periodType, setPeriodType] = useState('MONTH'); 
     const pickerRef = useRef();
     const secPickerRef = useRef();
     const trPickerRef = useRef();
@@ -300,6 +300,7 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                       useNativeAndroidPickerStyle={false}
                       fixAndroidTouchableBug={true}
                         onValueChange={(value) => {
+                           setPeriodType(value);
                             setFormData((prevData) => {
                                 let tickets = [...prevData.tickets];
                                 tickets[index].periodType = value;
@@ -307,10 +308,12 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             });
                         }}
                         items={periodTypeItem}
-                        placeholder={{
-                            label: '개월/일',
-                            value: null,
-                        }}
+                        // placeholder={{
+                        //     label: '개월/일',
+                        //     value: null,
+                        // }}
+                        placeholder={{}}
+                        value={periodType}
                         style={{ inputIOS: { color: 'black' }, inputAndroid: { 
                             color: 'black',
                             height: 20,
@@ -330,6 +333,7 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                       useNativeAndroidPickerStyle={false}
                       fixAndroidTouchableBug={true}
                         onValueChange={(value) => {
+                            setPeriodType(value);
                             setFormData((prevData) => {
                                 let tickets = [...prevData.tickets];
                                 tickets[index].periodType = value;
@@ -337,10 +341,12 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                             });
                         }}
                         items={periodTypeItem}
-                        placeholder={{
-                            label: '개월/일',
-                            value: null,
-                        }}
+                        // placeholder={{
+                        //     label: '개월/일',
+                        //     value: null,
+                        // }}
+                        placeholder={{}}
+                        value={periodType}
                         Icon={() => {
                             return <RigthIcon 
                             resizeMode='contain'

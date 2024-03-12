@@ -8,7 +8,7 @@ import {getMemberCoupons} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
 import { Platform } from 'react-native';
 import { Dimensions } from 'react-native';
-function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId}) {
+function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId,formData}) {
     // const {startDate=""}=state ||{};
     const screenWidth = Dimensions.get('window').width-92;
     const rightIcon = require('../../assets/img/caretdownblack.png');
@@ -19,7 +19,7 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId}) {
     setTimeAndPeriodStr(String(timeAndPeriod));
 }, [timeAndPeriod]);
 
-
+// console.log('type',type)
     const pickerRef = useRef();
     const couponRef = useRef();
     const openPicker = () => {
@@ -76,7 +76,7 @@ useEffect(() => {
             value: 'PAYMENT_LINK',
         },
     ]
-
+console.log('formData.tickets[index].paymentType ',formData.tickets[index].paymentType )
     return (
         <>
         {
@@ -114,6 +114,7 @@ useEffect(() => {
                             margin:0,
                              } }}/>
                 <RigthIcon   
+                tintColor={!!formData.tickets[index].couponId ? COLORS.sub : COLORS.gray_300}
                 resizeMode='contain'
                 source={rightIcon}/>
              </SelectBox>
@@ -164,11 +165,11 @@ useEffect(() => {
                           }}
                           
                              />
-
-<RigthIcon 
-  resizeMode='contain'
-source={rightIcon}/>
-                             </AndSelectBox>
+                <RigthIcon 
+                tintColor={!!formData.tickets[index].couponId ? COLORS.sub : COLORS.gray_300}
+                resizeMode='contain'
+                source={rightIcon}/>
+                </AndSelectBox>
                 )
             }
             
@@ -208,6 +209,9 @@ source={rightIcon}/>
                             margin:0,
                             } }}/>
                 <RigthIcon 
+                    tintColor={type === 'paylink' ? COLORS.gray_300 : (!!formData.tickets[index].paymentType ? COLORS.sub : COLORS.gray_300)}
+              
+                //    tintColor={!!formData.tickets[index].paymentType ? COLORS.sub : COLORS.gray_300}
                   resizeMode='contain'
                 source={rightIcon}/>
              </SelectBox>
@@ -260,7 +264,9 @@ source={rightIcon}/>
                           }}/>
                           <RigthIcon   
                           resizeMode='contain'
-                          source={rightIcon}/>
+                          source={rightIcon}
+                          tintColor={type === 'paylink' ? COLORS.gray_300 : (!!formData.tickets[index].paymentType ? COLORS.sub : COLORS.gray_300)}
+                          />
               </AndSelectBox>
                  )
             }
@@ -275,15 +281,17 @@ source={rightIcon}/>
              <PriceInnerContainer paylink={type === 'paylink' ? true : false}>
             <InfoTitleText>상품 가격</InfoTitleText>
             <FirstPriceTextInput
-            value={timeAndPeriodStr}
+           value={`${timeAndPeriodStr}원`}
             disabled={true}
             />
             </PriceInnerContainer>           
 
             <PriceInnerContainer>
             <InfoTitleText>판매 금액</InfoTitleText>
+            <CountTextInputContainer>
+
             <PriceTextInput 
-            placeholder="0원" keyboardType="number-pad" 
+            placeholder="0" keyboardType="number-pad" 
             onChangeText={(text) => {
                 setFormData((prevData) => {
                     let tickets = [...prevData.tickets];
@@ -292,6 +300,8 @@ source={rightIcon}/>
                 });
             }}
             />
+            <PriceLabel isActive={!!formData.tickets[index].salePrice}>원</PriceLabel>
+            </CountTextInputContainer>
             </PriceInnerContainer>
 
 {
@@ -300,8 +310,9 @@ source={rightIcon}/>
     ):(
         <PriceInnerContainer>
         <InfoTitleText>받은 금액</InfoTitleText>
+        <CountTextInputContainer>
         <PriceTextInput 
-        placeholder="0원" keyboardType="number-pad" 
+        placeholder="0" keyboardType="number-pad" 
         onChangeText={(text) => {
             setFormData((prevData) => {
                 let tickets = [...prevData.tickets];
@@ -309,8 +320,9 @@ source={rightIcon}/>
                 return {...prevData, tickets};
             });
         }}
-
         />
+         <PriceLabel isActive={!!formData.tickets[index].receivedPrice}>원</PriceLabel>
+        </CountTextInputContainer>
         </PriceInnerContainer>
     )
 }
@@ -369,17 +381,37 @@ const PriceInnerContainer = styled.View`
     width: 32%;
     margin-right: ${props => props.paylink ? '8px' : ''};
 `
+const CountTextInputContainer = styled.View`
+    flex-direction: row;
+    align-items: center;
+    font-size: 16px;
+    justify-content: space-between;
+      color: ${COLORS.sub};
+      font-weight: 400;
+      border: 1px solid ${COLORS.gray_100};
+      background-color: ${COLORS.gray_100};
+      border-radius: 13px;
+      padding: 15px 16px;
+      margin-bottom: 8px;
+      text-align: right;
+`;
 
 const RigthIcon = styled(FastImage)`
 width: 14px;
 height: 14px;
 `
 
+const PriceLabel = styled.Text`
+    /* margin-left: 10px; */
+    font-size: 16px;
+    color: ${(props) => props.isActive ? COLORS.sub : COLORS.gray_300};
+`;
+
 const FirstPriceTextInput = styled.TextInput.attrs(props => ({
     editable: !props.disabled,
     placeholderTextColor: props.disabled ? COLORS.sub : COLORS.gray_300,
   }))`
-        font-size: 14px;
+        font-size: 16px;
       color: ${COLORS.gray_300};
       font-weight: 400;
       border: 1px solid ${COLORS.gray_100};
@@ -394,7 +426,11 @@ const PriceTextInput = styled.TextInput.attrs(props => ({
     editable: !props.disabled,
     placeholderTextColor: props.disabled ? COLORS.sub : COLORS.gray_300,
   }))`
-      font-size: 14px;
+   flex:1;
+    width: 100%;
+        font-size: 16px;
+        text-align: right;
+      /* font-size: 14px;
       color: ${COLORS.sub};
       font-weight: 400;
       border: 1px solid ${COLORS.gray_100};
@@ -402,6 +438,6 @@ const PriceTextInput = styled.TextInput.attrs(props => ({
       border-radius: 13px;
       padding: 15px 16px;
       margin-bottom: 8px;
-      text-align: right;
+      text-align: right; */
   `
   

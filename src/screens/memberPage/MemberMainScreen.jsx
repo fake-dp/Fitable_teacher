@@ -14,6 +14,7 @@ import { useRecoilState } from 'recoil';
 import { centerIdState,totalElementsState } from '../../store/atom';
 import FastImage from 'react-native-fast-image';
 import MemberDetailSearchModal from '../../components/modal/MemberDetailSearchModal';
+
 function MemberMainScreen(props) {
 
     const detailSearchIcon = require('../../assets/img/detailsearch.png')
@@ -27,14 +28,17 @@ function MemberMainScreen(props) {
     const [member, setMember] = useState('ALL')
     const [leftTime, setLeftTime] = useState('');
     const closeModal = () => {
-        // console.log('ekeekekekfjdaksljflk')
       setModalVisible(false);
-      setTicket('ALL')
-        setMember('ALL')
+      setTicket('ALL');
+        setMember('ALL');
         setLeftTime('');
     };
 
-    // console.log(',searchText',searchText)
+    const saveCloseModal = () => {
+        setModalVisible(false);
+    };
+
+
     const handleSearch = (text) => {
         setSearchText(text);
     }
@@ -82,7 +86,7 @@ function MemberMainScreen(props) {
 
 
 
-
+// console.log('ticktickettictypetypeketet',type)
     // useEffect(() => {
     //     fetchAllTotalElements();
     // }, [centerId]);
@@ -93,6 +97,7 @@ function MemberMainScreen(props) {
                 fetchAllTotalElements();
             }
         },[centerId]));
+
 
     // useEffect(() => {
     //     if(centerId){
@@ -132,12 +137,14 @@ function MemberMainScreen(props) {
         </DetailSearchContainer>
 
         <GridLine />
-
             {
                 centerId && userList && userList?.length > 0 ? (
-                // <MemberInfoListCard userList={userList}/>
-                // <MemberInfoListCard userList={userList.filter(user => user.name.includes(searchText) || user.phone.includes(searchText))} />
-                <MemberInfoListCard userList={userList?.filter(user => user?.name.includes(searchText) || user?.phone.slice(-4).includes(searchText))} />
+            <MemberInfoListCard
+            type={type}
+            userList={userList?.map(user => ({
+             ...user,
+             name: user?.name || "알수없음",
+            })).filter(user => user?.name?.includes(searchText) || user?.phone?.slice(-4).includes(searchText))}/>
                 ):(
                 <NoListCard>회원이 없습니다</NoListCard>
                 )
@@ -153,7 +160,8 @@ function MemberMainScreen(props) {
             type={type}
             centerId={centerId}
             leftTime={leftTime}
-             setLeftTime={setLeftTime}
+            setLeftTime={setLeftTime}
+            saveCloseModal={saveCloseModal}
             />
         }
         </>

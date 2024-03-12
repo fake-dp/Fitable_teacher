@@ -14,6 +14,7 @@ import { floatingState,centerIdState } from '../../store/atom';
 import {getLessonAvailable} from '../../api/lessonApi';
 import LessonListGrid from '../../components/grid/LessonListGrid';
 import FastImage from 'react-native-fast-image';
+
 function ScheduleMainScreen(props) {
 
     const navigation = useNavigation();
@@ -23,27 +24,42 @@ function ScheduleMainScreen(props) {
     const [isAvailable, setIsAvailable] = useState(false);
     const toggleFloatingModal = () =>{
         setOpenFloatingModal(!openFloatingModal);
-        console.log('openFloatingModalopenFloatingModal',openFloatingModal)
+        // console.log('openFloatingModalopenFloatingModal',openFloatingModal)
     }
-
+    useEffect(() => {
+      if(centerId){
+        getLessonAvailableData()
+        }
+    }
+    ,[centerId]);
 
     const getLessonAvailableData = async () => {
-        const response = await getLessonAvailable(centerId);
-        setIsAvailable(response);
-    }
+      console.log('centerId',centerId)
+      if (!centerId) {
+          setIsAvailable(false);
+          return;
+      }
+      console.log('ddcentasdfasdferId',centerId)
+      const response = await getLessonAvailable(centerId);
+      console.log('responseresponsedldlrp 이게 호출된다고 ?',response,centerId)
+      setIsAvailable(response);
+  }
 
 
     const goRegitserMemberScreen = () => {
         navigation.navigate('RegisterMember')
     }
 
+console.log('qqdaasdfasdddㅁㄴㅇsfddㅁㄴㅇㄴㄴdfs',isAvailable,centerId)
+    // useFocusEffect(
+    //   useCallback(() => {
+    //     if(centerId){
+    //       getLessonAvailableData()
+    //       }
+    //   },[centerId]));
 
-    useFocusEffect(
-      useCallback(() => {
-        if(centerId){
-          getLessonAvailableData()
-          }
-      },[centerId]));
+
+
 
     useEffect(() => {
         if (openFloatingModal) {
@@ -88,7 +104,8 @@ function ScheduleMainScreen(props) {
           {/* <LessonListGrid lessonList={lessonList}/> */}
     </Container>
     {
-        isAvailable && isAvailable && (
+         isAvailable && isAvailable && (
+          // centerId && centerId && (
             <FloatingBtn onPress={toggleFloatingModal} isOpen={openFloatingModal}/>
         )
     }
