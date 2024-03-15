@@ -24,7 +24,6 @@ function ScheduleMainScreen(props) {
     const [isAvailable, setIsAvailable] = useState(false);
     const toggleFloatingModal = () =>{
         setOpenFloatingModal(!openFloatingModal);
-        // console.log('openFloatingModalopenFloatingModal',openFloatingModal)
     }
     useEffect(() => {
       if(centerId){
@@ -34,14 +33,12 @@ function ScheduleMainScreen(props) {
     ,[centerId]);
 
     const getLessonAvailableData = async () => {
-      console.log('centerId',centerId)
+      // console.log('centerId',centerId)
       if (!centerId) {
           setIsAvailable(false);
           return;
       }
-      console.log('ddcentasdfasdferId',centerId)
       const response = await getLessonAvailable(centerId);
-      console.log('responseresponsedldlrp 이게 호출된다고 ?',response,centerId)
       setIsAvailable(response);
   }
 
@@ -50,7 +47,6 @@ function ScheduleMainScreen(props) {
         navigation.navigate('RegisterMember')
     }
 
-console.log('qqdaasdfasdddㅁㄴㅇsfddㅁㄴㅇㄴㄴdfs',isAvailable,centerId)
     // useFocusEffect(
     //   useCallback(() => {
     //     if(centerId){

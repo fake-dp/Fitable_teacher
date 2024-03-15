@@ -1,26 +1,65 @@
 {
   "project_info": {
-    "project_number": "845500362983",
-    "project_id": "fitable-trainer",
-    "storage_bucket": "fitable-trainer.appspot.com"
+    "project_number": "685461016009",
+    "project_id": "fitable-fb2b9",
+    "storage_bucket": "fitable-fb2b9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:845500362983:android:3d51a65f4ee201a0c5b242",
+        "mobilesdk_app_id": "1:685461016009:android:8d1e09202851d0ae31ec18",
         "android_client_info": {
-          "package_name": "com.fitableteacher"
+          "package_name": "com.fitableclient"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "685461016009-6bvaem4ov8t6734u3q7mafotf36otkf7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDOnJRHvhMt_4rsXyAckqSFdSLBbVuX7I8"
+          "current_key": "AIzaSyBJ-qHZeWs7yOzei21hzaNw7n0XZx1MmNg"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685461016009-6bvaem4ov8t6734u3q7mafotf36otkf7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685461016009:android:81a60b98eb89fec131ec18",
+        "android_client_info": {
+          "package_name": "com.fitabletrainer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685461016009-6bvaem4ov8t6734u3q7mafotf36otkf7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ-qHZeWs7yOzei21hzaNw7n0XZx1MmNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685461016009-6bvaem4ov8t6734u3q7mafotf36otkf7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

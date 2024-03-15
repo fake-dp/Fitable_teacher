@@ -46,7 +46,7 @@ function MemberMainScreen(props) {
     const getMemberManageData = async () => {
         try {
             const response = await getMemberManage({ centerId, type });
-            console.log('response', response)
+            // console.log('response', response)
             setTotalElements(prevState => ({
                 ...prevState,
                 [type]: response.totalElements
@@ -120,10 +120,16 @@ function MemberMainScreen(props) {
     // console.log('type',type,totalElements)
 
 
+    const UIComponent = 
+    Platform.OS === 'ios' ?
+    CenterListHeaderGrid : AndroidStyled;
+
     return (
         <>
     <MainContainer>
+    <UIComponent>
         <CenterListHeaderGrid />
+    </UIComponent>
         <MemberBtnContents 
         type={type} setType={setType} setSearchText={setSearchText}/>
         <MemberSearch onChange={handleSearch}searchText={searchText}/>
@@ -198,4 +204,12 @@ font-size: 14px;
 color: ${COLORS.gray_400};
 font-weight: 500;
 line-height: 22.40px;
+`
+
+
+const AndroidStyled = styled.View`
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
 `

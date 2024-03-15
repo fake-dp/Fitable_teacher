@@ -4,7 +4,7 @@ import GobackGrid from '../../components/grid/GobackGrid';
 import MainLongTextGrid from '../../components/grid/MainLongTextGrid';
 import { useNavigation } from '@react-navigation/native';
 import {MainContainer} from '../../style/gridStyled';
-import EctInput from '../../components/input/EctInput';
+import {EctInput} from '../../components/input/EctInput';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
 import { useState } from 'react';
 import { ErrorText } from '../../style/gridStyled';

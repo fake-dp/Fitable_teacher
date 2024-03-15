@@ -1,19 +1,25 @@
 
+import React from 'react';
 import { COLORS } from "../../constants/color";
 import { styled } from "styled-components/native";
 import { TextInput,Platform } from "react-native";
 
-function EctInput({placeholder, text,onChangeText,value,onBlur, isSignUp,hasError,maxLength,onSubmitEditing,secureTextEntry}) {
+export const EctInput = React.forwardRef(({placeholder, 
+    text,onChangeText,value,onBlur, 
+    onFocus,hasError,maxLength,isFocused,
+    onSubmitEditing,secureTextEntry}, ref) => {
+
     return (
-        <AuthTextInputContainer hasError={hasError}>
+        <AuthTextInputContainer hasError={hasError} isFocused={isFocused}>
             <AuthText>{text}</AuthText>
             <AuthTextInput 
+            ref={ref}
             placeholder={placeholder}
             secureTextEntry={secureTextEntry}
             onChangeText={onChangeText}
             value={value}
             onBlur={onBlur}
-
+            onFocus={onFocus}
             maxLength={text==='연락처'? maxLength: text ==="인증번호" ? 6:null}
             keyboardType={text==='연락처' || text==='인증번호'? 'numeric':'default'}
             returnKeyType={text==='연락처'? 'done':'next'}
@@ -21,14 +27,15 @@ function EctInput({placeholder, text,onChangeText,value,onBlur, isSignUp,hasErro
             />
         </AuthTextInputContainer>
     );
-}
+})
 
-export default EctInput;
+
 
 
 
 const AuthTextInputContainer = styled.View`
-   width: 100%;
+    display: ${props => props.isFocused && Platform.OS ==='android' ? 'none' : ''};
+    width: 100%;
     height: 70px;
     background-color: ${COLORS.gray_100};
     border-radius: 15px;

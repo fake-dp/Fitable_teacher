@@ -18,11 +18,7 @@ function UseGetCenterListHook(props) {
             
             if (storedCenterId && response.some(center => center.id === storedCenterId)) {
                 setCenterId(storedCenterId); // 저장된 센터 ID가 유효하면 선택
-            } else if (response.length > 0) {
-                const defaultCenterId = response[0].id; // 기본 센터 ID 설정
-                setCenterId(defaultCenterId);
-                AsyncStorage.setItem('centerId', defaultCenterId); // 새로운 기본 센터 ID 저장
-            }
+            } 
         };
 
         fetchCenterList();

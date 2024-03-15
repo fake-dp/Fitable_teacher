@@ -22,6 +22,7 @@ import ContractAgreementScreen from './src/screens/memberPage/ContractAgreementS
 import SignContractScreen from './src/screens/memberPage/SignContractScreen';
 import SignScreen from './src/screens/memberPage/SignScreen';
 import ContractSuccess from './src/screens/memberPage/ContractSuccess';
+import WebViewScreen from './src/screens/myPage/WebViewScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -136,6 +137,7 @@ function AppScreens(props) {
 
         <Stack.Screen name="MyProfile" component={EditProfileScreen} />
         <Stack.Screen name="Terms" component={TermsScreen} />
+        <Stack.Screen name="TermWebView" component={WebViewScreen}/>
       </Stack.Group>
     </Stack.Navigator>
   );

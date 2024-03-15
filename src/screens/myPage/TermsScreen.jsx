@@ -14,7 +14,8 @@ function TermsScreen(props) {
         navigation.goBack();
     }
 
-    const handleLinkPress = (url) => {
+   
+      const handleItemPress = (url) => {
         Linking.canOpenURL(url).then(supported => {
           if (supported) {
             Linking.openURL(url);
@@ -23,6 +24,13 @@ function TermsScreen(props) {
           }
         });
       };
+    
+    const handleAndroidLink = (url) => {
+        navigation.navigate('TermWebView', {uri: url})
+    }
+
+const isAndroidLink = Platform.OS === 'android' ? handleAndroidLink : handleItemPress;
+
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -39,8 +47,8 @@ function TermsScreen(props) {
         <MainContainer>
             <GobackGrid onPress={goBack}>이용약관 및 정책</GobackGrid>
             <GridContainer>
-            <MySettingListBtnGrid onPress={()=>handleLinkPress('https://fitable.notion.site/Terms-of-use-151276937bf842ad9eabc522978f9148')}>이용약관 동의</MySettingListBtnGrid>
-            <MySettingListBtnGrid onPress={()=>handleLinkPress('https://fitable.notion.site/Privacy-Policy-fcfd2a7bbea3444fa49730fb12879755')}>개인정보수집 및 이용에 대한 안내</MySettingListBtnGrid>
+            <MySettingListBtnGrid onPress={()=>isAndroidLink('https://fitable.notion.site/Terms-of-use-151276937bf842ad9eabc522978f9148')}>이용약관 동의</MySettingListBtnGrid>
+            <MySettingListBtnGrid onPress={()=>isAndroidLink('https://fitable.notion.site/Privacy-Policy-fcfd2a7bbea3444fa49730fb12879755')}>개인정보수집 및 이용에 대한 안내</MySettingListBtnGrid>
             </GridContainer>
         </MainContainer>
         {/* {

@@ -16,7 +16,7 @@ function MemberPhoneInfo({phone, setPhone,type}) {
     const secondRef = useRef();
     const thirdRef = useRef();
 
-    console.log('phonep',phone)
+
     return (
         <>
         <InfoTitleText>휴대전화</InfoTitleText>

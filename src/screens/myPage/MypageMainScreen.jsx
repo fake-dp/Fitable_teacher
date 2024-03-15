@@ -73,7 +73,7 @@ function MypageMainScreen(props) {
             <MySettingListBtnGrid text='toggle' isOnPushAlarm={isOnPushAlarm}>알림</MySettingListBtnGrid>
             <MySettingListBtnGrid onPress={goMyTermsScreen}>이용약관 및 정책</MySettingListBtnGrid>
             <MySettingListBtnGrid text='version'>앱 버전</MySettingListBtnGrid>
-            <MySettingListBtnGrid onPress={logoutBtn}>임시 로그 아웃</MySettingListBtnGrid>
+            {/* <MySettingListBtnGrid onPress={logoutBtn}>임시 로그 아웃</MySettingListBtnGrid> */}
         </MainContainer>
     );
 }

@@ -6,8 +6,7 @@ import { centerIdState } from '../../store/atom';
 import { useRecoilState } from 'recoil';
 import {getMemberCoupons} from '../../api/memberApi';
 import FastImage from 'react-native-fast-image';
-import { Platform } from 'react-native';
-import { Dimensions } from 'react-native';
+import { Dimensions,Platform } from 'react-native';
 function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId,formData}) {
     // const {startDate=""}=state ||{};
     const screenWidth = Dimensions.get('window').width-92;
@@ -15,6 +14,11 @@ function PaymentGridCard({setFormData,type,index,timeAndPeriod,memberId,formData
     const [timeAndPeriodStr, setTimeAndPeriodStr] = useState(String(timeAndPeriod));
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const [couponList, setCouponList] = useState([]);
+
+    const [isFocused, setIsFocused] = useState(false);
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
+    const inputRef = useRef();
     useEffect(() => {
     setTimeAndPeriodStr(String(timeAndPeriod));
 }, [timeAndPeriod]);
@@ -121,7 +125,6 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
                 ):(
                     <AndSelectBox>
                     <RNPickerSelect
-                        ref={couponRef}
                         textInputProps={{ underlineColorAndroid: 'transparent'}}
                       useNativeAndroidPickerStyle={false}
                       fixAndroidTouchableBug={true}
@@ -140,20 +143,26 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
                             label: '쿠폰을 선택해주세요',
                             
                         }}
-                      
+                        Icon={() => {
+                           
+                            return <RigthIcon
+                            resizeMode='contain'
+                            source={rightIcon}
+                            tintColor={!!formData.tickets[index].couponId ? COLORS.sub : COLORS.gray_300}/>
+                            }
+                          }
                           style={
                             { 
                           inputAndroid: 
                           {  
                           fontSize: 16,
                           height: 60, 
-                          width:screenWidth, 
                           color: '#000000',
-                        //   borderColor: COLORS.gray_100, 
-                        //   backgroundColor: COLORS.gray_100,
-                        //   borderWidth: 1, 
-                        //   borderRadius: 12,
-                        //   padding: 10
+                          borderColor: COLORS.gray_100, 
+                          backgroundColor: COLORS.gray_100,
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10
                           }, 
                           iconContainer: {
                             top: 24,
@@ -165,10 +174,6 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
                           }}
                           
                              />
-                <RigthIcon 
-                tintColor={!!formData.tickets[index].couponId ? COLORS.sub : COLORS.gray_300}
-                resizeMode='contain'
-                source={rightIcon}/>
                 </AndSelectBox>
                 )
             }
@@ -210,16 +215,12 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
                             } }}/>
                 <RigthIcon 
                     tintColor={type === 'paylink' ? COLORS.gray_300 : (!!formData.tickets[index].paymentType ? COLORS.sub : COLORS.gray_300)}
-              
-                //    tintColor={!!formData.tickets[index].paymentType ? COLORS.sub : COLORS.gray_300}
                   resizeMode='contain'
                 source={rightIcon}/>
              </SelectBox>
                  ):(
                    <AndSelectBox>
                     <RNPickerSelect
-                        ref={pickerRef}
-                        doneText="변경"
                         textInputProps={{ underlineColorAndroid: 'transparent'}}
                         useNativeAndroidPickerStyle={false}
                         fixAndroidTouchableBug={true}
@@ -236,23 +237,25 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
                             label: type === 'paylink' ? '결제링크' : '결제수단을 선택해주세요',
                             value: null,
                         }}
-                        // Icon={() => {
-                        //     return <RigthIcon source={rightIcon}/>;
-                        //     }
-                        //   }
+                        Icon={() => {
+                            return <RigthIcon 
+                            resizeMode='contain'
+                            source={rightIcon}
+                            tintColor={type === 'paylink' ? COLORS.gray_300 : (!!formData.tickets[index].paymentType ? COLORS.sub : COLORS.gray_300)}/>
+                            }
+                          }
                           style={
                             { 
                           inputAndroid: 
                           {  
                           fontSize: 16,
                           height: 60, 
-                          width:screenWidth, 
                           color: '#000000',
-                        //   borderColor: COLORS.gray_100, 
-                        //   backgroundColor: COLORS.gray_100,
-                        //   borderWidth: 1, 
-                        //   borderRadius: 12,
-                        //   padding: 10
+                          borderColor: COLORS.gray_100, 
+                          backgroundColor: COLORS.gray_100,
+                          borderWidth: 1, 
+                          borderRadius: 12,
+                          padding: 10
                           }, 
                           iconContainer: {
                             top: 24,
@@ -262,18 +265,14 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
                             color: COLORS.sub
                              }
                           }}/>
-                          <RigthIcon   
-                          resizeMode='contain'
-                          source={rightIcon}
-                          tintColor={type === 'paylink' ? COLORS.gray_300 : (!!formData.tickets[index].paymentType ? COLORS.sub : COLORS.gray_300)}
-                          />
+                         
               </AndSelectBox>
                  )
             }
            
         </Container>
 
-        <Container>
+        <Container isFocused={isFocused}>
             <PriceContainer
                 paylink={type === 'paylink' ? true : false}
             >
@@ -291,6 +290,9 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
             <CountTextInputContainer>
 
             <PriceTextInput 
+            ref={inputRef}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             placeholder="0" keyboardType="number-pad" 
             onChangeText={(text) => {
                 setFormData((prevData) => {
@@ -312,6 +314,9 @@ console.log('formData.tickets[index].paymentType ',formData.tickets[index].payme
         <InfoTitleText>받은 금액</InfoTitleText>
         <CountTextInputContainer>
         <PriceTextInput 
+        ref={inputRef}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         placeholder="0" keyboardType="number-pad" 
         onChangeText={(text) => {
             setFormData((prevData) => {
@@ -338,8 +343,8 @@ export default PaymentGridCard;
 
 
 const Container = styled.View`
-margin-bottom: 26px;
-`
+margin-bottom: ${props => props.isFocused && Platform.OS ==='android' ? '120px' : '26px'};
+`;
 
 const InfoTitleText = styled.Text`
 color: ${COLORS.gray_400};
@@ -360,14 +365,8 @@ const SelectBox = styled.TouchableOpacity`
     background-color: ${COLORS.gray_100};
 `
 
-const AndSelectBox = styled.TouchableOpacity`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid ${COLORS.gray_100};
-    border-radius: 13px;
-    padding: 0 16px;
-    background-color: ${COLORS.gray_100};
+const AndSelectBox = styled.View`
+
 `
 
 const PriceContainer = styled.View`
@@ -391,7 +390,8 @@ const CountTextInputContainer = styled.View`
       border: 1px solid ${COLORS.gray_100};
       background-color: ${COLORS.gray_100};
       border-radius: 13px;
-      padding: 15px 16px;
+      /* padding: 15px 16px; */
+      padding: ${Platform.OS === 'ios' ? '15px 16px' : '4px 16px'};
       margin-bottom: 8px;
       text-align: right;
 `;
@@ -402,7 +402,6 @@ height: 14px;
 `
 
 const PriceLabel = styled.Text`
-    /* margin-left: 10px; */
     font-size: 16px;
     color: ${(props) => props.isActive ? COLORS.sub : COLORS.gray_300};
 `;
@@ -417,7 +416,8 @@ const FirstPriceTextInput = styled.TextInput.attrs(props => ({
       border: 1px solid ${COLORS.gray_100};
       background-color: ${COLORS.gray_100};
       border-radius: 13px;
-      padding: 15px 16px;
+      /* padding: 15px 16px; */
+      padding: ${Platform.OS === 'ios' ? '15px 16px' : '15px 16px'};
       margin-bottom: 8px;
       text-align: right;
   `
@@ -426,18 +426,9 @@ const PriceTextInput = styled.TextInput.attrs(props => ({
     editable: !props.disabled,
     placeholderTextColor: props.disabled ? COLORS.sub : COLORS.gray_300,
   }))`
-   flex:1;
-    width: 100%;
+        flex:1;
+         width: 100%;
         font-size: 16px;
         text-align: right;
-      /* font-size: 14px;
-      color: ${COLORS.sub};
-      font-weight: 400;
-      border: 1px solid ${COLORS.gray_100};
-      background-color: ${COLORS.gray_100};
-      border-radius: 13px;
-      padding: 15px 16px;
-      margin-bottom: 8px;
-      text-align: right; */
   `
   

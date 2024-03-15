@@ -74,14 +74,14 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.fitableteacher"
+    namespace "com.fitabletrainer"
     defaultConfig {
-        applicationId "com.fitableteacher"
+        applicationId "com.fitabletrainer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 4
         versionName "1.0"
-         resValue "string", "build_config_package", "com.fitableteacher"
+         resValue "string", "build_config_package", "com.fitabletrainer"
     }
     signingConfigs {
         debug {

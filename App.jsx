@@ -1,12 +1,11 @@
+import React, { useEffect } from 'react';
 import AppInner from './AppInner';
 import { RecoilRoot } from 'recoil';
-import { useEffect } from 'react';
-import {fcmTokenState} from './src/store/atom';
 import { useRecoilState } from 'recoil';
-
+import { fcmTokenState } from './src/store/atom';
 import messaging from '@react-native-firebase/messaging';
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "react-native-push-notification";
+import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -20,68 +19,78 @@ async function requestUserPermission() {
 }
 
 
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Message handled in the background!', remoteMessage);
-});
-// Must be outside of any component LifeCycle (such as `componentDidMount`).
-PushNotification.configure({
-  // (optional) Called when Token is generated (iOS and Android)
-  onRegister: function (token) {
-    // console.log("TOKEN:", token);
-  },
+const configureNotificationChannel = () => {
+  PushNotification.createChannel(
+    {
+      channelId: "fitable-trainer",
+      channelName: "fitable client channel",
+      channelDescription: "A default channel for all the notifications",
+      soundName: "default",
+      importance: 4,
+      vibrate: true,
+    },
+    (created) => console.log(`CreateChannel returned '${created}'`)
+  );
+};
 
-  onNotification: function (notification) {
-    console.log("NOTIFICATION:", notification);
-    notification.finish(PushNotificationIOS.FetchResult.NoData);
-  },
-  onAction: function (notification) {
-    console.log("ACTION:", notification.action);
-    console.log("NOTIFICATION:", notification);
+const configureNotifications = () => {
+  PushNotification.configure({
+    onRegister: function (token) {
+      console.log("TOKEN:", token);
+    },
 
-    // process the action
-  },
+    onNotification: function (notification) {
+      console.log("NOTIFICATION:", notification);
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
 
-  // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
-  onRegistrationError: function(err) {
-    console.error(err.message, err);
-  },
+    onAction: function (notification) {
+      console.log("ACTION:", notification.action);
+      console.log("NOTIFICATION:", notification);
+      // process the action
+    },
 
-  // IOS ONLY (optional): default: all - Permissions to register.
-  permissions: {
-    alert: true,
-    badge: true,
-    sound: true,
-  },
-  popInitialNotification: true,
-  requestPermissions: true,
-});
+    onRegistrationError: function(err) {
+      console.error(err.message, err);
+    },
 
-
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true,
+    },
+    popInitialNotification: true,
+    requestPermissions: true,
+  });
+};
 
 function App() {
   const [fcmToken, setFcmToken] = useRecoilState(fcmTokenState);
-// console.log('fcmTokfcmTokenfcmTokenen',fcmToken)
+
   useEffect(() => {
     requestUserPermission();
+    configureNotificationChannel();
+    configureNotifications();
 
     const unsubscribeToken = messaging().onTokenRefresh(token => {
-      // console.log("FCM Token Refresh >>> ", token);
+      console.log("FCM Token Refresh >>> ", token);
       setFcmToken(token);
     });
 
     messaging().getToken().then(token => {
-      // console.log("FCM Token >>> ", token);
+      console.log("FCM Token >>> ", token);
       setFcmToken(token);
     });
+
     const unsubscribeMessage = messaging().onMessage(async remoteMessage => {
       const {title, body} = remoteMessage.notification;
-      // Alert.alert(title, body);
       PushNotification.localNotification({
-        title: title, // 알림 제목
-        message: body, // 알림 내용
-        playSound: true, // 소리 재생 여부
-        soundName: 'default', // 재생할 소리 파일 (기본값은 'default')
-        // 여기에 추가적인 옵션을 설정할 수 있습니다.
+        smallIcon: "ic_fitable_foreground",
+        channelId: "fitable-trainer",
+        title: title,
+        message: body,
+        playSound: true,
+        soundName: 'default',
       });
     });
 
@@ -91,21 +100,7 @@ function App() {
     };
   }, []);
 
-    useEffect(() => {
-      messaging().getToken().then(token => {
-        // console.log("FCM Token1 >>> ", token);
-        setFcmToken(token);
-      });
-    }, []);
-
-    useEffect(() => {
-      return messaging().onTokenRefresh(token => {
-        // console.log("FCM Token Refresh >>> ", token);
-        setFcmToken(token);
-      });
-    }, []);
-    
-    // console.log('fcmToken',fcmToken)
+  console.log('fcmToken', fcmToken);
 
   return <AppInner />;
 }

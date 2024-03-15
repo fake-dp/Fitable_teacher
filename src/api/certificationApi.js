@@ -8,27 +8,10 @@ export const getCertificationNumber = async (phone) => {
         const response = await axios.post(`${baseURL}/api/v1/messages/certification-numbers`, { phone });
         return response.data;
     } catch (error) {
-        throw error;
+        throw error.response;
     }
 }
 
-// 인증번호 확인
-export const checkCertificationNumber = async ({phone, number}) => {
-    try {
-        const response = await axios.post(`${baseURL}/api/v1/messages/certification-numbers/valid`, { phone, number});
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
-    }
-}
-// export const checkCertificationNumber = async ({phone, number}) => {
-//     try {
-//         const response = await customAxios.post(`/api/v1/messages/certification-numbers/valid`, { phone, number});
-//         return response.data;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
 
 // 강사앱 인증번호 확인
 export const checkCertificationNumberTrainer = async ({name, phone, number}) => {

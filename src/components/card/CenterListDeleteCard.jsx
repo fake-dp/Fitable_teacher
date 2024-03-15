@@ -6,8 +6,6 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 function CenterListDeleteCard({centerList,setCenterList,goSearchScreen,setCenterId,centerId}) {
 
-    console.log('센터리스트',centerList)
-
 
     // const deleteCenterBtn = async(id) => {
     //     console.log('센터삭제',id)

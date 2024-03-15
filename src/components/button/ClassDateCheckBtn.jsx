@@ -5,7 +5,6 @@ import { COLORS } from "../../constants/color";
 import CheckBox from '@react-native-community/checkbox';
 function ClassDateCheckBtn({ isLesson,setIsLesson,setMember}) {
 
-    console.log('classDatddda',isLesson)
 
     //toggle
     const handleCheckboxChange = () => {

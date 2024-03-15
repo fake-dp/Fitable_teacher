@@ -7,7 +7,7 @@ import { COLORS } from '../../constants/color';
 import GobackGrid from '../../components/grid/GobackGrid';
 import { useRecoilState } from 'recoil';
 import { formatTime,validatePhone } from '../../utils/CustomUtils';
-import {getCertificationNumber,checkCertificationNumber,checkCertificationNumberTrainer,changePhone} from '../../api/certificationApi';
+import {getCertificationNumber,checkCertificationNumberTrainer,changePhone} from '../../api/certificationApi';
 import { myinfoState } from '../../store/atom';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
 

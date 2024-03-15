@@ -38,7 +38,7 @@ function CustomCalendar(props) {
   const [lessonList, setLessonList] = useState([]);
 
   const [showDatetModal, setShowDateModal] = useState(false);
-  console.log('currentMoncurrentMonthth',centerId)
+  // console.log('currentMoncurrentMonthth',centerId)
   const openPicker = () => {
     setShowDateModal(true);
   };
@@ -72,7 +72,7 @@ function CustomCalendar(props) {
   //     console.log('This date is not available for selection.');
   //     return;
   // }
-   console.log('dayday',day)
+  //  console.log('dayday',day)
     if (day.dateString === todayString) {
       setSelected(todayString);
     } else {
@@ -97,7 +97,7 @@ function CustomCalendar(props) {
     // });
   }, [todayString, centerId,availableDates]);
 
-console.log('centerIdcenterIdcenterId',centerId)
+// console.log('centerIdcenterIdcenterId',centerId)
 
   useEffect(() => {
     // 현재 날짜 정보를 가져와서 초기 월과 년도 설정
@@ -138,7 +138,7 @@ console.log('centerIdcenterIdcenterId',centerId)
 
 const fetchLessons = (date = todayString) => {
   if (!centerId) return;
-  console.log('centerIdcenterIdcenterIdcenterId',centerId)
+  // console.log('centerIdcenterIdcenterIdcenterId',centerId)
   getLessonList(centerId, date)
       .then(data => {
         // console.log('d왜호출됨 ?',centerId,data)

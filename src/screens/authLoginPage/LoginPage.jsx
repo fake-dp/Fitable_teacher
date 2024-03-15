@@ -11,6 +11,7 @@ import { useRecoilState } from 'recoil';
 import { isLoginState,fcmTokenState } from '../../store/atom';
 import FastImage from 'react-native-fast-image';
 import { Alert,TouchableWithoutFeedback, Keyboard } from 'react-native';
+
 // ST_A_1000
 function LoginPage(props) {
 
@@ -26,10 +27,7 @@ function LoginPage(props) {
     const handleFocus = () => setIsFocused(true);
     const handleBlur = () => setIsFocused(false);
 
-    // const tokenBtn = async () => {
-        console.log('fkfkfkffk')
-
-    // }
+   
     // console.log('fcmToken',fcmToken)
     const findPasswordScreen = () => {
         console.log('password찾기로')
@@ -37,27 +35,46 @@ function LoginPage(props) {
     }
 
     const handleLogin = async () => {
+        const isValidInput = phone.length > 10 && password.length > 7;
+    
+        if (!isValidInput) {
+            Alert.alert('입력 오류', '전화번호 또는 비밀번호 형식이 잘못되었습니다.', [{ text: '확인' }]);
+            return; 
+        }
+    
         try {
             const response = await loginApi(phone, password, fcmToken);
-            const isValidInput = phone.length > 10  && password.length > 7;
-            if (response && isValidInput) {
-                setIsLoggedIn(true);
-            } 
-        } catch (error) {
-            console.log('Error during login@@:',error.response.data);
-            if(error.response.data.code === 10202){
-              Alert.alert('올바른 비밀번호로 입력해주세요.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
-            }else if(error.response.data.code === 20000){
-              Alert.alert('권한이 없는 계정입니다.', '', [{ text: '확인', onPress: () => console.log('실패') }]);
+            if(response){
+            const loginState = await AsyncStorage.getItem('isLogin');
+            console.log('loginSt123ate',loginState)
+            setIsLoggedIn(loginState);
             }
-    }
-};
+        } catch (error) {
+            // 에러 처리
+            console.log('Error during login:', error.response ? error.response.data : error);
+            if (error.response) {
+                if (error.response.data.code === 10202) {
+                    Alert.alert('로그인 실패', '올바른 비밀번호를 입력해주세요.', [{ text: '확인' }]);
+                } else if (error.response.data.code === 20000) {
+                    Alert.alert('로그인 실패', '권한이 없는 계정입니다.', [{ text: '확인' }]);
+                } else {
+                    // 다른 서버 오류에 대한 일반적인 처리
+                    Alert.alert('로그인 실패', '알 수 없는 오류가 발생했습니다.', [{ text: '확인' }]);
+                }
+            } else {
+                // 응답 없는 기타 오류에 대한 처리
+                Alert.alert('로그인 실패', '네트워크 오류가 발생했습니다. 다시 시도해주세요.', [{ text: '확인' }]);
+            }
+        }
+    };
+    
 
 
     const isInputValid = phone.length > 10  && password.length > 7;
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+     
         <LoginContainer>
         <LoginScreenView focus={isFocused}>
             <TitleLogo source={require('../../assets/img/t_logo.png')}/>
@@ -93,6 +110,7 @@ function LoginPage(props) {
             </FindPasswordContainer>
             </LoginScreenView>
         </LoginContainer>
+
         </TouchableWithoutFeedback>
     );
 }
@@ -105,7 +123,6 @@ const TitleLogo = styled(FastImage)`
     height: 34px;
 `
 const LoginScreenView = styled.View`
-    /* flex: .9; */
     flex: ${props => props.focus ? 0.88 : 1};
     background-color: ${COLORS.white};
     align-items: center;

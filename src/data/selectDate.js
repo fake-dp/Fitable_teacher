@@ -69,10 +69,6 @@ export const startTime = [
         label: '23:00',
         value: '23:00',
       },
-      {
-        label: '24:00',
-        value: '24:00',
-      }
 ]
 
 export const endTime = [
@@ -145,9 +141,5 @@ export const endTime = [
       },{
         label: '23:00',
         value: '23:00',
-      },
-      {
-        label: '24:00',
-        value: '24:00',
       },
 ]

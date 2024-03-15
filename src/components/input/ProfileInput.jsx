@@ -15,7 +15,8 @@ function ProfileInput({value, onChangeText, placeholder,title,maxLength,type}) {
         <>
         <InfoTitleText>{title}</InfoTitleText>
         <InfoTextInputContainer  
-            style={{ height: Math.max(60, inputHeight) }}>
+            // style={{ height: Math.max(60, inputHeight) }}
+            >
             <InfoTextInput
                 isType={type}
                 value={value}
@@ -26,7 +27,7 @@ function ProfileInput({value, onChangeText, placeholder,title,maxLength,type}) {
                 // onSelectionChange={handleSelectionChange}
                 scrollEnabled={false}
                 maxLength={maxLength}
-                style={{height: Math.max(60, inputHeight), fontSize:16 }}
+                // style={{height: Math.max(60, inputHeight), fontSize:16 }}
                   />
         </InfoTextInputContainer>
         </>

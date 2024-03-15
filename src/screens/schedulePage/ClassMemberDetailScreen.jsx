@@ -4,7 +4,7 @@ import {GridLineOne} from '../../style/gridStyled';
 import {useRoute} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import MemberDetailHeader from '../../components/grid/MemberDetailHeader';
-import {ScrollView, Alert} from 'react-native';
+import {ScrollView, Alert, Platform, Dimensions } from 'react-native';
 import MemberBtn from '../../components/button/MemberBtn';
 import {
   cancelLessonReservation,
@@ -24,6 +24,7 @@ import FastImage from 'react-native-fast-image';
 function ClassMemberDetailScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
+  const windowWidth = Dimensions.get('window').width;
 
   const resetList = useResetRecoilState(contractState);
 
@@ -169,12 +170,19 @@ function ClassMemberDetailScreen(props) {
             detailData.tickets.map((ticket, index) => (
               <TicketInfo key={index} isExpired={ticket.status === 'EXPIRED'}>
                 <HeaderBox>
-                  <TicketInfoTitle isExpired={ticket.status === 'EXPIRED'}>
-                    {/* {ticket.name} */}
-                    {ticket.name.length > 16
-                      ? ticket.name.substring(0, 16) + '...'
-                      : ticket.name}
-                  </TicketInfoTitle>
+                <TicketInfoTitle isExpired={ticket.status === 'EXPIRED'}>
+                    {ticket.status === 'EXPIRED'
+                        ? ticket.name.length > 18
+                            ? ticket.name.substring(0, 18) + '...'
+                            : ticket.name
+                        : Platform.OS === 'android' && windowWidth <= 360
+                           ? ticket.name.length > 12
+                                ? ticket.name.substring(0, 12) + '...'
+                                : ticket.name
+                            : ticket.name.length > 16
+                                ? ticket.name.substring(0, 16) + '...'
+                                : ticket.name}
+                </TicketInfoTitle>
                   {ticket.status === 'EXPIRED' ? null : (
                     <TicketStatus>잔여 {ticket.left}</TicketStatus>
                   )}
@@ -222,7 +230,9 @@ function ClassMemberDetailScreen(props) {
                 }>
                 <PayAndContractLeftBox>
                   <LeftIcon 
+                  isMargin={true}
                   resizeMode='contain'
+                  style={{width: 26, height: 26}}
                   source={ticketIcon} />
                   <PayAndContractText>이용권 등록</PayAndContractText>
                 </PayAndContractLeftBox>
@@ -262,7 +272,9 @@ function ClassMemberDetailScreen(props) {
                   })
                 }>
                 <PayAndContractLeftBox>
-                  <LeftIcon source={paymentlink} />
+                  <LeftIcon 
+                  resizeMode='contain'
+                  source={paymentlink} />
                   <PayAndContractText>결제링크 전송</PayAndContractText>
                 </PayAndContractLeftBox>
                 <BtnNextIcon source={nextIcon} />
@@ -359,6 +371,7 @@ const TicketInfo = styled.View`
     props.isExpired ? COLORS.gray_200 : COLORS.white};
   padding: 18px 16px;
   border-radius: 13px;
+  width: 100%;
 `;
 
 const TicketInfoTitle = styled.Text`
@@ -462,12 +475,13 @@ const PayAndContractText = styled.Text`
 `;
 
 const LeftIcon = styled(FastImage)`
-  width: 22px;
-  height: 22px;
-  margin-right: 12px;
+  width: 20px;
+  height: 20px;
+  /* margin-right: 12px; */
+  margin-right: ${props => (props.isMargin ? '8px' : '12px')};
 `;
 
 const BtnNextIcon = styled(FastImage)`
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height:22px;
 `;

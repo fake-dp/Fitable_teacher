@@ -2,10 +2,7 @@ import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
 import { Modal, ScrollView,Keyboard,TouchableWithoutFeedback,KeyboardAvoidingView, Platform } from 'react-native';
 import { useState, useRef } from 'react';
-import MemberBtnContents from '../../components/button/MemberBtnContents';
 import {MemberTypeBtn,MemberTicketBtn} from '../button/MemberDetailBtnContents';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import BasicMainBtn from '../button/BasicMainBtn';
 import {getMemberManage} from '../../api/memberApi';
 import { useRecoilState } from 'recoil';
 import {totalElementsState} from '../../store/atom';
@@ -35,7 +32,6 @@ function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,memb
       console.log('le각각의 값들',leftTime, ticket, member,centerId,type)
         try {
             const response = await getMemberManage({ centerId,type,member, ticket, leftTime });
-            console.log('response', response)
             setUserList(response.content);
             setTotalElements(prevState => ({
               ...prevState,
@@ -75,11 +71,12 @@ function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,memb
 
         </ModalHeaderContainer>
  
-
+          <ModalMemberContainer isFocused={isFocused}>
             <ModalSubTitle>회원</ModalSubTitle>
             <MemberTypeBtn     
               member={member} setMember={setMember}
-            />
+              />
+            </ModalMemberContainer>
             
             <ModalSubTitle>수강권</ModalSubTitle>
             <MemberTicketBtn
@@ -133,6 +130,10 @@ border-top-left-radius: 20px;
 border-top-right-radius: 20px;
 /* flex: .64; */
 flex: ${props => props.focus ? 0.84 : 0.64}
+`;
+
+const ModalMemberContainer = styled.View`
+display: ${props => props.isFocused && Platform.OS ==='android' ? 'none' : ''};
 `;
 
 const ModalHeaderContainer = styled.View`

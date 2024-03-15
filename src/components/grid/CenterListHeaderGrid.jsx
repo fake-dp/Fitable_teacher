@@ -20,9 +20,7 @@ function CenterListHeaderGrid() {
     const [selectedCenterId, setSelectedCenterId] = useRecoilState(selectedCenterIdState);
     const startPickerRef = useRef();
 
-    useEffect(() => {
-      console.log('gg')
-    }, [centerId]);
+
 
     useEffect(() => {
         // centerId가 변경될 때마다 selectedCenterId를 업데이트
@@ -121,18 +119,18 @@ function CenterListHeaderGrid() {
                       <RigthIcon source={rightIcon}/>
                     </CenterListHeaderContainerBtn>
                     ):(
-                            <CenterAndroidBtn>
+                    <CenterAndroidBtn>
                         <RNPickerSelect
-                              ref={startPickerRef}
                               value={centerId}
                               onValueChange={(centerId) => onCenterChange(centerId)}
-                              doneText="변경"
                               items={transformedState}
                               textInputProps={{ underlineColorAndroid: 'transparent'}}
                               useNativeAndroidPickerStyle={false}
                               fixAndroidTouchableBug={true}
                               placeholder={{}}
-                            
+                              Icon={() => {
+                                    return <RigthIcon resizeMode='contain' source={rightIcon}/>
+                                }}
                               style={
                                 { 
                               inputAndroid: 
@@ -140,18 +138,19 @@ function CenterListHeaderGrid() {
                               fontSize: 16,
                               height: 50, 
                               color: '#000000',
-                              padding: 10
+                              padding:10,
+                            //   width: 150,
+                            //   backgroundColor:'red',
+                            marginRight: 20,
                               }, 
                               iconContainer: {
-                                top: 14,
-                                // left: 10,
+                                top:16,
                               },
                               placeholder: { 
                                 color: COLORS.sub
                                  }
                               }}/>
-                              <RigthIcon source={rightIcon}/>
-                              </CenterAndroidBtn>
+                         </CenterAndroidBtn>
                     )
             )
         }
@@ -162,9 +161,8 @@ function CenterListHeaderGrid() {
 export default CenterListHeaderGrid;
 
 const CenterListHeaderContainer = styled.View``
-const CenterAndroidBtn = styled.TouchableOpacity`
-flex-direction: row;
-align-items: center;
+const CenterAndroidBtn = styled.View`
+width:auto;
 `
 const CenterListHeaderContainerBtn = styled.TouchableOpacity`
     flex-direction: row;
@@ -180,7 +178,7 @@ line-height: 28px;
 
 
 const RigthIcon = styled(FastImage)`
-    /* margin-left: 8px; */
     width: 20px;
     height: 20px;
+    margin-left : 6px;
 `

@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import { useState ,useRef, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker'
-import { Alert } from 'react-native';
+import { Alert ,Platform} from 'react-native';
 import FastImage from 'react-native-fast-image';
 function MemberDateSelectCard({setFormData,index,formData}) {
 
@@ -203,7 +203,8 @@ const CountTextInputContainer = styled.View`
     justify-content: space-between;
     border: 1px solid ${COLORS.gray_100};
     border-radius: 13px;
-    padding: 15px 16px;
+    /* padding: 15px 16px; */
+    padding: ${Platform.OS === 'ios' ? '15px 16px' : '4px 16px'};
     background-color: ${COLORS.gray_100};
     width: 48%;
 `;

@@ -10,7 +10,7 @@ function MemberBtnContents({type, setType,setSearchText}) {
 
   const [totalElements, setTotalElements] = useRecoilState(totalElementsState);
   const [centerId, setCenterId] = useRecoilState(centerIdState);
-    // console.log('totalElements123123123',totalElements.ATTENDANCE)
+
     const handleTabClick = (tab) => {
       setType(tab);
       setSearchText('');

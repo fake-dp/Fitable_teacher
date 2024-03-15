@@ -9,7 +9,6 @@ function LessonListGrid({lessonList}) {
     const navigation = useNavigation();
 
     const detailLessonScreen = async(id) => {
-        console.log('상세 id확인',id)
         try{
             const response = await getLessonDetail(id);
             // console.log('상세 응답',response)

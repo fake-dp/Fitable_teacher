@@ -25,7 +25,6 @@ function DaySelectBtnGrid({ title,setSchedules }) {
         
         setSelectedDays(newSelectedDays);
       };
-      
   
 
     const [classTimeId, setClassTimeId] = useState(0);
@@ -148,8 +147,8 @@ const DaysContainer = styled.View`
 `;
 
 const DayButton = styled.TouchableOpacity`
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
@@ -212,7 +211,8 @@ const RemoveButton = styled.TouchableOpacity`
   /* padding: 8px 16px; */
   border-radius: 8px;
   width: 16%;
-  margin-top: 20px;
+  margin-top: 24px;
+  padding: 15px 0px;
 `;
 
 const RemoveButtonText = styled.Text`

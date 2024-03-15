@@ -1,21 +1,16 @@
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants/color'; 
 import ImagePicker from 'react-native-image-crop-picker';
-import React,{ useState,useEffect,useRef } from 'react';
-import { Alert,TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
+import React,{ useState,useRef } from 'react';
+import { Alert,TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import ProfileInput from '../input/ProfileInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CenterAddGrayBtn from '../button/CenterAddGrayBtn';
-import BasicMainBtn from '../button/BasicMainBtn';
-import ProfileTextArea from '../input/ProfileTextArea';
 import CenterListSlideModal from '../modal/CenterListSlideModal';
-import UseGetCenterListHook from '../../hooks/UseGetCenterListHook';
 import { useRecoilState } from 'recoil';
 import { centerListState,profileState } from '../../store/atom';
 import ProfileSelectDateCard from '../card/ProfileSelectDateCard';
-import DateSelectCard from '../card/DateSelectCard';
 import TimeSelectCard from '../card/TimeSelectCard';
-import { useFocusEffect } from '@react-navigation/native';
 import {deleteTrainersProfileInfo,setTrainersProfileInfo,updateTrainersProfileInfo,getTrainersProfileInfo} from '../../api/mypageApi';
 import DeleteProfileModal from '../modal/DeleteProfileModal';
 import { useNavigation } from '@react-navigation/native';
@@ -36,7 +31,7 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
     const [updateSelectedImages, setUpdateSelectedImages] = useState(profileInfo?.images|| []);
     const [updateSelectImages, setUpdateSelectImages] = useState([]);
     const [deleteImages, setDeleteImages] = useState([]);
-    console.log('profileInfo2132',profileInfo,updateSelectedImages)
+    
     const [trainerProfile, setTrainerProfile] = useRecoilState(profileState);
     
     const openImagePicker = () => {
@@ -74,7 +69,6 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
 
     //t수정삭제
     const updateDeleteImage = (indexToDelete, id) => {
-        console.log('index',indexToDelete)
         setUpdateSelectedImages(currentImages =>
             currentImages.filter((_, index) => index !== indexToDelete)
         );
@@ -106,8 +100,14 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
         }
         isClicking.current = true;
         try{
-            console.log('프로파일 설정!!헤헿')
-            let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
+
+            // let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
+            let combinedTimeSettings = [];
+                selectedCenter.forEach(center => {
+                if(center?.timeSettings) {
+                    combinedTimeSettings = combinedTimeSettings.concat(center.timeSettings);
+                }
+            });
             const formData = new FormData();
             const requestDto = {
                     description: trainerProfile.description,
@@ -124,13 +124,22 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
             });
             formData.append("requestDto", JSON.stringify(requestDto));
             console.log('formData111123',formData)
-            postSettingProfileApi(formData);
+            // postSettingProfileApi(formData);
+            const response = await setTrainersProfileInfo(formData);
+            if(response){
+
+              Alert.alert("알림","프로필이 설정되었습니다\n 곧 알림이 도착합니다.",
+                [{ text: "확인", onPress: () => {
+                    getProfileInfo()
+                } }]);
+            }
     }
     catch(error){
         console.log('error',error)
     }
     finally{
         isClicking.current = false;
+        navigation.navigate('MyProfile')
     }
 }
 
@@ -141,7 +150,10 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
         isClicking.current = true;
             try{
                 console.log('에디터 모드임')
-                let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
+                // let combinedTimeSettings = (selectedCenter[0]?.timeSettings || []).concat(selectedCenter[1]?.timeSettings || []);
+                let combinedTimeSettings = [];
+                selectedCenter.forEach(center => {
+                if(center?.timeSettings) {combinedTimeSettings = combinedTimeSettings.concat(center.timeSettings)}});
                 const formData = new FormData();
                 const requestDto = {
                     deleteImages:deleteImages,
@@ -149,7 +161,7 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
                     career: trainerProfile.career,
                     qualifications: trainerProfile.qualifications,
                     centerProfiles: combinedTimeSettings,
-            };
+                };
             const newPath = updateSelectImages.map(image => image.path);
             newPath.forEach((path, id) => {
                 formData.append('images', {
@@ -160,39 +172,6 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
             });
             formData.append('requestDto', JSON.stringify(requestDto));
             console.log('formData111123',formData)
-            updateSettingProfileApi(formData);
-            } catch(error){
-                console.log('error',error)
-            }
-            finally{
-                isClicking.current = false;
-            }
-    }
-
-    // getTrainersProfileInfo
-    //프로필 설정api
-    const postSettingProfileApi = async (formData) => {
-        try{
-            const response = await setTrainersProfileInfo(formData);
-            if(response){
-                console.log('response',response);
-              Alert.alert("알림","프로필이 설정되었습니다\n 곧 알림이 도착합니다.",
-                [{ text: "확인", onPress: () => {
-                    getProfileInfo()
-                } }]);
-            }
-        }catch(error){
-            console.log('getProfileInfo',error)
-        }finally{
-            console.log('finally')
-            navigation.navigate('MyProfile')
-        }
-    }
-
-  
-    //프로필 수정api
-    const updateSettingProfileApi = async (formData) => {
-        try{
             const response = await updateTrainersProfileInfo(formData);
             if(response){
                 console.log('response',response);
@@ -201,13 +180,14 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
                     getProfileInfo()
                     setIsEditMode(false)
                 } }]);
+              }
+            } catch(error){
+                console.log('error',error)
             }
-        }catch(error){
-            console.log('updateSettin',error.data)
-        }finally{
-            console.log('finally')
-            navigation.navigate('MyProfile')
-        }
+            finally{
+                isClicking.current = false;
+                navigation.navigate('MyProfile')
+            }
     }
 
     // 다시호출
@@ -339,7 +319,7 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
     };
     
 
-    // 상위 컴포넌트
+
     const changeTime = (centerId, newTime, timeType, index) => {
         const updatedCenters = selectedCenter.map(center => {
           if (center.id === centerId) {
@@ -359,29 +339,34 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
     };
     
     const isEditModefn = isEditMode ? registerProfileUpdate:registerProfileSetting;
-    const timeSettingState = 
-    selectedCenter[0]?.timeSettings[0]?.startTime !== selectedCenter[0]?.timeSettings[0]?.endTime &&
-    selectedCenter[0]?.timeSettings[0]?.startTime < selectedCenter[0]?.timeSettings[0]?.endTime
+    // const timeSettingState = 
+    // selectedCenter[0]?.timeSettings[0]?.startTime !== selectedCenter[0]?.timeSettings[0]?.endTime &&
+    // selectedCenter[0]?.timeSettings[0]?.startTime < selectedCenter[0]?.timeSettings[0]?.endTime
+    let timeSettingState = true;
+    for (const center of selectedCenter) {
+        if (center?.timeSettings) {
+            for (const timeSetting of center.timeSettings) {
+                const isValid = timeSetting.startTime !== timeSetting.endTime && 
+                                timeSetting.startTime < timeSetting.endTime;
+                // 하나라도 유효하지 않은 시간 설정이 있다면, timeSettingState를 false로 설정하고 반복을 중단합니다.
+                if (!isValid) {
+                    timeSettingState = false;
+                    break;
+                }
+            }
+            if (!timeSettingState) break; // 상위 반복도 중단합니다.
+        }
+    }
 
-
-    console.log('11231233',updateSelectedImages.length)
+    console.log('selectedCenter',selectedCenter)
     const isActivefn = 
     (trainerProfile?.career?.length !==0 && trainerProfile?.career?.length !==undefined)
     && 
     (trainerProfile?.qualifications?.length !==0 && trainerProfile?.qualifications?.length !==undefined) &&
     (trainerProfile?.description?.length !==0 && trainerProfile?.description?.length !==undefined)
     && 
-    timeSettingState
-    console.log('trainerProfile?.career?.length !==10',trainerProfile?.career?.length,trainerProfile?.qualifications?.length,trainerProfile?.description?.length )
+    timeSettingState && selectedCenter.length > 0
 
-    // console.log('selectedCenter11',trainerProfile.career.length !==0 && trainerProfile.qualifications.length !==0 && trainerProfile.description.length !==0 && timeSettingState,isActivefn)
-// console.log('se1',selectedCenter[0]?.timeSettings[0]?.startTime,selectedCenter[0]?.timeSettings[0]?.endTime)
-// console.log('se2',selectedCenter[0]?.timeSettings[1]?.startTime,selectedCenter[0]?.timeSettings[1]?.endTime)
-// console.log('se3',selectedCenter[1]?.timeSettings[0]?.startTime,selectedCenter[1]?.timeSettings[0]?.endTime)
-// console.log('se4',selectedCenter[1]?.timeSettings[1]?.startTime,selectedCenter[1]?.timeSettings[1]?.endTime)
-// console.log('selectedCenter11',selectedCenter[0]?.timeSettings[1].endTime,timeSettingState)
-// console.log('selectedCenter22',selectedCenter[1].timeSettings)
-      
     const clockIcon = require('../../assets/img/clockIcon.png');
   
     return (
@@ -433,7 +418,9 @@ function TrainerInfoListGrid({profileInfo,isEditMode,setIsEditMode, setProfileIn
             <ProfileInput
                 title="소개"
                 isEditMode={isEditMode}
-                placeholder={isEditMode? profileInfo.description:'소개는 10자 이상 150자 이하로 작성 가능합니다'}
+                placeholder={isEditMode? profileInfo.description:
+                    Platform.OS === 'ios' ? '글자는 10자 이상 150자 이하로 작성 가능합니다' : '10자 이상 150자 이하로 작성 가능합니다'
+                }
                 // placeholder="300자 이하로 작성 가능합니다"
                 maxLength={150}
                 value={trainerProfile.description}

@@ -9,7 +9,7 @@ import styled from 'styled-components/native';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
 import {updateMyInfo} from '../../api/mypageApi'
 import { validatePassword } from '../../utils/CustomUtils';
-import { Alert } from 'react-native';
+import { Alert,TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { ErrorText } from '../../style/gridStyled';
 import { useRecoilState } from 'recoil';
 import { myinfoState } from '../../store/atom';
@@ -27,6 +27,12 @@ function AccountScreen(props) {
     
     const passwordInputRef = useRef(null);
     const passwordCheckInputRef = useRef(null);
+
+    const [isFocused, setIsFocused] = useState(false);
+
+  
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
 
     const handleNameTextChange = (text) => {
         console.log('이름 입력 값 확인',text)
@@ -85,6 +91,7 @@ function AccountScreen(props) {
     const isSamePassword = password === passwordCheck;
  
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <MainContainer>
             <GobackGrid onPress={goBack}>계정 관리</GobackGrid>
             <GridMargin />
@@ -94,6 +101,7 @@ function AccountScreen(props) {
             maxLength={10}
             value={name}
             onChangeText={handleNameTextChange}
+            isFocused={isFocused}
             />
 
 
@@ -121,6 +129,8 @@ function AccountScreen(props) {
             placeholder="다시 입력해주세요"
             value={passwordCheck}
             onChangeText={handlePasswordCheckTextChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             hasError={!isSamePassword && passwordCheck.length > 7} 
             />
              {
@@ -139,6 +149,7 @@ function AccountScreen(props) {
             isActive={name.length > 0 || (password.length > 7 && passwordCheck.length > 7 && isSamePassword)}
             >확인</CertifiactionBtn>
         </MainContainer>
+        </TouchableWithoutFeedback>
     );
 }
 

@@ -12,7 +12,6 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
 
 
     const selectMemberScreen = async(id) => {
-        console.log('상세아이디 확인1',id)
             try{
                 const response = await getLessonReservationMembers(id);
                 // console.log('회원 선택 응답',response)
@@ -26,10 +25,10 @@ function DetailLessonCommonGrid({lessonDetail,routerType}) {
     }
 
     const memberDetailScreen = async(id) => {
-        console.log('id',id)
+
         try{
             const response = await getLessonMemberDetail(id);
-            console.log('회원 상세 응답@@',response)
+
             navigation.navigate('ClassMemberDetail',{
                 detailData: response,
                 screenType: 'class',

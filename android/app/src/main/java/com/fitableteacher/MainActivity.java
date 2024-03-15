@@ -1,4 +1,4 @@
-package com.fitableteacher;
+package com.fitabletrainer;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

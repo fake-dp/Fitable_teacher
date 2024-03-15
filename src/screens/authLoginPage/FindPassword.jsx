@@ -4,9 +4,9 @@ import GobackGrid from '../../components/grid/GobackGrid';
 import MainLongTextGrid from '../../components/grid/MainLongTextGrid';
 import { useNavigation } from '@react-navigation/native';
 import {MainContainer} from '../../style/gridStyled';
-import EctInput from '../../components/input/EctInput';
+import {EctInput} from '../../components/input/EctInput';
 import CertifiactionBtn from '../../components/button/CertificationBtn';
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import { formatTime } from '../../utils/CustomUtils';
 import { getCertificationNumber,checkCertificationNumberTrainer } from '../../api/certificationApi';
 import { myPhoneState } from '../../store/atom';
@@ -30,7 +30,10 @@ function FindPassword(props) {
     const [showCertificationInput, setShowCertificationInput] = useState(false);
     const [stepBtn, setStepBtn] = useState(0);
 
-
+    const [isFocused, setIsFocused] = useState(false);
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
+    const inputRef = useRef();
     const handleNameTextChange = (text) => {
         console.log('이름',text)
         setName(text);
@@ -51,6 +54,7 @@ function FindPassword(props) {
      const getCertification = async (phone) => {
         try {
             const response = await getCertificationNumber(phone);
+            console.log('res',response)
             if (response.id) {
                 setShowCertificationInput(true);
                 setStepBtn(1);
@@ -65,11 +69,11 @@ function FindPassword(props) {
                 });
             }, 1000);
             } else {
-                Alert.alert('인증 실패', '인증 번호를 받아오는데 실패했습니다.');
+                Alert.alert('인증 실패', '인증번호를 받아오는 데 실패했습니다');
             }
         } catch (error) {
             console.error('getCertification error:', error);
-            Alert.alert('에러', '인증 번호를 받아오는데 문제가 발생했습니다.');
+            Alert.alert('에러', '인증번호를 받아오는 데 문제가 발생했습니다');
         }
     }
 
@@ -114,15 +118,17 @@ function FindPassword(props) {
     }
 
     const isCertiActive = name.length > 1  && phone.length === 11;
-
+    // focus={isFocused}
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <MainContainer>
+
             <GobackGrid onPress={goBack}/>
             <TextContainer>
             <MainLongTextGrid>휴대폰번호 인증으로</MainLongTextGrid>
             <MainLongTextGrid>비밀번호를 다시 설정합니다</MainLongTextGrid>
             </TextContainer>
+
         
             <EctInput 
             text='이름'
@@ -130,6 +136,7 @@ function FindPassword(props) {
             onChangeText={handleNameTextChange}
             />
             <EctInput 
+             isFocused={isFocused}
              text='연락처'
              maxLength={11}
              placeholder="-없이 번호를 입력해주세요"
@@ -147,16 +154,20 @@ function FindPassword(props) {
                            onChangeText={handleCertiNumberTextChange}
                            maxLength={6}
                            keyboardType="numeric"
+                           ref={inputRef}
+                           onFocus={handleFocus}
+                           onBlur={handleBlur}
                            />
                             <CertificationTimer>0{formatTime(secondsLeft)}</CertificationTimer>
                         </CertificationIputBox>
+
                         <ResendBtn onPress={()=>getCertification(phone)}>
                             <ResendText>인증번호 재전송</ResendText>
                         </ResendBtn>
                         </>
                             )
                 }
-            
+
 
 
             {
@@ -213,4 +224,3 @@ font-size: 14px;
 font-weight: 500;
 line-height: 22.40px;
 `;
-

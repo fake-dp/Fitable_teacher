@@ -5,8 +5,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import { useState ,useRef, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker';
 import FastImage from 'react-native-fast-image';
-import { Dimensions } from 'react-native';
-
+import { Dimensions,Platform } from 'react-native';
+import { View } from 'react-native';
 
 function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, state ,setState,type,updateClassData,maindata}) {
     // const {startDate=""}=state ||{};
@@ -88,16 +88,15 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
                     source={rightIcon}/>
                  </SelectBox>
                  ):(
-                    <AndroidSelectBox>
-                    <SelectInnerBox>
+                    <View style={{
+                        flex:1, flexDirection:'row', alignItems:'center', justifyContent:'space-between',borderRadius: 13,  borderWidth: 1, borderColor: COLORS.gray_200,  height: 50,
+                    }}>
+                    {/* <SelectInnerBox> */}
                         {
                             imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
                         }
                         {(
                              <RNPickerSelect
-                             ref={pickerRef}
-                            //  InputAccessoryView={() => null}
-                            doneText='확인'
                              onValueChange={(value) => {
                                 const selectedLabel = transformedState.find(item => item.value === value)?.label;
                                 if(type === 'item'){
@@ -119,34 +118,33 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
                                            type ==='location' ? '수업장소를 선택해주세요' :'',
                                     value: null,
                              }}
-                            //  Icon={() => {
-                            //     return <RigthIcon source={rightIcon}/>;
-                            //     }
-                            //   }
+                             Icon={() => {
+                                return <RigthIcon 
+                                resizeMode='contain'
+                                source={rightIcon}/>;
+                                }
+                              }
+                
                               style={{
                               inputAndroid: 
                               {  
                               fontSize: 16,
                               color: '#000000',
-                              width: screenWidth, 
-                            //   paddingHorizontal: 5,
-                              borderColor: COLORS.gray_200, 
-                            //   borderWidth: 1, 
-                            //   borderRadius: 12,
-                            //   padding: 10,
+                            //   backgroundColor:'red',
+                              width: 270,
+                              marginRight: 5,
                               }, 
                              
                               iconContainer: {
                                 top: 14,
-                                right: 12,
+                                right: 14,
                               },
                               }}
                               />
                              )
                         }
-                    </SelectInnerBox>
-                    <RigthIcon source={rightIcon}/>
-                    </AndroidSelectBox>
+                    {/* </SelectInnerBox> */}
+                    </View>
              
                  )
             }
@@ -172,10 +170,8 @@ const SelectBox = styled.TouchableOpacity`
     padding: 15px 16px;
 `
 
-const AndroidSelectBox = styled.TouchableOpacity`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+const AndroidSelectBox = styled.View`
+    /* width: 100%; */
     border: 1px solid ${COLORS.gray_200};
     border-radius: 13px;
     padding: 0 16px;
@@ -209,6 +205,7 @@ height: 20px;
 
 const LeftIcon = styled(FastImage)`
 margin-right:11px;
+margin-left: ${Platform.OS === 'ios' ? '0px' : '12px'};
 width: 20px;
 height: 20px;
 `

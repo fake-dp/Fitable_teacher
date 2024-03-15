@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 import { centerIdState,centerListState } from '../../store/atom';
 
 function AlarmTwoBtn() {
-    const [centerId, setCenterId] = useRecoilState(centerIdState || 'default_value'); 
+    const [centerId, setCenterId] = useRecoilState(centerIdState); 
     const [centerList, setCenterList] = useRecoilState(centerListState);
     
 
@@ -19,19 +19,18 @@ function AlarmTwoBtn() {
     const [consultingList, setConsultingList] = useState([]);
     
     const handleTabClick = (tab) => {
-      console.log('tab',tab,centerId)
       getAlarmDataList(centerId, tab);
       setSelectedTab(tab);
 
       };
 
-    console.log('centerId123',centerId,centerList.length)
+
     const getAlarmDataList = async (id, type) => {
-        console.log('id',id)
+
         if (!id) return; 
         try{
             const response = await getAlarmList({id,type});
-            console.log('respons123123e',response)
+
             if(type === 'LESSON'){
                 setLessonList(response.content);
             }else if(type === 'CONSULTING'){
