@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* fitableteacherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fitableteacherTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-fitableteacher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-fitableteacher.a */; };
+		00E356F31AD99517003FC87E /* fitabletrainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fitabletrainerTests.m */; };
+		0C80B921A6F3F58F76C31292 /* libPods-fitabletrainer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-fitabletrainer.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7699B88040F8A987B510C191 /* libPods-fitableteacher-fitableteacherTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-fitableteacher-fitableteacherTests.a */; };
+		7699B88040F8A987B510C191 /* libPods-fitabletrainer-fitabletrainerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-fitabletrainer-fitabletrainerTests.a */; };
 		A099454E2B7364C100EB3E4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A099454D2B7364C100EB3E4F /* GoogleService-Info.plist */; };
 		A09945502B7F5F8700EB3E4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A09945522B7F5F8700EB3E4F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -23,28 +23,28 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = fitableteacher;
+			remoteInfo = fitabletrainer;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* fitableteacherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = fitableteacherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* fitabletrainerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = fitabletrainerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* fitableteacherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fitableteacherTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* fitableteacher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fitableteacher.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = fitableteacher/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = fitableteacher/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = fitableteacher/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = fitableteacher/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = fitableteacher/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-fitableteacher-fitableteacherTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fitableteacher-fitableteacherTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B4392A12AC88292D35C810B /* Pods-fitableteacher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitableteacher.debug.xcconfig"; path = "Target Support Files/Pods-fitableteacher/Pods-fitableteacher.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-fitableteacher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitableteacher.release.xcconfig"; path = "Target Support Files/Pods-fitableteacher/Pods-fitableteacher.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-fitableteacher-fitableteacherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitableteacher-fitableteacherTests.debug.xcconfig"; path = "Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-fitableteacher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fitableteacher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-fitableteacher-fitableteacherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitableteacher-fitableteacherTests.release.xcconfig"; path = "Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests.release.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* fitabletrainerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fitabletrainerTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* fitabletrainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fitabletrainer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = fitabletrainer/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = fitabletrainer/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = fitabletrainer/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = fitabletrainer/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = fitabletrainer/main.m; sourceTree = "<group>"; };
+		19F6CBCC0A4E27FBF8BF4A61 /* libPods-fitabletrainer-fitabletrainerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fitabletrainer-fitabletrainerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4392A12AC88292D35C810B /* Pods-fitabletrainer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitabletrainer.debug.xcconfig"; path = "Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer.debug.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-fitabletrainer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitabletrainer.release.xcconfig"; path = "Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer.release.xcconfig"; sourceTree = "<group>"; };
+		5B7EB9410499542E8C5724F5 /* Pods-fitabletrainer-fitabletrainerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitabletrainer-fitabletrainerTests.debug.xcconfig"; path = "Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-fitabletrainer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fitabletrainer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-fitabletrainer-fitabletrainerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitabletrainer-fitabletrainerTests.release.xcconfig"; path = "Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests.release.xcconfig"; sourceTree = "<group>"; };
 		A099454D2B7364C100EB3E4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A099454F2B74618B00EB3E4F /* fitableteacher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = fitableteacher.entitlements; path = fitableteacher/fitableteacher.entitlements; sourceTree = "<group>"; };
+		A099454F2B74618B00EB3E4F /* fitabletrainer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = fitabletrainer.entitlements; path = fitabletrainer/fitabletrainer.entitlements; sourceTree = "<group>"; };
 		A09945512B7F5F8700EB3E4F /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ko; path = ko.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-fitableteacher-fitableteacherTests.a in Frameworks */,
+				7699B88040F8A987B510C191 /* libPods-fitabletrainer-fitabletrainerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,20 +62,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-fitableteacher.a in Frameworks */,
+				0C80B921A6F3F58F76C31292 /* libPods-fitabletrainer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* fitableteacherTests */ = {
+		00E356EF1AD99517003FC87E /* fitabletrainerTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* fitableteacherTests.m */,
+				00E356F21AD99517003FC87E /* fitabletrainerTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = fitableteacherTests;
+			path = fitabletrainerTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -86,10 +86,10 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* fitableteacher */ = {
+		13B07FAE1A68108700A75B9A /* fitabletrainer */ = {
 			isa = PBXGroup;
 			children = (
-				A099454F2B74618B00EB3E4F /* fitableteacher.entitlements */,
+				A099454F2B74618B00EB3E4F /* fitabletrainer.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -98,15 +98,15 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				A099454D2B7364C100EB3E4F /* GoogleService-Info.plist */,
 			);
-			name = fitableteacher;
+			name = fitabletrainer;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-fitableteacher.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-fitableteacher-fitableteacherTests.a */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-fitabletrainer.a */,
+				19F6CBCC0A4E27FBF8BF4A61 /* libPods-fitabletrainer-fitabletrainerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -121,9 +121,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* fitableteacher */,
+				13B07FAE1A68108700A75B9A /* fitabletrainer */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* fitableteacherTests */,
+				00E356EF1AD99517003FC87E /* fitabletrainerTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -136,8 +136,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* fitableteacher.app */,
-				00E356EE1AD99517003FC87E /* fitableteacherTests.xctest */,
+				13B07F961A680F5B00A75B9A /* fitabletrainer.app */,
+				00E356EE1AD99517003FC87E /* fitabletrainerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -145,10 +145,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-fitableteacher.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-fitableteacher.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-fitableteacher-fitableteacherTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-fitableteacher-fitableteacherTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-fitabletrainer.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-fitabletrainer.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-fitabletrainer-fitabletrainerTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-fitabletrainer-fitabletrainerTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -156,9 +156,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* fitableteacherTests */ = {
+		00E356ED1AD99517003FC87E /* fitabletrainerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "fitableteacherTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "fitabletrainerTests" */;
 			buildPhases = (
 				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -172,14 +172,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = fitableteacherTests;
-			productName = fitableteacherTests;
-			productReference = 00E356EE1AD99517003FC87E /* fitableteacherTests.xctest */;
+			name = fitabletrainerTests;
+			productName = fitabletrainerTests;
+			productReference = 00E356EE1AD99517003FC87E /* fitabletrainerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* fitableteacher */ = {
+		13B07F861A680F5B00A75B9A /* fitabletrainer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fitableteacher" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fitabletrainer" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -195,9 +195,9 @@
 			);
 			dependencies = (
 			);
-			name = fitableteacher;
-			productName = fitableteacher;
-			productReference = 13B07F961A680F5B00A75B9A /* fitableteacher.app */;
+			name = fitabletrainer;
+			productName = fitabletrainer;
+			productReference = 13B07F961A680F5B00A75B9A /* fitabletrainer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -217,7 +217,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "fitableteacher" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "fitabletrainer" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -231,8 +231,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* fitableteacher */,
-				00E356ED1AD99517003FC87E /* fitableteacherTests */,
+				13B07F861A680F5B00A75B9A /* fitabletrainer */,
+				00E356ED1AD99517003FC87E /* fitabletrainerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -280,15 +280,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher/Pods-fitableteacher-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher/Pods-fitableteacher-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitableteacher/Pods-fitableteacher-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		58555C998701359888193158 /* [CP-User] [RNFB] Core Configuration */ = {
@@ -319,7 +319,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-fitableteacher-fitableteacherTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-fitabletrainer-fitabletrainerTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -341,7 +341,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-fitableteacher-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-fitabletrainer-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -354,15 +354,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -371,15 +371,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher/Pods-fitableteacher-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher/Pods-fitableteacher-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitableteacher/Pods-fitableteacher-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer/Pods-fitabletrainer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
@@ -388,15 +388,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitableteacher-fitableteacherTests/Pods-fitableteacher-fitableteacherTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fitabletrainer-fitabletrainerTests/Pods-fitabletrainer-fitabletrainerTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -425,7 +425,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* fitableteacherTests.m in Sources */,
+				00E356F31AD99517003FC87E /* fitabletrainerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +443,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* fitableteacher */;
+			target = 13B07F861A680F5B00A75B9A /* fitabletrainer */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -455,7 +455,7 @@
 				A09945512B7F5F8700EB3E4F /* ko */,
 			);
 			name = LaunchScreen.storyboard;
-			path = fitableteacher;
+			path = fitabletrainer;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -463,7 +463,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-fitableteacher-fitableteacherTests.debug.xcconfig */;
+			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-fitabletrainer-fitabletrainerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 478226FDMY;
@@ -471,7 +471,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = fitableteacherTests/Info.plist;
+				INFOPLIST_FILE = fitabletrainerTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -485,18 +485,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitable.trainerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/fitableteacher.app/fitableteacher";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/fitabletrainer.app/fitabletrainer";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-fitableteacher-fitableteacherTests.release.xcconfig */;
+			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-fitabletrainer-fitabletrainerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 478226FDMY;
-				INFOPLIST_FILE = fitableteacherTests/Info.plist;
+				INFOPLIST_FILE = fitabletrainerTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -510,66 +510,76 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitable.trainerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/fitableteacher.app/fitableteacher";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/fitabletrainer.app/fitabletrainer";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-fitableteacher.debug.xcconfig */;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-fitabletrainer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = fitableteacher/fitableteacher.entitlements;
+				CODE_SIGN_ENTITLEMENTS = fitabletrainer/fitabletrainer.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 478226FDMY;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = fitableteacher/Info.plist;
+				INFOPLIST_FILE = fitabletrainer/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "FIT ABLE 강사용";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitable.trainer;
-				PRODUCT_NAME = fitableteacher;
+				PRODUCT_NAME = fitabletrainer;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-fitableteacher.release.xcconfig */;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-fitabletrainer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = fitableteacher/fitableteacher.entitlements;
+				CODE_SIGN_ENTITLEMENTS = fitabletrainer/fitabletrainer.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 478226FDMY;
-				INFOPLIST_FILE = fitableteacher/Info.plist;
+				INFOPLIST_FILE = fitabletrainer/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "FIT ABLE 강사용";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitable.trainer;
-				PRODUCT_NAME = fitableteacher;
+				PRODUCT_NAME = fitabletrainer;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -643,10 +653,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
@@ -716,10 +723,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -729,7 +733,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "fitableteacherTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "fitabletrainerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -738,7 +742,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fitableteacher" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fitabletrainer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -747,7 +751,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "fitableteacher" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "fitabletrainer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

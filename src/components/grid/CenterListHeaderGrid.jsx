@@ -112,10 +112,8 @@ function CenterListHeaderGrid() {
                               useNativeAndroidPickerStyle={false}
                               fixAndroidTouchableBug={true}
                               placeholder={{}}
-                              style={{ inputIOS: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 }, 
-                                    inputAndroid: {
-                                         color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 
-                                         } }}/>
+                              style={{ inputIOS: { padding:10, color: COLORS.sub, fontSize:22, fontWeight:'bold', lineHeight:24 }, 
+                                   }}/>
                       <RigthIcon source={rightIcon}/>
                     </CenterListHeaderContainerBtn>
                     ):(
@@ -135,7 +133,8 @@ function CenterListHeaderGrid() {
                                 { 
                               inputAndroid: 
                               {  
-                              fontSize: 16,
+                              fontSize: 20,
+                              fontWeight: 'bold',
                               height: 50, 
                               color: '#000000',
                               padding:10,

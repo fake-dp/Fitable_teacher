@@ -1,13 +1,13 @@
 //
-//  fitableteacherUITestsLaunchTests.swift
-//  fitableteacherUITests
+//  fitabletrainerUITestsLaunchTests.swift
+//  fitabletrainerUITests
 //
 //  Created by notegg_005 on 2023/10/05.
 //
 
 import XCTest
 
-final class fitableteacherUITestsLaunchTests: XCTestCase {
+final class fitabletrainerUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

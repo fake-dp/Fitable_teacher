@@ -1,13 +1,13 @@
 //
-//  fitableteacherUITests.swift
-//  fitableteacherUITests
+//  fitabletrainerUITests.swift
+//  fitabletrainerUITests
 //
 //  Created by notegg_005 on 2023/10/05.
 //
 
 import XCTest
 
-final class fitableteacherUITests: XCTestCase {
+final class fitabletrainerUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

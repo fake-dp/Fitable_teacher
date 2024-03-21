@@ -1,14 +1,14 @@
 //
-//  fitableteacherTests.swift
-//  fitableteacherTests
+//  fitabletrainerTests.swift
+//  fitabletrainerTests
 //
 //  Created by notegg_005 on 2023/10/05.
 //
 
 import XCTest
-@testable import fitableteacher
+@testable import fitabletrainer
 
-final class fitableteacherTests: XCTestCase {
+final class fitabletrainerTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

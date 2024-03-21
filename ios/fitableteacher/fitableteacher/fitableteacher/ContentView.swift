@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  fitableteacher
+//  fitabletrainer
 //
 //  Created by notegg_005 on 2023/10/05.
 //

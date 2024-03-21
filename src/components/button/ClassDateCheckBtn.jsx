@@ -20,13 +20,13 @@ function ClassDateCheckBtn({ isLesson,setIsLesson,setMember}) {
         <CheckBoxStyle
         value={isLesson}
         onValueChange={handleCheckboxChange}
-        tintColors={{ true: COLORS.main, false: COLORS.gray_200 }}
+        tintColors={{ true: COLORS.sub, false: COLORS.gray_200 }}
         
         onCheckColor={COLORS.main}
         onFillColor={COLORS.box}
         onTintColor={COLORS.box}
         boxType={'square'}
-        tintColor={COLORS.gray_300}
+        tintColor={COLORS.sub}
         />
 
         <CheckText
