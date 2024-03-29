@@ -42,6 +42,7 @@ function AlarmTwoBtn() {
         console.log('알람 list 에러',error)
     }
 }
+// test
 // useEffect(() => {
 //   if (centerList.length === 0) {
 //       setCenterId(null);
