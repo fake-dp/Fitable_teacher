@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { COLORS } from "../../constants/color";
-import { TextInput,Platform } from "react-native";
+import { TextInput,Platform ,Dimensions} from "react-native";
 import React, { forwardRef } from 'react';
 
 export const InfoEditInput = forwardRef(({
@@ -9,7 +9,7 @@ export const InfoEditInput = forwardRef(({
     onBlur, title, hasError, maxLength,onFocus
   }, ref) => { // ref는 여기에 정확하게 위치합니다.
     const isNameInput = title === '이름';
-  
+
     return (
       <InfoContainer isFocused={isFocused}>
         <InfoTitleText>{title}</InfoTitleText>
@@ -32,10 +32,10 @@ export const InfoEditInput = forwardRef(({
   });
   
 
-
-const InfoContainer = styled.View`
-display: ${props => props.isFocused && Platform.OS ==='android' ? 'none' : ''};
-`
+  const { height } = Dimensions.get('window');
+  const InfoContainer = styled.View`
+  display: ${(props) => (props.isFocused && ((Platform.OS === 'android') || (Platform.OS === 'ios' && height <= 680))) ? 'none' : 'flex'};
+`;
 
 const InfoTitleText = styled.Text`
 color: ${COLORS.gray_400};

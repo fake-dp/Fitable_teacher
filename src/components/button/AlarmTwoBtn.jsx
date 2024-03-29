@@ -42,14 +42,14 @@ function AlarmTwoBtn() {
         console.log('알람 list 에러',error)
     }
 }
-useEffect(() => {
-  if (centerList.length === 0) {
-      setCenterId(null);
-  } else if(centerList.length ===1){
-      setCenterId(centerList[0].id);
-  }
-}
-, [centerList]);
+// useEffect(() => {
+//   if (centerList.length === 0) {
+//       setCenterId(null);
+//   } else if(centerList.length ===1){
+//       setCenterId(centerList[0].id);
+//   }
+// }
+// , [centerList]);
 
 useFocusEffect(
   useCallback(() => {

@@ -35,7 +35,9 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTim
           <SelectBox onPress={openStartPicker}>
           <SelectInnerBox>
               {
-                  imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                  imgIcon && imgIcon && (<LeftIcon source={imgIcon}
+                    tintColor={startTime? COLORS.sub : COLORS.gray_300}
+                  />)
               }
               <DatePicker
                modal
@@ -55,11 +57,13 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTim
                 setSopen(false)
                 }}
                />
-          <SelectBoxText>
+          <SelectBoxText isTime={startTime}>
             {startTime? startTime: '시작 시간'}
           </SelectBoxText>
           </SelectInnerBox>
-          <RigthIcon source={rightIcon}/>
+          <RigthIcon source={rightIcon}
+          tintColor={startTime? COLORS.sub : COLORS.gray_300}
+          />
        </SelectBox>
 
             <DividerText>~</DividerText>
@@ -67,7 +71,9 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTim
           <SelectBox onPress={openEndPicker}>
           <SelectInnerBox>
               {
-                  imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                  imgIcon && imgIcon && (<LeftIcon source={imgIcon}
+                    tintColor={endTime? COLORS.sub : COLORS.gray_300}
+                  />)
               }
                       <DatePicker
                        modal
@@ -87,11 +93,13 @@ function ClassTimeSelectCard({children, imgIcon,setStartTime,setEndTime,startTim
                         setEopen(false)
                       }}
                 />
-          <SelectBoxText>
+          <SelectBoxText isTime={endTime}>
             {endTime? endTime: '종료 시간'}
           </SelectBoxText>
           </SelectInnerBox>
-          <RigthIcon source={rightIcon}/>
+          <RigthIcon source={rightIcon}
+          tintColor={endTime? COLORS.sub : COLORS.gray_300}
+          />
        </SelectBox>
    
          </SelectBoxGrid>
@@ -126,16 +134,6 @@ const SelectBox = styled.TouchableOpacity`
     padding: 15px 16px;
     width: 45%;
 `
-const AndSelectBox = styled.TouchableOpacity`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid ${COLORS.gray_200};
-    border-radius: 13px;
-    padding: 0 16px;
-    width: 45%;
-    
-`
 
 const DividerText = styled.Text`
 font-size: 20px;
@@ -154,7 +152,7 @@ align-items: center;
 
 const SelectBoxText = styled.Text`
 font-size: 14px;
-color: ${COLORS.gray_300};
+color:${props => props.isTime? COLORS.sub : COLORS.gray_300};
 font-weight: 400;
 line-height: 22.40px;
 `;

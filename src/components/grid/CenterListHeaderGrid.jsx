@@ -20,7 +20,15 @@ function CenterListHeaderGrid() {
     const [selectedCenterId, setSelectedCenterId] = useRecoilState(selectedCenterIdState);
     const startPickerRef = useRef();
 
-
+    useEffect(() => {
+        if (centerList.length === 0) {
+            setCenterId(null);
+        } else if(centerList.length ===1){
+            setCenterId(centerList[0].id);
+        }
+      }
+      , [centerList]);
+    console.log('centerId',centerId)
 
     useEffect(() => {
         // centerId가 변경될 때마다 selectedCenterId를 업데이트
@@ -112,10 +120,8 @@ function CenterListHeaderGrid() {
                               useNativeAndroidPickerStyle={false}
                               fixAndroidTouchableBug={true}
                               placeholder={{}}
-                              style={{ inputIOS: { color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 }, 
-                                    inputAndroid: {
-                                         color: COLORS.sub, fontSize:20, fontWeight:'bold', lineHeight:24 
-                                         } }}/>
+                              style={{ inputIOS: { paddingVertical:10, color: COLORS.sub, fontSize:22, fontWeight:'bold', lineHeight:26 }, 
+                                   }}/>
                       <RigthIcon source={rightIcon}/>
                     </CenterListHeaderContainerBtn>
                     ):(
@@ -135,13 +141,14 @@ function CenterListHeaderGrid() {
                                 { 
                               inputAndroid: 
                               {  
-                              fontSize: 16,
+                              fontSize: 20,
+                              fontWeight: 'bold',
                               height: 50, 
                               color: '#000000',
                               padding:10,
                             //   width: 150,
                             //   backgroundColor:'red',
-                            marginRight: 20,
+                            marginRight: 12,
                               }, 
                               iconContainer: {
                                 top:16,
@@ -180,5 +187,5 @@ line-height: 28px;
 const RigthIcon = styled(FastImage)`
     width: 20px;
     height: 20px;
-    margin-left : 6px;
+    margin-left:4px;
 `

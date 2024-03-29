@@ -50,7 +50,9 @@ function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
         <SelectBox onPress={openStartPicker}>
             <SelectInnerBox>
                 {
-                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}
+                    tintColor={date? COLORS.sub : COLORS.gray_300}
+                    />)
                 }
                  {
                       selectDate.length ==! 10 ?  <SelectBoxText>수업 날짜를 선택해주세요</SelectBoxText> :
@@ -72,13 +74,17 @@ function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
                         }}
                       />
             </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
+            <RigthIcon source={rightIcon}
+            tintColor={date? COLORS.sub : COLORS.gray_300}
+            />
          </SelectBox>
             
          <SelectBox onPress={openEndPicker}>
             <SelectInnerBox>
                 {
-                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                    imgIcon && imgIcon && (<LeftIcon source={imgIcon}
+                        tintColor={date? COLORS.sub : COLORS.gray_300}
+                    />)
                 }
             {
                       selectEdate.length ==! 10 ?  <SelectBoxText>수업 날짜를 선택해주세요</SelectBoxText> :
@@ -99,7 +105,9 @@ function DateSelectCard({children, imgIcon, date, setDate, edate,setEdate}) {
                         }}
                       />
             </SelectInnerBox>
-            <RigthIcon source={rightIcon}/>
+            <RigthIcon source={rightIcon}
+            tintColor={date? COLORS.sub : COLORS.gray_300}
+            />
          </SelectBox>
          </SelectBoxGrid>
     </Container>

@@ -23,5 +23,9 @@ export const themeStyled = {
         textDayHeaderFontWeight: '500',
         textDayFontSize: 16,
         textMonthFontSize: 16,
-        textDayHeaderFontSize: 14
+        textDayHeaderFontSize: 14,
+        dotStyle:{
+          marginTop: 6.5,
+        },
+        expandableKnobColor:COLORS.gray_200,
   };

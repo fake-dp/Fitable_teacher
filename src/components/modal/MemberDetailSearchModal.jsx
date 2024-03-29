@@ -1,6 +1,6 @@
 import { styled } from 'styled-components/native';
 import { COLORS } from '../../constants/color';
-import { Modal, ScrollView,Keyboard,TouchableWithoutFeedback,KeyboardAvoidingView, Platform } from 'react-native';
+import { Modal, ScrollView,Keyboard,TouchableWithoutFeedback,Dimensions, Platform } from 'react-native';
 import { useState, useRef } from 'react';
 import {MemberTypeBtn,MemberTicketBtn} from '../button/MemberDetailBtnContents';
 import {getMemberManage} from '../../api/memberApi';
@@ -9,6 +9,12 @@ import {totalElementsState} from '../../store/atom';
 import FastImage from 'react-native-fast-image';
 function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,member,setMember,setUserList,type,centerId,leftTime, setLeftTime,saveCloseModal}) {
   
+
+// 기기 높이값 가져오기
+  const windowHeight = Dimensions.get('window').height;
+  console.log('sjvd;',windowHeight)
+
+  const IsSmallDevice = windowHeight < 700 ? true : false;
 
   const [totalElements, setTotalElements] = useRecoilState(totalElementsState);
   const [isFocused, setIsFocused] = useState(false);
@@ -53,12 +59,13 @@ function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,memb
         transparent
         onRequestClose={closeModal}
       >
+ 
         <ModalContainer>
         <ModalContent focus={isFocused}>
-          <ScrollView
+          {/* <ScrollView
             showsVerticalScrollIndicator={false}
             bounces={false}
-           >
+           > */}
         <ModalHeaderContainer>
           <ModalHdButton onPress={resetBtn}>
             <ModalIcons source={reload} />
@@ -71,6 +78,11 @@ function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,memb
 
         </ModalHeaderContainer>
  
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+      >
+      
           <ModalMemberContainer isFocused={isFocused}>
             <ModalSubTitle>회원</ModalSubTitle>
             <MemberTypeBtn     
@@ -82,7 +94,7 @@ function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,memb
             <MemberTicketBtn
               ticket={ticket} setTicket={setTicket}
             />
-
+          <InpurBoxContainer IsSmallDevice={IsSmallDevice}>
             <ModalSubTitle>잔여횟수</ModalSubTitle>
             <TextInputBox 
             placeholder="필터링할 잔여 횟수"
@@ -93,10 +105,11 @@ function MemberDetailSearchModal({modalVisible, closeModal,ticket,setTicket,memb
             onFocus={handleFocus}
             onBlur={handleBlur}
             />
-            
+            </InpurBoxContainer>
 
       </ScrollView>
 
+      {/* </ScrollView> */}
       <BasicMainBtnContainer>
         <BasicMainBtnNextBtn onPress={getFilterMemberManage}>
             <BasicMainBtnNextBtnNextText>적용하기</BasicMainBtnNextBtnNextText>
@@ -193,6 +206,10 @@ const BasicMainBtnContainer = styled.View`
     /* align-items: center; */
     /* justify-content: center;     */
 `
+
+const InpurBoxContainer = styled.View`
+    margin-bottom: ${props => props.IsSmallDevice ? '180px' : '0px'};
+`;
 
 const BasicMainBtnNextBtn = styled.TouchableOpacity`
     background-color: ${COLORS.sub};

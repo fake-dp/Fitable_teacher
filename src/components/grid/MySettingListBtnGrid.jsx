@@ -3,6 +3,12 @@ import styled from 'styled-components/native';
 import {COLORS} from '../../constants/color';
 import ToggleBtn from '../toggle/ToggleBtn';
 import FastImage from 'react-native-fast-image';
+import DeviceInfo from 'react-native-device-info';
+import { getVersion } from 'react-native-device-info';
+
+let version = getVersion();
+console.log('version',version)
+
 function MySettingListBtnGrid({children, text, onPress,isOnPushAlarm}) {
     const rightIcon = require('../../assets/img/rightIcon.png')
     return (
@@ -17,7 +23,7 @@ function MySettingListBtnGrid({children, text, onPress,isOnPushAlarm}) {
             text === 'version' ? 
             <SettingList>
                     <SettingListText>{children}</SettingListText>
-                    <VersionText>1.0</VersionText>
+                    <VersionText>{version}</VersionText>
                 </SettingList>
             :
             <SettingListBtn onPress={onPress}>

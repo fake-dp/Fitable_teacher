@@ -8,14 +8,15 @@ function UseGetCenterListHook(props) {
 
     const [centerId, setCenterId] = useRecoilState(centerIdState);
     const [centerList, setCenterList] = useRecoilState(centerListState);
-
+    console.log('centerList',centerList)
 
     useEffect(() => {
         const fetchCenterList = async () => {
             const response = await getCenterList(); // 센터 리스트 API 호출
+            console.log('responseresponseresponse',response)
             setCenterList(response); // Recoil 상태 업데이트
             const storedCenterId = await AsyncStorage.getItem('centerId'); // 저장된 센터 ID 불러오기
-            
+            console.log('storedCenterId',storedCenterId)
             if (storedCenterId && response.some(center => center.id === storedCenterId)) {
                 setCenterId(storedCenterId); // 저장된 센터 ID가 유효하면 선택
             } 
@@ -24,7 +25,7 @@ function UseGetCenterListHook(props) {
         fetchCenterList();
     }, []);
 }
-    // console.log('hookes@@@@@@@@@@@@@',centerId,centerList)
+    // console.log('hookes@@@@@@@@@@@@@',centerId)
     // useFocusEffect(
     //     useCallback(() => {
     //             getCenterListData();

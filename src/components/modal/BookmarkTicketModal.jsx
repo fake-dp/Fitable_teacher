@@ -60,7 +60,8 @@ function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,
             bounces={false}
            >
             {
-                bookmarkTickets?.map((item,index) => {
+                bookmarkTickets?.length > 0 ? (
+                  bookmarkTickets?.map((item,index) => {
                     const isSelected = selectedTicket && selectedTicket.id === item.id;
                     return(
                         <TicketContainer key={item.id} onPress={() => selectTicket(item)}
@@ -73,6 +74,11 @@ function BookmarkTicketModal({modalVisible, closeModal,type,bookmarkTickets,
                     )
                 }
                 )
+            ):(
+                <NoListContainer>
+                    <NoListText>즐겨찾는 이용권이 없습니다</NoListText>
+                </NoListContainer>
+               )
             }
       </ScrollView>
       <BasicMainBtnContainer>
@@ -137,6 +143,16 @@ const TicketContainer = styled.TouchableOpacity`
     padding: 12px 16px;
 `;
 
+const NoListContainer = styled.View``
+const NoListText = styled.Text`
+font-size: 20px;
+font-weight: 500;
+line-height: 22px;
+letter-spacing: -0.35px;
+color: ${COLORS.gray_400};
+text-align: center;
+margin-top: 140px;
+`
 
 const TicketText = styled.Text`
 font-size: 16px;

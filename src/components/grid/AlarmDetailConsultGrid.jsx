@@ -31,7 +31,7 @@ function AlarmDetailConsultGrid({ consultDetail }) {
             console.log('finally')
         }
     }
-
+console.log('consultDetail',consultDetail)
     return (
         <Container>
             <GridContainer>
@@ -39,7 +39,7 @@ function AlarmDetailConsultGrid({ consultDetail }) {
                 <TitleText>상담 신청</TitleText>
                 {
                     consultDetail.trainerName === null ? 
-                    (<ContentText>트레이너 상담</ContentText>) :
+                    (<ContentText>센터 상담</ContentText>) :
                     (<ContentText>{consultDetail.trainerName}</ContentText>)
                 }
             </ContentsContainer>
@@ -49,28 +49,35 @@ function AlarmDetailConsultGrid({ consultDetail }) {
 
             <ContentsContainer>
                 <TitleText>요청 날짜</TitleText>
-                <ContentText>{consultDetail.createAt}</ContentText>
+             <ContentText>{consultDetail?.createAt || "—"}</ContentText>
             </ContentsContainer>
 
             <GridLineOne />
 
             <ContentsContainer>
                 <TitleText>희망 시간</TitleText>
-                <ContentText>{consultDetail.time.join(', ')}</ContentText>
+                <ContentText>{
+                    consultDetail?.time && consultDetail.time.length > 0 ? 
+                    consultDetail.time.join(', ') : 
+                    "—"
+                }</ContentText>
             </ContentsContainer>
 
             <GridLineOne />
 
             <ContentsContainer>
                 <TitleText>운동 목적</TitleText>
-                <ContentText>{consultDetail.purpose.join(', ')}</ContentText>
+                <ContentText>{
+                consultDetail?.purpose && consultDetail.purpose.length > 0 ? 
+                consultDetail.purpose.join(', ') : 
+                 "—"}</ContentText>
             </ContentsContainer>
 
             <GridLineOne />
 
-            <ContentsContainer>
-                <TitleText>질병 및 유의사항</TitleText>
-                <ContentText>{consultDetail.caution}</ContentText>
+             <ContentsContainer>
+                 <TitleText>질병 및 유의사항</TitleText>
+             <ContentText>{consultDetail?.caution || "—"}</ContentText>
             </ContentsContainer>
 
             <GridLineOne />
@@ -82,10 +89,13 @@ function AlarmDetailConsultGrid({ consultDetail }) {
 
                 <BtnGridBox>
                     {
-                        consultDetail.memberInfo.name === null ?
+                        consultDetail?.memberInfo?.name === null ?
                         (<TitleText>회원정보 없음</TitleText>) : (<TitleText>{consultDetail.memberInfo.name}</TitleText>)
                     }
-                    <ContentText>{consultDetail.memberInfo.phone} • {consultDetail.memberInfo.generation}대</ContentText>
+                    <ContentText>
+                                {consultDetail?.memberInfo?.phone}
+                                {consultDetail?.memberInfo?.generation && ` • ${consultDetail.memberInfo.generation}대`}
+                    </ContentText>
                 </BtnGridBox>
                 <BtnNextIcon source={nextIcon} />
 

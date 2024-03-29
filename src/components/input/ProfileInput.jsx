@@ -1,5 +1,5 @@
 import { COLORS } from "../../constants/color";
-import { TextInput } from "react-native";
+import { Platform, TextInput } from "react-native";
 import styled from 'styled-components/native';
 import { useState } from "react";
 function ProfileInput({value, onChangeText, placeholder,title,maxLength,type}) {
@@ -15,7 +15,7 @@ function ProfileInput({value, onChangeText, placeholder,title,maxLength,type}) {
         <>
         <InfoTitleText>{title}</InfoTitleText>
         <InfoTextInputContainer  
-            // style={{ height: Math.max(60, inputHeight) }}
+            style={{ height: Math.max(60, inputHeight) }}
             >
             <InfoTextInput
                 isType={type}
@@ -49,8 +49,9 @@ color: ${COLORS.gray_400};
 
 const InfoTextInputContainer = styled.View`
     width: 100%;
-    height: 60px;
-    background-color: ${COLORS.white};
+    /* height: ${Platform.OS === 'ios' ? '60px' : 'auto'}; */
+    /* height: 90px; */
+    /* background-color: ${COLORS.white}; */
     border-radius: 13px;
     padding: 10px 20px;
     border-width: 1px;
@@ -59,7 +60,7 @@ const InfoTextInputContainer = styled.View`
 
 const InfoTextInput = styled(TextInput).attrs(() => ({
     placeholderTextColor: COLORS.gray_300,
-    textAlignVertical: 'top',
+    textAlignVertical: 'center',
     fontSize: 14,
 }))`
     flex: 1;

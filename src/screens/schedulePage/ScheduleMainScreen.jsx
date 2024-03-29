@@ -55,7 +55,7 @@ function ScheduleMainScreen(props) {
     //   },[centerId]));
 
 
-
+    console.log('isAvailable1',isAvailable,'centerId',centerId)
 
     useEffect(() => {
         if (openFloatingModal) {

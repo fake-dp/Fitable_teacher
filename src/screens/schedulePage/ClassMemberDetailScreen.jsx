@@ -90,7 +90,7 @@ function ClassMemberDetailScreen(props) {
             navigation.navigate('ConsultDetail', {consultDetail: response});
         }
     }catch(error){
-        console.log('error 뜸 ㅠㅠ@@')
+        console.log('error 뜸 ㅠㅠ@@',error)
     }
 }
 
@@ -154,7 +154,7 @@ function ClassMemberDetailScreen(props) {
                     <TrainerName>
                       {consult.trainerName === null
                         ? '센터 상담'
-                        : consult.trainerName}
+                        : `${consult.trainerName} 상담 신청`}
                     </TrainerName>
                     <ConsultDateText>{consult.createdAt}</ConsultDateText>
                   </ConsultListContaniner>

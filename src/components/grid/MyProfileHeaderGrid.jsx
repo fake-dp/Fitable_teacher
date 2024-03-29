@@ -37,7 +37,7 @@ const UserHeaderLeftContainer = styled.TouchableOpacity`
 const RigthIcon = styled(FastImage)`
     width: 20px;
     height: 20px;
-    margin-left: 8px;
+    margin-left: 2px;
 `
 
 const MyNameText = styled.Text`

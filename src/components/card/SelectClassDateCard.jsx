@@ -25,7 +25,9 @@ function SelectClassDateCard({children, imgIcon, date, setDate}) {
             <SelectBox onPress={selectDateBtn}>
                 <SelectInnerBox>
                     {
-                        imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                        imgIcon && imgIcon && (<LeftIcon source={imgIcon}
+                            tintColor={date? COLORS.sub : COLORS.gray_300}
+                        />)
                     }
                     {
                      !showModal && selectDate.length ==! 10 ?  
@@ -50,7 +52,9 @@ function SelectClassDateCard({children, imgIcon, date, setDate}) {
                         }}
                       />
                 </SelectInnerBox>
-                <RigthIcon source={rightIcon}/>
+                <RigthIcon source={rightIcon}
+                 tintColor={date? COLORS.sub : COLORS.gray_300}
+                />
              </SelectBox>
         </Container>
     );

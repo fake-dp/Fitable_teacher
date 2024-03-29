@@ -2,7 +2,7 @@
 import React from 'react';
 import { COLORS } from "../../constants/color";
 import { styled } from "styled-components/native";
-import { TextInput,Platform } from "react-native";
+import { TextInput,Platform,Dimensions } from "react-native";
 
 export const EctInput = React.forwardRef(({placeholder, 
     text,onChangeText,value,onBlur, 
@@ -32,9 +32,10 @@ export const EctInput = React.forwardRef(({placeholder,
 
 
 
-
+const { height } = Dimensions.get('window');
 const AuthTextInputContainer = styled.View`
-    display: ${props => props.isFocused && Platform.OS ==='android' ? 'none' : ''};
+    /* display: ${props => props.isFocused && Platform.OS ==='android' ? 'none' : ''}; */
+    display: ${(props) => (props.isFocused && ((Platform.OS === 'android') || (Platform.OS === 'ios' && height <= 680))) ? 'none' : 'flex'};
     width: 100%;
     height: 70px;
     background-color: ${COLORS.gray_100};

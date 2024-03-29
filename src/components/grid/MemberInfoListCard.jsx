@@ -1,19 +1,17 @@
 import React from 'react';
 import MemberInfoCard from '../card/MemberInfoCard';
 import styled from 'styled-components/native';
-import { ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
 
 function MemberInfoListCard({ userList, type }) {
     return (
         <ListContainer>
-            <ScrollView
-            showsVerticalScrollIndicator={false}
-            overScrollMode="never"
-            bounces={false}>
-                {userList.map(user => (
-                <MemberInfoCard key={user.id} userInfo={user} type={type} />
-                ))}
-            </ScrollView>
+            <FlatList
+                data={userList}
+                renderItem={({ item }) => <MemberInfoCard userInfo={item} type={type} />}
+                keyExtractor={item => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+            />
         </ListContainer>
     );
 }
@@ -21,5 +19,5 @@ function MemberInfoListCard({ userList, type }) {
 export default MemberInfoListCard;
 
 const ListContainer = styled.View`
-    flex:1;
+    flex: 1;
 `;

@@ -13,9 +13,7 @@ function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,memberId,formData,
   // console.log('timeAndPeriod[index]', timeAndPeriod[0]?.price)
     return (
         <>
-          
-                <SelectedTicketContainer>
-               
+          <SelectedTicketContainer>
                <MemberTicketSelectCard 
                 index={index}
                 ticketId={selectTicketId}
@@ -36,9 +34,7 @@ function MemberTicketsInfoGrid({type,ticket,bookmarkTickets,memberId,formData,
                index={index}
                formData={formData}
                />
-                
                 <GridLineGrayOne/>
-            
                 <PaymentGridCard 
                 index={index}
                 memberId={memberId}

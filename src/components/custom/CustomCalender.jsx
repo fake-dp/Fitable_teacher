@@ -13,6 +13,7 @@ import {getFormattedDate} from '../../utils/CustomUtils';
 import { useIsFocused } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { Platform } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 
 LocaleConfig.locales['ko'] = {
   monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -30,7 +31,7 @@ function CustomCalendar(props) {
 
   const today = new Date();
   const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-  
+
   const [selected, setSelected] = useState(todayString);
   const [currentMonth, setCurrentMonth] = useState('');
   const [isActive, setIsActive] = useState(true);
@@ -43,36 +44,31 @@ function CustomCalendar(props) {
     setShowDateModal(true);
   };
 
-  // const handleConfirm = useCallback(date => {
+  const handleConfirm = useCallback(date => {
   
-  //   const newSelectedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-  //   setSelected(newSelectedDate);
-  //   setShowDateModal(false);
+    const newSelectedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    console.log('newSelectedDatenewSelectedDate',newSelectedDate)
+    setSelected(newSelectedDate);
+    setShowDateModal(false);
 
-  //   const newCurrentMonth = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-  //   setCurrentMonth(newCurrentMonth);
+    const newCurrentMonth = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+    setCurrentMonth(newCurrentMonth);
 
-  //   // API 호출을 통해 선택된 날짜의 수업 정보를 불러옵니다.
-  //   getLessonList(centerId, newSelectedDate)
-  //       .then(data => {
-  //           setLessonList(data.content); // 수업 리스트 상태 업데이트
-  //       })
-  //       .catch(error => {
-  //           console.error("Error fetching lesson list for the selected date:", error);
-  //       });
-  //     }, [centerId,setCurrentMonth, setSelected, setShowDateModal]);
+    // API 호출을 통해 선택된 날짜의 수업 정보를 불러옵니다.
+    getLessonList(centerId, newSelectedDate)
+        .then(data => {
+            setLessonList(data.content); // 수업 리스트 상태 업데이트
+        })
+        .catch(error => {
+            console.error("Error fetching lesson list for the selected date:", error);
+        });
+      }, [centerId,setCurrentMonth, setSelected, setShowDateModal]);
 
 
-
+console.log('currentMonth',currentMonth,selected)
 
 
   const handleDayPress = useCallback(day => {
-    // 사용자가 선택한 날짜가 오늘 날짜이면 selected를 false로 설정하고, 그렇지 않으면 해당 날짜를 selected로 설정합니다.
-  //   if (!availableDates[day.dateString]) {
-  //     console.log('This date is not available for selection.');
-  //     return;
-  // }
-  //  console.log('dayday',day)
     if (day.dateString === todayString) {
       setSelected(todayString);
     } else {
@@ -88,14 +84,35 @@ function CustomCalendar(props) {
       });
     }
 
-    // getLessonList(centerId, day.dateString)
-    // .then(data => {
-    //     setLessonList(data.content);
-    // })
-    // .catch(error => {
-    //     console.error("Error fetching lesson list:", error);
-    // });
   }, [todayString, centerId,availableDates]);
+
+//   const handleDayPress = useCallback(day => {
+//     // 선택된 날짜가 오늘 날짜인지 확인
+//     if (day.dateString === todayString) {
+//         setSelected(todayString);
+//     } else {
+//         setSelected(day.dateString);
+//     }
+
+//     // 현재 날짜와 선택된 날짜의 달을 비교
+//     const selectedDate = new Date(day.dateString);
+//     const selectedMonth = `${selectedDate.getFullYear()}.${String(selectedDate.getMonth() + 1).padStart(2, '0')}`;
+    
+//     if (currentMonth !== selectedMonth) {
+//         setCurrentMonth(selectedMonth);
+//     }
+
+//     if (centerId) {
+//         getLessonList(centerId, day.dateString)
+//             .then(data => {
+//                 setLessonList(data.content);
+//             })
+//             .catch(error => {
+//                 console.error("Error fetching lesson list:", error);
+//             });
+//     }
+// }, [todayString, centerId, currentMonth]);
+
 
 // console.log('centerIdcenterIdcenterId',centerId)
 
@@ -111,7 +128,6 @@ function CustomCalendar(props) {
     }else if(!centerId){
       setAvailableDates({});
       setLessonList([]);
-
     }
 
 }, [centerId, currentMonth ,isFocused]);
@@ -167,7 +183,6 @@ useEffect(() => {
         <TitleText>{currentMonth}</TitleText>
         <Icons source={rigthIcon}/>
         </MonthContainer>
-        {/* <CalenderToggleBtn isActive={isActive} setIsActive={setIsActive}/> */}
       </Container>
       </>
     );
@@ -177,10 +192,9 @@ useEffect(() => {
   return (
     <>
        <CalendarProvider
-        date={todayString}
+        date={selected}
         theme={themeStyled}
-        // current={selected} 
-        // key={currentMonth}
+        hideExtraDays={true}
         renderHeader={renderCustomHeader}
     
 
@@ -188,22 +202,32 @@ useEffect(() => {
       {weekView ? (
         <WeekCalendar  
         firstDay={0} markedDates={availableDates}
+        hideExtraDays={true}
         />
       ) : (
+   
         <ExpandableCalendar
-        // key={currentMonth}
-        // current={selected} 
         style={{
             ...Platform.select({
               ios: {
                 shadowColor: 'transparent',
-                zIndex: 99
+                zIndex: 99,
+                // backgroundColor: 'red',
               },
               android: {
                 elevation: 0
               }
-            })
+            }),
+            knobContainer: {
+              backgroundColor: COLORS.main,
+              marginTop: 40,
+              backgroundColor: 'red',
+          },
+
         }}
+        disableAllTouchEventsForDisabledDays={true}
+        hideKnob={false}
+        hideExtraDays={true}
         renderHeader={renderCustomHeader}
         hideArrows
         markedDates={{
@@ -212,19 +236,20 @@ useEffect(() => {
           ...{[todayString]: selected === todayString ? 
             { selected: true, selectedColor: COLORS.sub, selectedTextColor: COLORS.main, dotColor: '#FF7A00', marked: true } : 
             { dotColor: '#FF7A00', marked: true }
-        }, 
-      }}
+            }, 
+        }}
           onDayPress={handleDayPress}
-          theme={themeStyled&&themeStyled}
+          theme={themeStyled}
           onMonthChange={(month) => {
             setCurrentMonth(`${month.year}.${String(month.month).padStart(2, '0')}`);
         }}
           firstDay={0}
         />
+
       )
       }
-
 <GridWrapper>
+    
           <GridLine/>
           {lessonList?.length === 0 ? null : (
             <DateTitleContainer>
@@ -236,13 +261,16 @@ useEffect(() => {
           )}
         </GridWrapper>
         <LessonListGrid lessonList={lessonList} />
-        {/* {
+        {
       showDatetModal && (
         <DatePicker
         modal
         open={showDatetModal}
         locale="ko-KR"
+        title={null}
         date={today}
+        confirmText="확인"
+        cancelText="취소"
         onConfirm={(today) => {
           handleConfirm(today)
       }}
@@ -252,7 +280,7 @@ useEffect(() => {
      }}
      />
       )
-    } */}
+    }
     </CalendarProvider>
     </>
   );
@@ -278,7 +306,6 @@ const MonthContainer = styled.TouchableOpacity`
 const Icons = styled(FastImage)`
     width: 20px;
     height: 20px;
-    margin-left: 7px;
 `
 
 
@@ -315,3 +342,6 @@ line-height: 22.40px;
 margin-left: 8px;
 padding-top: 2px;
 `
+const CalendarContainer = styled.View`
+  padding-bottom: 20px; // 이 값을 조절하여 캘린더 아래쪽에 원하는 만큼의 패딩 추가
+`;

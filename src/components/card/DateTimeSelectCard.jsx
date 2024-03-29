@@ -55,10 +55,12 @@ function DateTimeSelectCard({children,setStartTime,setEndTime,startTime, endTime
                 setSopen(false)
                 }}
                />
-          <SelectBoxText>
+          <SelectBoxText isTime={startTime}>
             {startTime? startTime: '시작 시간'}
           </SelectBoxText>
-          <RigthIcon source={rightIcon}/>
+          <RigthIcon 
+          tintColor={startTime? COLORS.sub : COLORS.gray_300}
+          source={rightIcon}/>
           </SelectInnerBox>
        
        </SelectBox>
@@ -85,10 +87,12 @@ function DateTimeSelectCard({children,setStartTime,setEndTime,startTime, endTime
                         setEopen(false)
                       }}
                 />
-          <SelectBoxText>
+          <SelectBoxText isTime={endTime}>
             {endTime? endTime: '종료 시간'}
           </SelectBoxText>
-          <RigthIcon source={rightIcon}/>
+          <RigthIcon source={rightIcon}
+          tintColor={endTime? COLORS.sub : COLORS.gray_300}
+          />
           </SelectInnerBox>
          
        </SelectBox>
@@ -143,13 +147,12 @@ const SelectInnerBox = styled.View`
 flex-direction: row;
 align-items: center;
 justify-content : space-between;
-/* background-color: red; */
 width: 100%;
 `;
 
 const SelectBoxText = styled.Text`
 font-size: 14px;
-color: ${COLORS.gray_300};
+color: ${({isTime}) => isTime ? COLORS.sub : COLORS.gray_300};
 font-weight: 400;
 line-height: 22.40px;
 `;

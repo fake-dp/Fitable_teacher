@@ -222,7 +222,6 @@ function MemberTicketSelectCard({ticketId,bookmarkTickets,
                           {  
                           fontSize: 16,
                           height: 60, 
-                          width:160, 
                           color: '#000000',
                         //   borderColor: COLORS.gray_100, 
                         backgroundColor: COLORS.gray_100, 

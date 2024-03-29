@@ -13,7 +13,7 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
     console.log('Render CreateClassSelectCard11:', type,maindata);
     const rightIcon = require('../../assets/img/colsdowngray.png');
     // console.log('state@',type,maindata)
-    const screenWidth = Dimensions.get('window').width-123;
+    const screenWidth = Dimensions.get('window').width-80;
 
     const transformedState = (state || []).map(item => ({
         label: item.name,
@@ -44,7 +44,9 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
                     <SelectBox onPress={openStartPicker}>
                     <SelectInnerBox>
                         {
-                            imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                            imgIcon && imgIcon && (<LeftIcon source={imgIcon}
+                            tintColor={selectState? COLORS.sub : COLORS.gray_300}
+                            />)
                         }
                         {(
                              <RNPickerSelect
@@ -85,7 +87,9 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
                     </SelectInnerBox>
                     <RigthIcon 
                     resizeMode='contain'
-                    source={rightIcon}/>
+                    source={rightIcon}
+                    tintColor={selectState? COLORS.sub : COLORS.gray_300}
+                    />
                  </SelectBox>
                  ):(
                     <View style={{
@@ -93,7 +97,9 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
                     }}>
                     {/* <SelectInnerBox> */}
                         {
-                            imgIcon && imgIcon && (<LeftIcon source={imgIcon}/>)
+                            imgIcon && imgIcon && (<LeftIcon source={imgIcon}
+                                tintColor={selectState? COLORS.sub : COLORS.gray_300}
+                            />)
                         }
                         {(
                              <RNPickerSelect
@@ -121,7 +127,9 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
                              Icon={() => {
                                 return <RigthIcon 
                                 resizeMode='contain'
-                                source={rightIcon}/>;
+                                source={rightIcon}
+                                tintColor={selectState? COLORS.sub : COLORS.gray_300}
+                                />;
                                 }
                               }
                 
@@ -131,13 +139,12 @@ function CreateClassSelectCard({children,selectState, setSelectState, imgIcon, s
                               fontSize: 16,
                               color: '#000000',
                             //   backgroundColor:'red',
-                              width: 270,
-                              marginRight: 5,
+                              width: screenWidth,
                               }, 
                              
                               iconContainer: {
                                 top: 14,
-                                right: 14,
+                                right: 20,
                               },
                               }}
                               />

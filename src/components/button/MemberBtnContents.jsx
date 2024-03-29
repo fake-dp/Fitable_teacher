@@ -18,7 +18,9 @@ function MemberBtnContents({type, setType,setSearchText}) {
 
     return (
         <BtnListContainer>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}
+            bounces={false}
+            >
         
         {
              centerId && totalElements.PERSONAL > 0 &&
