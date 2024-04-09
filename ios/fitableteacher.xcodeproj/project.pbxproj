@@ -521,7 +521,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = fitableteacher/fitableteacher.entitlements;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 478226FDMY;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fitableteacher/Info.plist;
@@ -557,7 +557,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = fitableteacher/fitableteacher.entitlements;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 478226FDMY;
 				INFOPLIST_FILE = fitableteacher/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "FIT ABLE 강사용";

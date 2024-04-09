@@ -25,7 +25,45 @@ export const themeStyled = {
         textMonthFontSize: 16,
         textDayHeaderFontSize: 14,
         dotStyle:{
-          marginTop: 6.5,
+          marginTop: 9,
+          zIndex: 999,
         },
-        expandableKnobColor:COLORS.gray_200,
+        textDayStyle: {
+          zIndex: 999,
+        },
+        // expandableKnobColor:COLORS.gray_200,
+        stylesheet: {    
+          expandable: {
+            main: {
+              knobContainer: {
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                height: 12,
+                bottom: 0,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: COLORS.white,
+                },
+                knob: {
+                  width: 40,
+                  height: 4,
+                  borderRadius: 3,
+                  backgroundColor: COLORS.gray_200,
+                },
+                weekCalendar: {
+                  // marginTop: 20, 
+                  marginBottom: 4
+                },
+                week: {
+                  marginTop: 14,
+                  marginBottom: 14,
+                  paddingRight: 15,
+                  paddingLeft: 15,
+                  flexDirection: 'row',
+                  justifyContent: 'space-around'
+                },
+            },
+          },
+        },
   };

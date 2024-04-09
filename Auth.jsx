@@ -11,19 +11,6 @@ const Stack = createNativeStackNavigator();
 function Auth(props) {
     return (
         <Stack.Navigator
-            // screenOptions={{
-            //     headerShown: true,
-            //     headerStyle: {
-            //         backgroundColor: COLORS.sub,
-            //         shadowColor: 'transparent',
-            //         elevation: 0,
-            //     },
-            //     headerTitleStyle: {
-            //         fontWeight: 'bold',
-            //     },
-            //     headerTintColor: COLORS.white,
-            //     title:'',
-            // }}>
             screenOptions={{
               title: '',
               headerBackVisible: false,

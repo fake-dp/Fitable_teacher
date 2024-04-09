@@ -70,10 +70,11 @@ function CenterListHeaderGrid() {
     const handleDonePress = async () => {
         const selectCenter = centerList.find(center => center.id === selectedCenterId);
         if (selectCenter) {
-            setCenterId(selectedCenterId); // Recoil 상태 업데이트
-            await AsyncStorage.setItem('centerId', selectedCenterId); // AsyncStorage에 저장
-            setSelectedCenterId(selectedCenterId); // 선택된 센터 ID를 Recoil 상태에 저장
-            setCenterList([selectCenter, ...centerList.filter(center => center.id !== selectedCenterId)]); // 센터 리스트 업데이트
+            setCenterId(selectedCenterId);
+            await AsyncStorage.setItem('centerId', selectedCenterId); 
+            setSelectedCenterId(selectedCenterId); 
+            const sortedCenterList = [...centerList.filter(center => center.id !== selectedCenterId), selectCenter].sort((a, b) => a.name.localeCompare(b.name));
+            setCenterList(sortedCenterList);
         } else {
             setSelectedCenterId(centerId); // 선택 취소 시 원래 센터 ID로 복귀
         }
@@ -88,7 +89,8 @@ function CenterListHeaderGrid() {
             // saveCenterId(id); 
             const selectedCenter = centerList.find(center => center.id === id);
             const otherCenters = centerList.filter(center => center.id !== id);
-            setCenterList([selectedCenter, ...otherCenters]);
+            // setCenterList([selectedCenter, ...otherCenters]);
+            setCenterList([selectedCenter, ...otherCenters].sort((a, b) => a.name.localeCompare(b.name)));
         }
     }, [centerId, centerList, setCenterId, setCenterList]);
 

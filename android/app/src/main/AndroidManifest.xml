@@ -21,12 +21,15 @@
       android:roundIcon="@mipmap/ic_fitable_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-      <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
-                    android:value="true"/>
+      <!-- <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
+                    android:value="true"/> -->
         <!-- Change the resource name to your App's accent color - or any other color you want -->
-        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
-                    android:resource="@color/white"/> <!-- or @android:color/{name} to use a standard color -->
-
+        <!-- <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
+                   android:resource="@color/ic_fitable_background"/> -->
+        <meta-data
+    android:name="com.google.firebase.messaging.default_notification_icon"
+    android:resource="@drawable/ic_noti_icons"
+    />
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver" android:exported="false">

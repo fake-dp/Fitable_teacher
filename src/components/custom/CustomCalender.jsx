@@ -201,6 +201,8 @@ useEffect(() => {
     >
       {weekView ? (
         <WeekCalendar  
+        disableAllTouchEventsForDisabledDays={true}
+        disableAllTouchEventsForInactiveDays={true}
         firstDay={0} markedDates={availableDates}
         hideExtraDays={true}
         />
@@ -212,20 +214,15 @@ useEffect(() => {
               ios: {
                 shadowColor: 'transparent',
                 zIndex: 99,
-                // backgroundColor: 'red',
+                backgroundColor: 'transparent',
               },
               android: {
                 elevation: 0
               }
             }),
-            knobContainer: {
-              backgroundColor: COLORS.main,
-              marginTop: 40,
-              backgroundColor: 'red',
-          },
-
         }}
         disableAllTouchEventsForDisabledDays={true}
+        disableAllTouchEventsForInactiveDays={true}
         hideKnob={false}
         hideExtraDays={true}
         renderHeader={renderCustomHeader}

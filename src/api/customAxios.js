@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native';
+
 
 const customAxios = axios.create({
   baseURL: `${Config.API_URL}`,
@@ -48,15 +48,12 @@ customAxios.interceptors.request.use(async (config) => {
         originalRequest.headers.Authorization = `${accessToken}`;
         return customAxios(originalRequest);
       } catch (refreshError) {
-        // await AsyncStorage.removeItem("accessToken");
-        // await AsyncStorage.removeItem("refreshToken");
         console.error('Token refresh failed:!123', refreshError.response.status);
-        if (refreshError.response.status === 401 && refreshError.response.data && refreshError.response.data.code === 10100){
+        if (refreshError.response && refreshError.response.status === 401 && refreshError.response.data && refreshError.response.data.code === 10100) {
           console.log('로그아웃 처리를 해야 합니다.')
           await AsyncStorage.removeItem("accessToken");
           await AsyncStorage.removeItem("refreshToken");
           await AsyncStorage.removeItem("isLogin");
-          Alert.alert('세션이 완료되었습니다. 로그인을 해주세요.');
           return Promise.reject(refreshError);
         }
         return Promise.reject(refreshError); // 원래의 오류 반환

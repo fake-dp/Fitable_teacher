@@ -105,19 +105,19 @@ function App() {
       checkNotificationPermissionAndRedirect();
     }
     const unsubscribeToken = messaging().onTokenRefresh(token => {
-      console.log("FCM Token Refresh >>> ", token);
+      // console.log("FCM Token Refresh >>> ", token);
       setFcmToken(token);
     });
 
     messaging().getToken().then(token => {
-      console.log("FCM Token >>> ", token);
+      // console.log("FCM Token >>> ", token);
       setFcmToken(token);
     });
 
     const unsubscribeMessage = messaging().onMessage(async remoteMessage => {
       const {title, body} = remoteMessage.notification;
       PushNotification.localNotification({
-        smallIcon: "ic_fitable_foreground",
+        smallIcon: "ic_noti_icons",
         channelId: "fitable-trainer",
         title: title,
         message: body,

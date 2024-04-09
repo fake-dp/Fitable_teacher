@@ -9,7 +9,8 @@ export const loginApi = async (phone, password, fcmToken) => {
     try {
         const response = await axios.post(`${baseURL}/api/trainers/v1/login`, { phone, password, fcmToken });
         const { accessToken, refreshToken } = response.data;
-
+        console.log('accessToken',accessToken)
+        console.log('refreshToken',refreshToken)
         if (accessToken && refreshToken) {
             await AsyncStorage.setItem("accessToken", accessToken);
             await AsyncStorage.setItem("refreshToken", refreshToken);
@@ -45,6 +46,7 @@ export const autoLoginApi = async () => {
         return true;
     } catch (refreshError) {
         console.error('Auto login failed:', refreshError);
+        console.log('Auto login failed:@@', refreshError);
         return false;
     }
 }
