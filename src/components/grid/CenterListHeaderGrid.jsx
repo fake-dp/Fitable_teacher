@@ -72,6 +72,8 @@ function CenterListHeaderGrid() {
         if (selectCenter) {
             setCenterId(selectedCenterId);
             await AsyncStorage.setItem('centerId', selectedCenterId); 
+            const test = await AsyncStorage.getItem('centerId');
+            console.log('test3213123',test)
             setSelectedCenterId(selectedCenterId); 
             const sortedCenterList = [...centerList.filter(center => center.id !== selectedCenterId), selectCenter].sort((a, b) => a.name.localeCompare(b.name));
             setCenterList(sortedCenterList);
@@ -81,12 +83,14 @@ function CenterListHeaderGrid() {
     };
     
 
-    const onCenterChange = useCallback((id) => {
+    const onCenterChange = useCallback(async(id) => {
         console.log('v뭐로',id)
         if (id !== centerId) { // 변경된 경우에만 업데이트
+            await AsyncStorage.setItem('centerId', id);
             setCenterId(id);
             setSelectedCenterId(id);
             // saveCenterId(id); 
+
             const selectedCenter = centerList.find(center => center.id === id);
             const otherCenters = centerList.filter(center => center.id !== id);
             // setCenterList([selectedCenter, ...otherCenters]);

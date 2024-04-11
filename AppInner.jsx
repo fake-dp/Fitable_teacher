@@ -15,22 +15,24 @@ useEffect(() => {
   const checkLoginStatus = async () => {
     console.log('5분마다 감지')
     try {
+      // 최초 로그인시 로컬 스토리지에 저장된 로그인 상태 확인
       const isLoginAsync = await AsyncStorage.getItem('isLogin');
+      // 토큰 갱신 api
       const result = await autoLoginApi();
       setIsLoggedIn(result && isLoginAsync === 'true'); 
 
     } catch (error) {
       console.error('Auto login error11:', error);
-      // 오류 처리 로직, 예를 들어 사용자에게 알림 표시
+     
     } finally {
       setIsLoading(false);
     }
   };
-
+  // 5분마다 로그인 상태를 감지
   checkLoginStatus();
   const interval = setInterval(checkLoginStatus, 5 * 60 * 1000); // 5분마다 감지
   console.log('interval',interval)
-  return () => clearInterval(interval); // 언마운트될 때 interval 정리
+  return () => clearInterval(interval);
 }, [setIsLoggedIn]);
 
 

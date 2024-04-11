@@ -74,7 +74,7 @@ function MemberSelectScreen(props) {
             {
                 selectData.length === 0 ? 
                 <NoListContainer>
-                    <NoListText>회원이 목록이 없습니다</NoListText>
+                    <NoListText>회원 목록이 없습니다</NoListText>
                 </NoListContainer>
                 : (
                     <>

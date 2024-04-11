@@ -25,6 +25,29 @@ function UseGetCenterListHook(props) {
         fetchCenterList();
     }, []);
 }
+
+// useEffect(() => {
+//     const fetchCenterList = async () => {
+//         const response = await getCenterList();
+//         setCenterList(response);
+//         try {
+//             const storedCenterId = await AsyncStorage.getItem('centerId');
+//             if (storedCenterId !== null && response.some(center => center.id === storedCenterId)) {
+//                 setCenterId(storedCenterId);
+//             } else {
+//                 // 여기서 centerId에 대한 초기값 설정이나 오류 처리를 할 수 있습니다.
+//                 setCenterId(response[0].id)
+//                 console.log('No stored centerId or invalid centerId');
+//             }
+//         } catch (error) {
+//             console.error('Failed to load centerId from AsyncStorage', error);
+//             // 오류 처리 로직
+//         }
+//     };
+
+//     fetchCenterList();
+// }, []);
+// }
     // console.log('hookes@@@@@@@@@@@@@',centerId)
     // useFocusEffect(
     //     useCallback(() => {

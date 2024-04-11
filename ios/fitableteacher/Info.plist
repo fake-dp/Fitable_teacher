@@ -36,11 +36,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Access to your camera</string>
+	<string>FIT ABLE is available with camera access permission. If you do not allow access, you can not use it normally.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Access to your photo gallery</string>
+	<string>FIT ABLE is available with your album access permission. If you do not allow it, you can not use the import function.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Regular.otf</string>

@@ -123,7 +123,7 @@ function App() {
         message: body,
         playSound: true,
         soundName: 'default',
-        color: "#ffffff",
+        color: "#000000",
       });
     });
 
